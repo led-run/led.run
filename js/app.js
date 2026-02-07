@@ -134,6 +134,10 @@
       html += '<span class="usage-example">led.run/SALE?c=ff0000</span>';
       html += '<span class="usage-example">led.run/Welcome!?mode=flow</span>';
       html += '<span class="usage-example">led.run/你好?t=retro</span>';
+      html += '<span class="usage-example">led.run/ERROR?t=glitch</span>';
+      html += '<span class="usage-example">led.run/Hello?t=typewriter</span>';
+      html += '<span class="usage-example">led.run/RAINBOW?t=gradient</span>';
+      html += '<span class="usage-example">led.run/FUTURE?t=hologram</span>';
       html += '</div>';
       html += '</section>';
 

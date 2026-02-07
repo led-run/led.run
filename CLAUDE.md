@@ -17,7 +17,7 @@ All params are "preference hints" — themes decide whether to consume them.
 
 | Param | Alias | Type | Description |
 |-------|-------|------|-------------|
-| `theme` | `t` | string | Theme ID (default/neon/retro) |
+| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram) |
 | `mode` | — | string | Display mode hint (sign/flow) |
 | `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
 | `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
@@ -61,6 +61,18 @@ js/ui/controls.js         Keyboard/pointer input
 js/app.js                 App entry + orchestrator
 .github/workflows/deploy.yml  CI/CD — Cloudflare Pages deploy on push to main
 ```
+
+## Available Themes
+
+| ID | Effect | Custom Params |
+|----|--------|---------------|
+| `default` | Classic green LED sign | — |
+| `neon` | Glowing neon with flicker | `flicker` |
+| `retro` | CRT scanlines + vignette | `scanlines` |
+| `glitch` | RGB split + jitter + distortion | `intensity` |
+| `typewriter` | Character-by-character typing + cursor | `typingSpeed` |
+| `gradient` | Rainbow gradient text flow | — |
+| `hologram` | Chromatic aberration + scanline sweep | — |
 
 ## Script Load Order
 
