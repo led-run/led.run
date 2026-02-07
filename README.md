@@ -18,6 +18,7 @@ Add query parameters to customize:
 
 ```
 https://led.run/SALE?c=ff0000            # Red text
+https://led.run/SALE?c=ff000080          # Semi-transparent red text
 https://led.run/OPEN?t=neon              # Neon theme
 https://led.run/RETRO?t=retro            # CRT retro theme
 https://led.run/Welcome!?mode=flow       # Force scrolling mode
@@ -28,8 +29,8 @@ https://led.run/NEWS?speed=120&dir=right # Fast, right-to-left scroll
 |-------|-------|-------------|
 | `theme` | `t` | Theme: `default`, `neon`, `retro` |
 | `mode` | — | `sign` (static) or `flow` (scroll) |
-| `color` | `c` | Text color hex (no `#`) |
-| `bg` | — | Background color hex (no `#`) |
+| `color` | `c` | Text color hex, 6 or 8 digit (no `#`). 8-digit for alpha, e.g. `ff000080` |
+| `bg` | — | Background color hex, 6 or 8 digit (no `#`). 8-digit for alpha, e.g. `ffffff40` |
 | `speed` | — | Scroll speed (default: 60) |
 | `direction` | `dir` | Scroll direction: `left` or `right` |
 | `font` | — | Custom font family |
