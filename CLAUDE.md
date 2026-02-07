@@ -17,7 +17,7 @@ All params are "preference hints" — themes decide whether to consume them.
 
 | Param | Alias | Type | Description |
 |-------|-------|------|-------------|
-| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework/wood) |
+| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework/wood/cyber/tokyo/blueprint/monolith/street-sign/do-not-disturb) |
 | `mode` | — | string | Display mode hint (sign/flow) |
 | `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
 | `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
@@ -80,6 +80,12 @@ js/app.js                 App entry + orchestrator
 | `aurora` | Northern lights wave bands (Canvas) | `intensity` |
 | `firework` | Particle fireworks system (Canvas) | `rate` |
 | `wood` | Warm wooden cafe sign with painted text | `grain`, `warm` |
+| `cyber` | Matrix terminal decode effect + HUD overlay | `glitch` |
+| `tokyo` | Cyberpunk rain-soaked neon + Japanese decorations | — |
+| `blueprint` | Architectural blueprint drawing style | — |
+| `monolith` | Brutalist high-contrast display | — |
+| `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare` |
+| `do-not-disturb` | Skeuomorphic lightbox + glass panel | — |
 
 ## Script Load Order
 
