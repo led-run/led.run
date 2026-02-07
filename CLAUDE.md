@@ -59,6 +59,7 @@ js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
 js/ui/controls.js         Keyboard/pointer input
 js/app.js                 App entry + orchestrator
+.github/workflows/deploy.yml  CI/CD — Cloudflare Pages deploy on push to main
 ```
 
 ## Script Load Order
@@ -78,3 +79,10 @@ core → themes → ui → app (defined in index.html)
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → ThemeManager.getCurrent()
 - **UI modules copied from til.re** — fullscreen.js, wakelock.js, cursor.js are identical
+
+## Deployment
+
+- **CI/CD**: GitHub Actions → `cloudflare/wrangler-action@v3` → Direct Upload to Cloudflare Pages
+- **Trigger**: push to `main` branch
+- **No build step** — deploys the project root directory as-is
+- **Required GitHub Secrets**: `CLOUDFLARE_API_TOKEN`, `CLOUDFLARE_ACCOUNT_ID`
