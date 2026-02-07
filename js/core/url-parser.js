@@ -14,6 +14,9 @@
     cur: 'cursor'
   };
 
+  // Parameters that should always remain strings (never convert to number)
+  const STRING_PARAMS = ['color', 'bg', 'theme', 'mode', 'direction', 'font'];
+
   const URLParser = {
     /**
      * Parse current URL
@@ -26,11 +29,8 @@
       // Extract display text from path
       const text = this._extractText(path);
 
-      // Parse query parameters
-      const params = this._parseQueryString(search);
-
-      // Normalize parameter names (handle aliases)
-      const config = this._normalizeParams(params);
+      // Parse query parameters (aliases resolved inline)
+      const config = this._parseQueryString(search);
 
       return {
         text,
@@ -61,7 +61,8 @@
       const searchParams = new URLSearchParams(search);
 
       for (const [key, value] of searchParams) {
-        params[key] = this._parseValue(value);
+        const normalizedKey = PARAM_ALIASES[key] || key;
+        params[normalizedKey] = this._parseValue(value, normalizedKey);
       }
 
       return params;
@@ -71,30 +72,15 @@
      * Parse parameter value (boolean, number, etc.)
      * @private
      * @param {string} value - Parameter value
+     * @param {string} key - Normalized parameter name
      * @returns {*}
      */
-    _parseValue(value) {
+    _parseValue(value, key) {
+      if (STRING_PARAMS.indexOf(key) !== -1) return value;
       if (value === 'true') return true;
       if (value === 'false') return false;
       if (/^\d+(\.\d+)?$/.test(value)) return parseFloat(value);
       return value;
-    },
-
-    /**
-     * Normalize parameter names (alias conversion)
-     * @private
-     * @param {Object} params - Original parameters
-     * @returns {Object}
-     */
-    _normalizeParams(params) {
-      const result = {};
-
-      for (const [key, value] of Object.entries(params)) {
-        const normalizedKey = PARAM_ALIASES[key] || key;
-        result[normalizedKey] = value;
-      }
-
-      return result;
     }
   };
 
