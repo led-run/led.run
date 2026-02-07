@@ -17,7 +17,7 @@ All params are "preference hints" — themes decide whether to consume them.
 
 | Param | Alias | Type | Description |
 |-------|-------|------|-------------|
-| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram) |
+| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework) |
 | `mode` | — | string | Display mode hint (sign/flow) |
 | `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
 | `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
@@ -74,6 +74,11 @@ js/app.js                 App entry + orchestrator
 | `typewriter` | Character-by-character typing + cursor | `typingSpeed` |
 | `gradient` | Rainbow gradient text flow | — |
 | `hologram` | Chromatic aberration + scanline sweep | — |
+| `broadcast` | Studio "ON AIR" indicator + recording dot | `dot`, `frame` |
+| `marquee` | Broadway chase light bulbs (Canvas) | `chase`, `bulbColor` |
+| `pulse` | Breathing mood ambient + radial glow | `rhythm`, `palette` |
+| `aurora` | Northern lights wave bands (Canvas) | `intensity` |
+| `firework` | Particle fireworks system (Canvas) | `rate` |
 
 ## Script Load Order
 

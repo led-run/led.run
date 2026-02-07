@@ -10,12 +10,13 @@
 
   // Preset cards for landing page
   var PRESETS = [
-    { text: 'OPEN', icon: '🟢', desc: 'Store open sign' },
-    { text: 'ON AIR', icon: '🔴', desc: 'Broadcasting live' },
+    { text: 'OPEN', icon: '💡', desc: 'Marquee lights', params: '?t=marquee' },
+    { text: 'ON AIR', icon: '🔴', desc: 'Studio broadcast', params: '?t=broadcast' },
     { text: 'HELLO', icon: '👋', desc: 'Friendly greeting' },
     { text: 'Welcome!', icon: '🎉', desc: 'Welcome visitors' },
     { text: 'SALE', icon: '🏷️', desc: 'Sale announcement', params: '?c=ff0000' },
-    { text: 'DO NOT DISTURB', icon: '🔕', desc: 'Privacy sign', params: '?c=ff4444&bg=1a1a1a' }
+    { text: 'DO NOT DISTURB', icon: '🔕', desc: 'Privacy sign', params: '?c=ff4444&bg=1a1a1a' },
+    { text: 'MOOD', icon: '💜', desc: 'Mood ambient', params: '?t=pulse' }
   ];
 
   var App = {
@@ -138,6 +139,11 @@
       html += '<span class="usage-example">led.run/Hello?t=typewriter</span>';
       html += '<span class="usage-example">led.run/RAINBOW?t=gradient</span>';
       html += '<span class="usage-example">led.run/FUTURE?t=hologram</span>';
+      html += '<span class="usage-example">led.run/ON AIR?t=broadcast</span>';
+      html += '<span class="usage-example">led.run/OPEN?t=marquee</span>';
+      html += '<span class="usage-example">led.run/MOOD?t=pulse</span>';
+      html += '<span class="usage-example">led.run/✨?t=aurora</span>';
+      html += '<span class="usage-example">led.run/PARTY?t=firework</span>';
       html += '</div>';
       html += '</section>';
 
