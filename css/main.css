@@ -1,0 +1,49 @@
+/**
+ * led.run Main Styles
+ * Global reset and base layout
+ */
+
+/* Reset */
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Root elements */
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  background: #000;
+  color: #fff;
+}
+
+/* App container */
+#app {
+  width: 100%;
+  height: 100%;
+}
+
+/* Sign container - fullscreen flex center */
+#sign-container {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Cursor auto-hide */
+body.cursor-hidden,
+body.cursor-hidden * {
+  cursor: none !important;
+}

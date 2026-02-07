@@ -1,0 +1,8 @@
+# Cloudflare Pages URL Rewrite
+
+# Static assets - no redirect
+/css/*    /css/:splat    200
+/js/*     /js/:splat     200
+
+# All other paths rewrite to index.html, parsed by frontend JS
+/*    /index.html   200

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>led.run</title>
+  <meta name="description" content="Minimal digital signage. URL is your sign.">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/main.css">
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/themes/default.css">
+  <link rel="stylesheet" href="/css/themes/neon.css">
+  <link rel="stylesheet" href="/css/themes/retro.css">
+</head>
+<body>
+  <div id="app">
+    <div id="sign-container"></div>
+  </div>
+
+  <!-- Core -->
+  <script src="/js/core/url-parser.js"></script>
+  <script src="/js/core/text-engine.js"></script>
+
+  <!-- Themes -->
+  <script src="/js/themes/theme-manager.js"></script>
+  <script src="/js/themes/default-renderer.js"></script>
+  <script src="/js/themes/neon-renderer.js"></script>
+  <script src="/js/themes/retro-renderer.js"></script>
+
+  <!-- UI -->
+  <script src="/js/ui/fullscreen.js"></script>
+  <script src="/js/ui/wakelock.js"></script>
+  <script src="/js/ui/cursor.js"></script>
+  <script src="/js/ui/controls.js"></script>
+
+  <!-- App Entry -->
+  <script src="/js/app.js"></script>
+</body>
+</html>
