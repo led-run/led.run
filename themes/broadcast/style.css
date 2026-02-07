@@ -1,0 +1,94 @@
+/**
+ * Broadcast Theme Styles
+ * Professional studio "ON AIR" indicator
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+.theme-broadcast {
+  background-color: var(--broadcast-bg, #1a1a1a);
+  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
+  font-family: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+  overflow: hidden;
+}
+
+/* Frame border */
+.theme-broadcast .broadcast-frame {
+  position: absolute;
+  top: 12px;
+  left: 12px;
+  right: 12px;
+  bottom: 12px;
+  border: 2px solid rgba(255, 255, 255, 0.15);
+  border-radius: 4px;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Recording dot */
+.theme-broadcast .broadcast-dot {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: var(--dot-color, #ff0000);
+  z-index: 5;
+  animation: broadcast-dot-pulse 2s ease-in-out infinite;
+}
+
+@keyframes broadcast-dot-pulse {
+  0%, 100% {
+    opacity: 1;
+    box-shadow:
+      0 0 4px var(--dot-color, #ff0000),
+      0 0 8px var(--dot-color, #ff0000),
+      0 0 16px rgba(255, 0, 0, 0.4);
+  }
+  50% {
+    opacity: 0.3;
+    box-shadow: 0 0 2px var(--dot-color, #ff0000);
+  }
+}
+
+/* SIGN mode text */
+.theme-broadcast .broadcast-sign-text {
+  color: var(--broadcast-color, #ffffff);
+  font-weight: 400;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.3),
+    0 0 10px rgba(255, 255, 255, 0.15);
+  z-index: 2;
+  position: relative;
+}
+
+/* FLOW mode */
+.theme-broadcast .broadcast-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  z-index: 2;
+  position: relative;
+}
+
+.theme-broadcast .broadcast-flow-text {
+  color: var(--broadcast-color, #ffffff);
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 0 4px rgba(255, 255, 255, 0.3),
+    0 0 10px rgba(255, 255, 255, 0.15);
+}
