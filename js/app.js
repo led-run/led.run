@@ -20,7 +20,7 @@
     { text: 'Le Petit Cafe', icon: '🪵', desc: 'Luxury handcrafted wood board with warm spotlight and gold leaf text.', params: '?t=wood&warm=8&c=d4a847&mode=sign' },
     { text: 'BREATHE', icon: '🌌', desc: 'Northern lights dancing over mountains with vivid aurora bands.', params: '?t=aurora&intensity=8' },
     { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' },
-    { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Concert fan LED board with scrolling message in flow mode.', params: '?t=gradient&mode=flow&speed=80' }
+    { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Concert fan LED board with scrolling message in flow mode.', params: '?t=gradient&mode=flow&speed=150' }
   ];
 
   var App = {
