@@ -38,30 +38,37 @@
 
       container.classList.add('theme-wood');
 
-      var color = '#' + (config.color || this.defaults.color);
-      var bg = '#' + (config.bg || this.defaults.bg);
-      var grain = config.grain || this.defaults.grain;
-      var warm = Math.max(1, Math.min(10, Number(config.warm) || this.defaults.warm));
+      // The Physical Board
+      var board = document.createElement('div');
+      board.className = 'wood-board';
+      container.appendChild(board);
 
-      // Map warm 1-10 to intensity and duration
-      var warmIntensity = 0.05 + (warm / 10) * 0.25;
-      var warmDuration = 12 - (warm / 10) * 8; // 12s at warm=1, 4s at warm=10
+      // Frame Layers
+      var frameOuter = document.createElement('div');
+      frameOuter.className = 'frame-layer frame-outer';
+      container.appendChild(frameOuter);
 
-      container.style.setProperty('--wood-color', color);
-      container.style.setProperty('--wood-warm-intensity', warmIntensity);
-      container.style.setProperty('--wood-warm-duration', warmDuration + 's');
-      container.style.backgroundColor = bg;
+      var frameInner = document.createElement('div');
+      frameInner.className = 'frame-layer frame-inner';
+      container.appendChild(frameInner);
 
-      // Build wood grain background
-      var grainEl = document.createElement('div');
-      grainEl.className = grain === 'light' ? 'wood-grain-light' : 'wood-grain-dark';
-      if (grain !== 'light') {
-        grainEl.style.backgroundColor = bg;
-      }
-      container.appendChild(grainEl);
+      // Ornate Corners
+      var corners = ['tl', 'tr', 'bl', 'br'];
+      corners.forEach(function(pos) {
+        var orn = document.createElement('div');
+        orn.className = 'ornament orn-' + pos;
+        container.appendChild(orn);
+      });
 
-      // Build ambient layers
-      this._buildAmbientLayers(container);
+      // Lighting & Atmosphere
+      var vignette = document.createElement('div');
+      vignette.className = 'lighting-vignette';
+      container.appendChild(vignette);
+
+      var spot = document.createElement('div');
+      spot.className = 'lighting-spot';
+      container.appendChild(spot);
+      this._warmLightEl = spot;
 
       this._mode = this._resolveMode(text, config.mode);
 
@@ -72,20 +79,6 @@
       }
     },
 
-    _buildAmbientLayers(container) {
-      // Warm spotlight
-      var warmLight = document.createElement('div');
-      warmLight.className = 'wood-warm-light';
-      container.appendChild(warmLight);
-      this._warmLightEl = warmLight;
-
-      // Surface sheen
-      var sheen = document.createElement('div');
-      sheen.className = 'wood-sheen';
-      container.appendChild(sheen);
-      this._sheenEl = sheen;
-    },
-
     _resolveMode(text, modeHint) {
       if (modeHint === 'flow' || modeHint === 'scroll') return 'flow';
       if (modeHint === 'sign' || modeHint === 'static') return 'sign';
@@ -93,12 +86,25 @@
     },
 
     _initSign(container, text, config) {
+      var wrapper = document.createElement('div');
+      wrapper.style.display = 'flex';
+      wrapper.style.flexDirection = 'column';
+      wrapper.style.alignItems = 'center';
+      wrapper.style.zIndex = '12';
+
       var el = document.createElement('div');
       el.className = 'wood-sign-text';
       el.textContent = text;
       if (config.font) el.style.fontFamily = config.font;
-      container.appendChild(el);
+      wrapper.appendChild(el);
       this._textEl = el;
+
+      // Add a decorative divider below the text
+      var divider = document.createElement('div');
+      divider.className = 'text-divider';
+      wrapper.appendChild(divider);
+
+      container.appendChild(wrapper);
 
       this._fitText(el, text, config);
 
@@ -110,11 +116,54 @@
 
     _fitText(el, text, config) {
       var fontSize = TextEngine.autoFit(text, this._container, {
-        fontFamily: config.font || "'Caveat', 'Noto Serif SC', cursive, serif",
-        fontWeight: '700',
-        padding: 60
+        fontFamily: config.font || "'Cinzel Decorative', 'Noto Serif SC', serif",
+        fontWeight: '900',
+        padding: 240 // Massive padding for the heavy frame and ornaments
       });
       el.style.fontSize = fontSize + 'px';
+    },
+
+    _initFlow(container, text, config) {
+      var track = document.createElement('div');
+      track.className = 'wood-flow-track';
+
+      for (var i = 0; i < 2; i++) {
+        var span = document.createElement('span');
+        span.className = 'wood-flow-text';
+        span.textContent = text;
+        if (config.font) span.style.fontFamily = config.font;
+        track.appendChild(span);
+      }
+
+      container.appendChild(track);
+      this._textEl = track;
+
+      var speed = config.speed || this.defaults.speed;
+      var direction = config.direction || this.defaults.direction;
+
+      var flowSize = Math.floor(this._container.clientHeight * 0.3);
+      track.querySelectorAll('.wood-flow-text').forEach(function(t) {
+        t.style.fontSize = flowSize + 'px';
+      });
+
+      var animName = 'wood-flow-scroll';
+      var style = document.createElement('style');
+      style.textContent =
+        '@keyframes ' + animName + ' { from { transform: translateX(0); } to { transform: translateX(' +
+        (direction === 'right' ? '50%' : '-50%') + '); } }';
+      document.head.appendChild(style);
+      this._animationStyle = style;
+
+      var duration = Math.max(5, 200 / (speed / 30));
+      track.style.animation = animName + ' ' + duration + 's linear infinite';
+
+      this._resizeHandler = function() {
+        var newSize = Math.floor(this._container.clientHeight * 0.3);
+        track.querySelectorAll('.wood-flow-text').forEach(function(t) {
+          t.style.fontSize = newSize + 'px';
+        });
+      }.bind(this);
+      window.addEventListener('resize', this._resizeHandler);
     },
 
     _initFlow(container, text, config) {
