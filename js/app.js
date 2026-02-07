@@ -138,19 +138,19 @@
         return out;
       }
 
-      // Sign mode presets
-      html += '<section class="presets-section">';
-      html += '<div class="presets-title">Sign Mode — Static Display</div>';
-      html += '<div class="presets-grid">';
-      html += renderPresets(SIGN_PRESETS);
-      html += '</div>';
-      html += '</section>';
-
       // Flow mode presets
       html += '<section class="presets-section">';
       html += '<div class="presets-title">Flow Mode — Scrolling Marquee</div>';
       html += '<div class="presets-grid">';
       html += renderPresets(FLOW_PRESETS);
+      html += '</div>';
+      html += '</section>';
+
+      // Sign mode presets
+      html += '<section class="presets-section">';
+      html += '<div class="presets-title">Sign Mode — Static Display</div>';
+      html += '<div class="presets-grid">';
+      html += renderPresets(SIGN_PRESETS);
       html += '</div>';
       html += '</section>';
 
