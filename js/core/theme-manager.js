@@ -94,6 +94,38 @@
      */
     hasTheme(themeId) {
       return this._themes.has(themeId);
+    },
+
+    /**
+     * Dynamically load a theme from a directory
+     * @param {string} basePath - Path to theme directory (e.g. '/themes/neon')
+     * @returns {Promise<Object>} Resolves with the registered theme object
+     */
+    load(basePath) {
+      var self = this;
+      var previousCount = this._themes.size;
+
+      return new Promise(function(resolve, reject) {
+        var link = document.createElement('link');
+        link.rel = 'stylesheet';
+        link.href = basePath + '/style.css';
+        document.head.appendChild(link);
+
+        var script = document.createElement('script');
+        script.src = basePath + '/renderer.js';
+        script.onload = function() {
+          if (self._themes.size > previousCount) {
+            var ids = Array.from(self._themes.keys());
+            resolve(self._themes.get(ids[ids.length - 1]));
+          } else {
+            reject(new Error('Theme at ' + basePath + ' did not register'));
+          }
+        };
+        script.onerror = function() {
+          reject(new Error('Failed to load theme from ' + basePath));
+        };
+        document.head.appendChild(script);
+      });
     }
   };
 
