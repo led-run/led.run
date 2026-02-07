@@ -1,6 +1,6 @@
 /**
  * Broadcast Theme
- * Professional studio "ON AIR" indicator with recording dot and clean border
+ * High-end studio "ON AIR" indicator with skeuomorphic details
  * Supports SIGN (static) and FLOW (scrolling) modes
  */
 ;(function(global) {
@@ -13,12 +13,11 @@
 
     defaults: {
       color: 'ffffff',
-      bg: '1a1a1a',
+      bg: '0a0a0a',
       font: '',
       speed: 60,
       direction: 'left',
-      dot: 'ff0000',
-      frame: 1
+      dot: 'ff0000'
     },
 
     _container: null,
@@ -29,6 +28,9 @@
     _animationStyle: null,
     _textEl: null,
     _dotEl: null,
+    _contentEl: null,
+    _clockEl: null,
+    _clockInterval: null,
 
     init(container, text, config) {
       this._container = container;
@@ -46,32 +48,84 @@
       container.style.setProperty('--dot-color', dotColor);
       container.style.backgroundColor = bg;
 
-      // Frame
-      var showFrame = config.frame !== undefined ? Number(config.frame) : this.defaults.frame;
-      if (showFrame) {
-        var frame = document.createElement('div');
-        frame.className = 'broadcast-frame';
-        container.appendChild(frame);
-      }
+      // Skeuomorphic Frame and Details
+      this._buildSkeuomorphicUI(container);
 
-      // Recording dot
+      // Main Content Container
+      var content = document.createElement('div');
+      content.className = 'broadcast-content';
+      container.appendChild(content);
+      this._contentEl = content;
+
+      this._mode = this._resolveMode(text, config.mode);
+
+      if (this._mode === 'flow') {
+        this._initFlow(content, text, config);
+      } else {
+        this._initSign(content, text, config);
+      }
+    },
+
+    _buildSkeuomorphicUI(container) {
+      // Metal Frame
+      var frame = document.createElement('div');
+      frame.className = 'broadcast-container';
+      container.appendChild(frame);
+
+      // Screws
+      ['tl', 'tr', 'bl', 'br'].forEach(function(pos) {
+        var screw = document.createElement('div');
+        screw.className = 'broadcast-screw screw-' + pos;
+        container.appendChild(screw);
+      });
+
+      // Glass Panel
+      var glass = document.createElement('div');
+      glass.className = 'broadcast-glass';
+      container.appendChild(glass);
+
+      // Labels & Dot
+      var recLabel = document.createElement('div');
+      recLabel.className = 'broadcast-label-rec';
+      recLabel.textContent = 'REC';
+      container.appendChild(recLabel);
+
       var dot = document.createElement('div');
       dot.className = 'broadcast-dot';
       container.appendChild(dot);
       this._dotEl = dot;
 
-      // Hide dot if dot color is black (000000)
-      if ((config.dot || this.defaults.dot) === '000000') {
-        dot.style.display = 'none';
-      }
+      // Studio Clock
+      var clock = document.createElement('div');
+      clock.className = 'broadcast-clock';
+      container.appendChild(clock);
+      this._clockEl = clock;
+      this._updateClock();
+      this._clockInterval = setInterval(this._updateClock.bind(this), 1000);
 
-      this._mode = this._resolveMode(text, config.mode);
-
-      if (this._mode === 'flow') {
-        this._initFlow(container, text, config);
-      } else {
-        this._initSign(container, text, config);
+      // VU Meters
+      var vuContainer = document.createElement('div');
+      vuContainer.className = 'broadcast-vumeters';
+      for (var i = 0; i < 40; i++) {
+        var bar = document.createElement('div');
+        bar.className = 'vu-bar';
+        var level = document.createElement('div');
+        level.className = 'vu-level';
+        level.style.setProperty('--vu-height', (Math.random() * 80 + 10) + '%');
+        level.style.animationDelay = (Math.random() * 0.5) + 's';
+        bar.appendChild(level);
+        vuContainer.appendChild(bar);
       }
+      container.appendChild(vuContainer);
+    },
+
+    _updateClock() {
+      if (!this._clockEl) return;
+      var now = new Date();
+      var h = String(now.getHours()).padStart(2, '0');
+      var m = String(now.getMinutes()).padStart(2, '0');
+      var s = String(now.getSeconds()).padStart(2, '0');
+      this._clockEl.textContent = h + ':' + m + ':' + s;
     },
 
     _resolveMode(text, modeHint) {
@@ -98,9 +152,9 @@
 
     _fitText(el, text, config) {
       var fontSize = TextEngine.autoFit(text, this._container, {
-        fontFamily: config.font || "'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif",
+        fontFamily: config.font || "'Bebas Neue', 'Impact', sans-serif",
         fontWeight: '400',
-        padding: 50
+        padding: 100
       });
       el.style.fontSize = fontSize + 'px';
     },
@@ -123,7 +177,7 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var flowSize = Math.floor(this._container.clientHeight * 0.4);
       track.querySelectorAll('.broadcast-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -140,7 +194,7 @@
       track.style.animation = animName + ' ' + duration + 's linear infinite';
 
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.6);
+        var newSize = Math.floor(this._container.clientHeight * 0.4);
         track.querySelectorAll('.broadcast-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });
@@ -150,16 +204,22 @@
 
     togglePause() {
       this._paused = !this._paused;
+      var state = this._paused ? 'paused' : 'running';
       if (this._textEl) {
         if (this._mode === 'flow') {
-          this._textEl.style.animationPlayState = this._paused ? 'paused' : 'running';
+          this._textEl.style.animationPlayState = state;
         } else {
           this._textEl.style.opacity = this._paused ? '0.5' : '1';
         }
       }
-      // Pause/resume dot animation
       if (this._dotEl) {
-        this._dotEl.style.animationPlayState = this._paused ? 'paused' : 'running';
+        this._dotEl.style.animationPlayState = state;
+      }
+      // VU meters pause
+      if (this._container) {
+        this._container.querySelectorAll('.vu-level').forEach(function(vu) {
+          vu.style.animationPlayState = state;
+        });
       }
       return this._paused;
     },
@@ -169,6 +229,10 @@
     },
 
     destroy() {
+      if (this._clockInterval) {
+        clearInterval(this._clockInterval);
+        this._clockInterval = null;
+      }
       if (this._resizeHandler) {
         window.removeEventListener('resize', this._resizeHandler);
         this._resizeHandler = null;
@@ -180,6 +244,8 @@
       this._container = null;
       this._textEl = null;
       this._dotEl = null;
+      this._contentEl = null;
+      this._clockEl = null;
       this._config = null;
       this._mode = null;
       this._paused = false;

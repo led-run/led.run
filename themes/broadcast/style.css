@@ -1,55 +1,160 @@
 /**
  * Broadcast Theme Styles
- * Professional studio "ON AIR" indicator
+ * High-end studio "ON AIR" indicator with skeuomorphic details
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=JetBrains+Mono:wght@400;700&display=swap');
 
 .theme-broadcast {
-  background-color: var(--broadcast-bg, #1a1a1a);
-  background-image: radial-gradient(ellipse at center, rgba(255, 255, 255, 0.03) 0%, transparent 70%);
-  font-family: 'Bebas Neue', 'Impact', 'Arial Narrow', sans-serif;
+  background-color: var(--broadcast-bg, #0a0a0a);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(40, 40, 40, 1) 0%, rgba(10, 10, 10, 1) 100%),
+    repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(0, 0, 0, 0.1) 2px, rgba(0, 0, 0, 0.1) 4px);
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Frame border */
-.theme-broadcast .broadcast-frame {
+/* Brushed Metal Frame */
+.theme-broadcast .broadcast-container {
   position: absolute;
-  top: 12px;
-  left: 12px;
-  right: 12px;
-  bottom: 12px;
-  border: 2px solid rgba(255, 255, 255, 0.15);
-  border-radius: 4px;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 40px solid #222;
+  border-image: linear-gradient(135deg, #444 0%, #111 50%, #333 100%) 1;
+  box-shadow: inset 0 0 20px rgba(0,0,0,0.8), 0 0 50px rgba(0,0,0,0.5);
   pointer-events: none;
-  z-index: 1;
+  z-index: 10;
 }
 
-/* Recording dot */
+/* Screws in corners */
+.theme-broadcast .broadcast-screw {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #666, #222);
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+  z-index: 11;
+}
+.theme-broadcast .screw-tl { top: 14px; left: 14px; }
+.theme-broadcast .screw-tr { top: 14px; right: 14px; }
+.theme-broadcast .screw-bl { bottom: 14px; left: 14px; }
+.theme-broadcast .screw-br { bottom: 14px; right: 14px; }
+.theme-broadcast .broadcast-screw::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 10%; right: 10%;
+  height: 2px;
+  background: rgba(0,0,0,0.3);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+/* Glass Panel Overlay */
+.theme-broadcast .broadcast-glass {
+  position: absolute;
+  top: 40px; left: 40px; right: 40px; bottom: 40px;
+  background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 40%, rgba(255,255,255,0.02) 50%, transparent 60%);
+  pointer-events: none;
+  z-index: 8;
+}
+
+/* VU Meters */
+.theme-broadcast .broadcast-vumeters {
+  position: absolute;
+  bottom: 60px;
+  left: 60px;
+  right: 60px;
+  height: 20px;
+  display: flex;
+  gap: 4px;
+  z-index: 5;
+  opacity: 0.6;
+}
+
+.theme-broadcast .vu-bar {
+  flex: 1;
+  height: 100%;
+  background: #333;
+  position: relative;
+  overflow: hidden;
+  border-radius: 2px;
+}
+
+.theme-broadcast .vu-level {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  background: linear-gradient(to top, #0f0 0%, #ff0 70%, #f00 100%);
+  height: 0%;
+  animation: vu-pulse 0.2s ease-in-out infinite alternate;
+}
+
+@keyframes vu-pulse {
+  from { height: 10%; }
+  to { height: var(--vu-height, 60%); }
+}
+
+/* Labels */
+.theme-broadcast .broadcast-label-rec {
+  position: absolute;
+  top: 60px;
+  left: 85px;
+  color: #ff0000;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 700;
+  font-size: 18px;
+  letter-spacing: 2px;
+  z-index: 5;
+}
+
+/* Studio Clock */
+.theme-broadcast .broadcast-clock {
+  position: absolute;
+  top: 60px;
+  right: 60px;
+  color: #fff;
+  font-family: 'JetBrains Mono', monospace;
+  font-weight: 400;
+  font-size: 24px;
+  letter-spacing: 1px;
+  z-index: 5;
+  background: rgba(0,0,0,0.3);
+  padding: 4px 12px;
+  border-radius: 4px;
+  border: 1px solid rgba(255,255,255,0.1);
+  box-shadow: inset 0 0 10px rgba(0,0,0,0.5);
+}
+
 .theme-broadcast .broadcast-dot {
   position: absolute;
-  top: 20px;
-  left: 20px;
-  width: 14px;
-  height: 14px;
+  top: 64px;
+  left: 60px;
+  width: 16px;
+  height: 16px;
   border-radius: 50%;
   background-color: var(--dot-color, #ff0000);
   z-index: 5;
-  animation: broadcast-dot-pulse 2s ease-in-out infinite;
+  box-shadow: 0 0 10px var(--dot-color, #ff0000);
+  animation: broadcast-dot-pulse 1.5s step-end infinite;
 }
 
 @keyframes broadcast-dot-pulse {
-  0%, 100% {
-    opacity: 1;
-    box-shadow:
-      0 0 4px var(--dot-color, #ff0000),
-      0 0 8px var(--dot-color, #ff0000),
-      0 0 16px rgba(255, 0, 0, 0.4);
-  }
-  50% {
-    opacity: 0.3;
-    box-shadow: 0 0 2px var(--dot-color, #ff0000);
-  }
+  0%, 100% { opacity: 1; filter: brightness(1.2); }
+  50% { opacity: 0.1; }
+}
+
+/* Text Container */
+.theme-broadcast .broadcast-content {
+  z-index: 2;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 100px;
+  box-sizing: border-box;
 }
 
 /* SIGN mode text */
@@ -58,14 +163,14 @@
   font-weight: 400;
   white-space: nowrap;
   user-select: none;
-  line-height: 1.1;
-  letter-spacing: 0.08em;
+  line-height: 1;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.3),
-    0 0 10px rgba(255, 255, 255, 0.15);
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px var(--broadcast-color, #ffffff33);
   z-index: 2;
-  position: relative;
+  filter: drop-shadow(0 0 5px rgba(0,0,0,0.5));
 }
 
 /* FLOW mode */
@@ -75,7 +180,6 @@
   white-space: nowrap;
   will-change: transform;
   z-index: 2;
-  position: relative;
 }
 
 .theme-broadcast .broadcast-flow-text {
@@ -85,10 +189,10 @@
   padding: 0 0.5em;
   user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  letter-spacing: 0.08em;
+  line-height: 1;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
   text-shadow:
-    0 0 4px rgba(255, 255, 255, 0.3),
-    0 0 10px rgba(255, 255, 255, 0.15);
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 20px var(--broadcast-color, #ffffff33);
 }

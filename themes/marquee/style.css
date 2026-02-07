@@ -1,25 +1,72 @@
 /**
  * Marquee Theme Styles
- * Broadway-style chase light bulbs border
+ * Broadway-style theatrical marquee with 3D metallic details
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@900&family=Bebas+Neue&display=swap');
 
 .theme-marquee {
-  background-color: var(--marquee-bg, #1a0a00);
-  font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  background-color: var(--marquee-bg, #120800);
+  background-image: 
+    radial-gradient(circle at 50% 50%, rgba(40, 20, 0, 1) 0%, rgba(10, 5, 0, 1) 100%),
+    url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23noise)' opacity='0.05'/%3E%3C/svg%3E");
+  font-family: 'Playfair Display', serif;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Canvas for bulb border */
+/* 3D Metallic Frame */
+.theme-marquee .marquee-frame {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 60px solid transparent;
+  border-image: linear-gradient(to bottom, #d4af37, #f9f295, #b8860b, #f9f295, #d4af37) 1;
+  box-shadow: 
+    inset 0 0 30px rgba(0,0,0,0.8),
+    0 0 50px rgba(0,0,0,0.5);
+  z-index: 10;
+  pointer-events: none;
+}
+
+/* Canvas for bulbs - positioned inside the frame */
 .theme-marquee .marquee-canvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 11;
   pointer-events: none;
+}
+
+/* Corner Stars */
+.theme-marquee .marquee-star {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  background: #ffd700;
+  clip-path: polygon(50% 0%, 61% 35%, 98% 35%, 68% 57%, 79% 91%, 50% 70%, 21% 91%, 32% 57%, 2% 35%, 39% 35%);
+  z-index: 12;
+  box-shadow: 0 0 20px #ffd700;
+}
+.theme-marquee .star-tl { top: 10px; left: 10px; }
+.theme-marquee .star-tr { top: 10px; right: 10px; }
+.theme-marquee .star-bl { bottom: 10px; left: 10px; }
+.theme-marquee .star-br { bottom: 10px; right: 10px; }
+
+/* Text Container */
+.theme-marquee .marquee-content {
+  z-index: 2;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px;
+  box-sizing: border-box;
 }
 
 /* SIGN mode text */
@@ -28,14 +75,15 @@
   font-weight: 900;
   white-space: nowrap;
   user-select: none;
-  line-height: 1.1;
-  letter-spacing: 0.1em;
-  z-index: 2;
-  position: relative;
+  line-height: 1;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
   text-shadow:
-    0 0 5px rgba(255, 215, 0, 0.6),
-    0 0 15px rgba(255, 170, 0, 0.4),
-    0 0 30px rgba(255, 140, 0, 0.2);
+    0 2px 0 #b8860b,
+    0 4px 0 #996515,
+    0 6px 0 #7a4a0a,
+    0 8px 10px rgba(0,0,0,0.5),
+    0 0 20px rgba(255, 215, 0, 0.3);
 }
 
 /* FLOW mode */
@@ -44,8 +92,6 @@
   align-items: center;
   white-space: nowrap;
   will-change: transform;
-  z-index: 2;
-  position: relative;
 }
 
 .theme-marquee .marquee-flow-text {
@@ -55,10 +101,10 @@
   padding: 0 0.5em;
   user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  letter-spacing: 0.1em;
+  line-height: 1;
+  text-transform: uppercase;
   text-shadow:
-    0 0 5px rgba(255, 215, 0, 0.6),
-    0 0 15px rgba(255, 170, 0, 0.4),
-    0 0 30px rgba(255, 140, 0, 0.2);
+    0 2px 0 #b8860b,
+    0 4px 0 #996515,
+    0 8px 10px rgba(0,0,0,0.5);
 }

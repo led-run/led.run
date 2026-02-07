@@ -64,12 +64,27 @@
       container.style.setProperty('--firework-bg', bg);
       container.style.backgroundColor = bg;
 
-      // Create canvas
+      // Skyline
+      this._initSkyline(container);
+
+      // Flash Overlay
+      var flash = document.createElement('div');
+      flash.className = 'firework-flash';
+      container.appendChild(flash);
+      this._flashEl = flash;
+
+      // Canvas
       var canvas = document.createElement('canvas');
       canvas.className = 'firework-canvas';
       container.appendChild(canvas);
       this._canvas = canvas;
       this._ctx = canvas.getContext('2d');
+
+      // Content
+      var content = document.createElement('div');
+      content.className = 'firework-content';
+      container.appendChild(content);
+      this._contentEl = content;
 
       this._resizeCanvas();
       this._startAnimation();
@@ -77,13 +92,48 @@
       this._mode = this._resolveMode(text, config.mode);
 
       if (this._mode === 'flow') {
-        this._initFlow(container, text, config);
+        this._initFlow(content, text, config);
       } else {
-        this._initSign(container, text, config);
+        this._initSign(content, text, config);
       }
 
       this._resizeHandler = this._onResize.bind(this);
       window.addEventListener('resize', this._resizeHandler);
+    },
+
+    _initSkyline(container) {
+      // Silhouette
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'firework-skyline');
+      svg.setAttribute('viewBox', '0 0 1000 100');
+      svg.setAttribute('preserveAspectRatio', 'none');
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      var d = 'M0,100 ';
+      for (var i = 0; i <= 20; i++) {
+        var x = i * 50;
+        var h = 20 + Math.random() * 60;
+        d += 'L' + x + ',' + (100-h) + ' L' + (x+40) + ',' + (100-h) + ' ';
+      }
+      d += 'L1000,100 Z';
+      path.setAttribute('d', d);
+      svg.appendChild(path);
+      container.appendChild(svg);
+
+      // Random window lights
+      var lights = document.createElement('div');
+      lights.className = 'city-lights';
+      for (var i = 0; i < 100; i++) {
+        var light = document.createElement('div');
+        light.style.position = 'absolute';
+        light.style.bottom = (Math.random() * 10) + '%';
+        light.style.left = (Math.random() * 100) + '%';
+        light.style.width = '2px';
+        light.style.height = '2px';
+        light.style.backgroundColor = Math.random() > 0.5 ? '#fff9a0' : '#ffffff';
+        light.style.opacity = Math.random() * 0.5;
+        lights.appendChild(light);
+      }
+      container.appendChild(lights);
     },
 
     _resolveMode(text, modeHint) {
@@ -116,7 +166,7 @@
         var h = canvas.height;
 
         // Fade trail effect
-        ctx.fillStyle = 'rgba(5, 5, 16, 0.15)';
+        ctx.fillStyle = 'rgba(2, 2, 10, 0.2)';
         ctx.fillRect(0, 0, w, h);
 
         var now = Date.now();
@@ -202,9 +252,29 @@
 
     _explode(x, y) {
       var color = COLORS[Math.floor(Math.random() * COLORS.length)];
-      for (var i = 0; i < PARTICLES_PER_EXPLOSION; i++) {
+      
+      // Screen Flash
+      if (this._flashEl) {
+        this._flashEl.style.backgroundColor = color;
+        this._flashEl.animate([
+          { opacity: 0.1 },
+          { opacity: 0 }
+        ], { duration: 200 });
+      }
+
+      // Text Interaction
+      if (this._contentEl) {
+        this._contentEl.animate([
+          { transform: 'scale(1)', filter: 'brightness(1)' },
+          { transform: 'scale(1.05)', filter: 'brightness(1.5) blur(1px)' },
+          { transform: 'scale(1)', filter: 'brightness(1)' }
+        ], { duration: 200, easing: 'ease-out' });
+      }
+
+      var particles = PARTICLES_PER_EXPLOSION;
+      for (var i = 0; i < particles; i++) {
         var angle = Math.random() * Math.PI * 2;
-        var speed = Math.random() * 3 + 1;
+        var speed = Math.random() * 4 + 2;
         var life = Math.random() * 1.5 + 1;
         this._particles.push({
           x: x,
@@ -214,7 +284,7 @@
           life: life,
           maxLife: life,
           color: color,
-          size: Math.random() * 2 + 1
+          size: Math.random() * 3 + 1
         });
       }
     },

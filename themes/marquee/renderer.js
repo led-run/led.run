@@ -7,9 +7,6 @@
   'use strict';
 
   var AUTO_FLOW_THRESHOLD = 10;
-  var BULB_SPACING = 35;
-  var BULB_RADIUS = 5;
-  var BULB_PADDING = 30;
   var LIT_GROUP_SIZE = 3;
 
   var MarqueeTheme = {
@@ -17,7 +14,7 @@
 
     defaults: {
       color: 'ffd700',
-      bg: '1a0a00',
+      bg: '120800',
       font: '',
       speed: 60,
       direction: 'left',
@@ -32,6 +29,7 @@
     _paused: false,
     _animationStyle: null,
     _textEl: null,
+    _contentEl: null,
     _canvas: null,
     _ctx: null,
     _rafId: null,
@@ -50,30 +48,147 @@
       container.style.setProperty('--marquee-bg', bg);
       container.style.backgroundColor = bg;
 
-      // Create canvas for bulbs
+      // Build Theatrical UI
+      this._buildTheatricalUI(container);
+
+      // Main Content
+      var content = document.createElement('div');
+      content.className = 'marquee-content';
+      container.appendChild(content);
+      this._contentEl = content;
+
+      this._mode = this._resolveMode(text, config.mode);
+
+      if (this._mode === 'flow') {
+        this._initFlow(content, text, config);
+      } else {
+        this._initSign(content, text, config);
+      }
+
+      this._resizeHandler = this._onResize.bind(this);
+      window.addEventListener('resize', this._resizeHandler);
+    },
+
+    _buildTheatricalUI(container) {
+      // Metallic Frame
+      var frame = document.createElement('div');
+      frame.className = 'marquee-frame';
+      container.appendChild(frame);
+
+      // Corner Stars
+      ['tl', 'tr', 'bl', 'br'].forEach(function(pos) {
+        var star = document.createElement('div');
+        star.className = 'marquee-star star-' + pos;
+        container.appendChild(star);
+      });
+
+      // Canvas for bulbs
       var canvas = document.createElement('canvas');
       canvas.className = 'marquee-canvas';
       container.appendChild(canvas);
       this._canvas = canvas;
       this._ctx = canvas.getContext('2d');
 
-      // Calculate bulb positions
       this._resizeCanvas();
       this._calculateBulbs();
-
-      // Start bulb animation
       this._startBulbAnimation();
+    },
 
-      this._mode = this._resolveMode(text, config.mode);
+    _calculateBulbs() {
+      var w = this._canvas.width;
+      var h = this._canvas.height;
+      var pad = 30; // Center of the 60px frame
+      var spacing = 40;
+      var bulbs = [];
 
-      if (this._mode === 'flow') {
-        this._initFlow(container, text, config);
-      } else {
-        this._initSign(container, text, config);
+      // Top edge
+      for (var x = pad; x <= w - pad; x += spacing) bulbs.push({ x: x, y: pad });
+      // Right edge
+      for (var y = pad + spacing; y <= h - pad; y += spacing) bulbs.push({ x: w - pad, y: y });
+      // Bottom edge
+      for (var x = w - pad - spacing; x >= pad; x -= spacing) bulbs.push({ x: x, y: h - pad });
+      // Left edge
+      for (var y = h - pad - spacing; y >= pad + spacing; y -= spacing) bulbs.push({ x: pad, y: y });
+
+      this._bulbs = bulbs;
+    },
+
+    _startBulbAnimation() {
+      var self = this;
+      var bulbColorHex = '#' + (this._config.bulbColor || this.defaults.bulbColor);
+      var chaseSpeed = Math.max(1, Math.min(10, Number(this._config.chase) || this.defaults.chase));
+      var chaseMs = 600 / chaseSpeed;
+      var groupSpacing = LIT_GROUP_SIZE + 3;
+
+      function draw() {
+        if (self._paused) {
+          self._rafId = requestAnimationFrame(draw);
+          return;
+        }
+
+        var ctx = self._ctx;
+        var bulbs = self._bulbs;
+        if (!bulbs.length) {
+          self._rafId = requestAnimationFrame(draw);
+          return;
+        }
+
+        ctx.clearRect(0, 0, self._canvas.width, self._canvas.height);
+        var offset = Math.floor(Date.now() / chaseMs) % groupSpacing;
+
+        bulbs.forEach(function(bulb, i) {
+          var pos = (i + offset) % groupSpacing;
+          var isLit = pos < LIT_GROUP_SIZE;
+          var isFlickering = Math.random() > 0.98; // Realistic imperfection
+
+          self._drawRealisticBulb(ctx, bulb.x, bulb.y, isLit && !isFlickering, bulbColorHex);
+        });
+
+        self._rafId = requestAnimationFrame(draw);
       }
 
-      this._resizeHandler = this._onResize.bind(this);
-      window.addEventListener('resize', this._resizeHandler);
+      this._rafId = requestAnimationFrame(draw);
+    },
+
+    _drawRealisticBulb(ctx, x, y, isLit, color) {
+      var radius = 7;
+      
+      // Base/Socket
+      ctx.fillStyle = '#333';
+      ctx.beginPath();
+      ctx.arc(x, y, radius + 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      if (isLit) {
+        // Outer Glow
+        var grad = ctx.createRadialGradient(x, y, radius, x, y, radius * 4);
+        grad.addColorStop(0, color);
+        grad.addColorStop(1, 'transparent');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(x, y, radius * 4, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Bulb Body
+        ctx.fillStyle = '#fff';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+
+        // Filament highlight
+        ctx.strokeStyle = color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(x - 2, y);
+        ctx.lineTo(x + 2, y);
+        ctx.stroke();
+      } else {
+        // Dim Bulb
+        ctx.fillStyle = 'rgba(100, 100, 100, 0.3)';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
     },
 
     _resolveMode(text, modeHint) {
@@ -90,101 +205,6 @@
       canvas.height = h;
     },
 
-    _calculateBulbs() {
-      var w = this._canvas.width;
-      var h = this._canvas.height;
-      var pad = BULB_PADDING;
-      var spacing = BULB_SPACING;
-      var bulbs = [];
-
-      // Top edge (left to right)
-      for (var x = pad; x <= w - pad; x += spacing) {
-        bulbs.push({ x: x, y: pad });
-      }
-      // Right edge (top to bottom)
-      for (var y = pad + spacing; y <= h - pad; y += spacing) {
-        bulbs.push({ x: w - pad, y: y });
-      }
-      // Bottom edge (right to left)
-      for (var x = w - pad - spacing; x >= pad; x -= spacing) {
-        bulbs.push({ x: x, y: h - pad });
-      }
-      // Left edge (bottom to top)
-      for (var y = h - pad - spacing; y >= pad + spacing; y -= spacing) {
-        bulbs.push({ x: pad, y: y });
-      }
-
-      this._bulbs = bulbs;
-    },
-
-    _startBulbAnimation() {
-      var self = this;
-      var config = this._config;
-      var chaseSpeed = Math.max(1, Math.min(10, Number(config.chase) || this.defaults.chase));
-      var bulbColorHex = '#' + (config.bulbColor || this.defaults.bulbColor);
-
-      // Parse bulb color for dim version
-      var r = parseInt(bulbColorHex.slice(1, 3), 16);
-      var g = parseInt(bulbColorHex.slice(3, 5), 16);
-      var b = parseInt(bulbColorHex.slice(5, 7), 16);
-      var dimColor = 'rgba(' + Math.floor(r * 0.25) + ',' + Math.floor(g * 0.25) + ',' + Math.floor(b * 0.25) + ',0.6)';
-
-      // Chase timing: ms per step
-      var chaseMs = 600 / chaseSpeed;
-      var totalBulbs = 0;
-      var groupSpacing = LIT_GROUP_SIZE + 3; // lit bulbs + gap
-
-      function draw() {
-        if (self._paused) {
-          self._rafId = requestAnimationFrame(draw);
-          return;
-        }
-
-        var ctx = self._ctx;
-        var bulbs = self._bulbs;
-        totalBulbs = bulbs.length;
-
-        if (totalBulbs === 0) {
-          self._rafId = requestAnimationFrame(draw);
-          return;
-        }
-
-        var w = self._canvas.width;
-        var h = self._canvas.height;
-        ctx.clearRect(0, 0, w, h);
-
-        var offset = Math.floor(Date.now() / chaseMs) % groupSpacing;
-
-        for (var i = 0; i < totalBulbs; i++) {
-          var bulb = bulbs[i];
-          var pos = (i + offset) % groupSpacing;
-          var isLit = pos < LIT_GROUP_SIZE;
-
-          ctx.beginPath();
-          ctx.arc(bulb.x, bulb.y, BULB_RADIUS, 0, Math.PI * 2);
-
-          if (isLit) {
-            ctx.fillStyle = bulbColorHex;
-            ctx.shadowColor = bulbColorHex;
-            ctx.shadowBlur = 15;
-          } else {
-            ctx.fillStyle = dimColor;
-            ctx.shadowColor = 'transparent';
-            ctx.shadowBlur = 0;
-          }
-          ctx.fill();
-        }
-
-        // Reset shadow
-        ctx.shadowBlur = 0;
-        ctx.shadowColor = 'transparent';
-
-        self._rafId = requestAnimationFrame(draw);
-      }
-
-      this._rafId = requestAnimationFrame(draw);
-    },
-
     _onResize() {
       this._resizeCanvas();
       this._calculateBulbs();
@@ -193,7 +213,7 @@
       if (this._mode === 'sign' && this._textEl) {
         this._fitText(this._textEl, this._textEl.textContent, this._config);
       } else if (this._mode === 'flow' && this._textEl) {
-        var newSize = Math.floor(this._container.clientHeight * 0.6);
+        var newSize = Math.floor(this._container.clientHeight * 0.4);
         this._textEl.querySelectorAll('.marquee-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });
@@ -215,7 +235,7 @@
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Playfair Display', 'Georgia', serif",
         fontWeight: '900',
-        padding: 70
+        padding: 120
       });
       el.style.fontSize = fontSize + 'px';
     },
@@ -238,7 +258,7 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var flowSize = Math.floor(this._container.clientHeight * 0.4);
       track.querySelectorAll('.marquee-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -289,6 +309,7 @@
       this._bulbs = [];
       this._container = null;
       this._textEl = null;
+      this._contentEl = null;
       this._config = null;
       this._mode = null;
       this._paused = false;

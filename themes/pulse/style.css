@@ -1,87 +1,102 @@
 /**
  * Pulse Theme Styles
- * Breathing mood ambient with radial glow pulses
+ * Ultra-modern glassmorphism with organic fluid motion
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;800&display=swap');
 
 .theme-pulse {
-  background-color: var(--pulse-bg, #0a0015);
-  font-family: 'Quicksand', 'Varela Round', 'Nunito', sans-serif;
+  background-color: var(--pulse-bg, #050110);
+  font-family: 'Outfit', sans-serif;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Glow layer behind text */
-.theme-pulse .pulse-glow {
+/* Fluid Background Blobs */
+.theme-pulse .pulse-blobs {
   position: absolute;
-  top: 50%;
-  left: 50%;
-  width: 60%;
-  height: 60%;
-  transform: translate(-50%, -50%);
-  background: radial-gradient(ellipse at center, var(--pulse-color, #ff6b9d) 0%, transparent 70%);
-  opacity: 0.25;
-  filter: blur(60px);
+  top: 0; left: 0; right: 0; bottom: 0;
   z-index: 1;
-  pointer-events: none;
-  animation: pulse-glow-breathe var(--pulse-rhythm, 4s) ease-in-out infinite;
+  filter: blur(80px);
+  opacity: 0.6;
 }
 
-/* Background hue rotation */
-.theme-pulse .pulse-bg-layer {
+.theme-pulse .pulse-blob {
   position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(ellipse at center, rgba(255, 107, 157, 0.08) 0%, transparent 70%);
-  z-index: 0;
-  pointer-events: none;
-  animation: pulse-hue var(--pulse-hue-duration, 8s) linear infinite;
+  border-radius: 50%;
+  background: var(--pulse-color, #ff6b9d);
+  will-change: transform;
 }
 
-@keyframes pulse-glow-breathe {
-  0%, 100% {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 0.2;
-  }
-  50% {
-    transform: translate(-50%, -50%) scale(1.15);
-    opacity: 0.35;
-  }
+/* Glassmorphism Text Container */
+.theme-pulse .pulse-glass-container {
+  position: relative;
+  z-index: 10;
+  padding: 2rem 4rem;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.03);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 
+    0 25px 50px -12px rgba(0, 0, 0, 0.5),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: pulse-glass-breathe var(--pulse-rhythm, 4s) ease-in-out infinite;
 }
 
-@keyframes pulse-hue {
-  0% { filter: hue-rotate(0deg); }
-  100% { filter: hue-rotate(var(--pulse-hue-range, 60deg)); }
+@keyframes pulse-glass-breathe {
+  0%, 100% { transform: scale(1); box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5); }
+  50% { transform: scale(1.02); box-shadow: 0 35px 70px -10px rgba(0, 0, 0, 0.6); }
 }
 
 /* SIGN mode text */
 .theme-pulse .pulse-sign-text {
-  color: var(--pulse-color, #ff6b9d);
-  font-weight: 700;
+  color: #ffffff;
+  font-weight: 800;
   white-space: nowrap;
   user-select: none;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  z-index: 2;
+  line-height: 1;
+  letter-spacing: -0.02em;
   position: relative;
-  text-shadow:
-    0 0 10px var(--pulse-color, #ff6b9d),
-    0 0 30px rgba(255, 107, 157, 0.4),
-    0 0 50px rgba(255, 107, 157, 0.2);
-  animation: pulse-text-breathe var(--pulse-rhythm, 4s) ease-in-out infinite;
+  text-shadow: 0 10px 20px rgba(0,0,0,0.3);
 }
 
-@keyframes pulse-text-breathe {
-  0%, 100% {
-    transform: scale(1);
-    opacity: 0.85;
-  }
-  50% {
-    transform: scale(1.05);
-    opacity: 1;
-  }
+/* Chromatic Aberration Effect */
+.theme-pulse .pulse-sign-text::before,
+.theme-pulse .pulse-sign-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: -1;
+  opacity: 0.5;
+}
+
+.theme-pulse .pulse-sign-text::before {
+  color: #ff00ff;
+  transform: translate(-2px, 0);
+  animation: pulse-chroma-red 4s infinite alternate;
+}
+
+.theme-pulse .pulse-sign-text::after {
+  color: #00ffff;
+  transform: translate(2px, 0);
+  animation: pulse-chroma-blue 4s infinite alternate-reverse;
+}
+
+@keyframes pulse-chroma-red {
+  0% { transform: translate(-1px, 0); }
+  100% { transform: translate(-4px, 1px); }
+}
+
+@keyframes pulse-chroma-blue {
+  0% { transform: translate(1px, 0); }
+  100% { transform: translate(4px, -1px); }
 }
 
 /* FLOW mode */
@@ -90,21 +105,14 @@
   align-items: center;
   white-space: nowrap;
   will-change: transform;
-  z-index: 2;
-  position: relative;
 }
 
 .theme-pulse .pulse-flow-text {
-  color: var(--pulse-color, #ff6b9d);
-  font-weight: 700;
+  color: #ffffff;
+  font-weight: 800;
   white-space: nowrap;
   padding: 0 0.5em;
   user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  text-shadow:
-    0 0 10px var(--pulse-color, #ff6b9d),
-    0 0 30px rgba(255, 107, 157, 0.4),
-    0 0 50px rgba(255, 107, 157, 0.2);
+  line-height: 1;
 }

@@ -64,15 +64,27 @@
       container.style.setProperty('--aurora-bg', bg);
       container.style.backgroundColor = bg;
 
-      var intensity = Math.max(1, Math.min(10, Number(config.intensity) || this.defaults.intensity));
-      this._bands = generateBands(intensity);
+      // Starfield
+      this._initStars(container);
 
-      // Create canvas (half resolution for performance)
+      // Aurora Canvas
       var canvas = document.createElement('canvas');
       canvas.className = 'aurora-canvas';
       container.appendChild(canvas);
       this._canvas = canvas;
       this._ctx = canvas.getContext('2d');
+
+      // Mountains
+      this._initMountains(container);
+
+      // Content
+      var content = document.createElement('div');
+      content.className = 'aurora-content';
+      container.appendChild(content);
+      this._contentEl = content;
+
+      var intensity = Math.max(1, Math.min(10, Number(config.intensity) || this.defaults.intensity));
+      this._bands = generateBands(intensity);
 
       this._resizeCanvas();
       this._startAuroraAnimation();
@@ -80,13 +92,57 @@
       this._mode = this._resolveMode(text, config.mode);
 
       if (this._mode === 'flow') {
-        this._initFlow(container, text, config);
+        this._initFlow(content, text, config);
       } else {
-        this._initSign(container, text, config);
+        this._initSign(content, text, config);
       }
 
       this._resizeHandler = this._onResize.bind(this);
       window.addEventListener('resize', this._resizeHandler);
+    },
+
+    _initStars(container) {
+      var stars = document.createElement('div');
+      stars.className = 'aurora-stars';
+      for (var i = 0; i < 200; i++) {
+        var star = document.createElement('div');
+        var size = Math.random() * 2;
+        star.style.position = 'absolute';
+        star.style.left = Math.random() * 100 + '%';
+        star.style.top = Math.random() * 100 + '%';
+        star.style.width = size + 'px';
+        star.style.height = size + 'px';
+        star.style.backgroundColor = '#fff';
+        star.style.borderRadius = '50%';
+        star.style.opacity = Math.random();
+        if (Math.random() > 0.8) {
+          star.animate([{ opacity: 0.2 }, { opacity: 1 }, { opacity: 0.2 }], {
+            duration: Math.random() * 3000 + 2000,
+            iterations: Infinity
+          });
+        }
+        stars.appendChild(star);
+      }
+      container.appendChild(stars);
+    },
+
+    _initMountains(container) {
+      var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+      svg.setAttribute('class', 'aurora-mountains');
+      svg.setAttribute('viewBox', '0 0 1000 200');
+      svg.setAttribute('preserveAspectRatio', 'none');
+      
+      var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      var d = 'M0,200 L0,150 ';
+      for (var i = 0; i <= 10; i++) {
+        var x = i * 100;
+        var y = 100 + Math.random() * 80;
+        d += 'L' + x + ',' + y + ' ';
+      }
+      d += 'L1000,150 L1000,200 Z';
+      path.setAttribute('d', d);
+      svg.appendChild(path);
+      container.appendChild(svg);
     },
 
     _resolveMode(text, modeHint) {

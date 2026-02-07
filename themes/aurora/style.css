@@ -1,43 +1,81 @@
 /**
  * Aurora Theme Styles
- * Northern lights background with Canvas rendering
+ * Cinematic northern lights with starfield and silhouettes
  */
 
-@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@300;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;600&display=swap');
 
 .theme-aurora {
-  background-color: var(--aurora-bg, #020810);
-  font-family: 'Raleway', 'Helvetica Neue', 'Segoe UI', sans-serif;
+  background-color: var(--aurora-bg, #01040a);
+  background-image: 
+    radial-gradient(circle at 50% 100%, rgba(10, 30, 60, 0.5) 0%, transparent 70%);
+  font-family: 'Plus Jakarta Sans', sans-serif;
   overflow: hidden;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Canvas for aurora bands */
+/* Starfield */
+.theme-aurora .aurora-stars {
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* Mountains Silhouette */
+.theme-aurora .aurora-mountains {
+  position: absolute;
+  bottom: -20px;
+  left: 0;
+  width: 100%;
+  height: 25%;
+  z-index: 5;
+  fill: #000;
+  filter: drop-shadow(0 -10px 20px rgba(0,0,0,0.8));
+  pointer-events: none;
+}
+
+/* Aurora Canvas - Behind text, above stars */
 .theme-aurora .aurora-canvas {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 1;
+  z-index: 2;
   pointer-events: none;
+  filter: blur(2px);
+  opacity: 0.8;
+}
+
+/* Text Container */
+.theme-aurora .aurora-content {
+  z-index: 10;
+  position: relative;
+  text-align: center;
 }
 
 /* SIGN mode text */
 .theme-aurora .aurora-sign-text {
-  color: var(--aurora-color, #e0ffef);
-  font-weight: 600;
+  color: #fff;
+  font-weight: 300;
   white-space: nowrap;
   user-select: none;
-  line-height: 1.1;
-  letter-spacing: 0.05em;
-  z-index: 2;
-  position: relative;
+  line-height: 1;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
   text-shadow:
-    0 0 8px rgba(224, 255, 239, 0.5),
-    0 0 20px rgba(100, 255, 180, 0.3),
-    0 0 40px rgba(100, 200, 255, 0.2);
-  -webkit-backdrop-filter: blur(2px);
-  backdrop-filter: blur(2px);
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 30px var(--aurora-color, rgba(100, 255, 200, 0.3)),
+    0 0 60px var(--aurora-color, rgba(100, 255, 200, 0.1));
+  animation: aurora-text-glow 8s ease-in-out infinite alternate;
+}
+
+@keyframes aurora-text-glow {
+  from { opacity: 0.85; transform: translateY(0); }
+  to { opacity: 1; transform: translateY(-5px); }
 }
 
 /* FLOW mode */
@@ -46,21 +84,18 @@
   align-items: center;
   white-space: nowrap;
   will-change: transform;
-  z-index: 2;
-  position: relative;
 }
 
 .theme-aurora .aurora-flow-text {
-  color: var(--aurora-color, #e0ffef);
-  font-weight: 600;
+  color: #fff;
+  font-weight: 300;
   white-space: nowrap;
   padding: 0 0.5em;
   user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  letter-spacing: 0.05em;
+  line-height: 1;
+  text-transform: uppercase;
   text-shadow:
-    0 0 8px rgba(224, 255, 239, 0.5),
-    0 0 20px rgba(100, 255, 180, 0.3),
-    0 0 40px rgba(100, 200, 255, 0.2);
+    0 0 10px rgba(255, 255, 255, 0.5),
+    0 0 30px var(--aurora-color, rgba(100, 255, 200, 0.3));
 }

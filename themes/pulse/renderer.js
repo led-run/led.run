@@ -1,6 +1,6 @@
 /**
  * Pulse Theme
- * Breathing mood ambient with radial glow and palette-driven hue rotation
+ * Ultra-modern glassmorphism with organic fluid motion
  * Supports SIGN (static) and FLOW (scrolling) modes
  */
 ;(function(global) {
@@ -8,24 +8,16 @@
 
   var AUTO_FLOW_THRESHOLD = 10;
 
-  // Palette definitions: hue-rotate range in degrees
-  var PALETTES = {
-    warm: 60,      // pink → orange → coral → pink
-    cool: 90,      // blue → indigo → purple → blue
-    rainbow: 360   // full spectrum
-  };
-
   var PulseTheme = {
     id: 'pulse',
 
     defaults: {
       color: 'ff6b9d',
-      bg: '0a0015',
+      bg: '050110',
       font: '',
       speed: 60,
       direction: 'left',
-      rhythm: 4,
-      palette: 'warm'
+      rhythm: 4
     },
 
     _container: null,
@@ -35,46 +27,72 @@
     _paused: false,
     _animationStyle: null,
     _textEl: null,
-    _glowEl: null,
+    _glassEl: null,
+    _blobAnimations: [],
 
     init(container, text, config) {
       this._container = container;
       this._config = config;
       this._paused = false;
+      this._blobAnimations = [];
 
       container.classList.add('theme-pulse');
 
       var color = '#' + (config.color || this.defaults.color);
       var bg = '#' + (config.bg || this.defaults.bg);
       var rhythm = Math.max(2, Math.min(10, Number(config.rhythm) || this.defaults.rhythm));
-      var palette = config.palette || this.defaults.palette;
-      var hueRange = PALETTES[palette] !== undefined ? PALETTES[palette] : PALETTES.warm;
 
       container.style.setProperty('--pulse-color', color);
       container.style.setProperty('--pulse-bg', bg);
       container.style.setProperty('--pulse-rhythm', rhythm + 's');
-      container.style.setProperty('--pulse-hue-range', hueRange + 'deg');
-      container.style.setProperty('--pulse-hue-duration', (rhythm * 3) + 's');
       container.style.backgroundColor = bg;
 
-      // Background hue layer
-      var bgLayer = document.createElement('div');
-      bgLayer.className = 'pulse-bg-layer';
-      container.appendChild(bgLayer);
+      // Background Blobs
+      this._initBlobs(container);
 
-      // Glow layer
-      var glow = document.createElement('div');
-      glow.className = 'pulse-glow';
-      container.appendChild(glow);
-      this._glowEl = glow;
+      // Glass Container
+      var glass = document.createElement('div');
+      glass.className = 'pulse-glass-container';
+      container.appendChild(glass);
+      this._glassEl = glass;
 
       this._mode = this._resolveMode(text, config.mode);
 
       if (this._mode === 'flow') {
-        this._initFlow(container, text, config);
+        this._initFlow(glass, text, config);
       } else {
-        this._initSign(container, text, config);
+        this._initSign(glass, text, config);
       }
+    },
+
+    _initBlobs(container) {
+      var blobWrapper = document.createElement('div');
+      blobWrapper.className = 'pulse-blobs';
+      for (var i = 0; i < 5; i++) {
+        var blob = document.createElement('div');
+        blob.className = 'pulse-blob';
+        var size = Math.random() * 400 + 200;
+        blob.style.width = size + 'px';
+        blob.style.height = size + 'px';
+        blob.style.left = Math.random() * 100 + '%';
+        blob.style.top = Math.random() * 100 + '%';
+        blob.style.opacity = Math.random() * 0.4 + 0.1;
+        
+        // Random animation
+        var duration = Math.random() * 20 + 10;
+        var anim = blob.animate([
+          { transform: 'translate(0, 0) scale(1)' },
+          { transform: 'translate(' + (Math.random() * 200 - 100) + 'px, ' + (Math.random() * 200 - 100) + 'px) scale(1.2)' },
+          { transform: 'translate(0, 0) scale(1)' }
+        ], {
+          duration: duration * 1000,
+          iterations: Infinity,
+          easing: 'ease-in-out'
+        });
+        this._blobAnimations.push(anim);
+        blobWrapper.appendChild(blob);
+      }
+      container.appendChild(blobWrapper);
     },
 
     _resolveMode(text, modeHint) {
@@ -87,6 +105,7 @@
       var el = document.createElement('div');
       el.className = 'pulse-sign-text';
       el.textContent = text;
+      el.setAttribute('data-text', text);
       if (config.font) el.style.fontFamily = config.font;
       container.appendChild(el);
       this._textEl = el;
@@ -101,9 +120,9 @@
 
     _fitText(el, text, config) {
       var fontSize = TextEngine.autoFit(text, this._container, {
-        fontFamily: config.font || "'Quicksand', 'Varela Round', sans-serif",
-        fontWeight: '700',
-        padding: 40
+        fontFamily: config.font || "'Outfit', sans-serif",
+        fontWeight: '800',
+        padding: 120 // Extra padding for glass container
       });
       el.style.fontSize = fontSize + 'px';
     },
@@ -126,7 +145,7 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var flowSize = Math.floor(this._container.clientHeight * 0.4);
       track.querySelectorAll('.pulse-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -143,7 +162,7 @@
       track.style.animation = animName + ' ' + duration + 's linear infinite';
 
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.6);
+        var newSize = Math.floor(this._container.clientHeight * 0.4);
         track.querySelectorAll('.pulse-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });
@@ -156,20 +175,16 @@
       var state = this._paused ? 'paused' : 'running';
 
       if (this._textEl) {
-        if (this._mode === 'flow') {
-          this._textEl.style.animationPlayState = state;
-        } else {
-          this._textEl.style.animationPlayState = state;
-        }
+        this._textEl.style.animationPlayState = state;
       }
-      if (this._glowEl) {
-        this._glowEl.style.animationPlayState = state;
+      if (this._glassEl) {
+        this._glassEl.style.animationPlayState = state;
       }
-      // Pause bg layer too
-      var bgLayer = this._container && this._container.querySelector('.pulse-bg-layer');
-      if (bgLayer) {
-        bgLayer.style.animationPlayState = state;
-      }
+      this._blobAnimations.forEach(function(anim) {
+        if (this._paused) anim.pause();
+        else anim.play();
+      }.bind(this));
+
       return this._paused;
     },
 
@@ -186,9 +201,11 @@
         this._animationStyle.remove();
         this._animationStyle = null;
       }
+      this._blobAnimations.forEach(function(anim) { anim.cancel(); });
+      this._blobAnimations = [];
       this._container = null;
       this._textEl = null;
-      this._glowEl = null;
+      this._glassEl = null;
       this._config = null;
       this._mode = null;
       this._paused = false;
