@@ -43,17 +43,18 @@ All params are "preference hints" — themes decide whether to consume them.
 - `config` = merged params (URL overrides theme defaults)
 - Themes self-register via `ThemeManager.register(theme)` at load time
 - Themes may call `TextEngine.autoFit(text, container, options)` for sizing
+- `ThemeManager.load(basePath)` — dynamically loads a theme directory (injects `style.css` + `renderer.js`)
 
 ## File Structure
 
 ```
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles
-css/themes/*.css          Theme stylesheets
 js/core/url-parser.js     URL text + param extraction
 js/core/text-engine.js    Auto-fit text sizing utility
-js/themes/theme-manager.js   Theme registry + switching
-js/themes/*-renderer.js   Theme implementations
+js/core/theme-manager.js  Theme registry, switching + dynamic loading
+themes/{id}/renderer.js   Theme implementation (self-registers via ThemeManager.register)
+themes/{id}/style.css     Theme stylesheet
 js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
@@ -76,14 +77,16 @@ js/app.js                 App entry + orchestrator
 
 ## Script Load Order
 
-core → themes → ui → app (defined in index.html)
+core (url-parser, text-engine, theme-manager) → themes → ui → app (defined in index.html)
 
 ## Adding a New Theme
 
-1. Create `js/themes/{id}-renderer.js` with the theme interface
-2. Create `css/themes/{id}.css` for styles
+1. Create `themes/{id}/renderer.js` with the theme interface
+2. Create `themes/{id}/style.css` for styles
 3. Add `<link>` and `<script>` tags to `index.html`
 4. Theme self-registers via `ThemeManager.register()`
+
+For dynamic loading (without editing index.html): `ThemeManager.load('/themes/{id}')`
 
 ## Key Design Decisions
 
