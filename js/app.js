@@ -8,8 +8,8 @@
   // App-level parameters (not passed to themes)
   var APP_PARAMS = ['wakelock', 'cursor'];
 
-  // Preset cards for landing page
-  var PRESETS = [
+  // Sign mode presets — static full-screen display
+  var SIGN_PRESETS = [
     { text: 'Los Angeles', icon: '🛣️', desc: 'Highway guide sign with exit tag, route subtitle, and reflective arrow.', params: '?t=street-sign&sub=I-405+South&exit=42&arrow=up&glare=0.3' },
     { text: 'OPEN', icon: '🏮', desc: 'Classic storefront neon with warm pink glow and tube flicker.', params: '?t=neon&c=ff2d78&bg=0a0008&flicker=2' },
     { text: 'ON AIR', icon: '🔴', desc: 'Studio broadcast light with live recording indicator.', params: '?t=broadcast&dot=ff3333' },
@@ -19,8 +19,15 @@
     { text: 'DO NOT DISTURB', icon: '🤫', desc: 'Professional privacy sign with warm amber glow and indicator lights.', params: '?t=do-not-disturb&c=ff4400' },
     { text: 'Le Petit Cafe', icon: '🪵', desc: 'Luxury handcrafted wood board with warm spotlight and gold leaf text.', params: '?t=wood&warm=8&c=d4a847&mode=sign' },
     { text: 'BREATHE', icon: '🌌', desc: 'Northern lights dancing over mountains with vivid aurora bands.', params: '?t=aurora&intensity=8' },
-    { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' },
-    { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Concert fan LED board with scrolling message in flow mode.', params: '?t=gradient&mode=flow&speed=150' }
+    { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' }
+  ];
+
+  // Flow mode presets — scrolling marquee display
+  var FLOW_PRESETS = [
+    { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Fan LED board for concerts — hold up your phone and cheer.', params: '?t=gradient&mode=flow&speed=150' },
+    { text: 'DRINKS HALF PRICE UNTIL 9PM', icon: '🍻', desc: 'Happy hour promo scrolling across a warm neon bar sign.', params: '?t=neon&mode=flow&c=ffaa00&flicker=1&speed=120' },
+    { text: 'WELCOME TO THE GRAND OPENING', icon: '🎊', desc: 'Celebration announcement with fireworks and golden text.', params: '?t=firework&mode=flow&rate=6&c=ffd700&speed=100' },
+    { text: 'NOW PLAYING: BOHEMIAN RHAPSODY', icon: '🎵', desc: 'Music ticker with retro CRT scanlines and purple glow.', params: '?t=retro&mode=flow&c=cc66ff&speed=80' }
   ];
 
   var App = {
@@ -117,18 +124,33 @@
       html += '</div>';
       html += '</section>';
 
-      // Presets
+      // Helper to render a preset grid
+      function renderPresets(presets) {
+        var out = '';
+        presets.forEach(function(p) {
+          var href = '/' + encodeURIComponent(p.text) + (p.params || '');
+          out += '<a class="preset-card" href="' + href + '">';
+          out += '<span class="preset-icon">' + p.icon + '</span>';
+          out += '<span class="preset-name">' + p.text + '</span>';
+          out += '<span class="preset-desc">' + p.desc + '</span>';
+          out += '</a>';
+        });
+        return out;
+      }
+
+      // Sign mode presets
       html += '<section class="presets-section">';
-      html += '<div class="presets-title">Featured Themes</div>';
+      html += '<div class="presets-title">Sign Mode — Static Display</div>';
       html += '<div class="presets-grid">';
-      PRESETS.forEach(function(p) {
-        var href = '/' + encodeURIComponent(p.text) + (p.params || '');
-        html += '<a class="preset-card" href="' + href + '">';
-        html += '<span class="preset-icon">' + p.icon + '</span>';
-        html += '<span class="preset-name">' + p.text + '</span>';
-        html += '<span class="preset-desc">' + p.desc + '</span>';
-        html += '</a>';
-      });
+      html += renderPresets(SIGN_PRESETS);
+      html += '</div>';
+      html += '</section>';
+
+      // Flow mode presets
+      html += '<section class="presets-section">';
+      html += '<div class="presets-title">Flow Mode — Scrolling Marquee</div>';
+      html += '<div class="presets-grid">';
+      html += renderPresets(FLOW_PRESETS);
       html += '</div>';
       html += '</section>';
 
