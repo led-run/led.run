@@ -1,23 +1,55 @@
 /**
  * Default LED Theme Styles
- * Classic LED sign: bold text with subtle glow
+ * Realistic Dot-Matrix LED Display
  */
 
 .theme-default {
   background-color: var(--led-bg, #000);
   font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', 'Menlo', 'Courier New', monospace;
+  /* Dot matrix background pattern */
+  background-image: 
+    radial-gradient(circle, rgba(20, 20, 20, 1) 20%, transparent 25%),
+    radial-gradient(circle, rgba(20, 20, 20, 1) 20%, transparent 25%);
+  background-size: 4px 4px;
+  background-position: 0 0, 2px 2px;
+  position: relative;
+}
+
+/* Subtle screen grid overlay */
+.theme-default::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%),
+    linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  background-size: 100% 4px, 6px 100%;
+  pointer-events: none;
+  z-index: 10;
 }
 
 /* SIGN mode: static centered text */
 .theme-default .led-sign-text {
   color: var(--led-color, #00ff41);
-  font-weight: bold;
+  font-weight: 900; /* Extra bold for better dot definition */
   white-space: nowrap;
+  
+  /* Multi-layered glow for realism */
   text-shadow:
-    0 0 10px var(--led-color, #00ff41),
-    0 0 20px color-mix(in srgb, var(--led-color, #00ff41) 40%, transparent);
+    0 0 2px var(--led-color, #00ff41),
+    0 0 5px var(--led-color, #00ff41),
+    0 0 10px rgba(0, 255, 65, 0.5),
+    0 0 20px rgba(0, 255, 65, 0.3);
+    
   user-select: none;
   line-height: 1.1;
+  letter-spacing: 2px; /* Spaced out for LED grid look */
+  
+  /* Simulate pixelation slightly if not using a pixel font */
+  filter: contrast(1.2);
 }
 
 /* FLOW mode: scrolling track */
@@ -30,13 +62,19 @@
 
 .theme-default .led-flow-text {
   color: var(--led-color, #00ff41);
-  font-weight: bold;
+  font-weight: 900;
   white-space: nowrap;
   padding: 0 0.5em;
+  
   text-shadow:
-    0 0 10px var(--led-color, #00ff41),
-    0 0 20px color-mix(in srgb, var(--led-color, #00ff41) 40%, transparent);
+    0 0 2px var(--led-color, #00ff41),
+    0 0 5px var(--led-color, #00ff41),
+    0 0 10px rgba(0, 255, 65, 0.5),
+    0 0 20px rgba(0, 255, 65, 0.3);
+    
   user-select: none;
   flex-shrink: 0;
   line-height: 1.1;
+  letter-spacing: 2px;
+  filter: contrast(1.2);
 }

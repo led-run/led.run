@@ -1,30 +1,49 @@
 /**
  * Neon Theme Styles
- * Glowing neon sign with flicker and pulse animations
+ * High-voltage gas tube simulation
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Comfortaa:wght@700&display=swap');
+
 .theme-neon {
-  background-color: var(--neon-bg, #0a0014);
-  font-family: 'Georgia', 'Times New Roman', serif;
+  background-color: var(--neon-bg, #050505);
+  /* Fallback to cursive/sans-serif if web font fails, but Comfortaa is ideal for tubes */
+  font-family: 'Comfortaa', 'Varela Round', 'Comic Sans MS', cursive, sans-serif;
+  overflow: hidden;
 }
 
-/* SIGN mode */
-.theme-neon .neon-sign-text {
-  color: var(--neon-color, #ff00ff);
-  font-weight: bold;
+/* Base Neon Text Style */
+.theme-neon .neon-sign-text,
+.theme-neon .neon-flow-text {
+  color: #fff; /* Core of the tube is always near white */
+  font-weight: 700;
   white-space: nowrap;
-  text-shadow:
-    0 0 7px var(--neon-color, #ff00ff),
-    0 0 10px var(--neon-color, #ff00ff),
-    0 0 21px var(--neon-color, #ff00ff),
-    0 0 42px var(--neon-color, #ff00ff),
-    0 0 82px var(--neon-color, #ff00ff);
   user-select: none;
   line-height: 1.1;
-  animation: neon-breathe 3s ease-in-out infinite, neon-flicker 4s linear infinite;
+  
+  /* Complex shadow for glowing gas effect */
+  text-shadow:
+    0 0 2px #fff,
+    0 0 5px var(--neon-color, #ff00ff),
+    0 0 10px var(--neon-color, #ff00ff),
+    0 0 20px var(--neon-color, #ff00ff),
+    0 0 40px var(--neon-color, #ff00ff),
+    0 0 80px var(--neon-color, #ff00ff),
+    0 0 90px var(--neon-color, #ff00ff),
+    0 0 100px var(--neon-color, #ff00ff);
+    
+  /* Combine animations */
+  animation: 
+    neon-flicker 3s infinite alternate,
+    neon-buzz 0.1s infinite;
 }
 
-/* FLOW mode */
+/* SIGN mode specific */
+.theme-neon .neon-sign-text {
+  /* No extra specific styles needed beyond base */
+}
+
+/* FLOW mode specific */
 .theme-neon .neon-flow-track {
   display: flex;
   align-items: center;
@@ -33,45 +52,35 @@
 }
 
 .theme-neon .neon-flow-text {
-  color: var(--neon-color, #ff00ff);
-  font-weight: bold;
-  white-space: nowrap;
   padding: 0 0.5em;
-  text-shadow:
-    0 0 7px var(--neon-color, #ff00ff),
-    0 0 10px var(--neon-color, #ff00ff),
-    0 0 21px var(--neon-color, #ff00ff),
-    0 0 42px var(--neon-color, #ff00ff);
-  user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  animation: neon-breathe 3s ease-in-out infinite;
 }
 
-/* Breathe animation - gentle glow pulse */
-@keyframes neon-breathe {
-  0%, 100% {
-    opacity: 1;
-    filter: brightness(1);
-  }
-  50% {
-    opacity: 0.85;
-    filter: brightness(1.2);
-  }
-}
+/* Animations */
 
-/* Flicker animation - subtle random flicker */
+/* Random flickering (bad starter/wiring) */
 @keyframes neon-flicker {
-  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+  0%, 18%, 22%, 25%, 53%, 57%, 100% {
+    text-shadow:
+      0 0 2px #fff,
+      0 0 5px var(--neon-color, #ff00ff),
+      0 0 10px var(--neon-color, #ff00ff),
+      0 0 20px var(--neon-color, #ff00ff),
+      0 0 40px var(--neon-color, #ff00ff),
+      0 0 80px var(--neon-color, #ff00ff);
     opacity: 1;
   }
-  20%, 21.999% {
-    opacity: 0.4;
+  20%, 24%, 55% {
+    text-shadow: none;
+    opacity: 0.2; /* Dim, not completely off */
   }
-  63%, 63.999% {
-    opacity: 0.6;
-  }
-  65%, 69.999% {
-    opacity: 0.8;
-  }
+}
+
+/* Subtle physical vibration/hum of the transformer */
+@keyframes neon-buzz {
+  0% { transform: translate(0.5px, 0.5px); }
+  25% { transform: translate(-0.5px, -0.5px); }
+  50% { transform: translate(-0.5px, 0.5px); }
+  75% { transform: translate(0.5px, -0.5px); }
+  100% { transform: translate(0.5px, 0.5px); }
 }

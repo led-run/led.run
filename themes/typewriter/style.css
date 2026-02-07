@@ -1,12 +1,32 @@
 /**
  * Typewriter Theme Styles
- * Character-by-character typing with blinking cursor
+ * Clean, classic mechanical typewriter on paper
  */
 
+@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
+
 .theme-typewriter {
-  background-color: var(--tw-bg, #1a1a2e);
-  font-family: 'Courier New', 'Special Elite', monospace;
+  background-color: var(--tw-bg, #f5f5f0); /* Off-white paper */
+  font-family: 'Special Elite', 'Courier Prime', 'Courier New', monospace;
+  color: var(--tw-color, #222); /* Dark ink */
   position: relative;
+  overflow: hidden;
+  
+  /* Paper texture noise */
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.05'/%3E%3C/svg%3E");
+}
+
+/* Base Text */
+.theme-typewriter .tw-sign-text,
+.theme-typewriter .tw-flow-text {
+  color: var(--tw-color, #1a1a1a);
+  font-weight: 400; /* Font is naturally heavy */
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  
+  /* Ink bleed effect */
+  text-shadow: 0 0 1px rgba(0,0,0,0.1), 1px 1px 0 rgba(0,0,0,0.1);
 }
 
 /* SIGN mode */
@@ -19,22 +39,15 @@
   line-height: 1.1;
 }
 
-.theme-typewriter .tw-sign-text {
-  color: var(--tw-color, #e0d5c0);
-  font-weight: bold;
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1.1;
-}
-
+/* Cursor - Solid Block */
 .theme-typewriter .tw-cursor {
   display: inline-block;
-  width: 0.55em;
-  height: 1.1em;
-  background-color: var(--tw-color, #e0d5c0);
+  width: 0.6em;
+  height: 1em;
+  background-color: var(--tw-color, #1a1a1a);
   margin-left: 2px;
-  vertical-align: text-bottom;
-  animation: tw-blink 0.8s step-end infinite;
+  vertical-align: middle;
+  animation: tw-blink 1s steps(2, start) infinite;
 }
 
 /* FLOW mode */
@@ -46,13 +59,8 @@
 }
 
 .theme-typewriter .tw-flow-text {
-  color: var(--tw-color, #e0d5c0);
-  font-weight: bold;
-  white-space: nowrap;
   padding: 0 0.5em;
-  user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
 }
 
 /* Cursor blink animation */

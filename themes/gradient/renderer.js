@@ -8,8 +8,8 @@
 
   var AUTO_FLOW_THRESHOLD = 10;
 
-  // Default rainbow gradient
-  var RAINBOW = 'linear-gradient(90deg, #ff0000, #ff8800, #ffff00, #00ff00, #0088ff, #8800ff, #ff0000)';
+  // Default rainbow gradient - more complex
+  var RAINBOW = 'linear-gradient(45deg, #ff0000, #ff7300, #fffb00, #48ff00, #00ffd5, #002bff, #7a00ff, #ff00c8, #ff0000)';
 
   /**
    * Parse hex color to HSL and generate a gradient with hue shifts
@@ -39,13 +39,14 @@
     var sPct = Math.round(s * 100);
     var lPct = Math.round(l * 100);
 
-    // Generate gradient with hue offsets: -30, -15, 0, +15, +30, back to -30
-    var offsets = [-30, -15, 0, 15, 30, -30];
+    // Generate gradient with more steps for smoothness
+    // -45, -20, 0, +20, +45, back
+    var offsets = [-45, -22, 0, 22, 45, 22, 0, -22, -45];
     var stops = offsets.map(function(offset) {
-      return 'hsl(' + ((hDeg + offset + 360) % 360) + ', ' + sPct + '%, ' + lPct + '%)';
+      return 'hsl(' + ((hDeg + offset + 360) % 360) + ', ' + Math.min(100, sPct + 10) + '%, ' + Math.min(90, Math.max(40, lPct)) + '%)';
     });
 
-    return 'linear-gradient(90deg, ' + stops.join(', ') + ')';
+    return 'linear-gradient(135deg, ' + stops.join(', ') + ')';
   }
 
   var GradientTheme = {

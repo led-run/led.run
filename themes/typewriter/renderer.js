@@ -12,12 +12,12 @@
     id: 'typewriter',
 
     defaults: {
-      color: 'e0d5c0',
-      bg: '1a1a2e',
+      color: '1a1a1a',
+      bg: 'f5f5f0',
       font: '',
       speed: 60,
       direction: 'left',
-      typingSpeed: 100
+      typingSpeed: 120
     },
 
     _container: null,
@@ -27,7 +27,7 @@
     _paused: false,
     _animationStyle: null,
     _textEl: null,
-    _typingInterval: null,
+    _typingTimeout: null, // Changed from interval to timeout for variable speed
     _resetTimeout: null,
 
     init(container, text, config) {
@@ -61,8 +61,8 @@
     _initSign(container, text, config) {
       // First, calculate the font size for the full text
       var fontSize = TextEngine.autoFit(text, container, {
-        fontFamily: config.font || "'Courier New', 'Special Elite', monospace",
-        fontWeight: 'bold',
+        fontFamily: config.font || "'Special Elite', 'Courier Prime', monospace",
+        fontWeight: '400',
         padding: 30
       });
 
@@ -90,8 +90,8 @@
 
       this._resizeHandler = function() {
         var newSize = TextEngine.autoFit(text, container, {
-          fontFamily: config.font || "'Courier New', 'Special Elite', monospace",
-          fontWeight: 'bold',
+          fontFamily: config.font || "'Special Elite', 'Courier Prime', monospace",
+          fontWeight: '400',
           padding: 30
         });
         el.style.fontSize = newSize + 'px';
@@ -103,28 +103,34 @@
     _startTyping(el, text, config) {
       var self = this;
       var chars = [...text];
-      var typingSpeed = config.typingSpeed !== undefined ? config.typingSpeed : self.defaults.typingSpeed;
+      var baseSpeed = config.typingSpeed !== undefined ? config.typingSpeed : self.defaults.typingSpeed;
       var index = 0;
 
       el.textContent = '';
 
-      self._typingInterval = setInterval(function() {
-        if (self._paused) return;
+      function typeNext() {
+        if (self._paused) {
+          self._typingTimeout = setTimeout(typeNext, 100);
+          return;
+        }
 
         if (index < chars.length) {
           el.textContent += chars[index];
           index++;
+          // Random variance: 0.5x to 1.5x speed
+          var variance = (Math.random() * 1.0) + 0.5; 
+          self._typingTimeout = setTimeout(typeNext, baseSpeed * variance);
         } else {
           // Done typing — pause 2 seconds, then restart
-          clearInterval(self._typingInterval);
-          self._typingInterval = null;
-
+          self._typingTimeout = null;
           self._resetTimeout = setTimeout(function() {
             if (!self._container) return;
             self._startTyping(el, text, config);
           }, 2000);
         }
-      }, typingSpeed);
+      }
+
+      typeNext();
     },
 
     _initFlow(container, text, config) {
@@ -186,9 +192,9 @@
     },
 
     destroy() {
-      if (this._typingInterval) {
-        clearInterval(this._typingInterval);
-        this._typingInterval = null;
+      if (this._typingTimeout) {
+        clearTimeout(this._typingTimeout);
+        this._typingTimeout = null;
       }
       if (this._resetTimeout) {
         clearTimeout(this._resetTimeout);

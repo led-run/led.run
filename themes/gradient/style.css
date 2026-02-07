@@ -6,19 +6,34 @@
 .theme-gradient {
   background-color: var(--gradient-bg, #0a0a0a);
   font-family: 'Arial Black', 'Impact', sans-serif;
+  overflow: hidden;
+  position: relative;
+}
+
+/* Base Gradient Text */
+.theme-gradient .gradient-sign-text,
+.theme-gradient .gradient-flow-text {
+  font-weight: 900;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  
+  /* Text Fill */
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  
+  /* Background properties set by JS or defaults below */
+  background-size: 300% 300%;
+  animation: gradient-shift 5s ease infinite;
+  
+  /* Subtle drop shadow to lift text off background */
+  filter: drop-shadow(0 0 10px rgba(255, 255, 255, 0.2));
 }
 
 /* SIGN mode */
 .theme-gradient .gradient-sign-text {
-  font-weight: bold;
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1.1;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  background-size: 200% 100%;
-  animation: gradient-flow 3s linear infinite;
+  /* No specific overrides */
 }
 
 /* FLOW mode */
@@ -30,21 +45,13 @@
 }
 
 .theme-gradient .gradient-flow-text {
-  font-weight: bold;
-  white-space: nowrap;
   padding: 0 0.5em;
-  user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  -webkit-background-clip: text;
-  background-clip: text;
-  color: transparent;
-  background-size: 200% 100%;
-  animation: gradient-flow 3s linear infinite;
 }
 
-/* Gradient flow animation */
-@keyframes gradient-flow {
+/* Gradient Animation */
+@keyframes gradient-shift {
   0% { background-position: 0% 50%; }
-  100% { background-position: 200% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

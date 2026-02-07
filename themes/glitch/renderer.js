@@ -75,6 +75,8 @@
         this._fitText(el, text, config);
       }.bind(this);
       window.addEventListener('resize', this._resizeHandler);
+      
+      this._startCorruption(text);
     },
 
     _fitText(el, text, config) {
@@ -94,6 +96,7 @@
         var span = document.createElement('span');
         span.className = 'glitch-flow-text';
         span.textContent = text;
+        span.setAttribute('data-text', text); // Needed for CSS pseudo-elements
         if (config.font) span.style.fontFamily = config.font;
         track.appendChild(span);
       }
@@ -127,6 +130,46 @@
         });
       }.bind(this);
       window.addEventListener('resize', this._resizeHandler);
+      
+      this._startCorruption(text);
+    },
+
+    _startCorruption(originalText) {
+      var self = this;
+      var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+-=[]{}|;:,.<>?';
+      
+      function corrupt() {
+        if (self._paused || !self._container) return;
+        
+        // Randomly decide to corrupt
+        if (Math.random() > 0.7) {
+            var targets = self._mode === 'flow' 
+              ? self._container.querySelectorAll('.glitch-flow-text') 
+              : [self._container.querySelector('.glitch-sign-text')];
+              
+            targets.forEach(function(el) {
+              if (!el) return;
+              var currentText = el.textContent;
+              var split = currentText.split('');
+              // Corrupt 1-3 random characters
+              var num = Math.floor(Math.random() * 3) + 1;
+              for(var k=0; k<num; k++) {
+                var idx = Math.floor(Math.random() * split.length);
+                split[idx] = chars.charAt(Math.floor(Math.random() * chars.length));
+              }
+              el.textContent = split.join('');
+              
+              // Restore after 100ms
+              setTimeout(function() {
+                if (self._container && el) el.textContent = originalText;
+              }, 100);
+            });
+        }
+        
+        self._corruptionTimeout = setTimeout(corrupt, Math.random() * 2000 + 500);
+      }
+      
+      corrupt();
     },
 
     togglePause() {
@@ -153,6 +196,10 @@
       if (this._animationStyle) {
         this._animationStyle.remove();
         this._animationStyle = null;
+      }
+      if (this._corruptionTimeout) {
+        clearTimeout(this._corruptionTimeout);
+        this._corruptionTimeout = null;
       }
       this._container = null;
       this._textEl = null;

@@ -1,62 +1,92 @@
 /**
  * Retro CRT Theme Styles
- * Scanlines, vignette, and phosphor glow
+ * High-fidelity CRT monitor simulation
  */
+
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
 
 .theme-retro {
   background-color: var(--retro-bg, #0d0d0d);
-  font-family: 'Courier New', 'Lucida Console', monospace;
+  font-family: 'VT323', 'Courier New', 'Lucida Console', monospace;
   position: relative;
+  overflow: hidden;
+  perspective: 1000px;
 }
 
-/* Scanlines overlay */
+/* CRT Screen Container (Curvature & Bezel) */
+.theme-retro::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%), 
+              linear-gradient(90deg, rgba(255, 0, 0, 0.06), rgba(0, 255, 0, 0.02), rgba(0, 0, 255, 0.06));
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Vignette & Screen Glow */
+.theme-retro::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: radial-gradient(circle, rgba(0,0,0,0) 50%, rgba(0,0,0,0.6) 100%);
+  box-shadow: inset 0 0 100px rgba(0,0,0,0.9);
+  pointer-events: none;
+  z-index: 3;
+}
+
+/* Scanline Animation */
 .theme-retro .retro-scanlines {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(0, 0, 0, 0.15) 0px,
-    rgba(0, 0, 0, 0.15) 1px,
-    transparent 1px,
-    transparent 3px
+  background: linear-gradient(
+    to bottom,
+    rgba(255,255,255,0),
+    rgba(255,255,255,0) 50%,
+    rgba(0,0,0,0.2) 50%,
+    rgba(0,0,0,0.2)
   );
+  background-size: 100% 4px;
+  animation: retro-scanline 0.3s linear infinite;
   pointer-events: none;
-  z-index: 10;
-  animation: retro-scanline-move 8s linear infinite;
+  z-index: 4;
 }
 
-/* Vignette (darkened edges) */
-.theme-retro .retro-vignette {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 60%,
-    rgba(0, 0, 0, 0.5) 100%
-  );
-  pointer-events: none;
-  z-index: 11;
+/* Base Text Style */
+.theme-retro .retro-sign-text,
+.theme-retro .retro-flow-text {
+  color: var(--retro-color, #33ff33);
+  font-weight: 400; /* VT323 is bold by default */
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  
+  /* Phosphor glow & Chromatic Aberration */
+  text-shadow:
+    2px 0 2px rgba(255,0,0,0.5),
+    -2px 0 2px rgba(0,0,255,0.5),
+    0 0 8px var(--retro-color, #33ff33);
+    
+  filter: contrast(1.3) brightness(1.1);
+  animation: retro-twitch 4s infinite;
 }
 
 /* SIGN mode */
 .theme-retro .retro-sign-text {
-  color: var(--retro-color, #33ff33);
-  font-weight: bold;
-  white-space: nowrap;
-  text-shadow:
-    0 0 5px var(--retro-color, #33ff33),
-    0 0 10px var(--retro-color, #33ff33);
-  user-select: none;
-  line-height: 1.1;
   position: relative;
-  z-index: 5;
-  animation: retro-glow 2s ease-in-out infinite;
+  z-index: 1;
 }
 
 /* FLOW mode */
@@ -66,38 +96,25 @@
   white-space: nowrap;
   will-change: transform;
   position: relative;
-  z-index: 5;
+  z-index: 1;
 }
 
 .theme-retro .retro-flow-text {
-  color: var(--retro-color, #33ff33);
-  font-weight: bold;
-  white-space: nowrap;
   padding: 0 0.5em;
-  text-shadow:
-    0 0 5px var(--retro-color, #33ff33),
-    0 0 10px var(--retro-color, #33ff33);
-  user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
 }
 
-/* Phosphor glow animation */
-@keyframes retro-glow {
-  0%, 100% {
-    filter: brightness(1);
-  }
-  50% {
-    filter: brightness(1.1);
-  }
+/* Animations */
+@keyframes retro-scanline {
+  0% { transform: translateY(0); }
+  100% { transform: translateY(4px); }
 }
 
-/* Scanline scroll animation */
-@keyframes retro-scanline-move {
-  0% {
-    background-position: 0 0;
-  }
-  100% {
-    background-position: 0 100%;
-  }
+@keyframes retro-twitch {
+  0% { transform: skewX(0deg); }
+  5% { transform: skewX(0.5deg); }
+  10% { transform: skewX(0deg); }
+  95% { transform: skewX(0deg); }
+  98% { transform: skewX(-0.5deg); }
+  100% { transform: skewX(0deg); }
 }

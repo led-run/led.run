@@ -1,129 +1,126 @@
 /**
  * Hologram Theme Styles
- * Chromatic aberration, scanline sweep, translucent flicker, sci-fi blue
+ * Sci-fi 3D projection
  */
+
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@700&display=swap');
 
 .theme-hologram {
   background-color: var(--holo-bg, #020a14);
-  font-family: 'Orbitron', 'Rajdhani', 'Arial', sans-serif;
+  font-family: 'Rajdhani', 'Orbitron', 'Arial', sans-serif;
+  overflow: hidden;
   position: relative;
+  perspective: 1000px; /* Essential for 3D */
 }
 
-/* Scanline sweep overlay */
+/* Projection beams/Scanlines */
 .theme-hologram .holo-scanline {
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    180deg,
-    transparent 0%,
-    transparent 45%,
-    rgba(0, 212, 255, 0.06) 48%,
-    rgba(0, 212, 255, 0.12) 50%,
-    rgba(0, 212, 255, 0.06) 52%,
-    transparent 55%,
-    transparent 100%
+  background: repeating-linear-gradient(
+    90deg,
+    transparent 0px,
+    transparent 2px,
+    rgba(0, 212, 255, 0.03) 3px,
+    rgba(0, 212, 255, 0.03) 4px
   );
-  background-size: 100% 200%;
+  z-index: 2;
   pointer-events: none;
-  z-index: 10;
-  animation: holo-scan 5s linear infinite;
 }
 
-/* SIGN mode */
-.theme-hologram .holo-sign-text {
+/* Projection Plate Glow (Bottom) */
+.theme-hologram::after {
+  content: "";
+  position: absolute;
+  bottom: -50px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 120%;
+  height: 100px;
+  background: radial-gradient(ellipse at center, rgba(0, 212, 255, 0.2) 0%, transparent 70%);
+  filter: blur(20px);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Text Container Wrapper for common effects */
+.theme-hologram .holo-sign-text,
+.theme-hologram .holo-flow-track {
+  /* 3D Transform to look like a projection from below */
+  transform: rotateX(10deg) translateY(-20px); 
+  transform-origin: center bottom;
+}
+
+/* Base Text Styles */
+.theme-hologram .holo-sign-text,
+.theme-hologram .holo-flow-text {
   color: var(--holo-color, #00d4ff);
-  font-weight: bold;
+  font-weight: 700;
   white-space: nowrap;
   user-select: none;
   line-height: 1.1;
-  position: relative;
-  z-index: 5;
-  opacity: 0.9;
+  opacity: 0.85;
+  
   text-shadow:
-    0 0 10px var(--holo-color, #00d4ff),
-    0 0 20px var(--holo-color, #00d4ff),
-    0 0 40px rgba(0, 212, 255, 0.3);
-  animation: holo-flicker 4s linear infinite;
+    0 0 5px rgba(0, 212, 255, 0.8),
+    0 0 10px rgba(0, 212, 255, 0.5),
+    0 0 20px rgba(0, 212, 255, 0.3);
+    
+  /* Scanline texture ON the text */
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(255,255,255,0.1) 0px,
+    transparent 1px,
+    transparent 2px
+  );
+  -webkit-background-clip: text;
+  
+  animation: holo-flicker 0.1s infinite alternate;
 }
 
-.theme-hologram .holo-sign-text::before,
-.theme-hologram .holo-sign-text::after {
+/* SIGN Mode specific */
+.theme-hologram .holo-sign-text {
+  position: relative;
+  z-index: 10;
+}
+
+/* Ghosting Effect (Duplicate text for sign) */
+.theme-hologram .holo-sign-text::before {
   content: attr(data-text);
   position: absolute;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
-  font-size: inherit;
-  font-family: inherit;
-  font-weight: inherit;
-  line-height: inherit;
-  white-space: nowrap;
+  opacity: 0.3;
+  color: #00ffff;
+  transform: scale(1.02) translateY(-2px);
+  filter: blur(2px);
   z-index: -1;
+  animation: holo-ghost 2s ease-in-out infinite alternate;
 }
 
-.theme-hologram .holo-sign-text::before {
-  color: rgba(255, 50, 50, 0.35);
-  transform: translateX(-2px) translateY(1px);
-  text-shadow: none;
-}
-
-.theme-hologram .holo-sign-text::after {
-  color: rgba(50, 50, 255, 0.35);
-  transform: translateX(2px) translateY(-1px);
-  text-shadow: none;
-}
-
-/* FLOW mode */
+/* FLOW Mode specific */
 .theme-hologram .holo-flow-track {
   display: flex;
   align-items: center;
   white-space: nowrap;
   will-change: transform;
-  position: relative;
-  z-index: 5;
 }
 
 .theme-hologram .holo-flow-text {
-  color: var(--holo-color, #00d4ff);
-  font-weight: bold;
-  white-space: nowrap;
   padding: 0 0.5em;
-  user-select: none;
   flex-shrink: 0;
-  line-height: 1.1;
-  opacity: 0.9;
-  text-shadow:
-    0 0 10px var(--holo-color, #00d4ff),
-    0 0 20px var(--holo-color, #00d4ff),
-    0 0 40px rgba(0, 212, 255, 0.3),
-    2px 0 rgba(255, 50, 50, 0.3),
-    -2px 0 rgba(50, 50, 255, 0.3);
-  animation: holo-flicker 4s linear infinite;
 }
 
-/* Scanline sweep animation */
-@keyframes holo-scan {
-  0% { background-position: 0 -100%; }
-  100% { background-position: 0 100%; }
-}
-
-/* Subtle irregular flicker */
+/* Animations */
 @keyframes holo-flicker {
-  0%, 100% { opacity: 0.9; }
-  5% { opacity: 0.85; }
-  10% { opacity: 0.92; }
-  15% { opacity: 0.88; }
-  30% { opacity: 0.95; }
-  35% { opacity: 0.86; }
-  50% { opacity: 0.9; }
-  55% { opacity: 0.93; }
-  70% { opacity: 0.87; }
-  75% { opacity: 0.95; }
-  80% { opacity: 0.9; }
-  90% { opacity: 0.92; }
-  95% { opacity: 0.85; }
+  0% { opacity: 0.85; }
+  100% { opacity: 0.75; }
+}
+
+@keyframes holo-ghost {
+  0% { transform: scale(1.02) translateY(-2px); opacity: 0.3; }
+  100% { transform: scale(0.98) translateY(2px); opacity: 0.1; }
 }
