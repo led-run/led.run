@@ -1,0 +1,139 @@
+/**
+ * Glitch Theme Styles
+ * RGB channel split, random jitter, text distortion
+ */
+
+.theme-glitch {
+  background-color: var(--glitch-bg, #0a0a0a);
+  font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', monospace;
+  position: relative;
+}
+
+/* SIGN mode */
+.theme-glitch .glitch-sign-text {
+  color: var(--glitch-color, #00ffff);
+  font-weight: bold;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  position: relative;
+  animation: glitch-skew 4s infinite linear alternate-reverse;
+}
+
+.theme-glitch .glitch-sign-text::before,
+.theme-glitch .glitch-sign-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
+.theme-glitch .glitch-sign-text::before {
+  color: #ff0040;
+  animation: glitch-shift 3s infinite linear alternate-reverse,
+             glitch-clip 2s infinite linear alternate-reverse;
+  z-index: -1;
+}
+
+.theme-glitch .glitch-sign-text::after {
+  color: #0040ff;
+  animation: glitch-shift 2s infinite linear alternate,
+             glitch-clip 3s infinite linear alternate;
+  z-index: -1;
+}
+
+/* FLOW mode */
+.theme-glitch .glitch-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  position: relative;
+}
+
+.theme-glitch .glitch-flow-text {
+  color: var(--glitch-color, #00ffff);
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+  position: relative;
+  text-shadow:
+    2px 0 #ff0040,
+    -2px 0 #0040ff;
+  animation: glitch-skew 4s infinite linear alternate-reverse;
+}
+
+/* Glitch skew - text jitter */
+@keyframes glitch-skew {
+  0% { transform: skewX(0deg); }
+  10% { transform: skewX(-1deg); }
+  20% { transform: skewX(0.5deg); }
+  30% { transform: skewX(-0.3deg); }
+  40% { transform: skewX(0.8deg); }
+  50% { transform: skewX(0deg); }
+  60% { transform: skewX(-0.5deg); }
+  70% { transform: skewX(0.3deg); }
+  80% { transform: skewX(-0.8deg); }
+  90% { transform: skewX(0.2deg); }
+  100% { transform: skewX(0deg); }
+}
+
+/* Glitch shift - RGB channel horizontal offset */
+@keyframes glitch-shift {
+  0% { transform: translateX(0); }
+  5% { transform: translateX(-3px); }
+  10% { transform: translateX(2px); }
+  15% { transform: translateX(0); }
+  20% { transform: translateX(4px); }
+  25% { transform: translateX(-2px); }
+  30% { transform: translateX(0); }
+  35% { transform: translateX(-4px); }
+  40% { transform: translateX(1px); }
+  45% { transform: translateX(0); }
+  50% { transform: translateX(3px); }
+  55% { transform: translateX(-1px); }
+  60% { transform: translateX(0); }
+  65% { transform: translateX(-3px); }
+  70% { transform: translateX(2px); }
+  75% { transform: translateX(0); }
+  80% { transform: translateX(4px); }
+  85% { transform: translateX(-2px); }
+  90% { transform: translateX(0); }
+  95% { transform: translateX(-1px); }
+  100% { transform: translateX(0); }
+}
+
+/* Glitch clip - pseudo element clipping */
+@keyframes glitch-clip {
+  0% { clip-path: inset(40% 0 61% 0); }
+  5% { clip-path: inset(10% 0 85% 0); }
+  10% { clip-path: inset(80% 0 5% 0); }
+  15% { clip-path: inset(25% 0 58% 0); }
+  20% { clip-path: inset(55% 0 30% 0); }
+  25% { clip-path: inset(5% 0 90% 0); }
+  30% { clip-path: inset(70% 0 15% 0); }
+  35% { clip-path: inset(35% 0 50% 0); }
+  40% { clip-path: inset(90% 0 1% 0); }
+  45% { clip-path: inset(15% 0 75% 0); }
+  50% { clip-path: inset(60% 0 25% 0); }
+  55% { clip-path: inset(3% 0 92% 0); }
+  60% { clip-path: inset(45% 0 40% 0); }
+  65% { clip-path: inset(75% 0 10% 0); }
+  70% { clip-path: inset(20% 0 65% 0); }
+  75% { clip-path: inset(50% 0 35% 0); }
+  80% { clip-path: inset(85% 0 3% 0); }
+  85% { clip-path: inset(30% 0 55% 0); }
+  90% { clip-path: inset(65% 0 20% 0); }
+  95% { clip-path: inset(8% 0 88% 0); }
+  100% { clip-path: inset(40% 0 61% 0); }
+}
