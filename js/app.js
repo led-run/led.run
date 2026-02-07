@@ -17,9 +17,10 @@
     { text: 'SYSTEM OK', icon: '📟', desc: 'Matrix-style terminal with text decode and periodic glitch.', params: '?t=cyber&c=00ff41&glitch=2' },
     { text: 'CHEERS!', icon: '🎆', desc: 'Celebration fireworks over a city skyline with rapid bursts.', params: '?t=firework&rate=8&c=ffd700' },
     { text: 'DO NOT DISTURB', icon: '🤫', desc: 'Professional privacy sign with warm amber glow and indicator lights.', params: '?t=do-not-disturb&c=ff4400' },
-    { text: 'Le Petit Cafe', icon: '🪵', desc: 'Luxury handcrafted wood board with warm spotlight and gold leaf text.', params: '?t=wood&warm=8&c=d4a847' },
+    { text: 'Le Petit Cafe', icon: '🪵', desc: 'Luxury handcrafted wood board with warm spotlight and gold leaf text.', params: '?t=wood&warm=8&c=d4a847&mode=sign' },
     { text: 'BREATHE', icon: '🌌', desc: 'Northern lights dancing over mountains with vivid aurora bands.', params: '?t=aurora&intensity=8' },
-    { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' }
+    { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' },
+    { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Concert fan LED board with scrolling message in flow mode.', params: '?t=gradient&mode=flow&speed=80' }
   ];
 
   var App = {
