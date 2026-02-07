@@ -17,7 +17,7 @@ All params are "preference hints" — themes decide whether to consume them.
 
 | Param | Alias | Type | Description |
 |-------|-------|------|-------------|
-| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework) |
+| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework/wood) |
 | `mode` | — | string | Display mode hint (sign/flow) |
 | `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
 | `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
@@ -79,6 +79,7 @@ js/app.js                 App entry + orchestrator
 | `pulse` | Breathing mood ambient + radial glow | `rhythm`, `palette` |
 | `aurora` | Northern lights wave bands (Canvas) | `intensity` |
 | `firework` | Particle fireworks system (Canvas) | `rate` |
+| `wood` | Warm wooden cafe sign with painted text | `grain`, `warm` |
 
 ## Script Load Order
 
