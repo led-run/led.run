@@ -264,11 +264,21 @@
 
       // Text Interaction
       if (this._contentEl) {
-        this._contentEl.animate([
-          { transform: 'scale(1)', filter: 'brightness(1)' },
-          { transform: 'scale(1.05)', filter: 'brightness(1.5) blur(1px)' },
-          { transform: 'scale(1)', filter: 'brightness(1)' }
-        ], { duration: 200, easing: 'ease-out' });
+        if (this._mode === 'flow') {
+          this._contentEl.querySelectorAll('.firework-flow-text').forEach(function(t) {
+            t.animate([
+              { filter: 'brightness(1)' },
+              { filter: 'brightness(1.8)' },
+              { filter: 'brightness(1)' }
+            ], { duration: 200, easing: 'ease-out' });
+          });
+        } else {
+          this._contentEl.animate([
+            { transform: 'scale(1)', filter: 'brightness(1)' },
+            { transform: 'scale(1.05)', filter: 'brightness(1.5) blur(1px)' },
+            { transform: 'scale(1)', filter: 'brightness(1)' }
+          ], { duration: 200, easing: 'ease-out' });
+        }
       }
 
       var particles = PARTICLES_PER_EXPLOSION;
@@ -330,6 +340,8 @@
     },
 
     _initFlow(container, text, config) {
+      container.classList.add('firework-content--flow');
+
       var track = document.createElement('div');
       track.className = 'firework-flow-track';
 
@@ -347,7 +359,7 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var flowSize = Math.floor(this._container.clientHeight * 0.6);
       track.querySelectorAll('.firework-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });

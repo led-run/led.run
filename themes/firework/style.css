@@ -67,9 +67,18 @@
   text-align: center;
 }
 
+.theme-firework .firework-content--flow {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  text-align: left;
+}
+
 /* SIGN mode text */
 .theme-firework .firework-sign-text {
-  color: #fff;
+  color: var(--firework-color, #fff);
   font-weight: 900;
   white-space: nowrap;
   user-select: none;
@@ -91,7 +100,7 @@
 }
 
 .theme-firework .firework-flow-text {
-  color: #fff;
+  color: var(--firework-color, #fff);
   font-weight: 900;
   white-space: nowrap;
   padding: 0 0.5em;
