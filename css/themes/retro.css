@@ -1,0 +1,103 @@
+/**
+ * Retro CRT Theme Styles
+ * Scanlines, vignette, and phosphor glow
+ */
+
+.theme-retro {
+  background-color: var(--retro-bg, #0d0d0d);
+  font-family: 'Courier New', 'Lucida Console', monospace;
+  position: relative;
+}
+
+/* Scanlines overlay */
+.theme-retro .retro-scanlines {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(0, 0, 0, 0.15) 0px,
+    rgba(0, 0, 0, 0.15) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  pointer-events: none;
+  z-index: 10;
+  animation: retro-scanline-move 8s linear infinite;
+}
+
+/* Vignette (darkened edges) */
+.theme-retro .retro-vignette {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 60%,
+    rgba(0, 0, 0, 0.5) 100%
+  );
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* SIGN mode */
+.theme-retro .retro-sign-text {
+  color: var(--retro-color, #33ff33);
+  font-weight: bold;
+  white-space: nowrap;
+  text-shadow:
+    0 0 5px var(--retro-color, #33ff33),
+    0 0 10px var(--retro-color, #33ff33);
+  user-select: none;
+  line-height: 1.1;
+  position: relative;
+  z-index: 5;
+  animation: retro-glow 2s ease-in-out infinite;
+}
+
+/* FLOW mode */
+.theme-retro .retro-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  position: relative;
+  z-index: 5;
+}
+
+.theme-retro .retro-flow-text {
+  color: var(--retro-color, #33ff33);
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  text-shadow:
+    0 0 5px var(--retro-color, #33ff33),
+    0 0 10px var(--retro-color, #33ff33);
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
+
+/* Phosphor glow animation */
+@keyframes retro-glow {
+  0%, 100% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.1);
+  }
+}
+
+/* Scanline scroll animation */
+@keyframes retro-scanline-move {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 0 100%;
+  }
+}

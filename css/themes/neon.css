@@ -1,0 +1,77 @@
+/**
+ * Neon Theme Styles
+ * Glowing neon sign with flicker and pulse animations
+ */
+
+.theme-neon {
+  background-color: var(--neon-bg, #0a0014);
+  font-family: 'Georgia', 'Times New Roman', serif;
+}
+
+/* SIGN mode */
+.theme-neon .neon-sign-text {
+  color: var(--neon-color, #ff00ff);
+  font-weight: bold;
+  white-space: nowrap;
+  text-shadow:
+    0 0 7px var(--neon-color, #ff00ff),
+    0 0 10px var(--neon-color, #ff00ff),
+    0 0 21px var(--neon-color, #ff00ff),
+    0 0 42px var(--neon-color, #ff00ff),
+    0 0 82px var(--neon-color, #ff00ff);
+  user-select: none;
+  line-height: 1.1;
+  animation: neon-breathe 3s ease-in-out infinite, neon-flicker 4s linear infinite;
+}
+
+/* FLOW mode */
+.theme-neon .neon-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.theme-neon .neon-flow-text {
+  color: var(--neon-color, #ff00ff);
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  text-shadow:
+    0 0 7px var(--neon-color, #ff00ff),
+    0 0 10px var(--neon-color, #ff00ff),
+    0 0 21px var(--neon-color, #ff00ff),
+    0 0 42px var(--neon-color, #ff00ff);
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+  animation: neon-breathe 3s ease-in-out infinite;
+}
+
+/* Breathe animation - gentle glow pulse */
+@keyframes neon-breathe {
+  0%, 100% {
+    opacity: 1;
+    filter: brightness(1);
+  }
+  50% {
+    opacity: 0.85;
+    filter: brightness(1.2);
+  }
+}
+
+/* Flicker animation - subtle random flicker */
+@keyframes neon-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+  }
+  20%, 21.999% {
+    opacity: 0.4;
+  }
+  63%, 63.999% {
+    opacity: 0.6;
+  }
+  65%, 69.999% {
+    opacity: 0.8;
+  }
+}
