@@ -1,0 +1,42 @@
+/**
+ * Default LED Theme Styles
+ * Classic LED sign: bold text with subtle glow
+ */
+
+.theme-default {
+  background-color: var(--led-bg, #000);
+  font-family: 'SF Mono', 'Fira Code', 'Roboto Mono', 'Menlo', 'Courier New', monospace;
+}
+
+/* SIGN mode: static centered text */
+.theme-default .led-sign-text {
+  color: var(--led-color, #00ff41);
+  font-weight: bold;
+  white-space: nowrap;
+  text-shadow:
+    0 0 10px var(--led-color, #00ff41),
+    0 0 20px color-mix(in srgb, var(--led-color, #00ff41) 40%, transparent);
+  user-select: none;
+  line-height: 1.1;
+}
+
+/* FLOW mode: scrolling track */
+.theme-default .led-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.theme-default .led-flow-text {
+  color: var(--led-color, #00ff41);
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  text-shadow:
+    0 0 10px var(--led-color, #00ff41),
+    0 0 20px color-mix(in srgb, var(--led-color, #00ff41) 40%, transparent);
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+}
