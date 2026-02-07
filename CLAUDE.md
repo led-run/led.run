@@ -19,8 +19,8 @@ All params are "preference hints" — themes decide whether to consume them.
 |-------|-------|------|-------------|
 | `theme` | `t` | string | Theme ID (default/neon/retro) |
 | `mode` | — | string | Display mode hint (sign/flow) |
-| `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit for alpha |
-| `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit for alpha |
+| `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
+| `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
 | `speed` | — | number | Scroll speed |
 | `direction` | `dir` | string | Scroll direction |
 | `font` | — | string | Font family |
