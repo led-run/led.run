@@ -17,6 +17,9 @@
   // Parameters that should always remain strings (never convert to number)
   const STRING_PARAMS = ['color', 'bg', 'theme', 'mode', 'direction', 'font'];
 
+  // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
+  const COLOR_PARAMS = ['color', 'bg'];
+
   const URLParser = {
     /**
      * Parse current URL
@@ -76,10 +79,25 @@
      * @returns {*}
      */
     _parseValue(value, key) {
+      if (COLOR_PARAMS.indexOf(key) !== -1) return this._normalizeColor(value);
       if (STRING_PARAMS.indexOf(key) !== -1) return value;
       if (value === 'true') return true;
       if (value === 'false') return false;
       if (/^\d+(\.\d+)?$/.test(value)) return parseFloat(value);
+      return value;
+    },
+
+    /**
+     * Normalize hex color value
+     * 6-digit (RRGGBB) passes through; 8-digit converts AARRGGBB → RRGGBBAA for CSS
+     * @private
+     * @param {string} value - Hex color string (no #)
+     * @returns {string}
+     */
+    _normalizeColor(value) {
+      if (/^[0-9a-fA-F]{8}$/.test(value)) {
+        return value.slice(2) + value.slice(0, 2);
+      }
       return value;
     }
   };
