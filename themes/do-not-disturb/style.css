@@ -1,0 +1,203 @@
+/**
+ * Do Not Disturb Theme Styles
+ * High-end skeuomorphic "ON AIR" style light box
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
+.theme-do-not-disturb {
+  --dnd-color: #f00;
+  --dnd-color-bg: #900;
+  --dnd-bg: #121212;
+  background-color: var(--dnd-bg);
+  background-image: 
+    radial-gradient(circle at center, rgba(60, 60, 60, 0.2) 0%, rgba(0, 0, 0, 0.4) 100%),
+    repeating-radial-gradient(circle at 0 0, rgba(255,255,255,0.01) 0, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 100%);
+  background-size: 100% 100%, 3px 3px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  perspective: 1000px;
+}
+
+/* The Light Box Container */
+.dnd-box {
+  position: relative;
+  padding: 40px 60px;
+  background: #0a0a0a;
+  border-radius: 8px;
+  max-width: 90vw;
+  max-height: 80vh;
+  box-shadow: 
+    /* Outer frame depth */
+    0 0 0 4px #333,
+    0 0 0 8px #444,
+    0 0 0 12px #222,
+    /* Ambient occlusion */
+    0 30px 60px rgba(0,0,0,0.8),
+    /* Internal glow spill */
+    0 0 100px var(--dnd-color-bg);
+  
+  /* Brushed Metal Frame Effect */
+  border: 2px solid #555;
+  background-image: linear-gradient(135deg, #222 0%, #111 100%);
+}
+
+.dnd-box::before {
+  content: '';
+  position: absolute;
+  top: -15px; left: -15px; right: -15px; bottom: -15px;
+  border-radius: 12px;
+  background: 
+    repeating-linear-gradient(90deg, 
+      rgba(255,255,255,0.05) 0px, 
+      rgba(255,255,255,0.05) 1px, 
+      transparent 1px, 
+      transparent 2px),
+    linear-gradient(135deg, 
+      #888 0%, 
+      #444 15%, 
+      #aaa 20%, 
+      #555 35%, 
+      #ccc 50%, 
+      #444 65%, 
+      #888 85%, 
+      #555 100%);
+  z-index: -1;
+  box-shadow: 
+    inset 0 2px 3px rgba(255,255,255,0.5), 
+    inset 0 -2px 3px rgba(0,0,0,0.5),
+    0 10px 30px rgba(0,0,0,0.6);
+}
+
+/* Screws */
+.dnd-screw {
+  position: absolute;
+  width: 12px;
+  height: 12px;
+  background: radial-gradient(circle at 30% 30%, #999, #333);
+  border-radius: 50%;
+  box-shadow: 1px 1px 2px rgba(0,0,0,0.5), inset -1px -1px 1px rgba(0,0,0,0.3);
+}
+
+.dnd-screw::after {
+  content: '';
+  position: absolute;
+  top: 50%; left: 10%; right: 10%;
+  height: 2px;
+  background: rgba(0,0,0,0.4);
+  transform: translateY(-50%) rotate(45deg);
+}
+
+.screw-tl { top: -8px; left: -8px; }
+.screw-tr { top: -8px; right: -8px; }
+.screw-bl { bottom: -8px; left: -8px; }
+.screw-br { bottom: -8px; right: -8px; }
+
+/* Glass Front */
+.dnd-glass {
+  position: relative;
+  background: var(--dnd-color-bg);
+  padding: 20px 40px;
+  border-radius: 4px;
+  overflow: hidden;
+  box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dnd-glass::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: rgba(0, 0, 0, 0.4); /* Darkens the glass base color */
+  z-index: 0;
+}
+
+.dnd-glass::after {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: linear-gradient(135deg, 
+    rgba(255,255,255,0.15) 0%, 
+    rgba(255,255,255,0) 40%, 
+    rgba(255,255,255,0) 60%, 
+    rgba(255,255,255,0.05) 100%);
+  pointer-events: none;
+}
+
+/* Text Styling */
+.dnd-text {
+  position: relative;
+  z-index: 1;
+  color: #fff;
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  white-space: nowrap;
+  user-select: none;
+  text-align: center;
+  
+  /* Intense Glow */
+  text-shadow: 
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px var(--dnd-color),
+    0 0 40px var(--dnd-color),
+    0 0 60px var(--dnd-color);
+  
+  animation: 
+    dnd-glow 2s ease-in-out infinite alternate,
+    dnd-flicker 5s linear infinite;
+}
+
+/* Subtle pulse animation for the light */
+@keyframes dnd-glow {
+  from {
+    opacity: 0.9;
+    text-shadow: 
+      0 0 10px rgba(255, 255, 255, 0.7),
+      0 0 20px var(--dnd-color),
+      0 0 30px var(--dnd-color);
+  }
+  to {
+    opacity: 1;
+    text-shadow: 
+      0 0 15px rgba(255, 255, 255, 1),
+      0 0 30px var(--dnd-color),
+      0 0 50px var(--dnd-color),
+      0 0 70px var(--dnd-color);
+  }
+}
+
+@keyframes dnd-flicker {
+  0%, 19.999%, 22%, 62.999%, 64%, 64.999%, 70%, 100% {
+    opacity: 1;
+  }
+  20%, 21.999%, 63%, 63.999%, 65%, 69.999% {
+    opacity: 0.85;
+  }
+}
+
+/* Small status indicator lights */
+.dnd-indicators {
+  position: absolute;
+  bottom: 15px;
+  right: 25px;
+  display: flex;
+  gap: 8px;
+}
+
+.dnd-indicator {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #333;
+}
+
+.dnd-indicator.active {
+  background: var(--dnd-color);
+  box-shadow: 0 0 5px var(--dnd-color);
+}
