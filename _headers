@@ -9,3 +9,6 @@
 
 /js/*
   Cache-Control: public, max-age=86400
+
+/themes/*
+  Cache-Control: public, max-age=86400
