@@ -1,0 +1,64 @@
+/**
+ * Marquee Theme Styles
+ * Broadway-style chase light bulbs border
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;900&display=swap');
+
+.theme-marquee {
+  background-color: var(--marquee-bg, #1a0a00);
+  font-family: 'Playfair Display', 'Georgia', 'Times New Roman', serif;
+  overflow: hidden;
+}
+
+/* Canvas for bulb border */
+.theme-marquee .marquee-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 1;
+  pointer-events: none;
+}
+
+/* SIGN mode text */
+.theme-marquee .marquee-sign-text {
+  color: var(--marquee-color, #ffd700);
+  font-weight: 900;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  z-index: 2;
+  position: relative;
+  text-shadow:
+    0 0 5px rgba(255, 215, 0, 0.6),
+    0 0 15px rgba(255, 170, 0, 0.4),
+    0 0 30px rgba(255, 140, 0, 0.2);
+}
+
+/* FLOW mode */
+.theme-marquee .marquee-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  z-index: 2;
+  position: relative;
+}
+
+.theme-marquee .marquee-flow-text {
+  color: var(--marquee-color, #ffd700);
+  font-weight: 900;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+  letter-spacing: 0.1em;
+  text-shadow:
+    0 0 5px rgba(255, 215, 0, 0.6),
+    0 0 15px rgba(255, 170, 0, 0.4),
+    0 0 30px rgba(255, 140, 0, 0.2);
+}
