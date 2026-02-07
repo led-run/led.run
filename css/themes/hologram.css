@@ -1,0 +1,129 @@
+/**
+ * Hologram Theme Styles
+ * Chromatic aberration, scanline sweep, translucent flicker, sci-fi blue
+ */
+
+.theme-hologram {
+  background-color: var(--holo-bg, #020a14);
+  font-family: 'Orbitron', 'Rajdhani', 'Arial', sans-serif;
+  position: relative;
+}
+
+/* Scanline sweep overlay */
+.theme-hologram .holo-scanline {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    180deg,
+    transparent 0%,
+    transparent 45%,
+    rgba(0, 212, 255, 0.06) 48%,
+    rgba(0, 212, 255, 0.12) 50%,
+    rgba(0, 212, 255, 0.06) 52%,
+    transparent 55%,
+    transparent 100%
+  );
+  background-size: 100% 200%;
+  pointer-events: none;
+  z-index: 10;
+  animation: holo-scan 5s linear infinite;
+}
+
+/* SIGN mode */
+.theme-hologram .holo-sign-text {
+  color: var(--holo-color, #00d4ff);
+  font-weight: bold;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  position: relative;
+  z-index: 5;
+  opacity: 0.9;
+  text-shadow:
+    0 0 10px var(--holo-color, #00d4ff),
+    0 0 20px var(--holo-color, #00d4ff),
+    0 0 40px rgba(0, 212, 255, 0.3);
+  animation: holo-flicker 4s linear infinite;
+}
+
+.theme-hologram .holo-sign-text::before,
+.theme-hologram .holo-sign-text::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  font-size: inherit;
+  font-family: inherit;
+  font-weight: inherit;
+  line-height: inherit;
+  white-space: nowrap;
+  z-index: -1;
+}
+
+.theme-hologram .holo-sign-text::before {
+  color: rgba(255, 50, 50, 0.35);
+  transform: translateX(-2px) translateY(1px);
+  text-shadow: none;
+}
+
+.theme-hologram .holo-sign-text::after {
+  color: rgba(50, 50, 255, 0.35);
+  transform: translateX(2px) translateY(-1px);
+  text-shadow: none;
+}
+
+/* FLOW mode */
+.theme-hologram .holo-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  position: relative;
+  z-index: 5;
+}
+
+.theme-hologram .holo-flow-text {
+  color: var(--holo-color, #00d4ff);
+  font-weight: bold;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1.1;
+  opacity: 0.9;
+  text-shadow:
+    0 0 10px var(--holo-color, #00d4ff),
+    0 0 20px var(--holo-color, #00d4ff),
+    0 0 40px rgba(0, 212, 255, 0.3),
+    2px 0 rgba(255, 50, 50, 0.3),
+    -2px 0 rgba(50, 50, 255, 0.3);
+  animation: holo-flicker 4s linear infinite;
+}
+
+/* Scanline sweep animation */
+@keyframes holo-scan {
+  0% { background-position: 0 -100%; }
+  100% { background-position: 0 100%; }
+}
+
+/* Subtle irregular flicker */
+@keyframes holo-flicker {
+  0%, 100% { opacity: 0.9; }
+  5% { opacity: 0.85; }
+  10% { opacity: 0.92; }
+  15% { opacity: 0.88; }
+  30% { opacity: 0.95; }
+  35% { opacity: 0.86; }
+  50% { opacity: 0.9; }
+  55% { opacity: 0.93; }
+  70% { opacity: 0.87; }
+  75% { opacity: 0.95; }
+  80% { opacity: 0.9; }
+  90% { opacity: 0.92; }
+  95% { opacity: 0.85; }
+}
