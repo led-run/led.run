@@ -1,0 +1,126 @@
+/**
+ * Cyber Theme Styles
+ * High-tech terminal / HUD / Matrix aesthetic
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@700&family=Share+Tech+Mono&display=swap');
+
+.theme-cyber {
+  background-color: var(--cyber-bg, #050a05);
+  background-image: 
+    linear-gradient(rgba(0, 255, 0, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0, 255, 0, 0.05) 1px, transparent 1px);
+  background-size: 50px 50px;
+  font-family: 'JetBrains Mono', 'Share Tech Mono', 'SF Mono', 'Fira Code', monospace;
+  overflow: hidden;
+  position: relative;
+}
+
+/* CRT Scanline Effect Overlay */
+.theme-cyber::before {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  ), linear-gradient(
+    90deg, 
+    rgba(255, 0, 0, 0.06), 
+    rgba(0, 255, 0, 0.02), 
+    rgba(0, 0, 255, 0.06)
+  );
+  z-index: 2;
+  background-size: 100% 2px, 3px 100%;
+  pointer-events: none;
+}
+
+/* Scanning line */
+.theme-cyber::after {
+  content: " ";
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: rgba(0, 255, 0, 0.1);
+  box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+  z-index: 3;
+  opacity: 0.3;
+  pointer-events: none;
+  animation: cyber-scan 6s linear infinite;
+}
+
+.theme-cyber .cyber-sign-text,
+.theme-cyber .cyber-flow-text {
+  color: var(--cyber-color, #00ff00);
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  
+  /* Sharp Digital Glow */
+  text-shadow:
+    0 0 5px var(--cyber-color, #00ff00),
+    0 0 10px rgba(0, 255, 0, 0.5),
+    0 0 20px rgba(0, 255, 0, 0.3);
+    
+  animation: cyber-flicker 0.01s infinite;
+  position: relative;
+  z-index: 1;
+}
+
+/* FLOW mode specific */
+.theme-cyber .cyber-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.theme-cyber .cyber-flow-text {
+  padding: 0 0.5em;
+  flex-shrink: 0;
+}
+
+/* Decorations */
+.cyber-decoration {
+  position: absolute;
+  font-family: 'Share Tech Mono', monospace;
+  font-size: 12px;
+  color: rgba(0, 255, 0, 0.3);
+  pointer-events: none;
+}
+
+/* Animations */
+
+@keyframes cyber-scan {
+  0% { top: -5%; }
+  100% { top: 105%; }
+}
+
+@keyframes cyber-flicker {
+  0% { opacity: 0.99; }
+  50% { opacity: 1; }
+  100% { opacity: 0.98; }
+}
+
+/* Glitch for Cyber theme (subtle) */
+@keyframes cyber-glitch {
+  0% { transform: translate(0); }
+  2% { transform: translate(-2px, 1px); }
+  4% { transform: translate(2px, -1px); }
+  6% { transform: translate(0); }
+  100% { transform: translate(0); }
+}
+
+.theme-cyber .cyber-glitch-active {
+  animation: cyber-glitch 0.3s ease-in-out;
+}

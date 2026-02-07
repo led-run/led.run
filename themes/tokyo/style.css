@@ -1,0 +1,116 @@
+/**
+ * Tokyo Theme Styles
+ * Cinematic night city aesthetic - Cyberpunk but high-fidelity
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
+
+.theme-tokyo {
+  background-color: #050508;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Rain Effect on Glass Overlay */
+.tokyo-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 5;
+  pointer-events: none;
+  background: transparent;
+  opacity: 0.4;
+}
+
+/* Background City Glows */
+.tokyo-glow {
+  position: absolute;
+  width: 600px;
+  height: 600px;
+  border-radius: 50%;
+  filter: blur(120px);
+  z-index: 0;
+  opacity: 0.15;
+  animation: tokyo-glow-pulse 8s infinite alternate ease-in-out;
+}
+
+.tokyo-glow-1 { background: #ff0055; top: -100px; left: -100px; }
+.tokyo-glow-2 { background: #0088ff; bottom: -100px; right: -100px; animation-delay: -4s; }
+
+.theme-tokyo .tokyo-sign-text,
+.theme-tokyo .tokyo-flow-text {
+  font-family: 'Oswald', sans-serif;
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1;
+  text-transform: uppercase;
+  letter-spacing: -0.02em;
+  
+  color: #fff;
+  /* Multi-layered glow for "quality" feel */
+  text-shadow:
+    0 0 10px rgba(255, 255, 255, 0.8),
+    0 0 20px var(--tokyo-color, #ff0055),
+    0 0 40px var(--tokyo-color, #ff0055),
+    0 0 80px var(--tokyo-color, #ff0055),
+    0 0 120px var(--tokyo-color, #ff0055);
+    
+  position: relative;
+  z-index: 2;
+}
+
+/* Reflection / Lens Flare */
+.tokyo-flare {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, transparent, #fff, transparent);
+  z-index: 3;
+  opacity: 0.3;
+  filter: blur(2px);
+  pointer-events: none;
+  animation: tokyo-flare-move 10s infinite linear;
+}
+
+/* Vertical Text Decorations (Japanese Kanji/Katakana feel) */
+.tokyo-decoration {
+  position: absolute;
+  writing-mode: vertical-rl;
+  font-family: serif;
+  font-size: 14px;
+  color: var(--tokyo-color, #ff0055);
+  opacity: 0.3;
+  z-index: 1;
+  letter-spacing: 0.5em;
+  pointer-events: none;
+}
+
+/* Animations */
+
+@keyframes tokyo-glow-pulse {
+  from { transform: scale(1); opacity: 0.1; }
+  to { transform: scale(1.3); opacity: 0.25; }
+}
+
+@keyframes tokyo-flare-move {
+  0% { transform: translateY(-100vh); }
+  100% { transform: translateY(100vh); }
+}
+
+@keyframes tokyo-text-flicker {
+  0%, 90%, 100% { opacity: 1; filter: brightness(1); }
+  92% { opacity: 0.8; filter: brightness(1.5); }
+  94% { opacity: 1; }
+  96% { opacity: 0.5; }
+  98% { opacity: 1; }
+}
+
+.theme-tokyo .tokyo-flicker {
+  animation: tokyo-text-flicker 5s infinite;
+}

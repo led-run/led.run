@@ -1,0 +1,92 @@
+/**
+ * Monolith Theme Styles
+ * Brutalist / Industrial / High-contrast aesthetic
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
+
+.theme-monolith {
+  background-color: #fff;
+  color: #000;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: 'Inter', sans-serif;
+}
+
+/* Texture Overlay */
+.monolith-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0.05;
+    pointer-events: none;
+    z-index: 10;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+}
+
+.theme-monolith .monolith-sign-text,
+.theme-monolith .monolith-flow-text {
+  font-weight: 900;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 0.9;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+  
+  color: #000;
+  position: relative;
+  z-index: 2;
+}
+
+/* Massive background text decoration */
+.monolith-bg-text {
+    position: absolute;
+    font-size: 40vh;
+    font-weight: 900;
+    color: rgba(0,0,0,0.03);
+    white-space: nowrap;
+    z-index: 0;
+    pointer-events: none;
+    line-height: 1;
+}
+
+/* Animations */
+
+.monolith-split {
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+@keyframes monolith-slide-up {
+    0% { transform: translateY(100%); }
+    100% { transform: translateY(0); }
+}
+
+.monolith-reveal {
+    animation: monolith-slide-up 1.2s cubic-bezier(0.77, 0, 0.175, 1) forwards;
+}
+
+/* Progress bar at bottom */
+.monolith-progress {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    height: 10px;
+    background: #000;
+    width: 0;
+    z-index: 5;
+    animation: monolith-progress-anim 5s infinite ease-in-out;
+}
+
+@keyframes monolith-progress-anim {
+    0% { width: 0%; left: 0; }
+    50% { width: 100%; left: 0; }
+    50.1% { width: 100%; left: auto; right: 0; }
+    100% { width: 0%; left: auto; right: 0; }
+}

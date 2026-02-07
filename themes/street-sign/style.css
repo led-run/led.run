@@ -1,0 +1,135 @@
+/**
+ * Street Sign Theme Styles (V5: High-Precision Icons)
+ * Added support for industrial SVG traffic arrows.
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@600;800&display=swap');
+
+.theme-street-sign {
+  --sign-base: var(--sign-color, #003884);
+  background-color: var(--sign-base);
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  
+  background-image: 
+    repeating-linear-gradient(60deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px),
+    repeating-linear-gradient(-60deg, rgba(255,255,255,0.03) 0px, rgba(255,255,255,0.03) 1px, transparent 1px, transparent 4px);
+}
+
+.theme-street-sign::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    border: 4px solid rgba(255, 255, 255, 0.2);
+    box-shadow: inset 0 0 40px rgba(0,0,0,0.3);
+    z-index: 10;
+    pointer-events: none;
+}
+
+.sign-rivet {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    background: radial-gradient(circle at 35% 35%, #fff 0%, #888 40%, #444 100%);
+    border-radius: 50%;
+    box-shadow: 2px 4px 8px rgba(0,0,0,0.4);
+    z-index: 11;
+    opacity: 0.8;
+}
+.rivet-tl { top: 20px; left: 20px; }
+.rivet-tr { top: 20px; right: 20px; }
+.rivet-bl { bottom: 20px; left: 20px; }
+.rivet-br { bottom: 20px; right: 20px; }
+
+.sign-wrapper {
+    position: relative;
+    width: 90%;
+    height: 85%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 5;
+}
+
+.sign-exit-tag {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background: #ffcc00;
+    color: #000;
+    font-family: 'Inter', sans-serif;
+    font-weight: 800;
+    font-size: 4vw;
+    padding: 1vh 3vw;
+    border-radius: 4px;
+    border: 0.8vh solid #fff;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+    text-transform: uppercase;
+}
+
+/* SVG Arrow Styling */
+.sign-arrow-svg {
+    width: 15vh;
+    height: 15vh;
+    fill: #fff;
+    margin-bottom: 2vh;
+    filter: drop-shadow(0 4px 8px rgba(0,0,0,0.3));
+}
+
+.theme-street-sign .sign-text-main {
+    font-family: 'Inter', sans-serif;
+    color: #fff;
+    font-weight: 800;
+    text-transform: uppercase;
+    text-align: center;
+    line-height: 1;
+    letter-spacing: -0.02em;
+    filter: drop-shadow(0 2px 2px rgba(0,0,0,0.2));
+}
+
+.sign-sub-label {
+    width: 80%;
+    margin-top: 4vh;
+    padding-top: 3vh;
+    border-top: 1vh solid #fff;
+    color: #fff;
+    font-size: 5vh;
+    font-weight: 400;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 0.4em;
+    opacity: 0.9;
+}
+
+.sign-full-glare {
+    position: absolute;
+    top: 0; left: -150%;
+    width: 100%; height: 100%;
+    background: linear-gradient(
+        110deg,
+        transparent 0%,
+        rgba(255,255,255,0) 45%,
+        rgba(255,255,255, var(--glare-opacity, 0.1)) 50%,
+        rgba(255,255,255,0) 55%,
+        transparent 100%
+    );
+    z-index: 8;
+    pointer-events: none;
+    animation: full-glare-anim 15s infinite linear;
+}
+
+@keyframes full-glare-anim {
+    0% { left: -150%; }
+    15% { left: 150%; }
+    100% { left: 150%; }
+}
+

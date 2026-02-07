@@ -17,7 +17,11 @@
     { text: 'SALE', icon: '🏷️', desc: 'Sale announcement', params: '?c=ff0000' },
     { text: 'DO NOT DISTURB', icon: '🔕', desc: 'Privacy sign', params: '?c=ff4444&bg=1a1a1a' },
     { text: 'MOOD', icon: '💜', desc: 'Mood ambient', params: '?t=pulse' },
-    { text: 'OPEN', icon: '🪵', desc: 'Cafe wood sign', params: '?t=wood' }
+    { text: 'OPEN', icon: '🪵', desc: 'Cafe wood sign', params: '?t=wood' },
+    { text: 'TOKYO', icon: '🗼', desc: 'Cinematic night', params: '?t=tokyo' },
+    { text: 'DRAFT', icon: '📐', desc: 'Blueprint tech', params: '?t=blueprint' },
+    { text: 'BOLD', icon: '🗿', desc: 'Brutalist monolith', params: '?t=monolith' },
+    { text: 'WALL ST', icon: '🛣️', desc: 'Street sign', params: '?t=street-sign' }
   ];
 
   var App = {
@@ -146,6 +150,10 @@
       html += '<span class="usage-example">led.run/✨?t=aurora</span>';
       html += '<span class="usage-example">led.run/PARTY?t=firework</span>';
       html += '<span class="usage-example">led.run/OPEN?t=wood</span>';
+      html += '<span class="usage-example">led.run/CITY?t=tokyo</span>';
+      html += '<span class="usage-example">led.run/TECH?t=blueprint</span>';
+      html += '<span class="usage-example">led.run/BOLD?t=monolith</span>';
+      html += '<span class="usage-example">led.run/WAY?t=street-sign</span>';
       html += '</div>';
       html += '</section>';
 

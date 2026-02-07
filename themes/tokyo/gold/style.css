@@ -1,0 +1,112 @@
+/**
+ * Gold Theme Styles
+ * Luxury / Premium / Metallic aesthetic
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,700&display=swap');
+
+.theme-gold {
+  background-color: var(--gold-bg, #0a0a0a);
+  background-image: radial-gradient(circle at center, #1a1a1a 0%, #050505 100%);
+  font-family: 'Playfair Display', serif;
+  overflow: hidden;
+  position: relative;
+}
+
+.theme-gold .gold-sign-text,
+.theme-gold .gold-flow-text {
+  color: #d4af37; /* Metallic Gold Base */
+  font-weight: 700;
+  white-space: nowrap;
+  user-select: none;
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  
+  /* Multi-layered gradient and reflection effect */
+  background: linear-gradient(
+    to bottom,
+    #cf9533 0%,
+    #ffdb7b 22%,
+    #cf9533 45%,
+    #ffdb7b 50%,
+    #cf9533 55%,
+    #5d4a1f 78%,
+    #cf9533 100%
+  );
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  
+  filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.5)) 
+          drop-shadow(0 0 10px rgba(212, 175, 55, 0.3));
+  
+  position: relative;
+  z-index: 1;
+}
+
+/* Shimmer Highlight Overlay */
+.theme-gold .gold-shimmer-container {
+    position: relative;
+    display: inline-block;
+}
+
+.theme-gold .gold-shimmer-container::after {
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+        120deg,
+        transparent 0%,
+        transparent 40%,
+        rgba(255, 255, 255, 0.8) 50%,
+        transparent 60%,
+        transparent 100%
+    );
+    background-size: 200% 100%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: gold-shimmer 4s infinite linear;
+    pointer-events: none;
+}
+
+/* FLOW mode specific */
+.theme-gold .gold-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+}
+
+.theme-gold .gold-flow-text {
+  padding: 0 0.5em;
+  flex-shrink: 0;
+}
+
+/* Sparkle particles */
+.gold-sparkle {
+    position: absolute;
+    width: 4px;
+    height: 4px;
+    background: white;
+    border-radius: 50%;
+    box-shadow: 0 0 10px 2px white, 0 0 20px 5px #ffd700;
+    pointer-events: none;
+    z-index: 2;
+    animation: gold-sparkle-anim 1s ease-out forwards;
+}
+
+/* Animations */
+
+@keyframes gold-shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+@keyframes gold-sparkle-anim {
+    0% { transform: scale(0) rotate(0deg); opacity: 0; }
+    50% { transform: scale(1.5) rotate(180deg); opacity: 1; }
+    100% { transform: scale(0) rotate(360deg); opacity: 0; }
+}
