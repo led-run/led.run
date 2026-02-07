@@ -10,18 +10,14 @@
 
   // Preset cards for landing page
   var PRESETS = [
-    { text: 'OPEN', icon: '💡', desc: 'Marquee lights', params: '?t=marquee' },
-    { text: 'ON AIR', icon: '🔴', desc: 'Studio broadcast', params: '?t=broadcast' },
-    { text: 'HELLO', icon: '👋', desc: 'Friendly greeting' },
-    { text: 'Welcome!', icon: '🎉', desc: 'Welcome visitors' },
-    { text: 'SALE', icon: '🏷️', desc: 'Sale announcement', params: '?c=ff0000' },
-    { text: '勿扰', icon: '🤫', desc: 'Skeuomorphic sign', params: '?t=do-not-disturb' },
-    { text: 'MOOD', icon: '💜', desc: 'Mood ambient', params: '?t=pulse' },
-    { text: 'OPEN', icon: '🪵', desc: 'Cafe wood sign', params: '?t=wood' },
-    { text: 'TOKYO', icon: '🗼', desc: 'Cinematic night', params: '?t=tokyo' },
-    { text: 'DRAFT', icon: '📐', desc: 'Blueprint tech', params: '?t=blueprint' },
-    { text: 'BOLD', icon: '🗿', desc: 'Brutalist monolith', params: '?t=monolith' },
-    { text: 'WALL ST', icon: '🛣️', desc: 'Street sign', params: '?t=street-sign' }
+    { text: 'DO NOT DISTURB', icon: '🤫', desc: 'Professional studio-grade privacy sign with high-fidelity textures.', params: '?t=do-not-disturb' },
+    { text: 'NEON NIGHT', icon: '🏮', desc: 'Vibrant gas-tube effect with realistic flicker and transformer hum.', params: '?t=neon&c=ff00ff' },
+    { text: 'BROADCAST', icon: '🔴', desc: 'Classic "ON AIR" studio light with soft glow and clean typography.', params: '?t=broadcast' },
+    { text: 'CYBERPUNK', icon: '📟', desc: 'High-tech terminal aesthetic with glitch effects and grid overlays.', params: '?t=cyber' },
+    { text: 'STREET SIGN', icon: '🛣️', desc: 'Authentic city road sign with reflective coating and metal textures.', params: '?t=street-sign' },
+    { text: 'MARQUEE', icon: '💡', desc: 'Vintage theater light bulbs with sequential chase animations.', params: '?t=marquee' },
+    { text: 'GRAND CAFE', icon: '🪵', desc: 'Luxury handcrafted wood board with premium gold leaf lettering.', params: '?t=wood' },
+    { text: 'BLUEPRINT', icon: '📐', desc: 'Technical architectural drawing style with grid lines and ink feel.', params: '?t=blueprint' }
   ];
 
   var App = {
@@ -89,7 +85,7 @@
      * @private
      */
     _showLanding() {
-      document.title = 'led.run — Digital Signage';
+      document.title = 'led.run — Minimal Digital Signage';
       document.body.style.overflow = 'auto';
 
       var container = this._container;
@@ -103,22 +99,24 @@
       // Header
       html += '<header class="landing-header">';
       html += '<div class="landing-logo">led.run</div>';
-      html += '<div class="landing-tagline">Digital Signage</div>';
-      html += '<div class="landing-tagline-sub">URL is your sign. No app needed.</div>';
+      html += '<h1 class="landing-tagline">Your browser is now a digital sign.</h1>';
+      html += '<p class="landing-tagline-sub">Type a message, pick a theme, and go full screen. Simple, fast, and open source.</p>';
       html += '</header>';
 
-      // Input section
+      // Input Section
       html += '<section class="landing-input-section">';
       html += '<div class="url-preview">';
+      html += '<div class="url-input-wrapper">';
       html += '<span class="url-prefix">led.run/</span>';
-      html += '<input class="url-input" type="text" placeholder="YOUR TEXT HERE" autocomplete="off" spellcheck="false">';
-      html += '<button class="url-go">GO</button>';
+      html += '<input class="url-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false">';
+      html += '</div>';
+      html += '<button class="url-go">Launch</button>';
       html += '</div>';
       html += '</section>';
 
-      // Preset cards
+      // Presets
       html += '<section class="presets-section">';
-      html += '<div class="presets-title">Quick Start</div>';
+      html += '<div class="presets-title">Featured Themes</div>';
       html += '<div class="presets-grid">';
       PRESETS.forEach(function(p) {
         var href = '/' + encodeURIComponent(p.text) + (p.params || '');
@@ -131,36 +129,16 @@
       html += '</div>';
       html += '</section>';
 
-      // Usage examples
-      html += '<section class="usage-section">';
-      html += '<div class="usage-title">Examples</div>';
-      html += '<div class="usage-examples">';
-      html += '<span class="usage-example">led.run/OPEN</span>';
-      html += '<span class="usage-example">led.run/Hello?t=neon</span>';
-      html += '<span class="usage-example">led.run/SALE?c=ff0000</span>';
-      html += '<span class="usage-example">led.run/Welcome!?mode=flow</span>';
-      html += '<span class="usage-example">led.run/你好?t=retro</span>';
-      html += '<span class="usage-example">led.run/ERROR?t=glitch</span>';
-      html += '<span class="usage-example">led.run/Hello?t=typewriter</span>';
-      html += '<span class="usage-example">led.run/RAINBOW?t=gradient</span>';
-      html += '<span class="usage-example">led.run/FUTURE?t=hologram</span>';
-      html += '<span class="usage-example">led.run/ON AIR?t=broadcast</span>';
-      html += '<span class="usage-example">led.run/OPEN?t=marquee</span>';
-      html += '<span class="usage-example">led.run/MOOD?t=pulse</span>';
-      html += '<span class="usage-example">led.run/✨?t=aurora</span>';
-      html += '<span class="usage-example">led.run/PARTY?t=firework</span>';
-      html += '<span class="usage-example">led.run/OPEN?t=wood</span>';
-      html += '<span class="usage-example">led.run/CITY?t=tokyo</span>';
-      html += '<span class="usage-example">led.run/TECH?t=blueprint</span>';
-      html += '<span class="usage-example">led.run/BOLD?t=monolith</span>';
-      html += '<span class="usage-example">led.run/WAY?t=street-sign</span>';
-      html += '<span class="usage-example">led.run/勿扰?t=do-not-disturb</span>';
-      html += '</div>';
-      html += '</section>';
-
       // Footer
       html += '<footer class="landing-footer">';
-      html += '<a href="https://github.com/nicely-gg/led.run">GitHub</a>';
+      html += '<div class="footer-info">';
+      html += '<b>led.run</b> — MIT Licensed Open Source Project.<br>';
+      html += 'Copyright © 2026 led.run. Built for speed.';
+      html += '</div>';
+      html += '<div class="footer-links">';
+      html += '<a href="https://github.com/led-run/led.run">GitHub</a>';
+      html += '<a href="https://github.com/led-run/led.run/blob/main/LICENSE">License</a>';
+      html += '</div>';
       html += '</footer>';
 
       html += '</div>';
