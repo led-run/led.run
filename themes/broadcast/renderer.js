@@ -80,6 +80,11 @@
         });
         while (container.firstChild) scaleWrap.appendChild(container.firstChild);
         container.appendChild(scaleWrap);
+        scaleWrap.style.backgroundColor = '#' + this.defaults.bg;
+        container.style.background = 'transparent';
+        if (config.bg && config.bg !== this.defaults.bg) {
+          container.style.backgroundColor = '#' + config.bg;
+        }
       }
     },
 
