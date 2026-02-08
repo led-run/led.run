@@ -49,14 +49,14 @@
       toolbar.className = 'sign-toolbar';
 
       var castBtn = (typeof Cast !== 'undefined' && Cast.isSupported())
-        ? '<button class="sign-toolbar-btn" data-action="cast" aria-label="Cast to display">' + ICON_CAST + '</button>'
+        ? '<button class="sign-toolbar-btn" data-action="cast" aria-label="' + I18n.t('toolbar.cast') + '">' + ICON_CAST + '</button>'
         : '';
 
       toolbar.innerHTML =
-        '<button class="sign-toolbar-btn" data-action="fullscreen" aria-label="Toggle fullscreen">' + ICON_FULLSCREEN_ENTER + '</button>' +
-        '<button class="sign-toolbar-btn" data-action="rotate" aria-label="Rotate display">' + ICON_ROTATE + '</button>' +
+        '<button class="sign-toolbar-btn" data-action="fullscreen" aria-label="' + I18n.t('toolbar.fullscreen') + '">' + ICON_FULLSCREEN_ENTER + '</button>' +
+        '<button class="sign-toolbar-btn" data-action="rotate" aria-label="' + I18n.t('toolbar.rotate') + '">' + ICON_ROTATE + '</button>' +
         castBtn +
-        '<button class="sign-toolbar-btn" data-action="share" aria-label="Share link">' + ICON_SHARE + '</button>';
+        '<button class="sign-toolbar-btn" data-action="share" aria-label="' + I18n.t('toolbar.share') + '">' + ICON_SHARE + '</button>';
 
       // Toast
       var toast = document.createElement('div');
@@ -169,16 +169,16 @@
 
       if (Cast.isCasting()) {
         Cast.stop();
-        self._showToast('Cast stopped');
+        self._showToast(I18n.t('toolbar.toast.castStopped'));
         return;
       }
 
       Cast.start().then(function() {
-        self._showToast('Casting...');
+        self._showToast(I18n.t('toolbar.toast.casting'));
       }).catch(function(err) {
         // User cancelled device chooser — not an error
         if (err && err.name !== 'NotAllowedError') {
-          self._showToast('Cast failed');
+          self._showToast(I18n.t('toolbar.toast.castFailed'));
         }
       });
     },
@@ -201,7 +201,7 @@
       // Fallback: clipboard
       if (navigator.clipboard && navigator.clipboard.writeText) {
         navigator.clipboard.writeText(url).then(function() {
-          self._showToast('Link copied!');
+          self._showToast(I18n.t('toolbar.toast.linkCopied'));
         }).catch(function() {
           self._fallbackCopy(url);
         });
@@ -226,9 +226,9 @@
 
       try {
         document.execCommand('copy');
-        this._showToast('Link copied!');
+        this._showToast(I18n.t('toolbar.toast.linkCopied'));
       } catch (e) {
-        this._showToast('Copy failed');
+        this._showToast(I18n.t('toolbar.toast.copyFailed'));
       }
 
       document.body.removeChild(textarea);
