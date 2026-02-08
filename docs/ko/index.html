@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>문서 — led.run</title>
+  <meta name="description" content="led.run 전체 문서 — URL 프로토콜, 글로벌 매개변수, 테마 레퍼런스 및 인터랙션.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+  <div class="docs">
+
+    <!-- Header -->
+    <header class="docs-header">
+      <div class="docs-header-left">
+        <a href="/" class="docs-logo">
+          <span class="docs-logo-dot"></span>
+          led.run
+        </a>
+        <span class="docs-header-title">문서</span>
+      </div>
+      <div class="docs-lang-switcher">
+        <a href="/docs/">EN</a>
+        <a href="/docs/zh/">中文</a>
+        <a href="/docs/ja/">日本語</a>
+        <span class="docs-lang-current">한국어</span>
+        <a href="/docs/es/">ES</a>
+        <a href="/docs/fr/">FR</a>
+        <a href="/docs/de/">DE</a>
+      </div>
+      <button class="docs-menu-btn" aria-label="Toggle navigation">&#9776;</button>
+    </header>
+
+    <!-- Mobile overlay -->
+    <div class="docs-overlay"></div>
+
+    <!-- Body -->
+    <div class="docs-body">
+
+      <!-- Sidebar TOC -->
+      <aside class="docs-sidebar">
+        <ul class="docs-nav">
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">시작하기</div>
+            <a href="#how-it-works">작동 방식</a>
+            <a href="#url-protocol">URL 프로토콜</a>
+            <a href="#display-modes">디스플레이 모드</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">레퍼런스</div>
+            <a href="#parameters">글로벌 매개변수</a>
+            <a href="#color-format">색상 형식</a>
+            <a href="#scale">스케일 &amp; 카드 테마</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">테마</div>
+            <a href="#themes">개요</a>
+            <a href="#theme-default">Default</a>
+            <a href="#theme-neon">Neon</a>
+            <a href="#theme-retro">Retro</a>
+            <a href="#theme-glitch">Glitch</a>
+            <a href="#theme-typewriter">Typewriter</a>
+            <a href="#theme-gradient">Gradient</a>
+            <a href="#theme-hologram">Hologram</a>
+            <a href="#theme-broadcast">Broadcast</a>
+            <a href="#theme-marquee">Marquee</a>
+            <a href="#theme-pulse">Pulse</a>
+            <a href="#theme-aurora">Aurora</a>
+            <a href="#theme-firework">Firework</a>
+            <a href="#theme-wood">Wood</a>
+            <a href="#theme-cyber">Cyber</a>
+            <a href="#theme-tokyo">Tokyo</a>
+            <a href="#theme-blueprint">Blueprint</a>
+            <a href="#theme-monolith">Monolith</a>
+            <a href="#theme-street-sign">Street Sign</a>
+            <a href="#theme-do-not-disturb">Do Not Disturb</a>
+            <a href="#theme-dot-matrix">Dot Matrix</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">사용법</div>
+            <a href="#interactions">인터랙션</a>
+            <a href="#toolbar">툴바</a>
+            <a href="#casting">캐스팅</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main content -->
+      <main class="docs-content">
+
+        <h1>led.run 문서</h1>
+        <p>어떤 화면이든 전문적인 디지털 사이니지로 변환하세요. 앱도, 계정도 필요 없습니다 &mdash; URL 하나면 됩니다.</p>
+
+        <!-- How It Works -->
+        <h2 id="how-it-works">작동 방식</h2>
+        <p>led.run은 URL을 디지털 사이니지로 변환합니다. <strong>경로</strong>가 텍스트이고, <strong>쿼리 스트링</strong>이 설정입니다. 아무 브라우저에서 URL을 열면 사이니지가 준비됩니다.</p>
+
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 텍스트 (URL 경로)</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 설정 (쿼리 매개변수)</span>
+            </div>
+          </div>
+        </div>
+
+        <p>흐름은 간단합니다: URL이 텍스트와 매개변수로 파싱되고, 테마 렌더러가 화면을 차지하며, 사이니지가 표시됩니다. 모든 것이 클라이언트 측에서 처리됩니다 &mdash; 서버 처리가 필요 없습니다.</p>
+
+        <!-- URL Protocol -->
+        <h2 id="url-protocol">URL 프로토콜</h2>
+
+        <pre><code>https://led.run/[text]?[params]</code></pre>
+
+        <ul>
+          <li><strong>텍스트</strong> &mdash; <code>/</code> 뒤의 URL 경로. 공백은 <code>+</code> 또는 <code>%20</code>으로 인코딩할 수 있습니다.</li>
+          <li><strong>매개변수</strong> &mdash; 표준 쿼리 스트링. 모든 매개변수는 선택적 "선호 힌트"입니다 &mdash; 테마가 사용 여부를 결정합니다.</li>
+        </ul>
+
+        <h3>예시</h3>
+        <pre><code>led.run/HELLO                          간단한 사이니지
+led.run/DO+NOT+DISTURB?t=do-not-disturb   테마 선택
+led.run/OPEN?t=neon&amp;c=ff2d78&amp;bg=0a0008   커스텀 색상
+led.run/WELCOME?mode=flow&amp;speed=120      스크롤 마키</code></pre>
+
+        <!-- Display Modes -->
+        <h2 id="display-modes">디스플레이 모드</h2>
+        <p>테마는 두 가지 디스플레이 모드를 지원합니다:</p>
+
+        <h3>사인 모드</h3>
+        <p>정적 전체 화면 표시. 텍스트가 사용 가능한 공간에 맞게 자동 조절됩니다. "OPEN", "ON AIR", "DO NOT DISTURB" 같은 짧은 메시지에 적합합니다.</p>
+
+        <h3>플로우 모드</h3>
+        <p>스크롤 마키. 텍스트가 화면을 가로질러 연속적으로 스크롤됩니다. 긴 메시지, 공지사항 또는 티커에 적합합니다.</p>
+
+        <div class="docs-note">
+          <strong>자동 감지:</strong> <code>mode</code> 매개변수가 설정되지 않은 경우, 대부분의 테마는 짧은 텍스트(&le;10자)에 대해 <strong>sign</strong> 모드를, 긴 텍스트에 대해 <strong>flow</strong> 모드를 기본으로 사용합니다.
+        </div>
+
+        <!-- Global Parameters -->
+        <h2 id="parameters">글로벌 매개변수</h2>
+        <p>이 매개변수들은 모든 테마에서 인식됩니다. 각 테마는 자체 기본값을 제공합니다.</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>매개변수</th>
+                <th>별칭</th>
+                <th>타입</th>
+                <th>기본값</th>
+                <th>설명</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>theme</td>
+                <td>t</td>
+                <td>string</td>
+                <td>default</td>
+                <td>테마 ID (<a href="#themes">테마</a> 참조)</td>
+              </tr>
+              <tr>
+                <td>mode</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>auto</td>
+                <td><code>sign</code> (정적) 또는 <code>flow</code> (스크롤)</td>
+              </tr>
+              <tr>
+                <td>color</td>
+                <td>c</td>
+                <td>hex</td>
+                <td>테마별</td>
+                <td>텍스트 색상 (<a href="#color-format">색상 형식</a>)</td>
+              </tr>
+              <tr>
+                <td>bg</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>테마별</td>
+                <td>배경 색상</td>
+              </tr>
+              <tr>
+                <td>speed</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>테마별</td>
+                <td>스크롤 속도 (px/s, 플로우 모드)</td>
+              </tr>
+              <tr>
+                <td>direction</td>
+                <td>dir</td>
+                <td>string</td>
+                <td>left</td>
+                <td>스크롤 방향: <code>left</code> 또는 <code>right</code></td>
+              </tr>
+              <tr>
+                <td>font</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>테마별</td>
+                <td>폰트 패밀리 이름</td>
+              </tr>
+              <tr>
+                <td>scale</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>1</td>
+                <td>디스플레이 스케일 배율 (0.1&ndash;1). <a href="#scale">스케일</a> 참조</td>
+              </tr>
+              <tr>
+                <td>fill</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>테마별</td>
+                <td>카드 면 배경 (카드 테마, scale &lt; 1일 때)</td>
+              </tr>
+              <tr>
+                <td>wakelock</td>
+                <td>w</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>화면 켜짐 유지 (절전 방지)</td>
+              </tr>
+              <tr>
+                <td>cursor</td>
+                <td>cur</td>
+                <td>number</td>
+                <td>&mdash;</td>
+                <td>커서 자동 숨김 지연 시간 (밀리초)</td>
+              </tr>
+              <tr>
+                <td>lang</td>
+                <td>l</td>
+                <td>string</td>
+                <td>auto</td>
+                <td>UI 언어: <code>en</code>, <code>zh</code>, <code>ja</code>, <code>ko</code>, <code>es</code>, <code>fr</code>, <code>de</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Color Format -->
+        <h2 id="color-format">색상 형식</h2>
+        <p>색상은 <code>#</code> 접두사 <strong>없이</strong> 16진수 값으로 지정합니다:</p>
+        <ul>
+          <li><strong>6자리</strong> <code>RRGGBB</code> &mdash; 예: <code>ff0000</code> (빨강)</li>
+          <li><strong>8자리</strong> <code>AARRGGBB</code> &mdash; 예: <code>80ff0000</code> (50% 투명 빨강)</li>
+        </ul>
+        <pre><code>led.run/HELLO?color=00ff41          초록색 텍스트
+led.run/HELLO?bg=1a0033&amp;c=ff00ff   보라색 배경, 마젠타 텍스트</code></pre>
+
+        <!-- Scale -->
+        <h2 id="scale">스케일 &amp; 카드 테마</h2>
+        <p><code>scale</code> 매개변수(0.1&ndash;1)는 디스플레이 크기를 제어합니다. 동작은 테마 유형에 따라 다릅니다:</p>
+        <h3>카드 테마</h3>
+        <p>카드 테마(broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix)는 내부 래퍼에 CSS <code>transform: scale()</code>을 사용합니다. <code>scale &lt; 1</code>일 때, 카드가 투명 배경 위에 중앙 정렬되어 떠 있습니다. <code>fill</code> 매개변수로 카드 면 색상을, <code>bg</code>로 페이지 배경을 설정합니다.</p>
+        <h3>확장 테마</h3>
+        <p>그 외 모든 테마는 <code>scale</code>을 폰트 크기 배율로 적용합니다: 자동 맞춤 결과에 스케일 값을 곱합니다. 배경 효과는 전체 화면을 유지합니다.</p>
+
+        <!-- Themes -->
+        <h2 id="themes">테마</h2>
+        <p>led.run은 20개의 내장 테마를 포함합니다. 각 테마는 특정 분위기와 사용 사례를 위해 설계되었습니다.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="theme-search" placeholder="테마 검색 (예: 'neon', 'matrix')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">클래식 초록색 LED 사이니지 디스플레이</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-default">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">깜빡임 효과가 있는 글로잉 네온 사인</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff00ff" title="color: ff00ff"></span>
+              <span class="theme-color-chip" style="background:#0a0014" title="bg: 0a0014"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-neon">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Retro</span>
+              <span class="theme-card-id">retro</span>
+            </div>
+            <div class="theme-card-desc">CRT 주사선과 비네트 효과</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#33ff33" title="color: 33ff33"></span>
+              <span class="theme-color-chip" style="background:#0d0d0d" title="bg: 0d0d0d"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-retro">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Glitch</span>
+              <span class="theme-card-id">glitch</span>
+            </div>
+            <div class="theme-card-desc">RGB 분리, 지터, 텍스트 왜곡</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffff" title="color: 00ffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-glitch">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Typewriter</span>
+              <span class="theme-card-id">typewriter</span>
+            </div>
+            <div class="theme-card-desc">커서가 있는 한 글자씩 타이핑 효과</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#1a1a1a" title="color: 1a1a1a"></span>
+              <span class="theme-color-chip" style="background:#f5f5f0" title="bg: f5f5f0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-typewriter">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gradient</span>
+              <span class="theme-card-id">gradient</span>
+            </div>
+            <div class="theme-card-desc">흐르는 애니메이션이 있는 무지개 그라디언트 텍스트</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gradient">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Hologram</span>
+              <span class="theme-card-id">hologram</span>
+            </div>
+            <div class="theme-card-desc">색수차와 주사선 스위프</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00d4ff" title="color: 00d4ff"></span>
+              <span class="theme-color-chip" style="background:#020a14" title="bg: 020a14"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-hologram">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Broadcast</span>
+              <span class="theme-card-id">broadcast</span>
+            </div>
+            <div class="theme-card-desc">녹화 점이 있는 스튜디오 "ON AIR" 표시기</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+              <span class="theme-color-chip" style="background:#ff0000" title="dot: ff0000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-broadcast">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Marquee</span>
+              <span class="theme-card-id">marquee</span>
+            </div>
+            <div class="theme-card-desc">브로드웨이 체이스 라이트 전구 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffd700" title="color: ffd700"></span>
+              <span class="theme-color-chip" style="background:#120800" title="bg: 120800"></span>
+              <span class="theme-color-chip" style="background:#ffaa00" title="bulbColor: ffaa00"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-marquee">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pulse</span>
+              <span class="theme-card-id">pulse</span>
+            </div>
+            <div class="theme-card-desc">방사형 글로우가 있는 호흡하는 무드 앰비언트</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff6b9d" title="color: ff6b9d"></span>
+              <span class="theme-color-chip" style="background:#050110" title="bg: 050110"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-pulse">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Aurora</span>
+              <span class="theme-card-id">aurora</span>
+            </div>
+            <div class="theme-card-desc">오로라 물결 밴드 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#e0ffef" title="color: e0ffef"></span>
+              <span class="theme-color-chip" style="background:#020810" title="bg: 020810"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-aurora">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Firework</span>
+              <span class="theme-card-id">firework</span>
+            </div>
+            <div class="theme-card-desc">파티클 불꽃놀이 시스템 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#050510" title="bg: 050510"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-firework">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Wood</span>
+              <span class="theme-card-id">wood</span>
+            </div>
+            <div class="theme-card-desc">페인트 텍스트가 있는 따뜻한 나무 카페 사인</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#f5e6c8" title="color: f5e6c8"></span>
+              <span class="theme-color-chip" style="background:#3b2314" title="bg: 3b2314"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-wood">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cyber</span>
+              <span class="theme-card-id">cyber</span>
+            </div>
+            <div class="theme-card-desc">HUD 오버레이가 있는 매트릭스 터미널 디코드 효과</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff00" title="color: 00ff00"></span>
+              <span class="theme-color-chip" style="background:#050a05" title="bg: 050a05"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cyber">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Tokyo</span>
+              <span class="theme-card-id">tokyo</span>
+            </div>
+            <div class="theme-card-desc">일본풍 장식이 있는 사이버펑크 비 내리는 네온</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0055" title="color: ff0055"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-tokyo">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Blueprint</span>
+              <span class="theme-card-id">blueprint</span>
+            </div>
+            <div class="theme-card-desc">건축 청사진 도면 스타일</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a3a6c" title="bg: 1a3a6c"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-blueprint">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Monolith</span>
+              <span class="theme-card-id">monolith</span>
+            </div>
+            <div class="theme-card-desc">브루탈리스트 고대비 디스플레이</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-monolith">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Street Sign</span>
+              <span class="theme-card-id">street-sign</span>
+            </div>
+            <div class="theme-card-desc">리벳과 반사 코팅이 있는 고속도로 안내 표지판</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#003884" title="color: 003884"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-street-sign">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Do Not Disturb</span>
+              <span class="theme-card-id">do-not-disturb</span>
+            </div>
+            <div class="theme-card-desc">유리 패널이 있는 스큐어모픽 라이트박스</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#990000" title="fill: 990000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-do-not-disturb">자세히 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot Matrix</span>
+              <span class="theme-card-id">dot-matrix</span>
+            </div>
+            <div class="theme-card-desc">스큐어모픽 LED 도트 매트릭스 보드 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffff00" title="color: ffff00"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-dot-matrix">자세히 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Individual theme details -->
+
+        <!-- Default -->
+        <div class="theme-detail" id="theme-default">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Default</span>
+            <span class="theme-detail-id">default</span>
+          </div>
+          <p class="theme-detail-desc">클래식 초록색 LED 사인. 깔끔하고 미니멀하며 즉시 알아볼 수 있습니다. 사인 모드와 플로우 모드를 모두 지원합니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/HELLO?t=default">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Neon -->
+        <div class="theme-detail" id="theme-neon">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Neon</span>
+            <span class="theme-detail-id">neon</span>
+          </div>
+          <p class="theme-detail-desc">사실적인 글로우, 반사, 설정 가능한 깜빡임 강도를 가진 글로잉 네온 튜브 사인.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ff00ff"></span> <code>ff00ff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0014"></span> <code>0a0014</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>flicker</td><td>number</td><td>1</td><td>깜빡임 강도 (0 = 꺼짐, 높을수록 깜빡임 증가)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=neon">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Retro -->
+        <div class="theme-detail" id="theme-retro">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Retro</span>
+            <span class="theme-detail-id">retro</span>
+          </div>
+          <p class="theme-detail-desc">주사선 오버레이, 형광체 글로우, 화면 곡률 비네트가 있는 CRT 모니터 미학.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0d0d0d"></span> <code>0d0d0d</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>scanlines</td><td>boolean</td><td>true</td><td>CRT 주사선 오버레이 표시</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=retro">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Glitch -->
+        <div class="theme-detail" id="theme-glitch">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Glitch</span>
+            <span class="theme-detail-id">glitch</span>
+          </div>
+          <p class="theme-detail-desc">RGB 채널 분리, 랜덤 지터, 텍스트 손상이 있는 공격적인 디지털 왜곡.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#00ffff"></span> <code>00ffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>1</td><td>왜곡 강도 (0&ndash;1+)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=glitch">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Typewriter -->
+        <div class="theme-detail" id="theme-typewriter">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Typewriter</span>
+            <span class="theme-detail-id">typewriter</span>
+          </div>
+          <p class="theme-detail-desc">깜빡이는 커서가 있는 한 글자씩 타이핑 애니메이션. 타이핑 시퀀스를 자동 반복합니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#f5f5f0"></span> <code>f5f5f0</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>typingSpeed</td><td>number</td><td>120</td><td>글자당 밀리초</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=typewriter">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Gradient -->
+        <div class="theme-detail" id="theme-gradient">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gradient</span>
+            <span class="theme-detail-id">gradient</span>
+          </div>
+          <p class="theme-detail-desc">부드럽게 흐르는 애니메이션이 있는 무지개 그라디언트 텍스트. 커스텀 <code>color</code>를 설정하면 해당 색상에서 색조 기반 그라디언트를 생성합니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/HELLO?t=gradient">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Hologram -->
+        <div class="theme-detail" id="theme-hologram">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Hologram</span>
+            <span class="theme-detail-id">hologram</span>
+          </div>
+          <p class="theme-detail-desc">색수차, 주사선 스위프, 반투명 깜빡임이 있는 SF 홀로그래픽 프로젝션.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#00d4ff"></span> <code>00d4ff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#020a14"></span> <code>020a14</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/HELLO?t=hologram">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Broadcast -->
+        <div class="theme-detail" id="theme-broadcast">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Broadcast</span>
+            <span class="theme-detail-id">broadcast</span>
+          </div>
+          <p class="theme-detail-desc">스큐어모픽 디테일, 라이브 시계, VU 미터가 있는 고급 스튜디오 "ON AIR" 표시기. 카드 테마 &mdash; <code>scale</code>과 <code>fill</code>을 지원합니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>dot</td><td>hex</td><td>ff0000</td><td>녹화 표시 점 색상</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>카드 면 배경 색상</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/ON+AIR?t=broadcast">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Marquee -->
+        <div class="theme-detail" id="theme-marquee">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Marquee</span>
+            <span class="theme-detail-id">marquee</span>
+          </div>
+          <p class="theme-detail-desc">테두리를 따라 애니메이션되는 체이스 라이트 전구가 있는 브로드웨이 스타일 극장 마키, Canvas로 렌더링. 카드 테마.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffd700"></span> <code>ffd700</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#120800"></span> <code>120800</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>chase</td><td>number</td><td>3</td><td>전구 체이스 속도 (1&ndash;10)</td></tr>
+                <tr><td>bulbColor</td><td>hex</td><td>ffaa00</td><td>전구 색상</td></tr>
+                <tr><td>fill</td><td>hex</td><td>120800</td><td>카드 면 배경 색상</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=marquee">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Pulse -->
+        <div class="theme-detail" id="theme-pulse">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Pulse</span>
+            <span class="theme-detail-id">pulse</span>
+          </div>
+          <p class="theme-detail-desc">유기적인 유체 블롭 모션과 호흡하는 앰비언트 글로우가 있는 울트라 모던 글래스모피즘.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ff6b9d"></span> <code>ff6b9d</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050110"></span> <code>050110</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>rhythm</td><td>number</td><td>4</td><td>펄스 주기 지속 시간(초) (2&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=pulse">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Aurora -->
+        <div class="theme-detail" id="theme-aurora">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Aurora</span>
+            <span class="theme-detail-id">aurora</span>
+          </div>
+          <p class="theme-detail-desc">별밭과 산 실루엣이 있는 오로라 물결 밴드, Canvas로 렌더링.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#e0ffef"></span> <code>e0ffef</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#020810"></span> <code>020810</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>5</td><td>오로라 밴드 수와 불투명도 (1&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=aurora">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Firework -->
+        <div class="theme-detail" id="theme-firework">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Firework</span>
+            <span class="theme-detail-id">firework</span>
+          </div>
+          <p class="theme-detail-desc">불꽃 발사, 폭발, 물리 시뮬레이션, 도시 스카이라인이 있는 Canvas 파티클 시스템.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050510"></span> <code>050510</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>rate</td><td>number</td><td>5</td><td>불꽃 발사 빈도 (1&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CHEERS?t=firework">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Wood -->
+        <div class="theme-detail" id="theme-wood">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Wood</span>
+            <span class="theme-detail-id">wood</span>
+          </div>
+          <p class="theme-detail-desc">페인트 텍스트, 장식 오너먼트, 스포트라이트 조명이 있는 따뜻한 나무 카페 사인. 카드 테마.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#3b2314"></span> <code>3b2314</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>grain</td><td>string</td><td>dark</td><td>나무결 스타일</td></tr>
+                <tr><td>warm</td><td>number</td><td>5</td><td>따뜻함 / 스포트라이트 강도</td></tr>
+                <tr><td>fill</td><td>hex</td><td>1a0f0a</td><td>카드 면 배경 색상</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CAFE?t=wood">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Cyber -->
+        <div class="theme-detail" id="theme-cyber">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cyber</span>
+            <span class="theme-detail-id">cyber</span>
+          </div>
+          <p class="theme-detail-desc">텍스트 디코드 애니메이션, 스캐닝 라인, HUD 데이터 장식이 있는 하이테크 터미널.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#00ff00"></span> <code>00ff00</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050a05"></span> <code>050a05</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>glitch</td><td>number</td><td>1</td><td>글리치 효과 토글 (0 = 꺼짐, 1+ = 켜짐)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/SYSTEM+OK?t=cyber">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Tokyo -->
+        <div class="theme-detail" id="theme-tokyo">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Tokyo</span>
+            <span class="theme-detail-id">tokyo</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 비, 레이어드 네온 글로우, 일본풍 장식, 렌즈 플레어가 있는 시네마틱 밤 도시 분위기.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ff0055"></span> <code>ff0055</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/SHIBUYA?t=tokyo">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Blueprint -->
+        <div class="theme-detail" id="theme-blueprint">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Blueprint</span>
+            <span class="theme-detail-id">blueprint</span>
+          </div>
+          <p class="theme-detail-desc">측정선, 그리드 라벨, 엔지니어링 표기법이 있는 건축 제도 미학.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#1a3a6c"></span> <code>1a3a6c</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/HELLO?t=blueprint">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Monolith -->
+        <div class="theme-detail" id="theme-monolith">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Monolith</span>
+            <span class="theme-detail-id">monolith</span>
+          </div>
+          <p class="theme-detail-desc">종이 질감, 거대한 배경 텍스트, 리빌 애니메이션이 있는 브루탈리스트/산업 고대비 디스플레이.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+          </div>
+          <p class="theme-no-params">표준 매개변수만 사용 &mdash; 커스텀 매개변수 없음.</p>
+          <a class="theme-detail-try" href="/HELLO?t=monolith">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Street Sign -->
+        <div class="theme-detail" id="theme-street-sign">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Street Sign</span>
+            <span class="theme-detail-id">street-sign</span>
+          </div>
+          <p class="theme-detail-desc">리벳, 반사 코팅, 노선 부제목, 출구 태그, 산업용 SVG 화살표가 있는 고속도로 안내 표지판. 카드 테마.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#003884"></span> <code>003884</code> (fill)
+            <span>&middot;</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code> (bg)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>sub</td><td>string</td><td>&mdash;</td><td>부제목 텍스트 (예: 노선명)</td></tr>
+                <tr><td>exit</td><td>string</td><td>&mdash;</td><td>출구 번호 태그</td></tr>
+                <tr><td>arrow</td><td>string</td><td>&mdash;</td><td>화살표 방향: <code>up</code>, <code>left</code>, <code>right</code>, <code>uturn</code>, <code>sl-left</code>, <code>sl-right</code></td></tr>
+                <tr><td>glare</td><td>number</td><td>0.1</td><td>반사 코팅 불투명도 (0&ndash;1)</td></tr>
+                <tr><td>fill</td><td>hex</td><td>003884</td><td>표지판 면 배경 색상</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/Los+Angeles?t=street-sign&sub=I-405+South&exit=42&arrow=up">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Do Not Disturb -->
+        <div class="theme-detail" id="theme-do-not-disturb">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Do Not Disturb</span>
+            <span class="theme-detail-id">do-not-disturb</span>
+          </div>
+          <p class="theme-detail-desc">유리 패널, 따뜻한 앰버 글로우, 표시등이 있는 스큐어모픽 "ON AIR" 스타일 라이트 박스. 카드 테마.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#990000"></span> <code>990000</code> (fill)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>fill</td><td>hex</td><td>990000</td><td>유리 패널 배경 색상</td></tr>
+                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>텍스트 글로우 / 아웃라인 색상</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/DO+NOT+DISTURB?t=do-not-disturb">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Dot Matrix -->
+        <div class="theme-detail" id="theme-dot-matrix">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Dot Matrix</span>
+            <span class="theme-detail-id">dot-matrix</span>
+          </div>
+          <p class="theme-detail-desc">다중 레이어 Canvas 렌더링, 설정 가능한 도트 모양, 베젤 프레임, 깜빡임이 있는 사실적인 LED 도트 매트릭스 디스플레이 보드. 카드 테마.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffff00"></span> <code>ffff00</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>매개변수</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead>
+              <tbody>
+                <tr><td>res</td><td>number</td><td>20</td><td>수직 해상도 (도트 행 수)</td></tr>
+                <tr><td>gap</td><td>number</td><td>0.2</td><td>도트 간 간격 (0&ndash;1)</td></tr>
+                <tr><td>glow</td><td>number</td><td>0.5</td><td>LED 글로우 강도</td></tr>
+                <tr><td>shape</td><td>string</td><td>square</td><td>도트 모양: <code>square</code> 또는 <code>round</code></td></tr>
+                <tr><td>bezel</td><td>boolean</td><td>true</td><td>프레임 베젤 표시</td></tr>
+                <tr><td>weight</td><td>string</td><td>bold</td><td>도트 렌더링 폰트 굵기</td></tr>
+                <tr><td>flicker</td><td>number</td><td>0.05</td><td>랜덤 도트 깜빡임 양</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>보드 표면 색상</td></tr>
+                <tr><td>wrap</td><td>boolean</td><td>false</td><td>콘텐츠에 맞게 높이 조절</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=dot-matrix">체험하기 &rarr;</a>
+        </div>
+
+        <!-- Interactions -->
+        <h2 id="interactions">인터랙션</h2>
+        <p>사이니지가 표시되면 키보드, 마우스 또는 터치로 상호작용할 수 있습니다.</p>
+
+        <h3>키보드</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key"><span class="kbd">Space</span></span>
+            <span class="interaction-desc">스크롤 일시정지 / 재개 (플로우 모드)</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">F</span></span>
+            <span class="interaction-desc">전체 화면 전환</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">Esc</span></span>
+            <span class="interaction-desc">전체 화면 종료</span>
+          </li>
+        </ul>
+
+        <h3>마우스 / 터치</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key">클릭 / 탭 한 번</span>
+            <span class="interaction-desc">일시정지 / 재개</span>
+          </li>
+          <li>
+            <span class="interaction-key">더블 클릭 / 탭</span>
+            <span class="interaction-desc">전체 화면 전환</span>
+          </li>
+        </ul>
+
+        <!-- Toolbar -->
+        <h2 id="toolbar">툴바</h2>
+        <p>화면 하단에 플로팅 툴바가 나타납니다 (커서와 함께 자동 숨김). 다음 기능을 제공합니다:</p>
+        <ul>
+          <li><strong>전체 화면</strong> &mdash; 전체 화면 모드 진입 또는 종료</li>
+          <li><strong>회전</strong> &mdash; 디스플레이를 90&deg; 회전 (가로 화면에서 세로 사인에 유용)</li>
+          <li><strong>캐스트</strong> &mdash; Presentation API를 통해 외부 디스플레이로 전송</li>
+          <li><strong>공유</strong> &mdash; 공유를 위해 현재 URL 복사</li>
+        </ul>
+
+        <!-- Casting -->
+        <h2 id="casting">캐스팅</h2>
+        <p>캐스트 기능은 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Presentation_API">W3C Presentation API</a>를 사용하여 보조 화면에 사이니지를 표시합니다. 현재 Chrome과 Edge에서 지원됩니다.</p>
+        <ul>
+          <li>툴바의 캐스트 버튼을 클릭하여 디스플레이를 선택하세요</li>
+          <li>수신기는 툴바나 컨트롤 없이 깔끔한 디스플레이를 보여줍니다</li>
+          <li>연결은 페이지 이동 시에도 유지됩니다</li>
+        </ul>
+        <div class="docs-note">캐스트 버튼은 Presentation API를 지원하는 브라우저에서만 표시됩니다.</div>
+
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="docs-footer">
+      <div>&copy; 2026 led.run &mdash; 오픈 소스</div>
+      <div class="docs-footer-links">
+        <a href="/">홈</a>
+        <a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>
+        <a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">라이선스</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      // Mobile TOC toggle
+      var menuBtn = document.querySelector('.docs-menu-btn');
+      var sidebar = document.querySelector('.docs-sidebar');
+      var overlay = document.querySelector('.docs-overlay');
+
+      function toggleMenu() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      }
+
+      function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      // Close menu on nav click (mobile)
+      sidebar.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') closeMenu();
+      });
+
+      // Theme search/filter
+      var themeSearch = document.getElementById('theme-search');
+      var themeCards = document.querySelectorAll('.theme-card');
+
+      themeSearch.addEventListener('input', function(e) {
+        var term = e.target.value.toLowerCase().trim();
+        themeCards.forEach(function(card) {
+          var name = card.querySelector('.theme-card-name').textContent.toLowerCase();
+          var id = card.querySelector('.theme-card-id').textContent.toLowerCase();
+          var desc = card.querySelector('.theme-card-desc').textContent.toLowerCase();
+
+          if (name.includes(term) || id.includes(term) || desc.includes(term)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('.docs-nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.charAt(0) === '#') {
+            var target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              var headerHeight = 56;
+              var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+              history.replaceState(null, '', href);
+            }
+          }
+        });
+      });
+
+      // IntersectionObserver for active TOC highlighting
+      var navLinks = document.querySelectorAll('.docs-nav a[href^="#"]');
+      var sections = [];
+
+      navLinks.forEach(function(link) {
+        var id = link.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function(l) { l.classList.remove('active'); });
+            var match = sections.find(function(s) { return s.el === entry.target; });
+            if (match) match.link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      sections.forEach(function(s) { observer.observe(s.el); });
+    })();
+  </script>
+</body>
+</html>

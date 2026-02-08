@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Documentation — led.run</title>
+  <meta name="description" content="Documentation compl&egrave;te de led.run — protocole URL, param&egrave;tres globaux, r&eacute;f&eacute;rence des th&egrave;mes et interactions.">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+  <div class="docs">
+
+    <!-- Header -->
+    <header class="docs-header">
+      <div class="docs-header-left">
+        <a href="/" class="docs-logo">
+          <span class="docs-logo-dot"></span>
+          led.run
+        </a>
+        <span class="docs-header-title">Documentation</span>
+      </div>
+      <div class="docs-lang-switcher">
+        <a href="/docs/">EN</a>
+        <a href="/docs/zh/">中文</a>
+        <a href="/docs/ja/">日本語</a>
+        <a href="/docs/ko/">한국어</a>
+        <a href="/docs/es/">ES</a>
+        <span class="docs-lang-current">FR</span>
+        <a href="/docs/de/">DE</a>
+      </div>
+      <button class="docs-menu-btn" aria-label="Basculer la navigation">&#9776;</button>
+    </header>
+
+    <!-- Mobile overlay -->
+    <div class="docs-overlay"></div>
+
+    <!-- Body -->
+    <div class="docs-body">
+
+      <!-- Sidebar TOC -->
+      <aside class="docs-sidebar">
+        <ul class="docs-nav">
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Pour commencer</div>
+            <a href="#how-it-works">Comment &ccedil;a marche</a>
+            <a href="#url-protocol">Protocole URL</a>
+            <a href="#display-modes">Modes d'affichage</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">R&eacute;f&eacute;rence</div>
+            <a href="#parameters">Param&egrave;tres globaux</a>
+            <a href="#color-format">Format des couleurs</a>
+            <a href="#scale">&Eacute;chelle &amp; th&egrave;mes carte</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Th&egrave;mes</div>
+            <a href="#themes">Aper&ccedil;u</a>
+            <a href="#theme-default">Default</a>
+            <a href="#theme-neon">Neon</a>
+            <a href="#theme-retro">Retro</a>
+            <a href="#theme-glitch">Glitch</a>
+            <a href="#theme-typewriter">Typewriter</a>
+            <a href="#theme-gradient">Gradient</a>
+            <a href="#theme-hologram">Hologram</a>
+            <a href="#theme-broadcast">Broadcast</a>
+            <a href="#theme-marquee">Marquee</a>
+            <a href="#theme-pulse">Pulse</a>
+            <a href="#theme-aurora">Aurora</a>
+            <a href="#theme-firework">Firework</a>
+            <a href="#theme-wood">Wood</a>
+            <a href="#theme-cyber">Cyber</a>
+            <a href="#theme-tokyo">Tokyo</a>
+            <a href="#theme-blueprint">Blueprint</a>
+            <a href="#theme-monolith">Monolith</a>
+            <a href="#theme-street-sign">Street Sign</a>
+            <a href="#theme-do-not-disturb">Do Not Disturb</a>
+            <a href="#theme-dot-matrix">Dot Matrix</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Utilisation</div>
+            <a href="#interactions">Interactions</a>
+            <a href="#toolbar">Barre d'outils</a>
+            <a href="#casting">Diffusion</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main content -->
+      <main class="docs-content">
+
+        <h1>Documentation led.run</h1>
+        <p>Transformez n'importe quel &eacute;cran en panneau d'affichage num&eacute;rique professionnel. Pas d'application, pas de compte &mdash; juste une URL.</p>
+
+        <!-- How It Works -->
+        <h2 id="how-it-works">Comment &ccedil;a marche</h2>
+        <p>led.run transforme les URL en panneaux d'affichage num&eacute;riques. Le <strong>chemin</strong> est votre texte, la <strong>cha&icirc;ne de requ&ecirc;te</strong> est votre configuration. Ouvrez l'URL dans n'importe quel navigateur et votre panneau est pr&ecirc;t.</p>
+
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Texte (chemin URL)</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Configuration (param&egrave;tres de requ&ecirc;te)</span>
+            </div>
+          </div>
+        </div>
+
+        <p>Le fonctionnement est simple : l'URL est analys&eacute;e en texte et param&egrave;tres, un moteur de rendu de th&egrave;me prend le contr&ocirc;le de l'&eacute;cran, et votre panneau est affich&eacute;. Tout se passe c&ocirc;t&eacute; client &mdash; aucun traitement serveur.</p>
+
+        <!-- URL Protocol -->
+        <h2 id="url-protocol">Protocole URL</h2>
+
+        <pre><code>https://led.run/[text]?[params]</code></pre>
+
+        <ul>
+          <li><strong>Texte</strong> &mdash; le chemin URL apr&egrave;s <code>/</code>. Les espaces peuvent &ecirc;tre encod&eacute;s en <code>+</code> ou <code>%20</code>.</li>
+          <li><strong>Param&egrave;tres</strong> &mdash; cha&icirc;ne de requ&ecirc;te standard. Tous les param&egrave;tres sont des &laquo; indications de pr&eacute;f&eacute;rence &raquo; optionnelles &mdash; les th&egrave;mes d&eacute;cident de les utiliser ou non.</li>
+        </ul>
+
+        <h3>Exemples</h3>
+        <pre><code>led.run/HELLO                          Panneau simple
+led.run/DO+NOT+DISTURB?t=do-not-disturb   S&eacute;lection du th&egrave;me
+led.run/OPEN?t=neon&amp;c=ff2d78&amp;bg=0a0008   Couleurs personnalis&eacute;es
+led.run/WELCOME?mode=flow&amp;speed=120      D&eacute;filement</code></pre>
+
+        <!-- Display Modes -->
+        <h2 id="display-modes">Modes d'affichage</h2>
+        <p>Les th&egrave;mes prennent en charge deux modes d'affichage :</p>
+
+        <h3>Mode panneau (Sign)</h3>
+        <p>Affichage statique en plein &eacute;cran. Le texte est automatiquement ajust&eacute; pour remplir l'espace disponible. Id&eacute;al pour les messages courts comme &laquo; OPEN &raquo;, &laquo; ON AIR &raquo; ou &laquo; DO NOT DISTURB &raquo;.</p>
+
+        <h3>Mode d&eacute;filant (Flow)</h3>
+        <p>D&eacute;filement continu. Le texte d&eacute;file en continu &agrave; travers l'&eacute;cran. Id&eacute;al pour les messages longs, les annonces ou les bandeaux d'information.</p>
+
+        <div class="docs-note">
+          <strong>D&eacute;tection automatique :</strong> Si aucun param&egrave;tre <code>mode</code> n'est d&eacute;fini, la plupart des th&egrave;mes utilisent par d&eacute;faut le mode <strong>panneau</strong> pour les textes courts (&le;10 caract&egrave;res) et le mode <strong>d&eacute;filant</strong> pour les textes plus longs.
+        </div>
+
+        <!-- Global Parameters -->
+        <h2 id="parameters">Param&egrave;tres globaux</h2>
+        <p>Ces param&egrave;tres sont reconnus par tous les th&egrave;mes. Chaque th&egrave;me fournit ses propres valeurs par d&eacute;faut.</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Param&egrave;tre</th>
+                <th>Alias</th>
+                <th>Type</th>
+                <th>D&eacute;faut</th>
+                <th>Description</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>theme</td>
+                <td>t</td>
+                <td>string</td>
+                <td>default</td>
+                <td>Identifiant du th&egrave;me (voir <a href="#themes">Th&egrave;mes</a>)</td>
+              </tr>
+              <tr>
+                <td>mode</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>auto</td>
+                <td><code>sign</code> (statique) ou <code>flow</code> (d&eacute;filant)</td>
+              </tr>
+              <tr>
+                <td>color</td>
+                <td>c</td>
+                <td>hex</td>
+                <td>par th&egrave;me</td>
+                <td>Couleur du texte (<a href="#color-format">format des couleurs</a>)</td>
+              </tr>
+              <tr>
+                <td>bg</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>par th&egrave;me</td>
+                <td>Couleur de fond</td>
+              </tr>
+              <tr>
+                <td>speed</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>par th&egrave;me</td>
+                <td>Vitesse de d&eacute;filement en px/s (mode d&eacute;filant)</td>
+              </tr>
+              <tr>
+                <td>direction</td>
+                <td>dir</td>
+                <td>string</td>
+                <td>left</td>
+                <td>Sens de d&eacute;filement : <code>left</code> ou <code>right</code></td>
+              </tr>
+              <tr>
+                <td>font</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>par th&egrave;me</td>
+                <td>Nom de la famille de police</td>
+              </tr>
+              <tr>
+                <td>scale</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>1</td>
+                <td>Multiplicateur d'&eacute;chelle (0.1&ndash;1). Voir <a href="#scale">&Eacute;chelle</a></td>
+              </tr>
+              <tr>
+                <td>fill</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>par th&egrave;me</td>
+                <td>Fond de la face de la carte (th&egrave;mes carte, quand scale &lt; 1)</td>
+              </tr>
+              <tr>
+                <td>wakelock</td>
+                <td>w</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>Maintenir l'&eacute;cran allum&eacute; (emp&ecirc;che la mise en veille)</td>
+              </tr>
+              <tr>
+                <td>cursor</td>
+                <td>cur</td>
+                <td>number</td>
+                <td>&mdash;</td>
+                <td>D&eacute;lai de masquage automatique du curseur en millisecondes</td>
+              </tr>
+              <tr>
+                <td>lang</td>
+                <td>l</td>
+                <td>string</td>
+                <td>auto</td>
+                <td>Langue de l'interface : <code>en</code>, <code>zh</code>, <code>ja</code>, <code>ko</code>, <code>es</code>, <code>fr</code>, <code>de</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Color Format -->
+        <h2 id="color-format">Format des couleurs</h2>
+        <p>Les couleurs sont sp&eacute;cifi&eacute;es en valeurs hexad&eacute;cimales <strong>sans</strong> le pr&eacute;fixe <code>#</code> :</p>
+        <ul>
+          <li><strong>6 chiffres</strong> <code>RRGGBB</code> &mdash; ex. <code>ff0000</code> pour le rouge</li>
+          <li><strong>8 chiffres</strong> <code>AARRGGBB</code> &mdash; ex. <code>80ff0000</code> pour un rouge transparent &agrave; 50%</li>
+        </ul>
+        <pre><code>led.run/HELLO?color=00ff41          Texte vert
+led.run/HELLO?bg=1a0033&amp;c=ff00ff   Fond violet, texte magenta</code></pre>
+
+        <!-- Scale -->
+        <h2 id="scale">&Eacute;chelle &amp; th&egrave;mes carte</h2>
+        <p>Le param&egrave;tre <code>scale</code> (0.1&ndash;1) contr&ocirc;le la taille d'affichage. Son comportement d&eacute;pend du type de th&egrave;me :</p>
+        <h3>Th&egrave;mes carte</h3>
+        <p>Les th&egrave;mes carte (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) utilisent <code>transform: scale()</code> CSS sur un conteneur interne. Quand <code>scale &lt; 1</code>, la carte flotte centr&eacute;e sur un fond transparent. Utilisez le param&egrave;tre <code>fill</code> pour d&eacute;finir la couleur de la face de la carte, et <code>bg</code> pour le fond de la page.</p>
+        <h3>Th&egrave;mes &eacute;tendus</h3>
+        <p>Tous les autres th&egrave;mes appliquent <code>scale</code> comme multiplicateur de taille de police : le r&eacute;sultat de l'ajustement automatique est multipli&eacute; par la valeur d'&eacute;chelle. Les effets de fond restent en plein &eacute;cran.</p>
+
+        <!-- Themes -->
+        <h2 id="themes">Th&egrave;mes</h2>
+        <p>led.run comprend 20 th&egrave;mes int&eacute;gr&eacute;s. Chaque th&egrave;me est con&ccedil;u pour une ambiance et un cas d'utilisation sp&eacute;cifiques.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="theme-search" placeholder="Rechercher des th&egrave;mes (ex. 'neon', 'matrix')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">Affichage classique de panneau LED vert</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-default">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">Enseigne n&eacute;on lumineuse avec effet de scintillement</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff00ff" title="color: ff00ff"></span>
+              <span class="theme-color-chip" style="background:#0a0014" title="bg: 0a0014"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-neon">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Retro</span>
+              <span class="theme-card-id">retro</span>
+            </div>
+            <div class="theme-card-desc">Lignes de balayage CRT et effet de vignette</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#33ff33" title="color: 33ff33"></span>
+              <span class="theme-color-chip" style="background:#0d0d0d" title="bg: 0d0d0d"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-retro">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Glitch</span>
+              <span class="theme-card-id">glitch</span>
+            </div>
+            <div class="theme-card-desc">S&eacute;paration RGB, saccades et distorsion du texte</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffff" title="color: 00ffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-glitch">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Typewriter</span>
+              <span class="theme-card-id">typewriter</span>
+            </div>
+            <div class="theme-card-desc">Saisie caract&egrave;re par caract&egrave;re avec curseur</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#1a1a1a" title="color: 1a1a1a"></span>
+              <span class="theme-color-chip" style="background:#f5f5f0" title="bg: f5f5f0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-typewriter">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gradient</span>
+              <span class="theme-card-id">gradient</span>
+            </div>
+            <div class="theme-card-desc">Texte en d&eacute;grad&eacute; arc-en-ciel avec animation fluide</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gradient">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Hologram</span>
+              <span class="theme-card-id">hologram</span>
+            </div>
+            <div class="theme-card-desc">Aberration chromatique et balayage de lignes</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00d4ff" title="color: 00d4ff"></span>
+              <span class="theme-color-chip" style="background:#020a14" title="bg: 020a14"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-hologram">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Broadcast</span>
+              <span class="theme-card-id">broadcast</span>
+            </div>
+            <div class="theme-card-desc">Indicateur studio &laquo; ON AIR &raquo; avec point d'enregistrement</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+              <span class="theme-color-chip" style="background:#ff0000" title="dot: ff0000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-broadcast">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Marquee</span>
+              <span class="theme-card-id">marquee</span>
+            </div>
+            <div class="theme-card-desc">Ampoules de poursuite style Broadway (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffd700" title="color: ffd700"></span>
+              <span class="theme-color-chip" style="background:#120800" title="bg: 120800"></span>
+              <span class="theme-color-chip" style="background:#ffaa00" title="bulbColor: ffaa00"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-marquee">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pulse</span>
+              <span class="theme-card-id">pulse</span>
+            </div>
+            <div class="theme-card-desc">Ambiance respirante avec lueur radiale</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff6b9d" title="color: ff6b9d"></span>
+              <span class="theme-color-chip" style="background:#050110" title="bg: 050110"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-pulse">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Aurora</span>
+              <span class="theme-card-id">aurora</span>
+            </div>
+            <div class="theme-card-desc">Bandes d'aurores bor&eacute;ales (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#e0ffef" title="color: e0ffef"></span>
+              <span class="theme-color-chip" style="background:#020810" title="bg: 020810"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-aurora">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Firework</span>
+              <span class="theme-card-id">firework</span>
+            </div>
+            <div class="theme-card-desc">Syst&egrave;me de feux d'artifice &agrave; particules (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#050510" title="bg: 050510"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-firework">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Wood</span>
+              <span class="theme-card-id">wood</span>
+            </div>
+            <div class="theme-card-desc">Enseigne chaleureuse en bois de caf&eacute; avec texte peint</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#f5e6c8" title="color: f5e6c8"></span>
+              <span class="theme-color-chip" style="background:#3b2314" title="bg: 3b2314"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-wood">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cyber</span>
+              <span class="theme-card-id">cyber</span>
+            </div>
+            <div class="theme-card-desc">Effet de d&eacute;codage terminal Matrix avec overlay HUD</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff00" title="color: 00ff00"></span>
+              <span class="theme-color-chip" style="background:#050a05" title="bg: 050a05"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cyber">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Tokyo</span>
+              <span class="theme-card-id">tokyo</span>
+            </div>
+            <div class="theme-card-desc">N&eacute;on cyberpunk sous la pluie avec d&eacute;corations japonaises</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0055" title="color: ff0055"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-tokyo">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Blueprint</span>
+              <span class="theme-card-id">blueprint</span>
+            </div>
+            <div class="theme-card-desc">Style de dessin de plan architectural</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a3a6c" title="bg: 1a3a6c"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-blueprint">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Monolith</span>
+              <span class="theme-card-id">monolith</span>
+            </div>
+            <div class="theme-card-desc">Affichage brutaliste &agrave; contraste &eacute;lev&eacute;</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-monolith">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Street Sign</span>
+              <span class="theme-card-id">street-sign</span>
+            </div>
+            <div class="theme-card-desc">Panneau routier avec rivets et rev&ecirc;tement r&eacute;fl&eacute;chissant</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#003884" title="color: 003884"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-street-sign">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Do Not Disturb</span>
+              <span class="theme-card-id">do-not-disturb</span>
+            </div>
+            <div class="theme-card-desc">Bo&icirc;te lumineuse sk&eacute;uomorphe avec panneau en verre</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#990000" title="fill: 990000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-do-not-disturb">D&eacute;tails &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot Matrix</span>
+              <span class="theme-card-id">dot-matrix</span>
+            </div>
+            <div class="theme-card-desc">Tableau d'affichage LED &agrave; matrice de points sk&eacute;uomorphe (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffff00" title="color: ffff00"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-dot-matrix">D&eacute;tails &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Individual theme details -->
+
+        <!-- Default -->
+        <div class="theme-detail" id="theme-default">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Default</span>
+            <span class="theme-detail-id">default</span>
+          </div>
+          <p class="theme-detail-desc">Le panneau LED vert classique. Propre, minimal et instantan&eacute;ment reconnaissable. Prend en charge les modes panneau et d&eacute;filant.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/HELLO?t=default">Essayer &rarr;</a>
+        </div>
+
+        <!-- Neon -->
+        <div class="theme-detail" id="theme-neon">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Neon</span>
+            <span class="theme-detail-id">neon</span>
+          </div>
+          <p class="theme-detail-desc">Enseigne n&eacute;on lumineuse avec lueur r&eacute;aliste, reflet et intensit&eacute; de scintillement configurable.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ff00ff"></span> <code>ff00ff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0a0014"></span> <code>0a0014</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>flicker</td><td>number</td><td>1</td><td>Intensit&eacute; du scintillement (0 = d&eacute;sactiv&eacute;, plus &eacute;lev&eacute; = plus de scintillement)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=neon">Essayer &rarr;</a>
+        </div>
+
+        <!-- Retro -->
+        <div class="theme-detail" id="theme-retro">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Retro</span>
+            <span class="theme-detail-id">retro</span>
+          </div>
+          <p class="theme-detail-desc">Esth&eacute;tique d'&eacute;cran CRT avec lignes de balayage, lueur phosphorescente et vignette de courbure d'&eacute;cran.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0d0d0d"></span> <code>0d0d0d</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>scanlines</td><td>boolean</td><td>true</td><td>Afficher les lignes de balayage CRT</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=retro">Essayer &rarr;</a>
+        </div>
+
+        <!-- Glitch -->
+        <div class="theme-detail" id="theme-glitch">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Glitch</span>
+            <span class="theme-detail-id">glitch</span>
+          </div>
+          <p class="theme-detail-desc">Distorsion num&eacute;rique agressive avec s&eacute;paration des canaux RGB, saccades al&eacute;atoires et corruption du texte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#00ffff"></span> <code>00ffff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>1</td><td>Intensit&eacute; de la distorsion (0&ndash;1+)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=glitch">Essayer &rarr;</a>
+        </div>
+
+        <!-- Typewriter -->
+        <div class="theme-detail" id="theme-typewriter">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Typewriter</span>
+            <span class="theme-detail-id">typewriter</span>
+          </div>
+          <p class="theme-detail-desc">Animation de saisie caract&egrave;re par caract&egrave;re avec un curseur clignotant. La s&eacute;quence de saisie se r&eacute;p&egrave;te automatiquement.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#f5f5f0"></span> <code>f5f5f0</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>typingSpeed</td><td>number</td><td>120</td><td>Millisecondes par caract&egrave;re</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=typewriter">Essayer &rarr;</a>
+        </div>
+
+        <!-- Gradient -->
+        <div class="theme-detail" id="theme-gradient">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gradient</span>
+            <span class="theme-detail-id">gradient</span>
+          </div>
+          <p class="theme-detail-desc">Texte en d&eacute;grad&eacute; arc-en-ciel avec animation fluide. D&eacute;finir une <code>color</code> personnalis&eacute;e g&eacute;n&egrave;re un d&eacute;grad&eacute; bas&eacute; sur la teinte de cette couleur.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/HELLO?t=gradient">Essayer &rarr;</a>
+        </div>
+
+        <!-- Hologram -->
+        <div class="theme-detail" id="theme-hologram">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Hologram</span>
+            <span class="theme-detail-id">hologram</span>
+          </div>
+          <p class="theme-detail-desc">Projection holographique sci-fi avec aberration chromatique, balayage de lignes et scintillement translucide.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#00d4ff"></span> <code>00d4ff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#020a14"></span> <code>020a14</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/HELLO?t=hologram">Essayer &rarr;</a>
+        </div>
+
+        <!-- Broadcast -->
+        <div class="theme-detail" id="theme-broadcast">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Broadcast</span>
+            <span class="theme-detail-id">broadcast</span>
+          </div>
+          <p class="theme-detail-desc">Indicateur studio &laquo; ON AIR &raquo; haut de gamme avec d&eacute;tails sk&eacute;uomorphes, horloge en direct et VU-m&egrave;tres. Th&egrave;me carte &mdash; prend en charge <code>scale</code> et <code>fill</code>.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>dot</td><td>hex</td><td>ff0000</td><td>Couleur du point indicateur d'enregistrement</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>Couleur de fond de la face de la carte</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/ON+AIR?t=broadcast">Essayer &rarr;</a>
+        </div>
+
+        <!-- Marquee -->
+        <div class="theme-detail" id="theme-marquee">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Marquee</span>
+            <span class="theme-detail-id">marquee</span>
+          </div>
+          <p class="theme-detail-desc">Chapiteau de th&eacute;&acirc;tre style Broadway avec ampoules de poursuite anim&eacute;es autour de la bordure, rendu sur Canvas. Th&egrave;me carte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffd700"></span> <code>ffd700</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#120800"></span> <code>120800</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>chase</td><td>number</td><td>3</td><td>Vitesse de poursuite des ampoules (1&ndash;10)</td></tr>
+                <tr><td>bulbColor</td><td>hex</td><td>ffaa00</td><td>Couleur des ampoules</td></tr>
+                <tr><td>fill</td><td>hex</td><td>120800</td><td>Couleur de fond de la face de la carte</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=marquee">Essayer &rarr;</a>
+        </div>
+
+        <!-- Pulse -->
+        <div class="theme-detail" id="theme-pulse">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Pulse</span>
+            <span class="theme-detail-id">pulse</span>
+          </div>
+          <p class="theme-detail-desc">Glassmorphisme ultra-moderne avec mouvement organique de bulles fluides et une lueur ambiante respirante.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ff6b9d"></span> <code>ff6b9d</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#050110"></span> <code>050110</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>rhythm</td><td>number</td><td>4</td><td>Dur&eacute;e du cycle de pulsation en secondes (2&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=pulse">Essayer &rarr;</a>
+        </div>
+
+        <!-- Aurora -->
+        <div class="theme-detail" id="theme-aurora">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Aurora</span>
+            <span class="theme-detail-id">aurora</span>
+          </div>
+          <p class="theme-detail-desc">Bandes d'aurores bor&eacute;ales avec champ d'&eacute;toiles et silhouette de montagne, rendu sur Canvas.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#e0ffef"></span> <code>e0ffef</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#020810"></span> <code>020810</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>5</td><td>Nombre de bandes et opacit&eacute; de l'aurore (1&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=aurora">Essayer &rarr;</a>
+        </div>
+
+        <!-- Firework -->
+        <div class="theme-detail" id="theme-firework">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Firework</span>
+            <span class="theme-detail-id">firework</span>
+          </div>
+          <p class="theme-detail-desc">Syst&egrave;me de particules Canvas avec lancements de feux d'artifice, explosions, simulation physique et skyline urbaine.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#050510"></span> <code>050510</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>rate</td><td>number</td><td>5</td><td>Fr&eacute;quence de lancement des feux d'artifice (1&ndash;10)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CHEERS?t=firework">Essayer &rarr;</a>
+        </div>
+
+        <!-- Wood -->
+        <div class="theme-detail" id="theme-wood">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Wood</span>
+            <span class="theme-detail-id">wood</span>
+          </div>
+          <p class="theme-detail-desc">Enseigne chaleureuse en bois de caf&eacute; avec texte peint, ornements d&eacute;coratifs et &eacute;clairage spot. Th&egrave;me carte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#3b2314"></span> <code>3b2314</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>grain</td><td>string</td><td>dark</td><td>Style du grain du bois</td></tr>
+                <tr><td>warm</td><td>number</td><td>5</td><td>Chaleur / intensit&eacute; du spot</td></tr>
+                <tr><td>fill</td><td>hex</td><td>1a0f0a</td><td>Couleur de fond de la face de la carte</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CAFE?t=wood">Essayer &rarr;</a>
+        </div>
+
+        <!-- Cyber -->
+        <div class="theme-detail" id="theme-cyber">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cyber</span>
+            <span class="theme-detail-id">cyber</span>
+          </div>
+          <p class="theme-detail-desc">Terminal haute technologie avec animation de d&eacute;codage de texte, lignes de balayage et d&eacute;corations de donn&eacute;es HUD.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#00ff00"></span> <code>00ff00</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#050a05"></span> <code>050a05</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>glitch</td><td>number</td><td>1</td><td>Activation de l'effet glitch (0 = d&eacute;sactiv&eacute;, 1+ = activ&eacute;)</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/SYSTEM+OK?t=cyber">Essayer &rarr;</a>
+        </div>
+
+        <!-- Tokyo -->
+        <div class="theme-detail" id="theme-tokyo">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Tokyo</span>
+            <span class="theme-detail-id">tokyo</span>
+          </div>
+          <p class="theme-detail-desc">Atmosph&egrave;re cin&eacute;matographique de ville nocturne avec pluie Canvas, lueurs n&eacute;on superpos&eacute;es, d&eacute;corations japonaises et reflet de lentille.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ff0055"></span> <code>ff0055</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/SHIBUYA?t=tokyo">Essayer &rarr;</a>
+        </div>
+
+        <!-- Blueprint -->
+        <div class="theme-detail" id="theme-blueprint">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Blueprint</span>
+            <span class="theme-detail-id">blueprint</span>
+          </div>
+          <p class="theme-detail-desc">Esth&eacute;tique de dessin technique avec lignes de mesure, &eacute;tiquettes de grille et notation d'ing&eacute;nierie.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#1a3a6c"></span> <code>1a3a6c</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/HELLO?t=blueprint">Essayer &rarr;</a>
+        </div>
+
+        <!-- Monolith -->
+        <div class="theme-detail" id="theme-monolith">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Monolith</span>
+            <span class="theme-detail-id">monolith</span>
+          </div>
+          <p class="theme-detail-desc">Affichage brutaliste/industriel &agrave; contraste &eacute;lev&eacute; avec texture de grain de papier, texte massif en arri&egrave;re-plan et animations de r&eacute;v&eacute;lation.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+          </div>
+          <p class="theme-no-params">Param&egrave;tres standard uniquement &mdash; aucun param&egrave;tre personnalis&eacute;.</p>
+          <a class="theme-detail-try" href="/HELLO?t=monolith">Essayer &rarr;</a>
+        </div>
+
+        <!-- Street Sign -->
+        <div class="theme-detail" id="theme-street-sign">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Street Sign</span>
+            <span class="theme-detail-id">street-sign</span>
+          </div>
+          <p class="theme-detail-desc">Panneau routier avec rivets, rev&ecirc;tement r&eacute;fl&eacute;chissant, sous-titres de route, &eacute;tiquettes de sortie et fl&egrave;ches SVG industrielles. Th&egrave;me carte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#003884"></span> <code>003884</code> (fill)
+            <span>&middot;</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code> (bg)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>sub</td><td>string</td><td>&mdash;</td><td>Texte de sous-titre (ex. nom de route)</td></tr>
+                <tr><td>exit</td><td>string</td><td>&mdash;</td><td>&Eacute;tiquette de num&eacute;ro de sortie</td></tr>
+                <tr><td>arrow</td><td>string</td><td>&mdash;</td><td>Direction de la fl&egrave;che : <code>up</code>, <code>left</code>, <code>right</code>, <code>uturn</code>, <code>sl-left</code>, <code>sl-right</code></td></tr>
+                <tr><td>glare</td><td>number</td><td>0.1</td><td>Opacit&eacute; du rev&ecirc;tement r&eacute;fl&eacute;chissant (0&ndash;1)</td></tr>
+                <tr><td>fill</td><td>hex</td><td>003884</td><td>Couleur de fond de la face du panneau</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/Los+Angeles?t=street-sign&sub=I-405+South&exit=42&arrow=up">Essayer &rarr;</a>
+        </div>
+
+        <!-- Do Not Disturb -->
+        <div class="theme-detail" id="theme-do-not-disturb">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Do Not Disturb</span>
+            <span class="theme-detail-id">do-not-disturb</span>
+          </div>
+          <p class="theme-detail-desc">Bo&icirc;te lumineuse sk&eacute;uomorphe style &laquo; ON AIR &raquo; avec panneau en verre, lueur ambre chaude et voyants lumineux. Th&egrave;me carte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#990000"></span> <code>990000</code> (fill)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>fill</td><td>hex</td><td>990000</td><td>Couleur de fond du panneau en verre</td></tr>
+                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>Couleur de lueur / contour du texte</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/DO+NOT+DISTURB?t=do-not-disturb">Essayer &rarr;</a>
+        </div>
+
+        <!-- Dot Matrix -->
+        <div class="theme-detail" id="theme-dot-matrix">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Dot Matrix</span>
+            <span class="theme-detail-id">dot-matrix</span>
+          </div>
+          <p class="theme-detail-desc">Tableau d'affichage LED &agrave; matrice de points r&eacute;aliste avec rendu Canvas multicouche, forme de point configurable, cadre de biseau et scintillement. Th&egrave;me carte.</p>
+          <div class="theme-detail-colors">
+            <span>Couleurs par d&eacute;faut :</span>
+            <span class="color-swatch" style="background:#ffff00"></span> <code>ffff00</code>
+            <span>sur</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>Param&egrave;tre</th><th>Type</th><th>D&eacute;faut</th><th>Description</th></tr></thead>
+              <tbody>
+                <tr><td>res</td><td>number</td><td>20</td><td>R&eacute;solution verticale (nombre de rang&eacute;es de points)</td></tr>
+                <tr><td>gap</td><td>number</td><td>0.2</td><td>Espacement entre les points (0&ndash;1)</td></tr>
+                <tr><td>glow</td><td>number</td><td>0.5</td><td>Intensit&eacute; de la lueur LED</td></tr>
+                <tr><td>shape</td><td>string</td><td>square</td><td>Forme du point : <code>square</code> ou <code>round</code></td></tr>
+                <tr><td>bezel</td><td>boolean</td><td>true</td><td>Afficher le biseau du cadre</td></tr>
+                <tr><td>weight</td><td>string</td><td>bold</td><td>Graisse de police pour le rendu des points</td></tr>
+                <tr><td>flicker</td><td>number</td><td>0.05</td><td>Quantit&eacute; de scintillement al&eacute;atoire des points</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>Couleur de surface du tableau</td></tr>
+                <tr><td>wrap</td><td>boolean</td><td>false</td><td>Ajuster la hauteur au contenu</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=dot-matrix">Essayer &rarr;</a>
+        </div>
+
+        <!-- Interactions -->
+        <h2 id="interactions">Interactions</h2>
+        <p>Une fois un panneau affich&eacute;, vous pouvez interagir avec lui au clavier, &agrave; la souris ou au toucher.</p>
+
+        <h3>Clavier</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key"><span class="kbd">Espace</span></span>
+            <span class="interaction-desc">Mettre en pause / reprendre le d&eacute;filement (mode d&eacute;filant)</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">F</span></span>
+            <span class="interaction-desc">Basculer en plein &eacute;cran</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">Echap</span></span>
+            <span class="interaction-desc">Quitter le plein &eacute;cran</span>
+          </li>
+        </ul>
+
+        <h3>Souris / Tactile</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key">Simple clic / appui</span>
+            <span class="interaction-desc">Mettre en pause / reprendre</span>
+          </li>
+          <li>
+            <span class="interaction-key">Double clic / appui</span>
+            <span class="interaction-desc">Basculer en plein &eacute;cran</span>
+          </li>
+        </ul>
+
+        <!-- Toolbar -->
+        <h2 id="toolbar">Barre d'outils</h2>
+        <p>Une barre d'outils flottante appara&icirc;t en bas de l'&eacute;cran (se masque automatiquement avec le curseur). Elle propose :</p>
+        <ul>
+          <li><strong>Plein &eacute;cran</strong> &mdash; entrer ou quitter le mode plein &eacute;cran</li>
+          <li><strong>Rotation</strong> &mdash; faire pivoter l'affichage de 90&deg; (utile pour les panneaux portrait sur &eacute;crans paysage)</li>
+          <li><strong>Diffusion</strong> &mdash; diffuser vers un &eacute;cran externe via l'API Presentation</li>
+          <li><strong>Partage</strong> &mdash; copier l'URL actuelle pour le partage</li>
+        </ul>
+
+        <!-- Casting -->
+        <h2 id="casting">Diffusion</h2>
+        <p>La fonction de diffusion utilise l'<a href="https://developer.mozilla.org/en-US/docs/Web/API/Presentation_API">API W3C Presentation</a> pour afficher votre panneau sur un &eacute;cran secondaire. Actuellement prise en charge dans Chrome et Edge.</p>
+        <ul>
+          <li>Cliquez sur le bouton Diffusion dans la barre d'outils pour s&eacute;lectionner un &eacute;cran</li>
+          <li>Le r&eacute;cepteur affiche un &eacute;cran propre sans barre d'outils ni contr&ocirc;les</li>
+          <li>La connexion persiste lors des navigations de page</li>
+        </ul>
+        <div class="docs-note">Le bouton Diffusion n'appara&icirc;t que dans les navigateurs prenant en charge l'API Presentation.</div>
+
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="docs-footer">
+      <div>&copy; 2026 led.run &mdash; Open Source</div>
+      <div class="docs-footer-links">
+        <a href="/">Accueil</a>
+        <a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>
+        <a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">Licence</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      // Mobile TOC toggle
+      var menuBtn = document.querySelector('.docs-menu-btn');
+      var sidebar = document.querySelector('.docs-sidebar');
+      var overlay = document.querySelector('.docs-overlay');
+
+      function toggleMenu() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      }
+
+      function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      // Close menu on nav click (mobile)
+      sidebar.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') closeMenu();
+      });
+
+      // Theme search/filter
+      var themeSearch = document.getElementById('theme-search');
+      var themeCards = document.querySelectorAll('.theme-card');
+
+      themeSearch.addEventListener('input', function(e) {
+        var term = e.target.value.toLowerCase().trim();
+        themeCards.forEach(function(card) {
+          var name = card.querySelector('.theme-card-name').textContent.toLowerCase();
+          var id = card.querySelector('.theme-card-id').textContent.toLowerCase();
+          var desc = card.querySelector('.theme-card-desc').textContent.toLowerCase();
+
+          if (name.includes(term) || id.includes(term) || desc.includes(term)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('.docs-nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.charAt(0) === '#') {
+            var target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              var headerHeight = 56;
+              var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+              history.replaceState(null, '', href);
+            }
+          }
+        });
+      });
+
+      // IntersectionObserver for active TOC highlighting
+      var navLinks = document.querySelectorAll('.docs-nav a[href^="#"]');
+      var sections = [];
+
+      navLinks.forEach(function(link) {
+        var id = link.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function(l) { l.classList.remove('active'); });
+            var match = sections.find(function(s) { return s.el === entry.target; });
+            if (match) match.link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      sections.forEach(function(s) { observer.observe(s.el); });
+    })();
+  </script>
+</body>
+</html>

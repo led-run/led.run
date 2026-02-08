@@ -1,0 +1,1142 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>文档 — led.run</title>
+  <meta name="description" content="led.run 完整文档 — URL 协议、全局参数、主题参考和交互说明。">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+  <!-- Styles -->
+  <link rel="stylesheet" href="/css/landing.css">
+  <link rel="stylesheet" href="/css/docs.css">
+</head>
+<body>
+  <div class="docs">
+
+    <!-- Header -->
+    <header class="docs-header">
+      <div class="docs-header-left">
+        <a href="/" class="docs-logo">
+          <span class="docs-logo-dot"></span>
+          led.run
+        </a>
+        <span class="docs-header-title">文档</span>
+      </div>
+      <div class="docs-lang-switcher">
+        <a href="/docs/">EN</a>
+        <span class="docs-lang-current">中文</span>
+        <a href="/docs/ja/">日本語</a>
+        <a href="/docs/ko/">한국어</a>
+        <a href="/docs/es/">ES</a>
+        <a href="/docs/fr/">FR</a>
+        <a href="/docs/de/">DE</a>
+      </div>
+      <button class="docs-menu-btn" aria-label="切换导航">&#9776;</button>
+    </header>
+
+    <!-- Mobile overlay -->
+    <div class="docs-overlay"></div>
+
+    <!-- Body -->
+    <div class="docs-body">
+
+      <!-- Sidebar TOC -->
+      <aside class="docs-sidebar">
+        <ul class="docs-nav">
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">快速入门</div>
+            <a href="#how-it-works">工作原理</a>
+            <a href="#url-protocol">URL 协议</a>
+            <a href="#display-modes">显示模式</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">参考手册</div>
+            <a href="#parameters">全局参数</a>
+            <a href="#color-format">颜色格式</a>
+            <a href="#scale">缩放与卡片主题</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">主题</div>
+            <a href="#themes">概览</a>
+            <a href="#theme-default">Default</a>
+            <a href="#theme-neon">Neon</a>
+            <a href="#theme-retro">Retro</a>
+            <a href="#theme-glitch">Glitch</a>
+            <a href="#theme-typewriter">Typewriter</a>
+            <a href="#theme-gradient">Gradient</a>
+            <a href="#theme-hologram">Hologram</a>
+            <a href="#theme-broadcast">Broadcast</a>
+            <a href="#theme-marquee">Marquee</a>
+            <a href="#theme-pulse">Pulse</a>
+            <a href="#theme-aurora">Aurora</a>
+            <a href="#theme-firework">Firework</a>
+            <a href="#theme-wood">Wood</a>
+            <a href="#theme-cyber">Cyber</a>
+            <a href="#theme-tokyo">Tokyo</a>
+            <a href="#theme-blueprint">Blueprint</a>
+            <a href="#theme-monolith">Monolith</a>
+            <a href="#theme-street-sign">Street Sign</a>
+            <a href="#theme-do-not-disturb">Do Not Disturb</a>
+            <a href="#theme-dot-matrix">Dot Matrix</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">使用方法</div>
+            <a href="#interactions">交互操作</a>
+            <a href="#toolbar">工具栏</a>
+            <a href="#casting">投屏</a>
+          </li>
+        </ul>
+      </aside>
+
+      <!-- Main content -->
+      <main class="docs-content">
+
+        <h1>led.run 文档</h1>
+        <p>将任何屏幕变成专业的数字标牌。无需安装应用，无需注册账号 &mdash; 只需一个 URL。</p>
+
+        <!-- How It Works -->
+        <h2 id="how-it-works">工作原理</h2>
+        <p>led.run 将 URL 转换为数字标牌。<strong>路径</strong>即是你的文字，<strong>查询参数</strong>即是你的配置。在任何浏览器中打开该 URL，你的标牌就准备好了。</p>
+
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 文字（URL 路径）</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 配置（查询参数）</span>
+            </div>
+          </div>
+        </div>
+
+        <p>流程非常简单：URL 被解析为文字和参数，主题渲染器接管屏幕，你的标牌随即显示。一切都在客户端完成 &mdash; 无需服务器处理。</p>
+
+        <!-- URL Protocol -->
+        <h2 id="url-protocol">URL 协议</h2>
+
+        <pre><code>https://led.run/[text]?[params]</code></pre>
+
+        <ul>
+          <li><strong>Text</strong> &mdash; <code>/</code> 之后的 URL 路径。空格可编码为 <code>+</code> 或 <code>%20</code>。</li>
+          <li><strong>Params</strong> &mdash; 标准查询字符串。所有参数都是可选的"偏好提示" &mdash; 由主题决定是否使用。</li>
+        </ul>
+
+        <h3>示例</h3>
+        <pre><code>led.run/HELLO                          简单标牌
+led.run/DO+NOT+DISTURB?t=do-not-disturb   选择主题
+led.run/OPEN?t=neon&amp;c=ff2d78&amp;bg=0a0008   自定义颜色
+led.run/WELCOME?mode=flow&amp;speed=120      滚动字幕</code></pre>
+
+        <!-- Display Modes -->
+        <h2 id="display-modes">显示模式</h2>
+        <p>主题支持两种显示模式：</p>
+
+        <h3>静态模式（Sign Mode）</h3>
+        <p>静态全屏显示。文字自动适配以填满可用空间。适合短消息，如"OPEN"、"ON AIR"或"DO NOT DISTURB"。</p>
+
+        <h3>滚动模式（Flow Mode）</h3>
+        <p>滚动字幕。文字在屏幕上持续滚动。适合较长的消息、公告或滚动信息。</p>
+
+        <div class="docs-note">
+          <strong>自动检测：</strong>如果未设置 <code>mode</code> 参数，大多数主题默认对短文本（&le;10 个字符）使用<strong>静态</strong>模式，对较长文本使用<strong>滚动</strong>模式。
+        </div>
+
+        <!-- Global Parameters -->
+        <h2 id="parameters">全局参数</h2>
+        <p>以下参数被所有主题识别。每个主题提供自己的默认值。</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>参数</th>
+                <th>别名</th>
+                <th>类型</th>
+                <th>默认值</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>theme</td>
+                <td>t</td>
+                <td>string</td>
+                <td>default</td>
+                <td>主题 ID（参见<a href="#themes">主题</a>）</td>
+              </tr>
+              <tr>
+                <td>mode</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>auto</td>
+                <td><code>sign</code>（静态）或 <code>flow</code>（滚动）</td>
+              </tr>
+              <tr>
+                <td>color</td>
+                <td>c</td>
+                <td>hex</td>
+                <td>因主题而异</td>
+                <td>文字颜色（<a href="#color-format">颜色格式</a>）</td>
+              </tr>
+              <tr>
+                <td>bg</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>因主题而异</td>
+                <td>背景颜色</td>
+              </tr>
+              <tr>
+                <td>speed</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>因主题而异</td>
+                <td>滚动速度，单位 px/s（滚动模式）</td>
+              </tr>
+              <tr>
+                <td>direction</td>
+                <td>dir</td>
+                <td>string</td>
+                <td>left</td>
+                <td>滚动方向：<code>left</code> 或 <code>right</code></td>
+              </tr>
+              <tr>
+                <td>font</td>
+                <td>&mdash;</td>
+                <td>string</td>
+                <td>因主题而异</td>
+                <td>字体名称</td>
+              </tr>
+              <tr>
+                <td>scale</td>
+                <td>&mdash;</td>
+                <td>number</td>
+                <td>1</td>
+                <td>显示缩放倍数（0.1&ndash;1）。参见<a href="#scale">缩放</a></td>
+              </tr>
+              <tr>
+                <td>fill</td>
+                <td>&mdash;</td>
+                <td>hex</td>
+                <td>因主题而异</td>
+                <td>卡片正面背景色（卡片主题，当 scale &lt; 1 时）</td>
+              </tr>
+              <tr>
+                <td>wakelock</td>
+                <td>w</td>
+                <td>boolean</td>
+                <td>true</td>
+                <td>保持屏幕常亮（防止休眠）</td>
+              </tr>
+              <tr>
+                <td>cursor</td>
+                <td>cur</td>
+                <td>number</td>
+                <td>&mdash;</td>
+                <td>光标自动隐藏延迟，单位毫秒</td>
+              </tr>
+              <tr>
+                <td>lang</td>
+                <td>l</td>
+                <td>string</td>
+                <td>auto</td>
+                <td>界面语言：<code>en</code>、<code>zh</code>、<code>ja</code>、<code>ko</code>、<code>es</code>、<code>fr</code>、<code>de</code></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Color Format -->
+        <h2 id="color-format">颜色格式</h2>
+        <p>颜色以十六进制值指定，<strong>不带</strong> <code>#</code> 前缀：</p>
+        <ul>
+          <li><strong>6 位</strong> <code>RRGGBB</code> &mdash; 例如 <code>ff0000</code> 表示红色</li>
+          <li><strong>8 位</strong> <code>AARRGGBB</code> &mdash; 例如 <code>80ff0000</code> 表示 50% 透明红色</li>
+        </ul>
+        <pre><code>led.run/HELLO?color=00ff41          绿色文字
+led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫色背景，品红色文字</code></pre>
+
+        <!-- Scale -->
+        <h2 id="scale">缩放与卡片主题</h2>
+        <p><code>scale</code> 参数（0.1&ndash;1）控制显示大小。其行为取决于主题类型：</p>
+        <h3>卡片主题</h3>
+        <p>卡片主题（broadcast、street-sign、wood、do-not-disturb、marquee、dot-matrix）在内部包装元素上使用 CSS <code>transform: scale()</code>。当 <code>scale &lt; 1</code> 时，卡片居中浮动在透明背景上。使用 <code>fill</code> 参数设置卡片正面颜色，使用 <code>bg</code> 设置页面背景。</p>
+        <h3>扩展主题</h3>
+        <p>所有其他主题将 <code>scale</code> 作为字体大小乘数：自动适配结果乘以缩放值。背景效果保持全屏。</p>
+
+        <!-- Themes -->
+        <h2 id="themes">主题</h2>
+        <p>led.run 包含 20 个内置主题。每个主题都针对特定的风格和使用场景而设计。</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="theme-search" placeholder="搜索主题（如 'neon'、'matrix'）..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">经典绿色 LED 标牌显示</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-default">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">发光霓虹灯牌，带闪烁效果</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff00ff" title="color: ff00ff"></span>
+              <span class="theme-color-chip" style="background:#0a0014" title="bg: 0a0014"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-neon">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Retro</span>
+              <span class="theme-card-id">retro</span>
+            </div>
+            <div class="theme-card-desc">CRT 扫描线和暗角效果</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#33ff33" title="color: 33ff33"></span>
+              <span class="theme-color-chip" style="background:#0d0d0d" title="bg: 0d0d0d"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-retro">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Glitch</span>
+              <span class="theme-card-id">glitch</span>
+            </div>
+            <div class="theme-card-desc">RGB 色彩分离、抖动和文字失真</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffff" title="color: 00ffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-glitch">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Typewriter</span>
+              <span class="theme-card-id">typewriter</span>
+            </div>
+            <div class="theme-card-desc">逐字打字效果，带光标</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#1a1a1a" title="color: 1a1a1a"></span>
+              <span class="theme-color-chip" style="background:#f5f5f0" title="bg: f5f5f0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-typewriter">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gradient</span>
+              <span class="theme-card-id">gradient</span>
+            </div>
+            <div class="theme-card-desc">彩虹渐变文字，带流动动画</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gradient">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Hologram</span>
+              <span class="theme-card-id">hologram</span>
+            </div>
+            <div class="theme-card-desc">色差和扫描线扫过效果</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00d4ff" title="color: 00d4ff"></span>
+              <span class="theme-color-chip" style="background:#020a14" title="bg: 020a14"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-hologram">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Broadcast</span>
+              <span class="theme-card-id">broadcast</span>
+            </div>
+            <div class="theme-card-desc">演播室"ON AIR"指示灯，带录制圆点</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+              <span class="theme-color-chip" style="background:#ff0000" title="dot: ff0000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-broadcast">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Marquee</span>
+              <span class="theme-card-id">marquee</span>
+            </div>
+            <div class="theme-card-desc">百老汇追光灯泡（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffd700" title="color: ffd700"></span>
+              <span class="theme-color-chip" style="background:#120800" title="bg: 120800"></span>
+              <span class="theme-color-chip" style="background:#ffaa00" title="bulbColor: ffaa00"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-marquee">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pulse</span>
+              <span class="theme-card-id">pulse</span>
+            </div>
+            <div class="theme-card-desc">呼吸灯氛围效果，带径向光晕</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff6b9d" title="color: ff6b9d"></span>
+              <span class="theme-color-chip" style="background:#050110" title="bg: 050110"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-pulse">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Aurora</span>
+              <span class="theme-card-id">aurora</span>
+            </div>
+            <div class="theme-card-desc">北极光波浪光带（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#e0ffef" title="color: e0ffef"></span>
+              <span class="theme-color-chip" style="background:#020810" title="bg: 020810"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-aurora">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Firework</span>
+              <span class="theme-card-id">firework</span>
+            </div>
+            <div class="theme-card-desc">粒子烟花系统（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#050510" title="bg: 050510"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-firework">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Wood</span>
+              <span class="theme-card-id">wood</span>
+            </div>
+            <div class="theme-card-desc">温暖的木质咖啡馆招牌，带手绘文字</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#f5e6c8" title="color: f5e6c8"></span>
+              <span class="theme-color-chip" style="background:#3b2314" title="bg: 3b2314"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-wood">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cyber</span>
+              <span class="theme-card-id">cyber</span>
+            </div>
+            <div class="theme-card-desc">黑客帝国终端解码效果，带 HUD 覆盖层</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff00" title="color: 00ff00"></span>
+              <span class="theme-color-chip" style="background:#050a05" title="bg: 050a05"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cyber">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Tokyo</span>
+              <span class="theme-card-id">tokyo</span>
+            </div>
+            <div class="theme-card-desc">赛博朋克雨夜霓虹灯，带日式装饰</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0055" title="color: ff0055"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-tokyo">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Blueprint</span>
+              <span class="theme-card-id">blueprint</span>
+            </div>
+            <div class="theme-card-desc">建筑蓝图绘制风格</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a3a6c" title="bg: 1a3a6c"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-blueprint">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Monolith</span>
+              <span class="theme-card-id">monolith</span>
+            </div>
+            <div class="theme-card-desc">粗犷主义高对比度显示</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-monolith">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Street Sign</span>
+              <span class="theme-card-id">street-sign</span>
+            </div>
+            <div class="theme-card-desc">高速公路指示牌，带铆钉和反光涂层</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#003884" title="color: 003884"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-street-sign">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Do Not Disturb</span>
+              <span class="theme-card-id">do-not-disturb</span>
+            </div>
+            <div class="theme-card-desc">拟物化灯箱，带玻璃面板</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#990000" title="fill: 990000"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-do-not-disturb">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot Matrix</span>
+              <span class="theme-card-id">dot-matrix</span>
+            </div>
+            <div class="theme-card-desc">拟物化 LED 点阵显示屏（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffff00" title="color: ffff00"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-dot-matrix">详情 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Individual theme details -->
+
+        <!-- Default -->
+        <div class="theme-detail" id="theme-default">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Default</span>
+            <span class="theme-detail-id">default</span>
+          </div>
+          <p class="theme-detail-desc">经典绿色 LED 标牌。简洁、极简、辨识度高。支持静态和滚动模式。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/HELLO?t=default">试试看 &rarr;</a>
+        </div>
+
+        <!-- Neon -->
+        <div class="theme-detail" id="theme-neon">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Neon</span>
+            <span class="theme-detail-id">neon</span>
+          </div>
+          <p class="theme-detail-desc">发光霓虹灯管招牌，带逼真的光晕、反射和可配置的闪烁强度。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ff00ff"></span> <code>ff00ff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#0a0014"></span> <code>0a0014</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>flicker</td><td>number</td><td>1</td><td>闪烁强度（0 = 关闭，数值越高闪烁越强）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=neon">试试看 &rarr;</a>
+        </div>
+
+        <!-- Retro -->
+        <div class="theme-detail" id="theme-retro">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Retro</span>
+            <span class="theme-detail-id">retro</span>
+          </div>
+          <p class="theme-detail-desc">CRT 显示器美学风格，带扫描线叠加、荧光余辉和屏幕弧度暗角。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#0d0d0d"></span> <code>0d0d0d</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>scanlines</td><td>boolean</td><td>true</td><td>显示 CRT 扫描线叠加</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=retro">试试看 &rarr;</a>
+        </div>
+
+        <!-- Glitch -->
+        <div class="theme-detail" id="theme-glitch">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Glitch</span>
+            <span class="theme-detail-id">glitch</span>
+          </div>
+          <p class="theme-detail-desc">强烈的数字失真效果，带 RGB 通道分离、随机抖动和文字损坏。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#00ffff"></span> <code>00ffff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>1</td><td>失真强度（0&ndash;1+）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=glitch">试试看 &rarr;</a>
+        </div>
+
+        <!-- Typewriter -->
+        <div class="theme-detail" id="theme-typewriter">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Typewriter</span>
+            <span class="theme-detail-id">typewriter</span>
+          </div>
+          <p class="theme-detail-desc">逐字打字动画，带闪烁光标。自动循环打字序列。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#f5f5f0"></span> <code>f5f5f0</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>typingSpeed</td><td>number</td><td>120</td><td>每个字符的毫秒数</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=typewriter">试试看 &rarr;</a>
+        </div>
+
+        <!-- Gradient -->
+        <div class="theme-detail" id="theme-gradient">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gradient</span>
+            <span class="theme-detail-id">gradient</span>
+          </div>
+          <p class="theme-detail-desc">彩虹渐变文字，带平滑流动动画。设置自定义 <code>color</code> 会基于该颜色的色相生成渐变。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow
+            <span>在</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/HELLO?t=gradient">试试看 &rarr;</a>
+        </div>
+
+        <!-- Hologram -->
+        <div class="theme-detail" id="theme-hologram">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Hologram</span>
+            <span class="theme-detail-id">hologram</span>
+          </div>
+          <p class="theme-detail-desc">科幻全息投影效果，带色差、扫描线扫过和半透明闪烁。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#00d4ff"></span> <code>00d4ff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#020a14"></span> <code>020a14</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/HELLO?t=hologram">试试看 &rarr;</a>
+        </div>
+
+        <!-- Broadcast -->
+        <div class="theme-detail" id="theme-broadcast">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Broadcast</span>
+            <span class="theme-detail-id">broadcast</span>
+          </div>
+          <p class="theme-detail-desc">高端演播室"ON AIR"指示灯，带拟物化细节、实时时钟和 VU 表。卡片主题 &mdash; 支持 <code>scale</code> 和 <code>fill</code>。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>dot</td><td>hex</td><td>ff0000</td><td>录制指示圆点颜色</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>卡片正面背景色</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/ON+AIR?t=broadcast">试试看 &rarr;</a>
+        </div>
+
+        <!-- Marquee -->
+        <div class="theme-detail" id="theme-marquee">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Marquee</span>
+            <span class="theme-detail-id">marquee</span>
+          </div>
+          <p class="theme-detail-desc">百老汇剧院风格的字幕灯，带边框周围的追光灯泡动画，使用 Canvas 渲染。卡片主题。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffd700"></span> <code>ffd700</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#120800"></span> <code>120800</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>chase</td><td>number</td><td>3</td><td>灯泡追光速度（1&ndash;10）</td></tr>
+                <tr><td>bulbColor</td><td>hex</td><td>ffaa00</td><td>灯泡颜色</td></tr>
+                <tr><td>fill</td><td>hex</td><td>120800</td><td>卡片正面背景色</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=marquee">试试看 &rarr;</a>
+        </div>
+
+        <!-- Pulse -->
+        <div class="theme-detail" id="theme-pulse">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Pulse</span>
+            <span class="theme-detail-id">pulse</span>
+          </div>
+          <p class="theme-detail-desc">超现代毛玻璃形态，带有机流体运动和呼吸氛围光晕。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ff6b9d"></span> <code>ff6b9d</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#050110"></span> <code>050110</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>rhythm</td><td>number</td><td>4</td><td>脉冲周期时长，单位秒（2&ndash;10）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=pulse">试试看 &rarr;</a>
+        </div>
+
+        <!-- Aurora -->
+        <div class="theme-detail" id="theme-aurora">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Aurora</span>
+            <span class="theme-detail-id">aurora</span>
+          </div>
+          <p class="theme-detail-desc">北极光波浪光带，带星空和山脉剪影，使用 Canvas 渲染。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#e0ffef"></span> <code>e0ffef</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#020810"></span> <code>020810</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>intensity</td><td>number</td><td>5</td><td>极光带数量和透明度（1&ndash;10）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=aurora">试试看 &rarr;</a>
+        </div>
+
+        <!-- Firework -->
+        <div class="theme-detail" id="theme-firework">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Firework</span>
+            <span class="theme-detail-id">firework</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 粒子系统，带烟花发射、爆炸、物理模拟和城市天际线。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#050510"></span> <code>050510</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>rate</td><td>number</td><td>5</td><td>烟花发射频率（1&ndash;10）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CHEERS?t=firework">试试看 &rarr;</a>
+        </div>
+
+        <!-- Wood -->
+        <div class="theme-detail" id="theme-wood">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Wood</span>
+            <span class="theme-detail-id">wood</span>
+          </div>
+          <p class="theme-detail-desc">温暖的木质咖啡馆招牌，带手绘文字、装饰花纹和聚光灯照明。卡片主题。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#3b2314"></span> <code>3b2314</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>grain</td><td>string</td><td>dark</td><td>木纹风格</td></tr>
+                <tr><td>warm</td><td>number</td><td>5</td><td>温暖度 / 聚光灯强度</td></tr>
+                <tr><td>fill</td><td>hex</td><td>1a0f0a</td><td>卡片正面背景色</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/CAFE?t=wood">试试看 &rarr;</a>
+        </div>
+
+        <!-- Cyber -->
+        <div class="theme-detail" id="theme-cyber">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cyber</span>
+            <span class="theme-detail-id">cyber</span>
+          </div>
+          <p class="theme-detail-desc">高科技终端，带文字解码动画、扫描线和 HUD 数据装饰。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#00ff00"></span> <code>00ff00</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#050a05"></span> <code>050a05</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>glitch</td><td>number</td><td>1</td><td>故障效果开关（0 = 关闭，1+ = 开启）</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/SYSTEM+OK?t=cyber">试试看 &rarr;</a>
+        </div>
+
+        <!-- Tokyo -->
+        <div class="theme-detail" id="theme-tokyo">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Tokyo</span>
+            <span class="theme-detail-id">tokyo</span>
+          </div>
+          <p class="theme-detail-desc">电影感夜城氛围，带 Canvas 雨景、多层霓虹光晕、日式装饰和镜头光晕。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ff0055"></span> <code>ff0055</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/SHIBUYA?t=tokyo">试试看 &rarr;</a>
+        </div>
+
+        <!-- Blueprint -->
+        <div class="theme-detail" id="theme-blueprint">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Blueprint</span>
+            <span class="theme-detail-id">blueprint</span>
+          </div>
+          <p class="theme-detail-desc">建筑制图美学风格，带测量线、网格标签和工程标注。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#1a3a6c"></span> <code>1a3a6c</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/HELLO?t=blueprint">试试看 &rarr;</a>
+        </div>
+
+        <!-- Monolith -->
+        <div class="theme-detail" id="theme-monolith">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Monolith</span>
+            <span class="theme-detail-id">monolith</span>
+          </div>
+          <p class="theme-detail-desc">粗犷主义/工业风高对比度显示，带纸张纹理、巨大背景文字和揭示动画。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+          </div>
+          <p class="theme-no-params">仅支持标准参数 &mdash; 无自定义参数。</p>
+          <a class="theme-detail-try" href="/HELLO?t=monolith">试试看 &rarr;</a>
+        </div>
+
+        <!-- Street Sign -->
+        <div class="theme-detail" id="theme-street-sign">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Street Sign</span>
+            <span class="theme-detail-id">street-sign</span>
+          </div>
+          <p class="theme-detail-desc">高速公路指示牌，带铆钉、反光涂层、路线副标题、出口标签和工业 SVG 箭头。卡片主题。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#003884"></span> <code>003884</code> (fill)
+            <span>&middot;</span>
+            <span class="color-swatch" style="background:#000000"></span> <code>000000</code> (bg)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>sub</td><td>string</td><td>&mdash;</td><td>副标题文字（如路线名称）</td></tr>
+                <tr><td>exit</td><td>string</td><td>&mdash;</td><td>出口编号标签</td></tr>
+                <tr><td>arrow</td><td>string</td><td>&mdash;</td><td>箭头方向：<code>up</code>、<code>left</code>、<code>right</code>、<code>uturn</code>、<code>sl-left</code>、<code>sl-right</code></td></tr>
+                <tr><td>glare</td><td>number</td><td>0.1</td><td>反光涂层透明度（0&ndash;1）</td></tr>
+                <tr><td>fill</td><td>hex</td><td>003884</td><td>标牌正面背景色</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/Los+Angeles?t=street-sign&sub=I-405+South&exit=42&arrow=up">试试看 &rarr;</a>
+        </div>
+
+        <!-- Do Not Disturb -->
+        <div class="theme-detail" id="theme-do-not-disturb">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Do Not Disturb</span>
+            <span class="theme-detail-id">do-not-disturb</span>
+          </div>
+          <p class="theme-detail-desc">拟物化"ON AIR"风格灯箱，带玻璃面板、温暖琥珀色光晕和指示灯。卡片主题。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#990000"></span> <code>990000</code> (fill)
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>fill</td><td>hex</td><td>990000</td><td>玻璃面板背景色</td></tr>
+                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>文字光晕 / 描边颜色</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/DO+NOT+DISTURB?t=do-not-disturb">试试看 &rarr;</a>
+        </div>
+
+        <!-- Dot Matrix -->
+        <div class="theme-detail" id="theme-dot-matrix">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Dot Matrix</span>
+            <span class="theme-detail-id">dot-matrix</span>
+          </div>
+          <p class="theme-detail-desc">逼真的 LED 点阵显示屏，带多层 Canvas 渲染、可配置点形状、边框外壳和闪烁效果。卡片主题。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffff00"></span> <code>ffff00</code>
+            <span>在</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap">
+            <table class="docs-table">
+              <thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead>
+              <tbody>
+                <tr><td>res</td><td>number</td><td>20</td><td>垂直分辨率（点行数）</td></tr>
+                <tr><td>gap</td><td>number</td><td>0.2</td><td>点间隙（0&ndash;1）</td></tr>
+                <tr><td>glow</td><td>number</td><td>0.5</td><td>LED 光晕强度</td></tr>
+                <tr><td>shape</td><td>string</td><td>square</td><td>点形状：<code>square</code> 或 <code>round</code></td></tr>
+                <tr><td>bezel</td><td>boolean</td><td>true</td><td>显示边框外壳</td></tr>
+                <tr><td>weight</td><td>string</td><td>bold</td><td>点阵渲染字重</td></tr>
+                <tr><td>flicker</td><td>number</td><td>0.05</td><td>随机点闪烁量</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>面板表面颜色</td></tr>
+                <tr><td>wrap</td><td>boolean</td><td>false</td><td>高度自适应内容</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <a class="theme-detail-try" href="/HELLO?t=dot-matrix">试试看 &rarr;</a>
+        </div>
+
+        <!-- Interactions -->
+        <h2 id="interactions">交互操作</h2>
+        <p>标牌显示后，你可以通过键盘、鼠标或触控进行交互。</p>
+
+        <h3>键盘</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key"><span class="kbd">Space</span></span>
+            <span class="interaction-desc">暂停 / 恢复滚动（滚动模式）</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">F</span></span>
+            <span class="interaction-desc">切换全屏</span>
+          </li>
+          <li>
+            <span class="interaction-key"><span class="kbd">Esc</span></span>
+            <span class="interaction-desc">退出全屏</span>
+          </li>
+        </ul>
+
+        <h3>鼠标 / 触控</h3>
+        <ul class="interaction-list">
+          <li>
+            <span class="interaction-key">单击 / 轻触</span>
+            <span class="interaction-desc">暂停 / 恢复</span>
+          </li>
+          <li>
+            <span class="interaction-key">双击 / 双击轻触</span>
+            <span class="interaction-desc">切换全屏</span>
+          </li>
+        </ul>
+
+        <!-- Toolbar -->
+        <h2 id="toolbar">工具栏</h2>
+        <p>屏幕底部会显示一个浮动工具栏（随光标自动隐藏）。它提供：</p>
+        <ul>
+          <li><strong>全屏</strong> &mdash; 进入或退出全屏模式</li>
+          <li><strong>旋转</strong> &mdash; 旋转显示 90&deg;（适用于在横屏上显示竖向标牌）</li>
+          <li><strong>投屏</strong> &mdash; 通过 Presentation API 投屏到外部显示器</li>
+          <li><strong>分享</strong> &mdash; 复制当前 URL 用于分享</li>
+        </ul>
+
+        <!-- Casting -->
+        <h2 id="casting">投屏</h2>
+        <p>投屏功能使用 <a href="https://developer.mozilla.org/en-US/docs/Web/API/Presentation_API">W3C Presentation API</a> 将你的标牌显示在第二块屏幕上。目前支持 Chrome 和 Edge 浏览器。</p>
+        <ul>
+          <li>点击工具栏中的投屏按钮选择显示器</li>
+          <li>接收端显示干净的画面，不含工具栏和控件</li>
+          <li>连接在页面跳转时保持不断</li>
+        </ul>
+        <div class="docs-note">投屏按钮仅在支持 Presentation API 的浏览器中显示。</div>
+
+      </main>
+    </div>
+
+    <!-- Footer -->
+    <footer class="docs-footer">
+      <div>&copy; 2026 led.run &mdash; 开源项目</div>
+      <div class="docs-footer-links">
+        <a href="/">首页</a>
+        <a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>
+        <a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">许可证</a>
+      </div>
+    </footer>
+
+  </div>
+
+  <script>
+    (function() {
+      // Mobile TOC toggle
+      var menuBtn = document.querySelector('.docs-menu-btn');
+      var sidebar = document.querySelector('.docs-sidebar');
+      var overlay = document.querySelector('.docs-overlay');
+
+      function toggleMenu() {
+        sidebar.classList.toggle('open');
+        overlay.classList.toggle('open');
+      }
+
+      function closeMenu() {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+      overlay.addEventListener('click', closeMenu);
+
+      // Close menu on nav click (mobile)
+      sidebar.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A') closeMenu();
+      });
+
+      // Theme search/filter
+      var themeSearch = document.getElementById('theme-search');
+      var themeCards = document.querySelectorAll('.theme-card');
+
+      themeSearch.addEventListener('input', function(e) {
+        var term = e.target.value.toLowerCase().trim();
+        themeCards.forEach(function(card) {
+          var name = card.querySelector('.theme-card-name').textContent.toLowerCase();
+          var id = card.querySelector('.theme-card-id').textContent.toLowerCase();
+          var desc = card.querySelector('.theme-card-desc').textContent.toLowerCase();
+
+          if (name.includes(term) || id.includes(term) || desc.includes(term)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+
+      // Smooth scroll for anchor links
+      document.querySelectorAll('.docs-nav a').forEach(function(link) {
+        link.addEventListener('click', function(e) {
+          var href = this.getAttribute('href');
+          if (href && href.charAt(0) === '#') {
+            var target = document.querySelector(href);
+            if (target) {
+              e.preventDefault();
+              var headerHeight = 56;
+              var top = target.getBoundingClientRect().top + window.pageYOffset - headerHeight - 16;
+              window.scrollTo({ top: top, behavior: 'smooth' });
+              history.replaceState(null, '', href);
+            }
+          }
+        });
+      });
+
+      // IntersectionObserver for active TOC highlighting
+      var navLinks = document.querySelectorAll('.docs-nav a[href^="#"]');
+      var sections = [];
+
+      navLinks.forEach(function(link) {
+        var id = link.getAttribute('href').substring(1);
+        var el = document.getElementById(id);
+        if (el) sections.push({ id: id, el: el, link: link });
+      });
+
+      var observer = new IntersectionObserver(function(entries) {
+        entries.forEach(function(entry) {
+          if (entry.isIntersecting) {
+            navLinks.forEach(function(l) { l.classList.remove('active'); });
+            var match = sections.find(function(s) { return s.el === entry.target; });
+            if (match) match.link.classList.add('active');
+          }
+        });
+      }, { rootMargin: '-80px 0px -60% 0px', threshold: 0 });
+
+      sections.forEach(function(s) { observer.observe(s.el); });
+    })();
+  </script>
+</body>
+</html>
