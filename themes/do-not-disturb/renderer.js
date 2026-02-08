@@ -38,6 +38,8 @@
       var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
 
       var wrapper = document.createElement('div');
+      wrapper.style.width = '100%';
+      wrapper.style.height = '100%';
       if (scale < 1) {
         wrapper.style.transform = 'scale(' + scale + ')';
         wrapper.style.transformOrigin = 'center center';
@@ -101,12 +103,12 @@
     },
 
     _fitText(el, text, config) {
-      var vWidth = window.innerWidth * 0.8;
-      var vHeight = window.innerHeight * 0.6;
+      var w = this._container.clientWidth * 0.8;
+      var h = this._container.clientHeight * 0.6;
 
       var tempContainer = {
-        clientWidth: vWidth,
-        clientHeight: vHeight
+        clientWidth: w,
+        clientHeight: h
       };
 
       var fontSize = TextEngine.autoFit(text, tempContainer, {
@@ -115,7 +117,7 @@
         padding: 40
       });
 
-      fontSize = Math.min(fontSize, window.innerHeight * 0.4);
+      fontSize = Math.min(fontSize, this._container.clientHeight * 0.4);
       el.style.fontSize = fontSize + 'px';
     },
 

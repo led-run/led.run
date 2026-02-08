@@ -115,8 +115,11 @@
       var newClass = ROTATION_CLASSES[this._rotationIndex];
       if (newClass) container.classList.add(newClass);
 
-      // Dispatch resize for Canvas-based themes
-      window.dispatchEvent(new Event('resize'));
+      // Wait one frame for CSS to settle, force reflow, then notify theme
+      requestAnimationFrame(function() {
+        container.offsetHeight; // force synchronous reflow
+        ThemeManager.resize();
+      });
 
       // Try to lock orientation (silently fails outside fullscreen)
       try {

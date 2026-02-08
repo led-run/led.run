@@ -68,8 +68,18 @@
 
       var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       if (scale < 1) {
-        container.style.transform = 'scale(' + scale + ')';
-        container.style.transformOrigin = 'center center';
+        var scaleWrap = document.createElement('div');
+        scaleWrap.style.position = 'relative';
+        scaleWrap.style.width = '100%';
+        scaleWrap.style.height = '100%';
+        scaleWrap.style.transform = 'scale(' + scale + ')';
+        scaleWrap.style.transformOrigin = 'center center';
+        var cs = window.getComputedStyle(container);
+        ['display', 'flexDirection', 'alignItems', 'justifyContent', 'overflow'].forEach(function(p) {
+          scaleWrap.style[p] = cs[p];
+        });
+        while (container.firstChild) scaleWrap.appendChild(container.firstChild);
+        container.appendChild(scaleWrap);
       }
     },
 

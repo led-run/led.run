@@ -143,6 +143,8 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Controls bridge via App** — Controls → App callbacks → ThemeManager.getCurrent()
 - **UI modules copied from til.re** — fullscreen.js, wakelock.js, cursor.js are identical
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
+- **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
+- **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
 
 ## Deployment
 

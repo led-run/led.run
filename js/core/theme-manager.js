@@ -97,6 +97,17 @@
     },
 
     /**
+     * Notify the current theme that the container dimensions changed.
+     * Directly invokes the theme's resize handler, bypassing the
+     * window resize event to avoid reflow-timing edge cases.
+     */
+    resize() {
+      if (this._current && typeof this._current._resizeHandler === 'function') {
+        this._current._resizeHandler();
+      }
+    },
+
+    /**
      * Dynamically load a theme from a directory
      * @param {string} basePath - Path to theme directory (e.g. '/themes/neon')
      * @returns {Promise<Object>} Resolves with the registered theme object
