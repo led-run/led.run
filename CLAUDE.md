@@ -28,6 +28,7 @@ All params are "preference hints" — themes decide whether to consume them.
 | `scale` | — | number | Display scale multiplier (0.1–1, default 1) |
 | `fill` | — | hex (6 or 8 digit) | Card face background color (no #), used by card themes when scale < 1 |
 | `cursor` | `cur` | number | Cursor auto-hide delay (App-level) |
+| `lang` | `l` | string | UI language (en/zh/ja/ko/es/fr/de), App-level |
 
 ## Theme Interface
 
@@ -51,13 +52,16 @@ All params are "preference hints" — themes decide whether to consume them.
 
 ```
 css/main.css              Global reset + layout
-css/landing.css           Landing page styles
-css/docs.css              Documentation page styles
+css/landing.css           Landing page styles + language switcher
+css/docs.css              Documentation page styles + language switcher
 css/toolbar.css           Floating toolbar styles + rotation classes
-docs/index.html           Documentation site (single-page)
+docs/index.html           Documentation site (English)
+docs/{lang}/index.html    Translated documentation (zh/ja/ko/es/fr/de)
 js/core/url-parser.js     URL text + param extraction
 js/core/text-engine.js    Auto-fit text sizing utility
 js/core/theme-manager.js  Theme registry, switching + dynamic loading
+js/core/i18n.js           I18n module — locale detection + translation lookup
+locales/{lang}.js         Translation strings (en/zh/ja/ko/es/fr/de)
 themes/{id}/renderer.js   Theme implementation (self-registers via ThemeManager.register)
 themes/{id}/style.css     Theme stylesheet
 js/ui/fullscreen.js       Fullscreen API (from til.re)
@@ -97,7 +101,7 @@ js/app.js                 App entry + orchestrator
 
 ## Script Load Order
 
-core (url-parser, text-engine, theme-manager) → themes → ui → app (defined in index.html)
+core (url-parser, text-engine, theme-manager, i18n) → locales → themes → ui → app (defined in index.html)
 
 ## Adding a New Theme
 
@@ -152,6 +156,35 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
 - **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 - **Presentation API casting** — `Cast` module uses W3C Presentation API (Chrome/Edge only); receiver detected via `navigator.presentation.receiver` (no URL params needed); receiver skips Controls + Toolbar for clean display; controller persists connection ID in `sessionStorage` for reconnect across page navigations; unsupported browsers never see the cast button
+
+## Internationalization (i18n)
+
+Supported languages: English (`en`), Simplified Chinese (`zh`), Japanese (`ja`), Korean (`ko`), Spanish (`es`), French (`fr`), German (`de`).
+
+### How It Works
+
+- `I18n` is a global IIFE module (`js/core/i18n.js`) loaded after theme-manager, before locales
+- Each locale file (`locales/{lang}.js`) calls `I18n.register(lang, {...})` to register translations
+- Language detection priority: URL `?lang=xx` → `localStorage('led-lang')` → `navigator.language` → `'en'`
+- Landing page and toolbar use `I18n.t('key')` for all user-facing strings
+- Documentation has separate translated HTML files per language (`docs/{lang}/index.html`)
+
+### Adding a New Language
+
+1. Create `locales/{lang}.js` with all keys from `locales/en.js`
+2. Create `docs/{lang}/index.html` (translated copy of `docs/index.html`)
+3. Add `<script src="/locales/{lang}.js"></script>` to `index.html`
+4. Add the language code to `SUPPORTED` array in `js/core/i18n.js`
+5. Add language label to `LANG_LABELS` in `js/app.js`
+6. Add redirect rules in `_redirects`
+7. Update language switchers in all `docs/*/index.html` files
+
+### Key Conventions
+
+- **Preset display text is NOT translated** — "DO NOT DISTURB", "HELLO" etc. are sign content, not UI
+- **Preset badges and descriptions ARE translated** — these are UI labels
+- Translation keys use dot-separated flat structure: `'landing.hero.title'`, `'toolbar.toast.linkCopied'`
+- `I18n.t()` falls back to English, then returns the key itself if missing
 
 ## Deployment
 
