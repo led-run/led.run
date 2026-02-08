@@ -142,52 +142,9 @@
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Cinzel Decorative', 'Noto Serif SC', serif",
         fontWeight: '900',
-        padding: 240 // Massive padding for the heavy frame and ornaments
+        padding: Math.max(60, this._container.clientWidth * 0.12)
       });
       el.style.fontSize = fontSize + 'px';
-    },
-
-    _initFlow(container, text, config) {
-      var track = document.createElement('div');
-      track.className = 'wood-flow-track';
-
-      for (var i = 0; i < 2; i++) {
-        var span = document.createElement('span');
-        span.className = 'wood-flow-text';
-        span.textContent = text;
-        if (config.font) span.style.fontFamily = config.font;
-        track.appendChild(span);
-      }
-
-      container.appendChild(track);
-      this._textEl = track;
-
-      var speed = config.speed || this.defaults.speed;
-      var direction = config.direction || this.defaults.direction;
-
-      var flowSize = Math.floor(this._container.clientHeight * 0.3);
-      track.querySelectorAll('.wood-flow-text').forEach(function(t) {
-        t.style.fontSize = flowSize + 'px';
-      });
-
-      var animName = 'wood-flow-scroll';
-      var style = document.createElement('style');
-      style.textContent =
-        '@keyframes ' + animName + ' { from { transform: translateX(0); } to { transform: translateX(' +
-        (direction === 'right' ? '50%' : '-50%') + '); } }';
-      document.head.appendChild(style);
-      this._animationStyle = style;
-
-      var duration = Math.max(5, 200 / (speed / 30));
-      track.style.animation = animName + ' ' + duration + 's linear infinite';
-
-      this._resizeHandler = function() {
-        var newSize = Math.floor(this._container.clientHeight * 0.3);
-        track.querySelectorAll('.wood-flow-text').forEach(function(t) {
-          t.style.fontSize = newSize + 'px';
-        });
-      }.bind(this);
-      window.addEventListener('resize', this._resizeHandler);
     },
 
     _initFlow(container, text, config) {
