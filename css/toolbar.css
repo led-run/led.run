@@ -1,0 +1,116 @@
+/**
+ * Toolbar Styles
+ * Floating toolbar with fullscreen, rotate, and share buttons
+ */
+
+/* Toolbar container */
+.sign-toolbar {
+  --toolbar-bg: rgba(30, 30, 30, 0.6);
+  --toolbar-border: rgba(255, 255, 255, 0.1);
+  --toolbar-btn-bg: transparent;
+  --toolbar-btn-color: rgba(255, 255, 255, 0.7);
+  --toolbar-btn-hover-bg: rgba(255, 255, 255, 0.1);
+  --toolbar-btn-hover-color: rgba(255, 255, 255, 1);
+
+  position: fixed;
+  bottom: 24px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  display: flex;
+  gap: 4px;
+  padding: 6px;
+  border-radius: 12px;
+  border: 1px solid var(--toolbar-border);
+  background: var(--toolbar-bg);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  opacity: 1;
+  transition: opacity 0.3s ease;
+  pointer-events: auto;
+}
+
+/* Cursor sync — hide toolbar when cursor is hidden */
+body.cursor-hidden .sign-toolbar {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Toolbar buttons */
+.sign-toolbar-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: none;
+  border-radius: 8px;
+  background: var(--toolbar-btn-bg);
+  color: var(--toolbar-btn-color);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.15s ease, color 0.15s ease;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sign-toolbar-btn:hover {
+  background: var(--toolbar-btn-hover-bg);
+  color: var(--toolbar-btn-hover-color);
+}
+
+.sign-toolbar-btn:active {
+  transform: scale(0.92);
+}
+
+.sign-toolbar-btn svg {
+  width: 20px;
+  height: 20px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+/* Toast notification */
+.sign-toolbar-toast {
+  position: fixed;
+  bottom: 80px;
+  left: 50%;
+  transform: translateX(-50%) translateY(8px);
+  z-index: 10000;
+  padding: 8px 16px;
+  border-radius: 8px;
+  background: rgba(30, 30, 30, 0.8);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  color: rgba(255, 255, 255, 0.9);
+  font-size: 13px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  white-space: nowrap;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+
+.sign-toolbar-toast.visible {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
+
+/* Rotation classes applied to #sign-container */
+#sign-container.rotated-90 {
+  transform: rotate(90deg);
+  width: 100vh;
+  height: 100vw;
+}
+
+#sign-container.rotated-180 {
+  transform: rotate(180deg);
+}
+
+#sign-container.rotated-270 {
+  transform: rotate(270deg);
+  width: 100vh;
+  height: 100vw;
+}
