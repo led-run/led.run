@@ -185,7 +185,8 @@
       html += '<footer class="landing-footer">';
       html += '<div>' + I18n.t('landing.footer.copyright') + '</div>';
       html += '<div class="footer-links">';
-      html += '<a href="/docs">' + I18n.t('landing.footer.docs') + '</a>';
+      var docsHref = I18n.locale() === 'en' ? '/docs' : '/docs/' + I18n.locale() + '/';
+      html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">' + I18n.t('landing.footer.github') + '</a>';
       html += '<a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">' + I18n.t('landing.footer.license') + '</a>';
       html += '</div>';
