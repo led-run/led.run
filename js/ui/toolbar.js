@@ -9,7 +9,7 @@
   // SVG icons (stroke style, 20x20 viewBox)
   var ICON_FULLSCREEN_ENTER = '<svg viewBox="0 0 20 20"><path d="M3 7V4a1 1 0 0 1 1-1h3M13 3h3a1 1 0 0 1 1 1v3M17 13v3a1 1 0 0 1-1 1h-3M7 17H4a1 1 0 0 1-1-1v-3"/></svg>';
   var ICON_FULLSCREEN_EXIT = '<svg viewBox="0 0 20 20"><path d="M7 3v3a1 1 0 0 1-1 1H3M13 3v3a1 1 0 0 0 1 1h3M3 13h3a1 1 0 0 1 1 1v3M17 13h-3a1 1 0 0 0-1 1v3"/></svg>';
-  var ICON_ROTATE = '<svg viewBox="0 0 20 20"><path d="M3 10a7 7 0 0 1 12.9-3.7M17 3v4h-4"/><path d="M17 10a7 7 0 0 1-12.9 3.7M3 17v-4h4"/></svg>';
+  var ICON_ROTATE = '<svg viewBox="0 0 20 20"><path d="M17 3v4h-4"/><path d="M17 7c-1.6-2.5-4.5-4-7.5-3.5-3.4.5-6 3.4-6 6.8s2.6 6.3 6 6.8c3 .5 5.9-1 7.5-3.5"/></svg>';
   var ICON_SHARE = '<svg viewBox="0 0 20 20"><circle cx="14" cy="4" r="2"/><circle cx="14" cy="16" r="2"/><circle cx="6" cy="10" r="2"/><path d="M7.8 11.1l4.4 3.8M12.2 5.1l-4.4 3.8"/></svg>';
   var ICON_CAST = '<svg viewBox="0 0 20 20"><path d="M3 13a4 4 0 0 1 4 4"/><path d="M3 9a8 8 0 0 1 8 8"/><circle cx="3.5" cy="16.5" r="1"/><path d="M15 3H5a2 2 0 0 0-2 2v2M17 7v8a2 2 0 0 1-2 2h-2"/></svg>';
 
@@ -123,15 +123,25 @@
       var container = this._container;
 
       // Remove current rotation class
-      var currentClass = ROTATION_CLASSES[this._rotationIndex];
+      var currentClass = ROTATION_CLASSES[this._rotationIndex % ROTATION_CLASSES.length];
       if (currentClass) container.classList.remove(currentClass);
 
       // Advance to next
-      this._rotationIndex = (this._rotationIndex + 1) % ROTATION_CLASSES.length;
+      this._rotationIndex++;
 
       // Apply new rotation class
-      var newClass = ROTATION_CLASSES[this._rotationIndex];
+      var nextIndex = this._rotationIndex % ROTATION_CLASSES.length;
+      var newClass = ROTATION_CLASSES[nextIndex];
       if (newClass) container.classList.add(newClass);
+
+      // Animate the icon clockwise
+      var btn = this._el.querySelector('[data-action="rotate"]');
+      if (btn) {
+        var svg = btn.querySelector('svg');
+        if (svg) {
+          svg.style.transform = 'rotate(' + (this._rotationIndex * 90) + 'deg)';
+        }
+      }
 
       // Wait one frame for CSS to settle, force reflow, then notify theme
       requestAnimationFrame(function() {
@@ -143,7 +153,7 @@
       try {
         var orientations = ['natural', 'landscape-primary', 'portrait-primary', 'landscape-secondary'];
         if (screen.orientation && screen.orientation.lock) {
-          screen.orientation.lock(orientations[this._rotationIndex]).catch(function() {});
+          screen.orientation.lock(orientations[nextIndex]).catch(function() {});
         }
       } catch (e) {
         // Ignore — most browsers require fullscreen for orientation lock

@@ -22,8 +22,10 @@
   padding: 8px;
   border-radius: 16px;
   border: 1px solid var(--toolbar-border);
-  background: var(--toolbar-bg);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.4);
+  background: rgba(30, 30, 30, 0.75);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
   opacity: 1;
   transition: opacity 0.3s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
   pointer-events: auto;
@@ -71,6 +73,7 @@ body.cursor-hidden .sign-toolbar {
   stroke-linecap: round;
   stroke-linejoin: round;
   fill: none;
+  transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 /* Toast notification */
@@ -82,7 +85,9 @@ body.cursor-hidden .sign-toolbar {
   z-index: 10000;
   padding: 10px 20px;
   border-radius: 100px;
-  background: #1e1e1e;
+  background: rgba(30, 30, 30, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(255, 255, 255, 0.1);
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
   color: #fff;
