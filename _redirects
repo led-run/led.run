@@ -5,5 +5,9 @@
 /js/*       /js/:splat       200
 /themes/*   /themes/:splat   200
 
+# Documentation
+/docs       /docs/index.html 200
+/docs/*     /docs/:splat     200
+
 # All other paths rewrite to index.html, parsed by frontend JS
 /*    /index.html   200

@@ -12,3 +12,6 @@
 
 /themes/*
   Cache-Control: public, max-age=86400
+
+/docs/*
+  Cache-Control: public, max-age=3600
