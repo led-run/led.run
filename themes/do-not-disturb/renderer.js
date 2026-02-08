@@ -11,7 +11,8 @@
     defaults: {
       color: 'ff0000', // Primary glow color
       bg: '1a1a1a',    // Page background
-      font: ''
+      font: '',
+      scale: 1
     },
 
     _container: null,
@@ -34,8 +35,16 @@
       //   <div class="dnd-indicators">...</div>
       // </div>
       
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+
+      var wrapper = document.createElement('div');
+      if (scale < 1) {
+        wrapper.style.transform = 'scale(' + scale + ')';
+        wrapper.style.transformOrigin = 'center center';
+      }
+
       var box = document.createElement('div');
-      box.className = 'dnd-box';
+      box.className = 'dnd-box' + (scale < 1 ? ' dnd-scaled' : '');
       
       var glass = document.createElement('div');
       glass.className = 'dnd-glass';
@@ -65,7 +74,8 @@
       glass.appendChild(textEl);
       box.appendChild(glass);
       box.appendChild(indicators);
-      container.appendChild(box);
+      wrapper.appendChild(box);
+      container.appendChild(wrapper);
 
       this._fitText(textEl, text, config);
 
@@ -91,26 +101,21 @@
     },
 
     _fitText(el, text, config) {
-      // The box should feel like a physical object, so we don't want it to hit the screen edges.
-      // We'll fit the text to a virtual container that is 70% of the screen size.
-      var vWidth = window.innerWidth * 0.7;
-      var vHeight = window.innerHeight * 0.5;
-      
-      // We simulate this by creating a temporary measurement container
+      var vWidth = window.innerWidth * 0.8;
+      var vHeight = window.innerHeight * 0.6;
+
       var tempContainer = {
         clientWidth: vWidth,
         clientHeight: vHeight
       };
-      
+
       var fontSize = TextEngine.autoFit(text, tempContainer, {
         fontFamily: config.font || "'Inter', sans-serif",
         fontWeight: '900',
         padding: 40
       });
-      
-      // Clamp font size to reasonable limits for this theme
-      fontSize = Math.min(fontSize, window.innerHeight * 0.3);
-      
+
+      fontSize = Math.min(fontSize, window.innerHeight * 0.4);
       el.style.fontSize = fontSize + 'px';
     },
 
