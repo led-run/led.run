@@ -17,7 +17,8 @@
       font: '',
       speed: 60,
       direction: 'left',
-      dot: 'ff0000'
+      dot: 'ff0000',
+      scale: 1
     },
 
     _container: null,
@@ -63,6 +64,12 @@
         this._initFlow(content, text, config);
       } else {
         this._initSign(content, text, config);
+      }
+
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      if (scale < 1) {
+        container.style.transform = 'scale(' + scale + ')';
+        container.style.transformOrigin = 'center center';
       }
     },
 

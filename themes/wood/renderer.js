@@ -18,7 +18,8 @@
       speed: 60,
       direction: 'left',
       grain: 'dark',
-      warm: 5
+      warm: 5,
+      scale: 1
     },
 
     _container: null,
@@ -76,6 +77,12 @@
         this._initFlow(container, text, config);
       } else {
         this._initSign(container, text, config);
+      }
+
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      if (scale < 1) {
+        container.style.transform = 'scale(' + scale + ')';
+        container.style.transformOrigin = 'center center';
       }
     },
 
