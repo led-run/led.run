@@ -255,12 +255,13 @@
     },
 
     _fitText(el, text, config) {
-      var fontSize = TextEngine.autoFit(text, this._container, {
+      var fontSize = TextEngine.autoFit(text.toUpperCase(), this._container, {
         fontFamily: config.font || "'Playfair Display', 'Georgia', serif",
         fontWeight: '900',
         padding: 120
       });
-      el.style.fontSize = fontSize + 'px';
+      // Compensate for CSS letter-spacing: 0.05em (not measured by autoFit)
+      el.style.fontSize = Math.floor(fontSize * 0.9) + 'px';
     },
 
     _initFlow(container, text, config) {
