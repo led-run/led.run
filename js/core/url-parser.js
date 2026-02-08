@@ -15,10 +15,10 @@
   };
 
   // Parameters that should always remain strings (never convert to number)
-  const STRING_PARAMS = ['color', 'bg', 'theme', 'mode', 'direction', 'font'];
+  const STRING_PARAMS = ['color', 'bg', 'fill', 'theme', 'mode', 'direction', 'font'];
 
   // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
-  const COLOR_PARAMS = ['color', 'bg'];
+  const COLOR_PARAMS = ['color', 'bg', 'fill'];
 
   const URLParser = {
     /**

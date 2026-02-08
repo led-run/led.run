@@ -18,7 +18,8 @@
       speed: 60,
       direction: 'left',
       dot: 'ff0000',
-      scale: 1
+      scale: 1,
+      fill: '0a0a0a'
     },
 
     _container: null,
@@ -80,7 +81,7 @@
         });
         while (container.firstChild) scaleWrap.appendChild(container.firstChild);
         container.appendChild(scaleWrap);
-        scaleWrap.style.backgroundColor = '#' + this.defaults.bg;
+        scaleWrap.style.backgroundColor = '#' + config.fill;
         container.style.background = 'transparent';
         if (config.bg && config.bg !== this.defaults.bg) {
           container.style.backgroundColor = '#' + config.bg;

@@ -20,7 +20,8 @@
       direction: 'left',
       chase: 3,
       bulbColor: 'ffaa00',
-      scale: 1
+      scale: 1,
+      fill: '120800'
     },
 
     _container: null,
@@ -80,7 +81,7 @@
         });
         while (container.firstChild) scaleWrap.appendChild(container.firstChild);
         container.appendChild(scaleWrap);
-        scaleWrap.style.backgroundColor = '#' + this.defaults.bg;
+        scaleWrap.style.backgroundColor = '#' + config.fill;
         container.style.background = 'transparent';
         if (config.bg && config.bg !== this.defaults.bg) {
           container.style.backgroundColor = '#' + config.bg;

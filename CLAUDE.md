@@ -26,6 +26,7 @@ All params are "preference hints" — themes decide whether to consume them.
 | `font` | — | string | Font family |
 | `wakelock` | `w` | boolean | Keep screen on (App-level, default true) |
 | `scale` | — | number | Display scale multiplier (0.1–1, default 1) |
+| `fill` | — | hex (6 or 8 digit) | Card face background color (no #), used by card themes when scale < 1 |
 | `cursor` | `cur` | number | Cursor auto-hide delay (App-level) |
 
 ## Theme Interface
@@ -77,17 +78,17 @@ js/app.js                 App entry + orchestrator
 | `typewriter` | Character-by-character typing + cursor | `typingSpeed` |
 | `gradient` | Rainbow gradient text flow | — |
 | `hologram` | Chromatic aberration + scanline sweep | — |
-| `broadcast` | Studio "ON AIR" indicator + recording dot | `dot`, `frame` |
-| `marquee` | Broadway chase light bulbs (Canvas) | `chase`, `bulbColor` |
+| `broadcast` | Studio "ON AIR" indicator + recording dot | `dot`, `frame`, `fill` |
+| `marquee` | Broadway chase light bulbs (Canvas) | `chase`, `bulbColor`, `fill` |
 | `pulse` | Breathing mood ambient + radial glow | `rhythm`, `palette` |
 | `aurora` | Northern lights wave bands (Canvas) | `intensity` |
 | `firework` | Particle fireworks system (Canvas) | `rate` |
-| `wood` | Warm wooden cafe sign with painted text | `grain`, `warm` |
+| `wood` | Warm wooden cafe sign with painted text | `grain`, `warm`, `fill` |
 | `cyber` | Matrix terminal decode effect + HUD overlay | `glitch` |
 | `tokyo` | Cyberpunk rain-soaked neon + Japanese decorations | — |
 | `blueprint` | Architectural blueprint drawing style | — |
 | `monolith` | Brutalist high-contrast display | — |
-| `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare` |
+| `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare`, `fill` |
 | `do-not-disturb` | Skeuomorphic lightbox + glass panel | — |
 
 ## Script Load Order
@@ -145,7 +146,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
 - **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
-- **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card itself keeps the theme default bg on the scaleWrap. Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
+- **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 
 ## Deployment
 
