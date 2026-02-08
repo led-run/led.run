@@ -16,7 +16,8 @@
       bg: 'ffffff',
       font: '',
       speed: 50,
-      direction: 'left'
+      direction: 'left',
+      scale: 1
     },
 
     _container: null,
@@ -97,12 +98,13 @@
     },
 
     _fitText(el, text, config) {
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Inter', sans-serif",
         fontWeight: '900',
         padding: 60
       });
-      el.style.fontSize = fontSize + 'px';
+      el.style.fontSize = (fontSize * scale) + 'px';
     },
 
     _initFlow(container, text, config) {
@@ -123,7 +125,8 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.7);
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      var flowSize = Math.floor(container.clientHeight * 0.7 * scale);
       track.querySelectorAll('.monolith-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -140,7 +143,7 @@
       track.style.animation = animName + ' ' + duration + 's linear infinite';
 
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.7);
+        var newSize = Math.floor(container.clientHeight * 0.7 * scale);
         track.querySelectorAll('.monolith-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });

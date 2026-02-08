@@ -17,7 +17,8 @@
       font: '',
       speed: 60,
       direction: 'left',
-      flicker: 1
+      flicker: 1,
+      scale: 1
     },
 
     _container: null,
@@ -77,12 +78,13 @@
     },
 
     _fitText(el, text, config) {
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Georgia', 'Times New Roman', serif",
         fontWeight: 'bold',
         padding: 30
       });
-      el.style.fontSize = fontSize + 'px';
+      el.style.fontSize = (fontSize * scale) + 'px';
     },
 
     _initFlow(container, text, config) {
@@ -103,7 +105,8 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      var flowSize = Math.floor(container.clientHeight * 0.6 * scale);
       track.querySelectorAll('.neon-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -120,7 +123,7 @@
       track.style.animation = animName + ' ' + duration + 's linear infinite';
 
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.6);
+        var newSize = Math.floor(container.clientHeight * 0.6 * scale);
         track.querySelectorAll('.neon-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });

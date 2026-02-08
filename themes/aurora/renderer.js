@@ -36,7 +36,8 @@
       font: '',
       speed: 60,
       direction: 'left',
-      intensity: 5
+      intensity: 5,
+      scale: 1
     },
 
     _container: null,
@@ -217,7 +218,8 @@
       if (this._mode === 'sign' && this._textEl) {
         this._fitText(this._textEl, this._textEl.textContent, this._config);
       } else if (this._mode === 'flow' && this._textEl) {
-        var newSize = Math.floor(this._container.clientHeight * 0.6);
+        var scale = Math.max(0.1, Math.min(1, Number(this._config.scale) || 1));
+        var newSize = Math.floor(this._container.clientHeight * 0.6 * scale);
         this._textEl.querySelectorAll('.aurora-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });
@@ -236,12 +238,13 @@
     },
 
     _fitText(el, text, config) {
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Raleway', 'Helvetica Neue', sans-serif",
         fontWeight: '600',
         padding: 40
       });
-      el.style.fontSize = fontSize + 'px';
+      el.style.fontSize = (fontSize * scale) + 'px';
     },
 
     _initFlow(container, text, config) {
@@ -262,7 +265,8 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      var flowSize = Math.floor(container.clientHeight * 0.6 * scale);
       track.querySelectorAll('.aurora-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });

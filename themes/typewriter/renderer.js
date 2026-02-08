@@ -17,7 +17,8 @@
       font: '',
       speed: 60,
       direction: 'left',
-      typingSpeed: 120
+      typingSpeed: 120,
+      scale: 1
     },
 
     _container: null,
@@ -60,6 +61,7 @@
 
     _initSign(container, text, config) {
       // First, calculate the font size for the full text
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       var fontSize = TextEngine.autoFit(text, container, {
         fontFamily: config.font || "'Special Elite', 'Courier Prime', monospace",
         fontWeight: '400',
@@ -72,12 +74,12 @@
 
       var el = document.createElement('span');
       el.className = 'tw-sign-text';
-      el.style.fontSize = fontSize + 'px';
+      el.style.fontSize = (fontSize * scale) + 'px';
       if (config.font) el.style.fontFamily = config.font;
 
       var cursor = document.createElement('span');
       cursor.className = 'tw-cursor';
-      cursor.style.fontSize = fontSize + 'px';
+      cursor.style.fontSize = (fontSize * scale) + 'px';
 
       wrapper.appendChild(el);
       wrapper.appendChild(cursor);
@@ -94,8 +96,8 @@
           fontWeight: '400',
           padding: 30
         });
-        el.style.fontSize = newSize + 'px';
-        cursor.style.fontSize = newSize + 'px';
+        el.style.fontSize = (newSize * scale) + 'px';
+        cursor.style.fontSize = (newSize * scale) + 'px';
       }.bind(this);
       window.addEventListener('resize', this._resizeHandler);
     },
@@ -151,7 +153,8 @@
       var speed = config.speed || this.defaults.speed;
       var direction = config.direction || this.defaults.direction;
 
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      var flowSize = Math.floor(container.clientHeight * 0.6 * scale);
       track.querySelectorAll('.tw-flow-text').forEach(function(t) {
         t.style.fontSize = flowSize + 'px';
       });
@@ -168,7 +171,7 @@
       track.style.animation = animName + ' ' + duration + 's linear infinite';
 
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.6);
+        var newSize = Math.floor(container.clientHeight * 0.6 * scale);
         track.querySelectorAll('.tw-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });

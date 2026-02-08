@@ -17,7 +17,8 @@
       bg: '000000',
       font: '',
       speed: 60,
-      direction: 'left'
+      direction: 'left',
+      scale: 1
     },
 
     _container: null,
@@ -98,12 +99,13 @@
      * @private
      */
     _fitText(el, text, config) {
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'SF Mono', 'Fira Code', 'Roboto Mono', monospace",
         fontWeight: 'bold',
         padding: 30
       });
-      el.style.fontSize = fontSize + 'px';
+      el.style.fontSize = (fontSize * scale) + 'px';
     },
 
     /**
@@ -131,7 +133,8 @@
       var direction = config.direction || this.defaults.direction;
 
       // Set flow font size based on container height
-      var flowSize = Math.floor(container.clientHeight * 0.6);
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      var flowSize = Math.floor(container.clientHeight * 0.6 * scale);
       var flowTexts = track.querySelectorAll('.led-flow-text');
       flowTexts.forEach(function(t) { t.style.fontSize = flowSize + 'px'; });
 
@@ -150,7 +153,7 @@
 
       // Refit on resize
       this._resizeHandler = function() {
-        var newSize = Math.floor(container.clientHeight * 0.6);
+        var newSize = Math.floor(container.clientHeight * 0.6 * scale);
         track.querySelectorAll('.led-flow-text').forEach(function(t) {
           t.style.fontSize = newSize + 'px';
         });
