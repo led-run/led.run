@@ -9,8 +9,9 @@
     id: 'do-not-disturb',
 
     defaults: {
-      color: 'ff0000', // Primary glow color
-      bg: '1a1a1a',    // Page background
+      color: 'ff0000',  // Text glow color
+      bg: '1a1a1a',     // Page background
+      fill: '990000',   // Glass panel background
       font: '',
       scale: 1
     },
@@ -93,16 +94,9 @@
       window.addEventListener('resize', this._resizeHandler);
       
       // Apply configuration
-      if (config.color) {
-        var color = '#' + config.color;
-        container.style.setProperty('--dnd-color', color);
-        
-        // Use the color with opacity for the glass background spill effect
-        // or a darkened version. Here we just use the same variable and
-        // let CSS handle the 'glass' look.
-        container.style.setProperty('--dnd-color-bg', color);
-      }
-      
+      container.style.setProperty('--dnd-color', '#' + (config.color || this.defaults.color));
+      container.style.setProperty('--dnd-color-bg', '#' + (config.fill || this.defaults.fill));
+
       if (config.bg) {
         container.style.setProperty('--dnd-bg', '#' + config.bg);
       }
