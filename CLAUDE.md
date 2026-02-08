@@ -25,6 +25,7 @@ All params are "preference hints" — themes decide whether to consume them.
 | `direction` | `dir` | string | Scroll direction |
 | `font` | — | string | Font family |
 | `wakelock` | `w` | boolean | Keep screen on (App-level, default true) |
+| `scale` | — | number | Display scale multiplier (0.1–1, default 1) |
 | `cursor` | `cur` | number | Cursor auto-hide delay (App-level) |
 
 ## Theme Interface
