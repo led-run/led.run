@@ -52,7 +52,9 @@ All params are "preference hints" — themes decide whether to consume them.
 ```
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles
+css/docs.css              Documentation page styles
 css/toolbar.css           Floating toolbar styles + rotation classes
+docs/index.html           Documentation site (single-page)
 js/core/url-parser.js     URL text + param extraction
 js/core/text-engine.js    Auto-fit text sizing utility
 js/core/theme-manager.js  Theme registry, switching + dynamic loading
@@ -79,9 +81,9 @@ js/app.js                 App entry + orchestrator
 | `typewriter` | Character-by-character typing + cursor | `typingSpeed` |
 | `gradient` | Rainbow gradient text flow | — |
 | `hologram` | Chromatic aberration + scanline sweep | — |
-| `broadcast` | Studio "ON AIR" indicator + recording dot | `dot`, `frame`, `fill` |
+| `broadcast` | Studio "ON AIR" indicator + recording dot | `dot`, `fill` |
 | `marquee` | Broadway chase light bulbs (Canvas) | `chase`, `bulbColor`, `fill` |
-| `pulse` | Breathing mood ambient + radial glow | `rhythm`, `palette` |
+| `pulse` | Breathing mood ambient + radial glow | `rhythm` |
 | `aurora` | Northern lights wave bands (Canvas) | `intensity` |
 | `firework` | Particle fireworks system (Canvas) | `rate` |
 | `wood` | Warm wooden cafe sign with painted text | `grain`, `warm`, `fill` |
