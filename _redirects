@@ -5,8 +5,23 @@
 /js/*       /js/:splat       200
 /themes/*   /themes/:splat   200
 
+# Locales
+/locales/*  /locales/:splat  200
+
 # Documentation
 /docs       /docs/index.html 200
+/docs/zh    /docs/zh/index.html 200
+/docs/zh/*  /docs/zh/:splat  200
+/docs/ja    /docs/ja/index.html 200
+/docs/ja/*  /docs/ja/:splat  200
+/docs/ko    /docs/ko/index.html 200
+/docs/ko/*  /docs/ko/:splat  200
+/docs/es    /docs/es/index.html 200
+/docs/es/*  /docs/es/:splat  200
+/docs/fr    /docs/fr/index.html 200
+/docs/fr/*  /docs/fr/:splat  200
+/docs/de    /docs/de/index.html 200
+/docs/de/*  /docs/de/:splat  200
 /docs/*     /docs/:splat     200
 
 # All other paths rewrite to index.html, parsed by frontend JS
