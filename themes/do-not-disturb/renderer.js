@@ -39,10 +39,12 @@
 
       var wrapper = document.createElement('div');
       wrapper.style.width = '100%';
-      wrapper.style.height = '100%';
       if (scale < 1) {
+        wrapper.style.height = 'auto';
         wrapper.style.transform = 'scale(' + scale + ')';
         wrapper.style.transformOrigin = 'center center';
+      } else {
+        wrapper.style.height = '100%';
       }
 
       var box = document.createElement('div');
@@ -103,22 +105,38 @@
     },
 
     _fitText(el, text, config) {
-      var w = this._container.clientWidth * 0.8;
-      var h = this._container.clientHeight * 0.6;
+      var glass = this._glassEl;
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      // Use glass dimensions minus padding (40px each side) and extra margin for inset shadow
+      var w = glass.clientWidth - 120;  // 60px each side
+      // When scaled, height is auto — only constrain by width
+      var h = scale < 1 ? Infinity : glass.clientHeight - 40;  // 20px each side
 
-      var tempContainer = {
-        clientWidth: w,
-        clientHeight: h
-      };
+      if (w <= 0) return;
 
-      var fontSize = TextEngine.autoFit(text, tempContainer, {
-        fontFamily: config.font || "'Inter', sans-serif",
-        fontWeight: '900',
-        padding: 40
-      });
+      // Measure with letter-spacing and uppercase to match CSS rendering
+      var displayText = text.toUpperCase();
+      var fontFamily = config.font || "'Inter', sans-serif";
 
-      fontSize = Math.min(fontSize, this._container.clientHeight * 0.4);
-      el.style.fontSize = fontSize + 'px';
+      var measurer = document.createElement('span');
+      measurer.style.cssText = 'position:absolute;visibility:hidden;white-space:nowrap;left:-9999px;top:-9999px;'
+        + 'font-family:' + fontFamily + ';font-weight:900;letter-spacing:0.1em;';
+      measurer.textContent = displayText;
+      document.body.appendChild(measurer);
+
+      var lo = 10, hi = 2000;
+      while (hi - lo > 1) {
+        var mid = Math.floor((lo + hi) / 2);
+        measurer.style.fontSize = mid + 'px';
+        if (measurer.offsetWidth <= w && measurer.offsetHeight <= h) {
+          lo = mid;
+        } else {
+          hi = mid;
+        }
+      }
+      document.body.removeChild(measurer);
+
+      el.style.fontSize = lo + 'px';
     },
 
     destroy() {

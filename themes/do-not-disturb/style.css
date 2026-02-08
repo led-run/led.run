@@ -64,6 +64,15 @@
     0 0 0 6px #222;
 }
 
+/* Height auto-fits content when scaled */
+.dnd-box.dnd-scaled {
+  height: auto;
+}
+
+.dnd-box.dnd-scaled .dnd-glass {
+  height: auto;
+}
+
 /* Glow spill only when floating (scale < 1) */
 .dnd-box.dnd-scaled::before {
   box-shadow:
@@ -109,7 +118,7 @@
   padding: 20px 40px;
   border-radius: 4px;
   overflow: hidden;
-  box-shadow: inset 0 0 50px rgba(0,0,0,0.8);
+  box-shadow: inset 0 0 30px rgba(0,0,0,0.6);
   display: flex;
   align-items: center;
   justify-content: center;
