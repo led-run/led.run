@@ -96,12 +96,19 @@
         <p>led.run turns URLs into digital signs. The <strong>path</strong> is your text, the <strong>query string</strong> is your configuration. Open the URL in any browser and your sign is ready.</p>
 
         <div class="url-diagram">
-          <div class="url-diagram-url">
-            <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
           </div>
-          <div class="url-diagram-labels">
-            <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Text (URL path)</span>
-            <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Configuration (query params)</span>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Text (URL path)</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Configuration (query params)</span>
+            </div>
           </div>
         </div>
 
@@ -254,7 +261,12 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 
         <!-- Themes -->
         <h2 id="themes">Themes</h2>
-        <p>led.run includes 20 built-in themes. Click any theme to see its details and custom parameters.</p>
+        <p>led.run includes 20 built-in themes. Each theme is designed for a specific vibe and use case.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="theme-search" placeholder="Search themes (e.g. 'neon', 'matrix')..." 
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
 
         <div class="theme-grid">
           <div class="theme-card">
@@ -1049,6 +1061,25 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       // Close menu on nav click (mobile)
       sidebar.addEventListener('click', function(e) {
         if (e.target.tagName === 'A') closeMenu();
+      });
+
+      // Theme search/filter
+      var themeSearch = document.getElementById('theme-search');
+      var themeCards = document.querySelectorAll('.theme-card');
+
+      themeSearch.addEventListener('input', function(e) {
+        var term = e.target.value.toLowerCase().trim();
+        themeCards.forEach(function(card) {
+          var name = card.querySelector('.theme-card-name').textContent.toLowerCase();
+          var id = card.querySelector('.theme-card-id').textContent.toLowerCase();
+          var desc = card.querySelector('.theme-card-desc').textContent.toLowerCase();
+          
+          if (name.includes(term) || id.includes(term) || desc.includes(term)) {
+            card.style.display = 'flex';
+          } else {
+            card.style.display = 'none';
+          }
+        });
       });
 
       // Smooth scroll for anchor links
