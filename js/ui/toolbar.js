@@ -11,6 +11,7 @@
   var ICON_FULLSCREEN_EXIT = '<svg viewBox="0 0 20 20"><path d="M7 3v3a1 1 0 0 1-1 1H3M13 3v3a1 1 0 0 0 1 1h3M3 13h3a1 1 0 0 1 1 1v3M17 13h-3a1 1 0 0 0-1 1v3"/></svg>';
   var ICON_ROTATE = '<svg viewBox="0 0 20 20"><path d="M3 10a7 7 0 0 1 12.9-3.7M17 3v4h-4"/><path d="M17 10a7 7 0 0 1-12.9 3.7M3 17v-4h4"/></svg>';
   var ICON_SHARE = '<svg viewBox="0 0 20 20"><circle cx="14" cy="4" r="2"/><circle cx="14" cy="16" r="2"/><circle cx="6" cy="10" r="2"/><path d="M7.8 11.1l4.4 3.8M12.2 5.1l-4.4 3.8"/></svg>';
+  var ICON_CAST = '<svg viewBox="0 0 20 20"><path d="M3 13a4 4 0 0 1 4 4"/><path d="M3 9a8 8 0 0 1 8 8"/><circle cx="3.5" cy="16.5" r="1"/><path d="M15 3H5a2 2 0 0 0-2 2v2M17 7v8a2 2 0 0 1-2 2h-2"/></svg>';
 
   var ROTATION_CLASSES = ['', 'rotated-90', 'rotated-180', 'rotated-270'];
 
@@ -20,6 +21,7 @@
     _container: null,
     _rotationIndex: 0,
     _unsubFullscreen: null,
+    _unsubCast: null,
     _toastTimer: null,
 
     /**
@@ -46,9 +48,14 @@
       var toolbar = document.createElement('div');
       toolbar.className = 'sign-toolbar';
 
+      var castBtn = (typeof Cast !== 'undefined' && Cast.isSupported())
+        ? '<button class="sign-toolbar-btn" data-action="cast" aria-label="Cast to display">' + ICON_CAST + '</button>'
+        : '';
+
       toolbar.innerHTML =
         '<button class="sign-toolbar-btn" data-action="fullscreen" aria-label="Toggle fullscreen">' + ICON_FULLSCREEN_ENTER + '</button>' +
         '<button class="sign-toolbar-btn" data-action="rotate" aria-label="Rotate display">' + ICON_ROTATE + '</button>' +
+        castBtn +
         '<button class="sign-toolbar-btn" data-action="share" aria-label="Share link">' + ICON_SHARE + '</button>';
 
       // Toast
@@ -77,6 +84,7 @@
         var action = btn.dataset.action;
         if (action === 'fullscreen') self._onFullscreen();
         else if (action === 'rotate') self._onRotate();
+        else if (action === 'cast') self._onCast();
         else if (action === 'share') self._onShare();
       });
 
@@ -87,6 +95,16 @@
           btn.innerHTML = isFullscreen ? ICON_FULLSCREEN_EXIT : ICON_FULLSCREEN_ENTER;
         }
       });
+
+      // Cast state change — toggle active style
+      if (typeof Cast !== 'undefined' && Cast.isSupported()) {
+        this._unsubCast = Cast.onStateChange(function(isCasting) {
+          var btn = self._el.querySelector('[data-action="cast"]');
+          if (btn) {
+            btn.classList.toggle('casting-active', isCasting);
+          }
+        });
+      }
     },
 
     /**
@@ -130,6 +148,29 @@
       } catch (e) {
         // Ignore — most browsers require fullscreen for orientation lock
       }
+    },
+
+    /**
+     * Toggle casting
+     * @private
+     */
+    _onCast: function() {
+      var self = this;
+
+      if (Cast.isCasting()) {
+        Cast.stop();
+        self._showToast('Cast stopped');
+        return;
+      }
+
+      Cast.start().then(function() {
+        self._showToast('Casting...');
+      }).catch(function(err) {
+        // User cancelled device chooser — not an error
+        if (err && err.name !== 'NotAllowedError') {
+          self._showToast('Cast failed');
+        }
+      });
     },
 
     /**
@@ -211,6 +252,11 @@
       if (this._unsubFullscreen) {
         this._unsubFullscreen();
         this._unsubFullscreen = null;
+      }
+
+      if (this._unsubCast) {
+        this._unsubCast();
+        this._unsubCast = null;
       }
 
       if (this._toastTimer) {

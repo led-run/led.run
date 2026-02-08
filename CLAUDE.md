@@ -62,7 +62,8 @@ js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
 js/ui/controls.js         Keyboard/pointer input
-js/ui/toolbar.js          Floating toolbar (fullscreen/rotate/share)
+js/ui/cast.js             Presentation API casting (controller + receiver)
+js/ui/toolbar.js          Floating toolbar (fullscreen/rotate/cast/share)
 js/app.js                 App entry + orchestrator
 .github/workflows/deploy.yml  CI/CD — Cloudflare Pages deploy on push to main
 ```
@@ -107,13 +108,13 @@ For dynamic loading (without editing index.html): `ThemeManager.load('/themes/{i
 
 ## Toolbar
 
-The floating toolbar provides fullscreen, rotate, and share buttons. It syncs with cursor auto-hide (fades out when cursor is hidden).
+The floating toolbar provides fullscreen, rotate, cast, and share buttons. It syncs with cursor auto-hide (fades out when cursor is hidden).
 
 - **`data-theme` attribute**: `#app[data-theme="xxx"]` is set by app.js when a theme is active, enabling theme-scoped CSS selectors
 - **DOM structure** (stable API for theme CSS):
   - `.sign-toolbar` — toolbar container
   - `.sign-toolbar-btn` — button elements
-  - `.sign-toolbar-btn[data-action="fullscreen|rotate|share"]` — specific buttons
+  - `.sign-toolbar-btn[data-action="fullscreen|rotate|cast|share"]` — specific buttons
   - `.sign-toolbar-toast` — toast notification
 
 ### Theme Customization
@@ -148,6 +149,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
 - **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
+- **Presentation API casting** — `Cast` module uses W3C Presentation API (Chrome/Edge only); receiver detected via `navigator.presentation.receiver` (no URL params needed); receiver skips Controls + Toolbar for clean display; controller persists connection ID in `sessionStorage` for reconnect across page navigations; unsupported browsers never see the cast button
 
 ## Deployment
 

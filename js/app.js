@@ -78,6 +78,12 @@
       WakeLock.init({ wakelock: appConfig.wakelock });
       Cursor.init({ cursor: appConfig.cursor });
 
+      // Receiver mode: clean display only (no controls, no toolbar)
+      if (typeof Cast !== 'undefined' && Cast._isReceiver()) {
+        Cast.init();
+        return;
+      }
+
       // Initialize controls with callbacks bridging to current theme
       Controls.init({
         onTogglePause: function() {
@@ -91,6 +97,11 @@
         }
       });
       Toolbar.init({ container: this._container });
+
+      // Initialize cast (auto-reconnects if session exists)
+      if (typeof Cast !== 'undefined') {
+        Cast.init();
+      }
     },
 
     /**

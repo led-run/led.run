@@ -100,6 +100,17 @@ body.cursor-hidden .sign-toolbar {
   transform: translateX(-50%) translateY(0);
 }
 
+/* Cast button active state — breathing pulse */
+.sign-toolbar-btn.casting-active {
+  color: #2979ff;
+  animation: cast-pulse 2s ease-in-out infinite;
+}
+
+@keyframes cast-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
 /* Rotation classes applied to #sign-container */
 #sign-container.rotated-90 {
   width: 100vh;
