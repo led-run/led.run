@@ -17,7 +17,7 @@ All params are "preference hints" — themes decide whether to consume them.
 
 | Param | Alias | Type | Description |
 |-------|-------|------|-------------|
-| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework/wood/cyber/tokyo/blueprint/monolith/street-sign/do-not-disturb) |
+| `theme` | `t` | string | Theme ID (default/neon/retro/glitch/typewriter/gradient/hologram/broadcast/marquee/pulse/aurora/firework/wood/cyber/tokyo/blueprint/monolith/street-sign/do-not-disturb/dot-matrix) |
 | `mode` | — | string | Display mode hint (sign/flow) |
 | `color` | `c` | hex (6 or 8 digit) | Text color (no #), 8-digit AARRGGBB for alpha |
 | `bg` | — | hex (6 or 8 digit) | Background color (no #), 8-digit AARRGGBB for alpha |
@@ -90,6 +90,7 @@ js/app.js                 App entry + orchestrator
 | `monolith` | Brutalist high-contrast display | — |
 | `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare`, `fill` |
 | `do-not-disturb` | Skeuomorphic lightbox + glass panel | `fill`, `glow` |
+| `dot-matrix` | Skeuomorphic LED dot-matrix board (Canvas) | `res`, `gap`, `glow`, `shape`, `bezel`, `weight`, `flicker`, `fill`, `wrap` |
 
 ## Script Load Order
 
@@ -146,7 +147,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
 - **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
-- **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
+- **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 
 ## Deployment
 

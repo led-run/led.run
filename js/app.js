@@ -27,7 +27,8 @@
     { text: 'WE LOVE YOU TAYLOR', icon: '🎤', desc: 'Fan LED board for concerts — hold up your phone and cheer.', params: '?t=gradient&mode=flow&speed=150' },
     { text: 'DRINKS HALF PRICE UNTIL 9PM', icon: '🍻', desc: 'Happy hour promo scrolling across a warm neon bar sign.', params: '?t=neon&mode=flow&c=ffaa00&flicker=1&speed=120' },
     { text: 'WELCOME TO THE GRAND OPENING', icon: '🎊', desc: 'Celebration announcement with fireworks and golden text.', params: '?t=firework&mode=flow&rate=6&c=ffd700&speed=100' },
-    { text: 'NOW PLAYING: BOHEMIAN RHAPSODY', icon: '🎵', desc: 'Music ticker with retro CRT scanlines and purple glow.', params: '?t=retro&mode=flow&c=cc66ff&speed=80' }
+    { text: 'NOW PLAYING: BOHEMIAN RHAPSODY', icon: '🎵', desc: 'Music ticker with retro CRT scanlines and purple glow.', params: '?t=retro&mode=flow&c=cc66ff&speed=80' },
+    { text: 'AIRPORT SHUTTLE -> GATE 4', icon: '🚌', desc: 'Classic square-cell LED display with high-contrast yellow dots.', params: '?t=dot-matrix' }
   ];
 
   var App = {
