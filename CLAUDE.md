@@ -51,6 +51,7 @@ All params are "preference hints" — themes decide whether to consume them.
 ```
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles
+css/toolbar.css           Floating toolbar styles + rotation classes
 js/core/url-parser.js     URL text + param extraction
 js/core/text-engine.js    Auto-fit text sizing utility
 js/core/theme-manager.js  Theme registry, switching + dynamic loading
@@ -60,6 +61,7 @@ js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
 js/ui/controls.js         Keyboard/pointer input
+js/ui/toolbar.js          Floating toolbar (fullscreen/rotate/share)
 js/app.js                 App entry + orchestrator
 .github/workflows/deploy.yml  CI/CD — Cloudflare Pages deploy on push to main
 ```
@@ -101,12 +103,46 @@ core (url-parser, text-engine, theme-manager) → themes → ui → app (defined
 
 For dynamic loading (without editing index.html): `ThemeManager.load('/themes/{id}')`
 
+## Toolbar
+
+The floating toolbar provides fullscreen, rotate, and share buttons. It syncs with cursor auto-hide (fades out when cursor is hidden).
+
+- **`data-theme` attribute**: `#app[data-theme="xxx"]` is set by app.js when a theme is active, enabling theme-scoped CSS selectors
+- **DOM structure** (stable API for theme CSS):
+  - `.sign-toolbar` — toolbar container
+  - `.sign-toolbar-btn` — button elements
+  - `.sign-toolbar-btn[data-action="fullscreen|rotate|share"]` — specific buttons
+  - `.sign-toolbar-toast` — toast notification
+
+### Theme Customization
+
+Themes can override toolbar appearance via CSS custom properties or full CSS overrides.
+
+**Quick color override:**
+```css
+#app[data-theme="broadcast"] .sign-toolbar {
+  --toolbar-bg: rgba(30, 0, 0, 0.8);
+  --toolbar-btn-color: rgba(255, 100, 100, 0.8);
+}
+```
+
+**Available CSS custom properties:**
+- `--toolbar-bg` — toolbar background
+- `--toolbar-border` — toolbar border color
+- `--toolbar-btn-bg` — button background
+- `--toolbar-btn-color` — button icon color
+- `--toolbar-btn-hover-bg` — button hover background
+- `--toolbar-btn-hover-color` — button hover icon color
+
+Themes can also fully override position, shape, and animations via standard CSS targeting `#app[data-theme="xxx"] .sign-toolbar`.
+
 ## Key Design Decisions
 
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → ThemeManager.getCurrent()
 - **UI modules copied from til.re** — fullscreen.js, wakelock.js, cursor.js are identical
+- **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
 
 ## Deployment
 
