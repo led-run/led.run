@@ -11,11 +11,12 @@
     c: 'color',
     dir: 'direction',
     w: 'wakelock',
-    cur: 'cursor'
+    cur: 'cursor',
+    l: 'lang'
   };
 
   // Parameters that should always remain strings (never convert to number)
-  const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font'];
+  const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font', 'lang'];
 
   // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
   const COLOR_PARAMS = ['color', 'bg', 'fill', 'glow'];
