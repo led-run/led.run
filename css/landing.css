@@ -250,6 +250,8 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
   color: var(--text-muted);
   font-size: 0.875rem;
 }
@@ -266,6 +268,40 @@
 }
 
 .footer-links a:hover {
+  color: var(--primary);
+}
+
+/* Language switcher */
+.footer-lang {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  padding-top: 0.75rem;
+  font-size: 0.8rem;
+}
+
+.footer-lang-label {
+  color: var(--text-muted);
+}
+
+.footer-lang-sep {
+  color: rgba(255, 255, 255, 0.15);
+}
+
+.footer-lang-current {
+  color: var(--primary);
+  font-weight: 600;
+}
+
+.footer-lang-link {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.footer-lang-link:hover {
   color: var(--primary);
 }
 
