@@ -1,0 +1,63 @@
+/**
+ * Simplified Chinese translations
+ */
+I18n.register('zh', {
+  // Meta
+  'meta.title': 'led.run \u2014 \u5373\u65f6\u6570\u5b57\u6807\u724c',
+  'meta.description': '\u5c06\u4efb\u4f55\u6d4f\u89c8\u5668\u53d8\u4e3a\u4e13\u4e1a\u6570\u5b57\u6807\u724c\u3002\u65e0\u9700\u5e94\u7528\uff0c\u65e0\u9700\u786c\u4ef6\uff0cURL \u5c31\u662f\u4f60\u7684\u753b\u5e03\u3002',
+
+  // Landing - Hero
+  'landing.hero.brand': 'led.run v1.0',
+  'landing.hero.title': '\u6570\u5b57\u6807\u724c\uff0c<br>\u91cd\u65b0\u5b9a\u4e49\u3002',
+  'landing.hero.subtitle': '\u51e0\u79d2\u5185\u5c06\u4efb\u4f55\u5c4f\u5e55\u53d8\u4e3a\u4e13\u4e1a\u663e\u793a\u5c4f\u3002\u65e0\u9700\u5e94\u7528\uff0c\u65e0\u9700\u8d26\u53f7\uff0c\u53ea\u9700\u4e00\u4e2a URL\u3002',
+  'landing.input.go': '\u542f\u52a8',
+
+  // Landing - Section titles
+  'landing.section.flow': '\u6eda\u52a8\u5b57\u5e55',
+  'landing.section.sign': '\u9759\u6001\u6807\u724c',
+
+  // Preset badges
+  'preset.sign.do-not-disturb.badge': '\u5b9e\u7528',
+  'preset.sign.neon.badge': '\u7ecf\u5178',
+  'preset.sign.cyber.badge': '\u79d1\u6280',
+  'preset.sign.tokyo.badge': '\u65b0',
+  'preset.flow.gradient.badge': '\u6f14\u5531\u4f1a',
+  'preset.flow.retro.badge': '\u590d\u53e4',
+
+  // Preset descriptions - Sign mode
+  'preset.sign.do-not-disturb.desc': '\u4e13\u4e1a\u9690\u79c1\u6807\u724c\uff0c\u6e29\u6696\u7425\u73c0\u8272\u5149\u6655\u4e0e\u6307\u793a\u706f\u3002',
+  'preset.sign.street-sign.desc': '\u9ad8\u901f\u516c\u8def\u6307\u793a\u724c\uff0c\u5e26\u51fa\u53e3\u6807\u7b7e\u3001\u8def\u7ebf\u526f\u6807\u9898\u548c\u53cd\u5149\u7bad\u5934\u3002',
+  'preset.sign.neon.desc': '\u7ecf\u5178\u5e97\u94fa\u9713\u8679\u706f\uff0c\u6e29\u6696\u7c89\u8272\u5149\u6655\u4e0e\u706f\u7ba1\u95ea\u70c1\u3002',
+  'preset.sign.broadcast.desc': '\u5f55\u5236\u5ba4\u64ad\u51fa\u6307\u793a\u706f\uff0c\u5e26\u5b9e\u65f6\u5f55\u5236\u6307\u793a\u5668\u3002',
+  'preset.sign.marquee.desc': '\u590d\u53e4\u5267\u9662\u706f\u7bb1\uff0c\u6e29\u6696\u8ffd\u9010\u706f\u548c\u91d1\u8272\u5b57\u4f53\u3002',
+  'preset.sign.cyber.desc': '\u9ed1\u5ba2\u5e1d\u56fd\u7ec8\u7aef\uff0c\u6587\u5b57\u89e3\u7801\u4e0e\u5468\u671f\u6027\u6545\u969c\u6548\u679c\u3002',
+  'preset.sign.firework.desc': '\u57ce\u5e02\u5929\u9645\u7ebf\u4e0a\u7684\u5e86\u795d\u70df\u82b1\uff0c\u5feb\u901f\u7ee7\u53d1\u3002',
+  'preset.sign.wood.desc': '\u5962\u534e\u624b\u5de5\u6728\u677f\uff0c\u6e29\u6696\u805a\u5149\u706f\u4e0e\u91d1\u7b94\u6587\u5b57\u3002',
+  'preset.sign.aurora.desc': '\u5317\u6781\u5149\u5728\u5c71\u8109\u4e0a\u7fe9\u7fe9\u8d77\u821e\uff0c\u7eda\u4e3d\u6781\u5149\u5e26\u3002',
+  'preset.sign.tokyo.desc': '\u7535\u5f71\u822c\u7684\u96e8\u4e2d\u9713\u8679\u706f\u724c\uff0c\u65e5\u672c\u57ce\u5e02\u6c1b\u56f4\u3002',
+
+  // Preset descriptions - Flow mode
+  'preset.flow.gradient.desc': '\u6f14\u5531\u4f1a\u7c89\u4e1d LED \u5e94\u63f4\u724c \u2014\u2014 \u4e3e\u8d77\u624b\u673a\u4e3a\u5076\u50cf\u52a0\u6cb9\u3002',
+  'preset.flow.neon.desc': '\u6b22\u4e50\u65f6\u5149\u4fc3\u9500\u5728\u6e29\u6696\u9713\u8679\u9152\u5427\u6807\u724c\u4e0a\u6eda\u52a8\u3002',
+  'preset.flow.firework.desc': '\u5e86\u795d\u516c\u544a\uff0c\u914d\u4ee5\u70df\u82b1\u548c\u91d1\u8272\u6587\u5b57\u3002',
+  'preset.flow.retro.desc': '\u590d\u53e4 CRT \u626b\u63cf\u7ebf\u548c\u7d2b\u8272\u5149\u6655\u7684\u97f3\u4e50\u6eda\u52a8\u6761\u3002',
+  'preset.flow.dot-matrix.desc': '\u7ecf\u5178\u65b9\u5f62\u70b9\u9635 LED \u663e\u793a\u5c4f\uff0c\u9ad8\u5bf9\u6bd4\u5ea6\u9ec4\u8272\u70b9\u9635\u3002',
+
+  // Landing - Footer
+  'landing.footer.copyright': '\u00a9 2026 led.run \u2014 \u5f00\u6e90\u9879\u76ee',
+  'landing.footer.docs': '\u6587\u6863',
+  'landing.footer.github': 'GitHub',
+  'landing.footer.license': '\u8bb8\u53ef\u8bc1',
+  'landing.footer.language': '\u8bed\u8a00',
+
+  // Toolbar
+  'toolbar.cast': '\u6295\u5c4f\u5230\u663e\u793a\u5668',
+  'toolbar.fullscreen': '\u5207\u6362\u5168\u5c4f',
+  'toolbar.rotate': '\u65cb\u8f6c\u663e\u793a',
+  'toolbar.share': '\u5206\u4eab\u94fe\u63a5',
+  'toolbar.toast.castStopped': '\u6295\u5c4f\u5df2\u505c\u6b62',
+  'toolbar.toast.casting': '\u6295\u5c4f\u4e2d...',
+  'toolbar.toast.castFailed': '\u6295\u5c4f\u5931\u8d25',
+  'toolbar.toast.linkCopied': '\u94fe\u63a5\u5df2\u590d\u5236\uff01',
+  'toolbar.toast.copyFailed': '\u590d\u5236\u5931\u8d25'
+});
