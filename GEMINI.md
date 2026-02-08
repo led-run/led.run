@@ -55,6 +55,8 @@ This project has **no build step**. It can be served locally using any static fi
 - **Strict Mode:** `'use strict';` is used in all JS files.
 - **Styling:** CSS variables are used extensively for theme customization (colors, backgrounds).
 - **Parameter Aliasing:** Short aliases are supported (e.g., `t` for `theme`, `c` for `color`).
+- **Container Dimensions:** Themes must use `this._container.clientWidth/clientHeight` (or CSS `100%`) for sizing, never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`). Toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same.
+- **No Inline Transform on Container:** Themes must never set inline `transform` on the `#sign-container` element — toolbar rotation uses CSS class `transform` on it. Use an inner wrapper div for theme transforms like `scale()`.
 
 ---
 
@@ -66,6 +68,7 @@ This project has **no build step**. It can be served locally using any static fi
 3. In `renderer.js`, call `ThemeManager.register(MyNewTheme)`.
 4. Register the new theme in `index.html` by adding the corresponding `<link>` and `<script>` tags.
 5. (Optional) Add the theme to the examples on the landing page in `js/app.js`.
+6. **Important:** Ensure the theme uses container dimensions (`this._container.clientWidth/clientHeight` or CSS `100%`) instead of viewport dimensions, and never sets inline `transform` on `#sign-container`. See "Coding Conventions" above for details.
 
 ### Adding a New UI Module
 1. Create a file in `js/ui/`.
