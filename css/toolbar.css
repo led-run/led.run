@@ -100,9 +100,9 @@ body.cursor-hidden .sign-toolbar {
 
 /* Rotation classes applied to #sign-container */
 #sign-container.rotated-90 {
-  transform: rotate(90deg);
   width: 100vh;
   height: 100vw;
+  transform: translate(calc((100vw - 100vh) / 2), calc((100vh - 100vw) / 2)) rotate(90deg);
 }
 
 #sign-container.rotated-180 {
@@ -110,7 +110,7 @@ body.cursor-hidden .sign-toolbar {
 }
 
 #sign-container.rotated-270 {
-  transform: rotate(270deg);
   width: 100vh;
   height: 100vw;
+  transform: translate(calc((100vw - 100vh) / 2), calc((100vh - 100vw) / 2)) rotate(270deg);
 }
