@@ -71,6 +71,7 @@
 
       // Switch theme
       ThemeManager.switch(themeId, this._container, text, themeConfig);
+      document.getElementById('app').dataset.theme = themeId;
 
       // Initialize App-level UI
       WakeLock.init({ wakelock: appConfig.wakelock });
@@ -88,6 +89,7 @@
           Fullscreen.toggle();
         }
       });
+      Toolbar.init({ container: this._container });
     },
 
     /**
