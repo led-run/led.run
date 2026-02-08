@@ -145,6 +145,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
 - **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#sign-container`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
+- **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card itself keeps the theme default bg on the scaleWrap. Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 
 ## Deployment
 
