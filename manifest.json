@@ -1,0 +1,21 @@
+{
+  "name": "led.run",
+  "short_name": "led.run",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#000000",
+  "theme_color": "#000000",
+  "description": "Turn your device into a digital sign.",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23000'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='100' fill='%2300e676' text-anchor='middle' dy='.3em'>LED</text></svg>",
+      "sizes": "192x192",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' fill='%23000'/><text x='50%' y='50%' font-family='sans-serif' font-weight='bold' font-size='100' fill='%2300e676' text-anchor='middle' dy='.3em'>LED</text></svg>",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
