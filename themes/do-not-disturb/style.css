@@ -6,6 +6,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@900&display=swap');
 
 .theme-do-not-disturb {
+  --dnd-text-color: #fff;
   --dnd-color: #f00;
   --dnd-color-bg: #900;
   --dnd-bg: #121212;
@@ -148,7 +149,7 @@
 .dnd-text {
   position: relative;
   z-index: 1;
-  color: #fff;
+  color: var(--dnd-text-color);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   font-weight: 900;
   text-transform: uppercase;

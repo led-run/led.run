@@ -9,9 +9,10 @@
     id: 'do-not-disturb',
 
     defaults: {
-      color: 'ff0000',  // Text glow color
-      bg: '1a1a1a',     // Page background
-      fill: '990000',   // Glass panel background
+      color: 'ffffff',   // Text color
+      bg: '1a1a1a',      // Page background
+      fill: '990000',    // Glass panel background
+      glow: 'ff0000',    // Text glow / outline color
       font: '',
       scale: 1
     },
@@ -94,7 +95,8 @@
       window.addEventListener('resize', this._resizeHandler);
       
       // Apply configuration
-      container.style.setProperty('--dnd-color', '#' + (config.color || this.defaults.color));
+      container.style.setProperty('--dnd-text-color', '#' + (config.color || this.defaults.color));
+      container.style.setProperty('--dnd-color', '#' + (config.glow || this.defaults.glow));
       container.style.setProperty('--dnd-color-bg', '#' + (config.fill || this.defaults.fill));
 
       if (config.bg) {

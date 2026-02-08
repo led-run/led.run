@@ -89,7 +89,7 @@ js/app.js                 App entry + orchestrator
 | `blueprint` | Architectural blueprint drawing style | — |
 | `monolith` | Brutalist high-contrast display | — |
 | `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare`, `fill` |
-| `do-not-disturb` | Skeuomorphic lightbox + glass panel | `fill` |
+| `do-not-disturb` | Skeuomorphic lightbox + glass panel | `fill`, `glow` |
 
 ## Script Load Order
 
