@@ -10,13 +10,13 @@
 
   // Sign mode presets — static full-screen display
   var SIGN_PRESETS = [
+    { text: 'DO NOT DISTURB', icon: '🤫', desc: 'Professional privacy sign with warm amber glow and indicator lights.', params: '?t=do-not-disturb&glow=ff4400' },
     { text: 'Los Angeles', icon: '🛣️', desc: 'Highway guide sign with exit tag, route subtitle, and reflective arrow.', params: '?t=street-sign&sub=I-405+South&exit=42&arrow=up&glare=0.3' },
     { text: 'OPEN', icon: '🏮', desc: 'Classic storefront neon with warm pink glow and tube flicker.', params: '?t=neon&c=ff2d78&bg=0a0008&flicker=2' },
     { text: 'ON AIR', icon: '🔴', desc: 'Studio broadcast light with live recording indicator.', params: '?t=broadcast&dot=ff3333' },
     { text: 'Broadway', icon: '💡', desc: 'Vintage theater marquee with warm chase lights and gold lettering.', params: '?t=marquee&chase=5&bulbColor=ff6600&c=ffd700' },
     { text: 'SYSTEM OK', icon: '📟', desc: 'Matrix-style terminal with text decode and periodic glitch.', params: '?t=cyber&c=00ff41&glitch=2' },
     { text: 'CHEERS!', icon: '🎆', desc: 'Celebration fireworks over a city skyline with rapid bursts.', params: '?t=firework&rate=8&c=ffd700' },
-    { text: 'DO NOT DISTURB', icon: '🤫', desc: 'Professional privacy sign with warm amber glow and indicator lights.', params: '?t=do-not-disturb&glow=ff4400' },
     { text: 'Le Petit Cafe', icon: '🪵', desc: 'Luxury handcrafted wood board with warm spotlight and gold leaf text.', params: '?t=wood&warm=8&c=d4a847&mode=sign' },
     { text: 'BREATHE', icon: '🌌', desc: 'Northern lights dancing over mountains with vivid aurora bands.', params: '?t=aurora&intensity=8' },
     { text: 'SHIBUYA', icon: '🌃', desc: 'Cinematic rain-soaked neon sign with Japanese city atmosphere.', params: '?t=tokyo&c=ff0066' }
