@@ -67,6 +67,30 @@
   opacity: 0.3;
 }
 
+/* Language switcher */
+.docs-lang-switcher {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.8rem;
+  margin-right: 0.75rem;
+}
+
+.docs-lang-switcher a {
+  color: var(--text-muted);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.docs-lang-switcher a:hover {
+  color: var(--primary);
+}
+
+.docs-lang-current {
+  color: var(--primary);
+  font-weight: 600;
+}
+
 .docs-menu-btn {
   display: none;
   background: rgba(255, 255, 255, 0.05);
