@@ -19,7 +19,8 @@
       speed: 60,
       direction: 'left',
       chase: 3,
-      bulbColor: 'ffaa00'
+      bulbColor: 'ffaa00',
+      scale: 1
     },
 
     _container: null,
@@ -63,6 +64,27 @@
         this._initFlow(content, text, config);
       } else {
         this._initSign(content, text, config);
+      }
+
+      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
+      if (scale < 1) {
+        var scaleWrap = document.createElement('div');
+        scaleWrap.style.position = 'relative';
+        scaleWrap.style.width = '100%';
+        scaleWrap.style.height = '100%';
+        scaleWrap.style.transform = 'scale(' + scale + ')';
+        scaleWrap.style.transformOrigin = 'center center';
+        var cs = window.getComputedStyle(container);
+        ['display', 'flexDirection', 'alignItems', 'justifyContent', 'overflow'].forEach(function(p) {
+          scaleWrap.style[p] = cs[p];
+        });
+        while (container.firstChild) scaleWrap.appendChild(container.firstChild);
+        container.appendChild(scaleWrap);
+        scaleWrap.style.backgroundColor = '#' + this.defaults.bg;
+        container.style.background = 'transparent';
+        if (config.bg && config.bg !== this.defaults.bg) {
+          container.style.backgroundColor = '#' + config.bg;
+        }
       }
 
       this._resizeHandler = this._onResize.bind(this);
