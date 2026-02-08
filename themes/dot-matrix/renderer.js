@@ -284,7 +284,7 @@
       var self = this;
       function loop(now) {
         if (!self._paused) {
-          var delta = (now - self._lastTime) / 1000;
+          var delta = Math.min((now - self._lastTime) / 1000, 0.1);
           self._lastTime = now;
           if (self._mode === 'flow') {
             self._updateFlow(delta);
@@ -384,8 +384,7 @@
       var scrollX = Math.floor(this._scrollPos);
       var offsetX = -(this._scrollPos % 1) * dotSize;
 
-      var safeScrollX = Math.max(0, Math.min(scrollX, this._sampleCanvas.width - sampleW));
-      var imgData = this._sampleCtx.getImageData(safeScrollX, 0, sampleW, sampleH);
+      var imgData = this._sampleCtx.getImageData(scrollX, 0, sampleW, sampleH);
       var data = imgData.data;
 
       var now = performance.now();
