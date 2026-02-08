@@ -172,6 +172,7 @@
       html += '<footer class="landing-footer">';
       html += '<div>© 2026 led.run — Open Source</div>';
       html += '<div class="footer-links">';
+      html += '<a href="/docs">Docs</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
       html += '<a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">License</a>';
       html += '</div>';
