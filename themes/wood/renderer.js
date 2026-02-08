@@ -142,7 +142,7 @@
       var fontSize = TextEngine.autoFit(text, this._container, {
         fontFamily: config.font || "'Cinzel Decorative', 'Noto Serif SC', serif",
         fontWeight: '900',
-        padding: Math.max(60, this._container.clientWidth * 0.12)
+        padding: Math.max(80, this._container.clientWidth * 0.15)
       });
       el.style.fontSize = fontSize + 'px';
     },
