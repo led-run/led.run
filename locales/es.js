@@ -153,5 +153,9 @@ I18n.register('es', {
   'settings.theme.monolith': 'Monolito',
   'settings.theme.street-sign': 'Se\u00f1al de Tr\u00e1fico',
   'settings.theme.do-not-disturb': 'No Molestar',
-  'settings.theme.dot-matrix': 'Matriz de Puntos'
+  'settings.theme.dot-matrix': 'Matriz de Puntos',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': 'Opciones Avanzadas',
+  'landing.builder.hideAdvanced': 'Ocultar Opciones'
 });

@@ -153,5 +153,9 @@ I18n.register('fr', {
   'settings.theme.monolith': 'Monolithe',
   'settings.theme.street-sign': 'Panneau Routier',
   'settings.theme.do-not-disturb': 'Ne Pas D\u00e9ranger',
-  'settings.theme.dot-matrix': 'Matrice de Points'
+  'settings.theme.dot-matrix': 'Matrice de Points',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': 'Options Avanc\u00e9es',
+  'landing.builder.hideAdvanced': 'Masquer les Options'
 });

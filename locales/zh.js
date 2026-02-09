@@ -153,5 +153,9 @@ I18n.register('zh', {
   'settings.theme.monolith': '\u5de8\u77f3',
   'settings.theme.street-sign': '\u8def\u724c',
   'settings.theme.do-not-disturb': '\u8bf7\u52ff\u6253\u6270',
-  'settings.theme.dot-matrix': '\u70b9\u9635'
+  'settings.theme.dot-matrix': '\u70b9\u9635',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': '\u9ad8\u7ea7\u9009\u9879',
+  'landing.builder.hideAdvanced': '\u6536\u8d77\u9009\u9879'
 });

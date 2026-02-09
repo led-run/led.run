@@ -153,5 +153,9 @@ I18n.register('de', {
   'settings.theme.monolith': 'Monolith',
   'settings.theme.street-sign': 'Stra\u00dfenschild',
   'settings.theme.do-not-disturb': 'Nicht St\u00f6ren',
-  'settings.theme.dot-matrix': 'Punktmatrix'
+  'settings.theme.dot-matrix': 'Punktmatrix',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': 'Erweiterte Optionen',
+  'landing.builder.hideAdvanced': 'Optionen Ausblenden'
 });

@@ -153,5 +153,9 @@ I18n.register('en', {
   'settings.theme.monolith': 'Monolith',
   'settings.theme.street-sign': 'Street Sign',
   'settings.theme.do-not-disturb': 'Do Not Disturb',
-  'settings.theme.dot-matrix': 'Dot Matrix'
+  'settings.theme.dot-matrix': 'Dot Matrix',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': 'Advanced Options',
+  'landing.builder.hideAdvanced': 'Hide Options'
 });

@@ -153,5 +153,9 @@ I18n.register('ko', {
   'settings.theme.monolith': '\ubaa8\ub178\ub9ac\uc2a4',
   'settings.theme.street-sign': '\ub3c4\ub85c \ud45c\uc9c0\ud310',
   'settings.theme.do-not-disturb': '\ubc29\ud574 \uae08\uc9c0',
-  'settings.theme.dot-matrix': '\ub3c4\ud2b8 \ub9e4\ud2b8\ub9ad\uc2a4'
+  'settings.theme.dot-matrix': '\ub3c4\ud2b8 \ub9e4\ud2b8\ub9ad\uc2a4',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': '\uace0\uae09 \uc635\uc158',
+  'landing.builder.hideAdvanced': '\uc635\uc158 \uc228\uae30\uae30'
 });

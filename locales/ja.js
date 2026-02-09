@@ -153,5 +153,9 @@ I18n.register('ja', {
   'settings.theme.monolith': '\u30e2\u30ce\u30ea\u30b9',
   'settings.theme.street-sign': '\u9053\u8def\u6a19\u8b58',
   'settings.theme.do-not-disturb': '\u304a\u4f11\u307f\u4e2d',
-  'settings.theme.dot-matrix': '\u30c9\u30c3\u30c8\u30de\u30c8\u30ea\u30af\u30b9'
+  'settings.theme.dot-matrix': '\u30c9\u30c3\u30c8\u30de\u30c8\u30ea\u30af\u30b9',
+
+  // Landing - Builder toggle
+  'landing.builder.showAdvanced': '\u8a73\u7d30\u30aa\u30d7\u30b7\u30e7\u30f3',
+  'landing.builder.hideAdvanced': '\u30aa\u30d7\u30b7\u30e7\u30f3\u3092\u96a0\u3059'
 });
