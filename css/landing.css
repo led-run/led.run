@@ -155,6 +155,34 @@
   transform: scale(0.98);
 }
 
+/* Builder toggle link */
+.builder-toggle-link {
+  display: block;
+  max-width: 500px;
+  margin: 10px auto 0;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--text-muted);
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.builder-toggle-link:hover {
+  color: var(--primary);
+}
+
+.builder-toggle-arrow {
+  display: inline-block;
+  margin-left: 4px;
+  transition: transform 0.3s ease;
+}
+
+.builder-toggle-link.open .builder-toggle-arrow {
+  transform: rotate(180deg);
+}
+
 /* Grid Sections */
 .section-title {
   width: 100%;

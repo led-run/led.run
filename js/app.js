@@ -156,8 +156,15 @@
       html += '<button class="btn-launch">' + I18n.t('landing.input.go') + '</button>';
       html += '</div>'; // end input-group
 
+      // Builder toggle link
+      var builderOpen = localStorage.getItem('led-builder-mode') === 'advanced';
+      html += '<a class="builder-toggle-link' + (builderOpen ? ' open' : '') + '" id="builder-toggle">';
+      html += '<span class="builder-toggle-text">' + I18n.t(builderOpen ? 'landing.builder.hideAdvanced' : 'landing.builder.showAdvanced') + '</span>';
+      html += '<span class="builder-toggle-arrow">\u25be</span>';
+      html += '</a>';
+
       // Visual URL builder
-      html += '<div class="landing-builder">';
+      html += '<div class="landing-builder' + (builderOpen ? ' builder-open' : '') + '">';
 
       // Row 1: Theme + Mode
       html += '<div class="builder-row">';
@@ -214,8 +221,13 @@
       // Theme-specific params (dynamically populated)
       html += '<div id="builder-theme-params"></div>';
 
-      // URL preview
+      // URL preview with copy button
+      html += '<div class="builder-url-row">';
       html += '<div class="builder-url-preview" id="builder-preview">led.run/HELLO</div>';
+      html += '<button class="builder-copy-btn" id="builder-copy" type="button">';
+      html += '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button>';
+      html += '</div>';
 
       html += '</div>'; // end landing-builder
 
@@ -302,6 +314,9 @@
       var builderFont = container.querySelector('#builder-font');
       var builderPreview = container.querySelector('#builder-preview');
       var builderThemeParams = container.querySelector('#builder-theme-params');
+      var builderToggle = container.querySelector('#builder-toggle');
+      var builderPanel = container.querySelector('.landing-builder');
+      var builderCopy = container.querySelector('#builder-copy');
       var self = this;
 
       // Track whether user has explicitly changed each common param
@@ -363,11 +378,18 @@
         builderPreview.textContent = url;
       }
 
+      function isBuilderOpen() {
+        return builderPanel.classList.contains('builder-open');
+      }
+
       function navigate() {
         var val = input.value.trim();
         if (val) {
-          var params = collectParams();
-          var search = params.length ? '?' + params.join('&') : '';
+          var search = '';
+          if (isBuilderOpen()) {
+            var params = collectParams();
+            search = params.length ? '?' + params.join('&') : '';
+          }
           window.location.href = '/' + encodeURIComponent(val) + search;
         }
       }
@@ -527,6 +549,30 @@
       builderFont.addEventListener('change', function() { userChanged.font = true; buildUrl(); });
       input.addEventListener('input', buildUrl);
 
+      // Builder toggle
+      builderToggle.addEventListener('click', function(e) {
+        e.preventDefault();
+        var opening = !builderPanel.classList.contains('builder-open');
+        builderPanel.classList.toggle('builder-open');
+        builderToggle.classList.toggle('open');
+        var textEl = builderToggle.querySelector('.builder-toggle-text');
+        textEl.textContent = I18n.t(opening ? 'landing.builder.hideAdvanced' : 'landing.builder.showAdvanced');
+        localStorage.setItem('led-builder-mode', opening ? 'advanced' : 'simple');
+      });
+
+      // Copy URL button
+      builderCopy.addEventListener('click', function() {
+        var url = 'https://' + builderPreview.textContent;
+        navigator.clipboard.writeText(url).then(function() {
+          builderCopy.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          builderCopy.classList.add('copied');
+          setTimeout(function() {
+            builderCopy.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+            builderCopy.classList.remove('copied');
+          }, 1500);
+        });
+      });
+
       goBtn.addEventListener('click', navigate);
       input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') navigate();
@@ -541,6 +587,10 @@
           self._showLanding();
         });
       });
+
+      // Initialize theme params and URL preview
+      rebuildThemeParams();
+      buildUrl();
 
       // Focus input
       // setTimeout to ensure layout is settled

@@ -423,14 +423,32 @@ body.cursor-hidden .settings-overlay {
 /* ===== Landing page builder ===== */
 .landing-builder {
   max-width: 500px;
-  margin: 16px auto 0;
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
   gap: 10px;
-  padding: 12px 16px;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0 16px;
+  border: 1px solid transparent;
   border-radius: 12px;
   background: rgba(255, 255, 255, 0.02);
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease,
+              padding 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              margin-top 0.35s cubic-bezier(0.4, 0, 0.2, 1),
+              border-color 0.3s ease;
+}
+
+.landing-builder.builder-open {
+  max-height: 600px;
+  opacity: 1;
+  overflow: visible;
+  padding: 12px 16px;
+  margin-top: 16px;
+  border-color: rgba(255, 255, 255, 0.06);
 }
 
 .builder-row {
@@ -612,17 +630,62 @@ body.cursor-hidden .settings-overlay {
   gap: 8px;
 }
 
+.builder-url-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 4px 0 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.04);
+}
+
 .builder-url-preview {
   font-family: 'JetBrains Mono', monospace;
   font-size: 11px;
   color: rgba(255, 255, 255, 0.3);
   word-break: break-all;
-  padding: 4px 0 0;
-  border-top: 1px solid rgba(255, 255, 255, 0.04);
+  flex: 1;
+  min-width: 0;
+}
+
+.builder-copy-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  background: rgba(255, 255, 255, 0.04);
+  color: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  flex-shrink: 0;
+  padding: 0;
+  transition: all 0.2s ease;
+}
+
+.builder-copy-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.2);
+  color: #fff;
+}
+
+.builder-copy-btn svg {
+  width: 14px;
+  height: 14px;
+  stroke: currentColor;
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  fill: none;
+}
+
+.builder-copy-btn.copied {
+  color: #00e676;
+  border-color: rgba(0, 230, 118, 0.3);
 }
 
 @media (max-width: 600px) {
-  .landing-builder {
+  .landing-builder.builder-open {
     padding: 10px 12px;
   }
 
