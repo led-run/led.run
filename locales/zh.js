@@ -155,7 +155,20 @@ I18n.register('zh', {
   'settings.theme.do-not-disturb': '\u8bf7\u52ff\u6253\u6270',
   'settings.theme.dot-matrix': '\u70b9\u9635',
 
+  // Settings - font presets
+  'settings.font.default': '主题默认',
+  'settings.font.monospace': '等宽',
+  'settings.font.serif': '衬线',
+  'settings.font.sansSerif': '无衬线',
+  'settings.font.cursive': '手写',
+  'settings.font.arial': 'Arial',
+  'settings.font.georgia': 'Georgia',
+  'settings.font.courierNew': 'Courier New',
+  'settings.font.impact': 'Impact',
+  'settings.font.comicSans': 'Comic Sans',
+  'settings.font.custom': '自定义...',
+
   // Landing - Builder toggle
-  'landing.builder.showAdvanced': '\u9ad8\u7ea7\u9009\u9879',
-  'landing.builder.hideAdvanced': '\u6536\u8d77\u9009\u9879'
+  'landing.builder.showAdvanced': '高级选项',
+  'landing.builder.hideAdvanced': '收起选项'
 });

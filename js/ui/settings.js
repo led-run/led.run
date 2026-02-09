@@ -11,6 +11,21 @@
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
 
+  // Font presets for combo control
+  var FONT_PRESETS = [
+    { value: '',           labelKey: 'settings.font.default' },
+    { value: 'monospace',  labelKey: 'settings.font.monospace' },
+    { value: 'serif',      labelKey: 'settings.font.serif' },
+    { value: 'sans-serif', labelKey: 'settings.font.sansSerif' },
+    { value: 'cursive',    labelKey: 'settings.font.cursive' },
+    { value: 'Arial',      labelKey: 'settings.font.arial' },
+    { value: 'Georgia',    labelKey: 'settings.font.georgia' },
+    { value: 'Courier New',labelKey: 'settings.font.courierNew' },
+    { value: 'Impact',     labelKey: 'settings.font.impact' },
+    { value: 'Comic Sans MS', labelKey: 'settings.font.comicSans' }
+  ];
+  var FONT_CUSTOM_VALUE = '__custom__';
+
   // Known param metadata for generating appropriate controls
   var KNOWN_PARAMS = {
     // Common
@@ -20,7 +35,7 @@
     mode:      { type: 'select', label: 'settings.param.mode', options: ['sign', 'flow'] },
     speed:     { type: 'range', label: 'settings.param.speed', min: 10, max: 300, step: 10 },
     direction: { type: 'select', label: 'settings.param.direction', options: ['left', 'right'] },
-    font:      { type: 'string', label: 'settings.param.font' },
+    font:      { type: 'font', label: 'settings.param.font' },
     scale:     { type: 'range', label: 'settings.param.scale', min: 0.1, max: 1, step: 0.1 },
     // Theme-specific
     flicker:   { type: 'range', label: 'settings.param.flicker', min: 0, max: 10, step: 0.5 },
@@ -330,6 +345,8 @@
         return this._buildBooleanField(field, key, labelKey, value);
       } else if (type === 'select') {
         return this._buildSelectField(field, key, labelKey, value, meta);
+      } else if (type === 'font') {
+        return this._buildFontField(field, key, labelKey, value);
       } else {
         return this._buildStringField(field, key, labelKey, value);
       }
@@ -527,6 +544,71 @@
     },
 
     /**
+     * Build a font combo field (select + custom input)
+     * @private
+     */
+    _buildFontField: function(field, key, labelKey, value) {
+      var self = this;
+      var currentVal = value || '';
+
+      var label = document.createElement('div');
+      label.className = 'settings-field-label';
+      label.textContent = I18n.t(labelKey);
+      field.appendChild(label);
+
+      var select = document.createElement('select');
+      select.className = 'settings-select';
+
+      // Check if current value matches a preset
+      var isPreset = false;
+      FONT_PRESETS.forEach(function(preset) {
+        var option = document.createElement('option');
+        option.value = preset.value;
+        option.textContent = I18n.t(preset.labelKey);
+        if (preset.value === currentVal) {
+          option.selected = true;
+          isPreset = true;
+        }
+        select.appendChild(option);
+      });
+
+      // Custom option
+      var customOption = document.createElement('option');
+      customOption.value = FONT_CUSTOM_VALUE;
+      customOption.textContent = I18n.t('settings.font.custom');
+      if (!isPreset && currentVal) {
+        customOption.selected = true;
+      }
+      select.appendChild(customOption);
+
+      // Custom text input
+      var customInput = document.createElement('input');
+      customInput.type = 'text';
+      customInput.className = 'settings-string-input settings-font-custom';
+      customInput.value = (!isPreset && currentVal) ? currentVal : '';
+      customInput.placeholder = 'e.g. Helvetica, system-ui';
+      customInput.style.display = (!isPreset && currentVal) ? '' : 'none';
+
+      select.addEventListener('change', function() {
+        if (this.value === FONT_CUSTOM_VALUE) {
+          customInput.style.display = '';
+          customInput.focus();
+        } else {
+          customInput.style.display = 'none';
+          self._setParam(key, this.value);
+        }
+      });
+
+      customInput.addEventListener('change', function() {
+        self._setParam(key, this.value.trim());
+      });
+
+      field.appendChild(select);
+      field.appendChild(customInput);
+      return field;
+    },
+
+    /**
      * Handle theme selection
      * @private
      */
@@ -629,6 +711,8 @@
   Settings.KNOWN_PARAMS = KNOWN_PARAMS;
   Settings.COMMON_PARAMS = COMMON_PARAMS;
   Settings.APP_PARAMS = APP_PARAMS;
+  Settings.FONT_PRESETS = FONT_PRESETS;
+  Settings.FONT_CUSTOM_VALUE = FONT_CUSTOM_VALUE;
 
   /**
    * Infer control type from a default value

@@ -376,6 +376,11 @@ body.cursor-hidden .settings-overlay {
   border-color: rgba(0, 230, 118, 0.5);
 }
 
+/* Font custom input spacing */
+.settings-font-custom {
+  margin-top: 6px;
+}
+
 /* ===== Mobile: bottom sheet ===== */
 @media (max-width: 640px) {
   .settings-panel {

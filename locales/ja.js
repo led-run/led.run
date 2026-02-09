@@ -155,7 +155,20 @@ I18n.register('ja', {
   'settings.theme.do-not-disturb': '\u304a\u4f11\u307f\u4e2d',
   'settings.theme.dot-matrix': '\u30c9\u30c3\u30c8\u30de\u30c8\u30ea\u30af\u30b9',
 
+  // Settings - font presets
+  'settings.font.default': 'テーマデフォルト',
+  'settings.font.monospace': '等幅',
+  'settings.font.serif': '明朝',
+  'settings.font.sansSerif': 'ゴシック',
+  'settings.font.cursive': '手書き',
+  'settings.font.arial': 'Arial',
+  'settings.font.georgia': 'Georgia',
+  'settings.font.courierNew': 'Courier New',
+  'settings.font.impact': 'Impact',
+  'settings.font.comicSans': 'Comic Sans',
+  'settings.font.custom': 'カスタム...',
+
   // Landing - Builder toggle
-  'landing.builder.showAdvanced': '\u8a73\u7d30\u30aa\u30d7\u30b7\u30e7\u30f3',
-  'landing.builder.hideAdvanced': '\u30aa\u30d7\u30b7\u30e7\u30f3\u3092\u96a0\u3059'
+  'landing.builder.showAdvanced': '詳細オプション',
+  'landing.builder.hideAdvanced': 'オプションを隠す'
 });

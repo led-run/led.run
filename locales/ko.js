@@ -155,7 +155,20 @@ I18n.register('ko', {
   'settings.theme.do-not-disturb': '\ubc29\ud574 \uae08\uc9c0',
   'settings.theme.dot-matrix': '\ub3c4\ud2b8 \ub9e4\ud2b8\ub9ad\uc2a4',
 
+  // Settings - font presets
+  'settings.font.default': '테마 기본',
+  'settings.font.monospace': '고정폭',
+  'settings.font.serif': '세리프',
+  'settings.font.sansSerif': '산세리프',
+  'settings.font.cursive': '필기체',
+  'settings.font.arial': 'Arial',
+  'settings.font.georgia': 'Georgia',
+  'settings.font.courierNew': 'Courier New',
+  'settings.font.impact': 'Impact',
+  'settings.font.comicSans': 'Comic Sans',
+  'settings.font.custom': '사용자 정의...',
+
   // Landing - Builder toggle
-  'landing.builder.showAdvanced': '\uace0\uae09 \uc635\uc158',
-  'landing.builder.hideAdvanced': '\uc635\uc158 \uc228\uae30\uae30'
+  'landing.builder.showAdvanced': '고급 옵션',
+  'landing.builder.hideAdvanced': '옵션 숨기기'
 });

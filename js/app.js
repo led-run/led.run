@@ -212,10 +212,18 @@
       html += '<span class="builder-range-value" id="builder-scale-val">1</span>';
       html += '</div>';
 
-      // Row 4: Font
+      // Row 4: Font (combo select + custom input)
       html += '<div class="builder-row">';
       html += '<span class="builder-label">' + I18n.t('settings.param.font') + '</span>';
-      html += '<input type="text" class="builder-string-input" id="builder-font" value="" placeholder="e.g. Arial, serif">';
+      html += '<select class="builder-select" id="builder-font-select">';
+      if (typeof Settings !== 'undefined' && Settings.FONT_PRESETS) {
+        Settings.FONT_PRESETS.forEach(function(preset) {
+          html += '<option value="' + preset.value + '">' + I18n.t(preset.labelKey) + '</option>';
+        });
+        html += '<option value="' + Settings.FONT_CUSTOM_VALUE + '">' + I18n.t('settings.font.custom') + '</option>';
+      }
+      html += '</select>';
+      html += '<input type="text" class="builder-string-input" id="builder-font-custom" value="" placeholder="e.g. Helvetica, system-ui" style="display:none">';
       html += '</div>';
 
       // Theme-specific params (dynamically populated)
@@ -311,7 +319,8 @@
       var builderDirection = container.querySelector('#builder-direction');
       var builderScale = container.querySelector('#builder-scale');
       var builderScaleVal = container.querySelector('#builder-scale-val');
-      var builderFont = container.querySelector('#builder-font');
+      var builderFontSelect = container.querySelector('#builder-font-select');
+      var builderFontCustom = container.querySelector('#builder-font-custom');
       var builderPreview = container.querySelector('#builder-preview');
       var builderThemeParams = container.querySelector('#builder-theme-params');
       var builderToggle = container.querySelector('#builder-toggle');
@@ -357,7 +366,8 @@
           if (scale !== (defaults.scale || 1)) params.push('scale=' + scale);
         }
         if (userChanged.font) {
-          var font = builderFont.value.trim();
+          var fontVal = builderFontSelect.value;
+          var font = (fontVal === Settings.FONT_CUSTOM_VALUE) ? builderFontCustom.value.trim() : fontVal;
           if (font && font !== (defaults.font || '')) params.push('font=' + encodeURIComponent(font));
         }
         // Theme-specific params
@@ -407,7 +417,23 @@
         builderDirection.value = defaults.direction || 'left';
         builderScale.value = defaults.scale || 1;
         builderScaleVal.textContent = defaults.scale || 1;
-        builderFont.value = defaults.font || '';
+        // Reset font combo control
+        var defFont = defaults.font || '';
+        var fontIsPreset = false;
+        if (typeof Settings !== 'undefined' && Settings.FONT_PRESETS) {
+          Settings.FONT_PRESETS.forEach(function(preset) {
+            if (preset.value === defFont) fontIsPreset = true;
+          });
+        }
+        if (fontIsPreset || !defFont) {
+          builderFontSelect.value = defFont;
+          builderFontCustom.value = '';
+          builderFontCustom.style.display = 'none';
+        } else {
+          builderFontSelect.value = Settings.FONT_CUSTOM_VALUE;
+          builderFontCustom.value = defFont;
+          builderFontCustom.style.display = '';
+        }
         userChanged = { color: false, bg: false, fill: false, speed: false, direction: false, scale: false, font: false };
         themeParamValues = {};
       }
@@ -546,7 +572,17 @@
         userChanged.scale = true;
         buildUrl();
       });
-      builderFont.addEventListener('change', function() { userChanged.font = true; buildUrl(); });
+      builderFontSelect.addEventListener('change', function() {
+        userChanged.font = true;
+        if (this.value === Settings.FONT_CUSTOM_VALUE) {
+          builderFontCustom.style.display = '';
+          builderFontCustom.focus();
+        } else {
+          builderFontCustom.style.display = 'none';
+        }
+        buildUrl();
+      });
+      builderFontCustom.addEventListener('change', function() { userChanged.font = true; buildUrl(); });
       input.addEventListener('input', buildUrl);
 
       // Builder toggle

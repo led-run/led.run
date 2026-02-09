@@ -155,6 +155,19 @@ I18n.register('de', {
   'settings.theme.do-not-disturb': 'Nicht St\u00f6ren',
   'settings.theme.dot-matrix': 'Punktmatrix',
 
+  // Settings - font presets
+  'settings.font.default': 'Thema-Standard',
+  'settings.font.monospace': 'Monospace',
+  'settings.font.serif': 'Serif',
+  'settings.font.sansSerif': 'Sans Serif',
+  'settings.font.cursive': 'Kursiv',
+  'settings.font.arial': 'Arial',
+  'settings.font.georgia': 'Georgia',
+  'settings.font.courierNew': 'Courier New',
+  'settings.font.impact': 'Impact',
+  'settings.font.comicSans': 'Comic Sans',
+  'settings.font.custom': 'Benutzerdefiniert...',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Erweiterte Optionen',
   'landing.builder.hideAdvanced': 'Optionen Ausblenden'

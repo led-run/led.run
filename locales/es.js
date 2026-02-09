@@ -155,6 +155,19 @@ I18n.register('es', {
   'settings.theme.do-not-disturb': 'No Molestar',
   'settings.theme.dot-matrix': 'Matriz de Puntos',
 
+  // Settings - font presets
+  'settings.font.default': 'Predeterminada',
+  'settings.font.monospace': 'Monoespaciada',
+  'settings.font.serif': 'Serif',
+  'settings.font.sansSerif': 'Sans Serif',
+  'settings.font.cursive': 'Cursiva',
+  'settings.font.arial': 'Arial',
+  'settings.font.georgia': 'Georgia',
+  'settings.font.courierNew': 'Courier New',
+  'settings.font.impact': 'Impact',
+  'settings.font.comicSans': 'Comic Sans',
+  'settings.font.custom': 'Personalizada...',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Opciones Avanzadas',
   'landing.builder.hideAdvanced': 'Ocultar Opciones'
