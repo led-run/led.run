@@ -9,6 +9,8 @@
     _themes: new Map(),
     _current: null,
     _currentId: null,
+    _currentText: '',
+    _currentConfig: null,
 
     /**
      * Register a theme
@@ -53,9 +55,11 @@
 
       this._current = theme;
       this._currentId = theme.id;
+      this._currentText = text;
 
       // Merge config: URL params > theme defaults
       const mergedConfig = Object.assign({}, theme.defaults || {}, config);
+      this._currentConfig = mergedConfig;
 
       // Initialize theme
       if (theme.init) {
@@ -105,6 +109,34 @@
       if (this._current && typeof this._current._resizeHandler === 'function') {
         this._current._resizeHandler();
       }
+    },
+
+    /**
+     * Get a theme's default configuration
+     * @param {string} themeId - Theme ID
+     * @returns {Object|null} Copy of theme defaults, or null if not found
+     */
+    getDefaults(themeId) {
+      var theme = this._themes.get(themeId);
+      if (!theme) return null;
+      return Object.assign({}, theme.defaults || {});
+    },
+
+    /**
+     * Get the current display text
+     * @returns {string}
+     */
+    getCurrentText() {
+      return this._currentText;
+    },
+
+    /**
+     * Get the current merged configuration
+     * @returns {Object|null} Copy of current config
+     */
+    getCurrentConfig() {
+      if (!this._currentConfig) return null;
+      return Object.assign({}, this._currentConfig);
     },
 
     /**

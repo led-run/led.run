@@ -59,5 +59,99 @@ I18n.register('ko', {
   'toolbar.toast.casting': '\uce90\uc2a4\ud2b8 \uc911...',
   'toolbar.toast.castFailed': '\uce90\uc2a4\ud2b8 \uc2e4\ud328',
   'toolbar.toast.linkCopied': '\ub9c1\ud06c \ubcf5\uc0ac \uc644\ub8cc!',
-  'toolbar.toast.copyFailed': '\ubcf5\uc0ac \uc2e4\ud328'
+  'toolbar.toast.copyFailed': '\ubcf5\uc0ac \uc2e4\ud328',
+
+  // Toolbar - Settings
+  'toolbar.settings': '\uc124\uc815',
+
+  // Settings panel
+  'settings.title': '\uc124\uc815',
+  'settings.text': '\ud14d\uc2a4\ud2b8',
+  'settings.theme': '\ud14c\ub9c8',
+  'settings.section.general': '\uc77c\ubc18',
+  'settings.section.themeParams': '\ud14c\ub9c8 \uc635\uc158',
+
+  // Settings - param labels
+  'settings.param.color': '\ud14d\uc2a4\ud2b8 \uc0c9\uc0c1',
+  'settings.param.bg': '\ubc30\uacbd',
+  'settings.param.fill': '\ucc44\uc6b0\uae30 \uc0c9\uc0c1',
+  'settings.param.mode': '\ubaa8\ub4dc',
+  'settings.param.speed': '\uc18d\ub3c4',
+  'settings.param.direction': '\ubc29\ud5a5',
+  'settings.param.font': '\uae00\uaf34',
+  'settings.param.scale': '\ubc30\uc728',
+  'settings.param.flicker': '\uae5c\ubc15\uc784',
+  'settings.param.scanlines': '\uc2a4\uce94\ub77c\uc778',
+  'settings.param.intensity': '\uac15\ub3c4',
+  'settings.param.typingSpeed': '\ud0c0\uc774\ud551 \uc18d\ub3c4',
+  'settings.param.dot': '\ub3c4\ud2b8 \uc0c9\uc0c1',
+  'settings.param.chase': '\ucd94\uc801 \uc18d\ub3c4',
+  'settings.param.bulbColor': '\uc804\uad6c \uc0c9\uc0c1',
+  'settings.param.rhythm': '\ub9ac\ub4ec',
+  'settings.param.rate': '\ube48\ub3c4',
+  'settings.param.grain': '\ub098\ubb47\uacb0',
+  'settings.param.warm': '\ub530\ub73b\ud568',
+  'settings.param.glitch': '\uae00\ub9ac\uce58',
+  'settings.param.sub': '\ubd80\uc81c\ubaa9',
+  'settings.param.exit': '\ucd9c\uad6c',
+  'settings.param.arrow': '\ud654\uc0b4\ud45c',
+  'settings.param.glare': '\ub208\ubd80\uc2ec',
+  'settings.param.glow': '\ubc1c\uad11',
+  'settings.param.res': '\ud574\uc0c1\ub3c4',
+  'settings.param.gap': '\uac04\uaca9',
+  'settings.param.shape': '\ubaa8\uc591',
+  'settings.param.bezel': '\ubca0\uc824',
+  'settings.param.weight': '\uad75\uae30',
+  'settings.param.wrap': '\uc904 \ubc14\uafc8',
+
+  // Settings - mode options
+  'settings.mode.none': '\uc790\ub3d9',
+  'settings.mode.sign': '\uc0ac\uc778',
+  'settings.mode.flow': '\ud50c\ub85c\uc6b0',
+
+  // Settings - direction options
+  'settings.direction.left': '\uc67c\ucabd',
+  'settings.direction.right': '\uc624\ub978\ucabd',
+
+  // Settings - arrow options
+  'settings.arrow.none': '\uc5c6\uc74c',
+  'settings.arrow.up': '\uc704',
+  'settings.arrow.down': '\uc544\ub798',
+  'settings.arrow.left': '\uc67c\ucabd',
+  'settings.arrow.right': '\uc624\ub978\ucabd',
+
+  // Settings - shape options
+  'settings.shape.square': '\uc0ac\uac01',
+  'settings.shape.round': '\uc6d0\ud615',
+
+  // Settings - weight options
+  'settings.weight.normal': '\ubcf4\ud1b5',
+  'settings.weight.bold': '\uad75\uac8c',
+
+  // Settings - grain options
+  'settings.grain.dark': '\uc5b4\ub450\uc6b4',
+  'settings.grain.light': '\ubc1d\uc740',
+  'settings.grain.natural': '\uc790\uc5f0',
+
+  // Settings - theme names
+  'settings.theme.default': '\uae30\ubcf8',
+  'settings.theme.neon': '\ub124\uc628',
+  'settings.theme.retro': '\ub808\ud2b8\ub85c',
+  'settings.theme.glitch': '\uae00\ub9ac\uce58',
+  'settings.theme.typewriter': '\ud0c0\uc790\uae30',
+  'settings.theme.gradient': '\uadf8\ub77c\ub370\uc774\uc158',
+  'settings.theme.hologram': '\ud640\ub85c\uadf8\ub7a8',
+  'settings.theme.broadcast': '\ubc29\uc1a1',
+  'settings.theme.marquee': '\ub9c8\ud034',
+  'settings.theme.pulse': '\ud38c\uc2a4',
+  'settings.theme.aurora': '\uc624\ub85c\ub77c',
+  'settings.theme.firework': '\ubd88\uaf43\ub193\uc774',
+  'settings.theme.wood': '\ub098\ubb34',
+  'settings.theme.cyber': '\uc0ac\uc774\ubc84',
+  'settings.theme.tokyo': '\ub3c4\ucfc4',
+  'settings.theme.blueprint': '\uc124\uacc4\ub3c4',
+  'settings.theme.monolith': '\ubaa8\ub178\ub9ac\uc2a4',
+  'settings.theme.street-sign': '\ub3c4\ub85c \ud45c\uc9c0\ud310',
+  'settings.theme.do-not-disturb': '\ubc29\ud574 \uae08\uc9c0',
+  'settings.theme.dot-matrix': '\ub3c4\ud2b8 \ub9e4\ud2b8\ub9ad\uc2a4'
 });

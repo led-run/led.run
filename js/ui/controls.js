@@ -31,6 +31,23 @@
      */
     _bindKeyboard() {
       this._boundKeydown = function(e) {
+        // S key toggles settings panel (always active)
+        if (e.key === 's' || e.key === 'S') {
+          if (typeof Settings !== 'undefined') {
+            Settings.toggle();
+          }
+          return;
+        }
+
+        // Skip most keys when settings panel is open
+        if (typeof Settings !== 'undefined' && Settings.isOpen()) {
+          if (e.key === 'Escape') {
+            Settings.close();
+            e.stopPropagation();
+          }
+          return;
+        }
+
         switch (e.key) {
           case ' ':
             e.preventDefault();
@@ -62,6 +79,7 @@
     _bindPointer() {
       // Double-click for fullscreen
       this._boundDblClick = function(e) {
+        if (typeof Settings !== 'undefined' && Settings.isOpen()) return;
         e.preventDefault();
         if (this._callbacks.onFullscreen) {
           this._callbacks.onFullscreen();
@@ -71,6 +89,8 @@
       // Single-click for toggle pause (with double-click guard)
       var clickTimer = null;
       this._boundClick = function(e) {
+        // Ignore clicks when settings panel is open
+        if (typeof Settings !== 'undefined' && Settings.isOpen()) return;
         // Ignore clicks on landing page interactive elements
         if (e.target.closest('a, button, input')) return;
 

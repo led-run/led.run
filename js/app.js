@@ -107,6 +107,16 @@
       });
       Toolbar.init({ container: this._container });
 
+      // Initialize settings panel
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          text: text,
+          themeId: themeId,
+          themeConfig: themeConfig
+        });
+      }
+
       // Initialize cast (auto-reconnects if session exists)
       if (typeof Cast !== 'undefined') {
         Cast.init();
@@ -145,6 +155,69 @@
       html += '<input class="url-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false" autofocus>';
       html += '<button class="btn-launch">' + I18n.t('landing.input.go') + '</button>';
       html += '</div>'; // end input-group
+
+      // Visual URL builder
+      html += '<div class="landing-builder">';
+
+      // Row 1: Theme + Mode
+      html += '<div class="builder-row">';
+      html += '<span class="builder-label">' + I18n.t('settings.theme') + '</span>';
+      html += '<select class="builder-select" id="builder-theme">';
+      var bThemeIds = ThemeManager.getThemeIds();
+      html += '<option value="default">' + I18n.t('settings.theme.default') + '</option>';
+      bThemeIds.forEach(function(id) {
+        if (id === 'default') return;
+        html += '<option value="' + id + '">' + I18n.t('settings.theme.' + id) + '</option>';
+      });
+      html += '</select>';
+      html += '<span class="builder-label">' + I18n.t('settings.param.mode') + '</span>';
+      html += '<select class="builder-select builder-select-narrow" id="builder-mode">';
+      html += '<option value="">' + I18n.t('settings.mode.none') + '</option>';
+      html += '<option value="sign">' + I18n.t('settings.mode.sign') + '</option>';
+      html += '<option value="flow">' + I18n.t('settings.mode.flow') + '</option>';
+      html += '</select>';
+      html += '</div>';
+
+      // Row 2: Color + BG + Fill (fill only for card themes)
+      html += '<div class="builder-row">';
+      html += '<span class="builder-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="builder-color" value="#00ff41">';
+      html += '<span class="builder-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="builder-bg" value="#000000">';
+      html += '<span id="builder-fill-group" style="display:none">';
+      html += '<span class="builder-label">' + I18n.t('settings.param.fill') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="builder-fill" value="#000000">';
+      html += '</span>';
+      html += '</div>';
+
+      // Row 3: Speed + Direction + Scale
+      html += '<div class="builder-row">';
+      html += '<span class="builder-label">' + I18n.t('settings.param.speed') + '</span>';
+      html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60">';
+      html += '<span class="builder-range-value" id="builder-speed-val">60</span>';
+      html += '<span class="builder-label">' + I18n.t('settings.param.direction') + '</span>';
+      html += '<select class="builder-select builder-select-narrow" id="builder-direction">';
+      html += '<option value="left">' + I18n.t('settings.direction.left') + '</option>';
+      html += '<option value="right">' + I18n.t('settings.direction.right') + '</option>';
+      html += '</select>';
+      html += '<span class="builder-label">' + I18n.t('settings.param.scale') + '</span>';
+      html += '<input type="range" class="builder-range builder-range-short" id="builder-scale" min="0.1" max="1" step="0.1" value="1">';
+      html += '<span class="builder-range-value" id="builder-scale-val">1</span>';
+      html += '</div>';
+
+      // Row 4: Font
+      html += '<div class="builder-row">';
+      html += '<span class="builder-label">' + I18n.t('settings.param.font') + '</span>';
+      html += '<input type="text" class="builder-string-input" id="builder-font" value="" placeholder="e.g. Arial, serif">';
+      html += '</div>';
+
+      // Theme-specific params (dynamically populated)
+      html += '<div id="builder-theme-params"></div>';
+
+      // URL preview
+      html += '<div class="builder-url-preview" id="builder-preview">led.run/HELLO</div>';
+
+      html += '</div>'; // end landing-builder
 
       html += '</div>'; // end landing-hero
 
@@ -215,14 +288,244 @@
       // Bind input events
       var input = container.querySelector('.url-input');
       var goBtn = container.querySelector('.btn-launch');
+      var builderTheme = container.querySelector('#builder-theme');
+      var builderColor = container.querySelector('#builder-color');
+      var builderBg = container.querySelector('#builder-bg');
+      var builderFill = container.querySelector('#builder-fill');
+      var builderFillGroup = container.querySelector('#builder-fill-group');
+      var builderMode = container.querySelector('#builder-mode');
+      var builderSpeed = container.querySelector('#builder-speed');
+      var builderSpeedVal = container.querySelector('#builder-speed-val');
+      var builderDirection = container.querySelector('#builder-direction');
+      var builderScale = container.querySelector('#builder-scale');
+      var builderScaleVal = container.querySelector('#builder-scale-val');
+      var builderFont = container.querySelector('#builder-font');
+      var builderPreview = container.querySelector('#builder-preview');
+      var builderThemeParams = container.querySelector('#builder-theme-params');
       var self = this;
+
+      // Track whether user has explicitly changed each common param
+      var userChanged = { color: false, bg: false, fill: false, speed: false, direction: false, scale: false, font: false };
+      // Theme-specific param values (only stores user-changed values)
+      var themeParamValues = {};
+
+      function getDefaults() {
+        return ThemeManager.getDefaults(builderTheme.value) || { color: '00ff41', bg: '000000', speed: 60, direction: 'left', scale: 1 };
+      }
+
+      function collectParams() {
+        var defaults = getDefaults();
+        var params = [];
+        if (builderTheme.value !== 'default') params.push('t=' + builderTheme.value);
+        if (userChanged.color) {
+          var color = builderColor.value.replace('#', '');
+          if (color !== (defaults.color || '').slice(0, 6)) params.push('c=' + color);
+        }
+        if (userChanged.bg) {
+          var bg = builderBg.value.replace('#', '');
+          if (bg !== (defaults.bg || '').slice(0, 6)) params.push('bg=' + bg);
+        }
+        if (userChanged.fill) {
+          var fill = builderFill.value.replace('#', '');
+          if (fill !== (defaults.fill || '').slice(0, 6)) params.push('fill=' + fill);
+        }
+        if (builderMode.value) params.push('mode=' + builderMode.value);
+        if (userChanged.speed) {
+          var speed = parseInt(builderSpeed.value, 10);
+          if (speed !== (defaults.speed || 60)) params.push('speed=' + speed);
+        }
+        if (userChanged.direction) {
+          if (builderDirection.value !== (defaults.direction || 'left')) params.push('dir=' + builderDirection.value);
+        }
+        if (userChanged.scale) {
+          var scale = parseFloat(builderScale.value);
+          if (scale !== (defaults.scale || 1)) params.push('scale=' + scale);
+        }
+        if (userChanged.font) {
+          var font = builderFont.value.trim();
+          if (font && font !== (defaults.font || '')) params.push('font=' + encodeURIComponent(font));
+        }
+        // Theme-specific params
+        for (var key in themeParamValues) {
+          var val = themeParamValues[key];
+          if (val !== undefined && val !== defaults[key]) {
+            params.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
+          }
+        }
+        return params;
+      }
+
+      function buildUrl() {
+        var val = input.value.trim() || 'HELLO';
+        var url = 'led.run/' + val;
+        var params = collectParams();
+        if (params.length) url += '?' + params.join('&');
+        builderPreview.textContent = url;
+      }
 
       function navigate() {
         var val = input.value.trim();
         if (val) {
-          window.location.href = '/' + encodeURIComponent(val);
+          var params = collectParams();
+          var search = params.length ? '?' + params.join('&') : '';
+          window.location.href = '/' + encodeURIComponent(val) + search;
         }
       }
+
+      function syncToThemeDefaults() {
+        var defaults = getDefaults();
+        builderColor.value = '#' + (defaults.color || '00ff41').slice(0, 6);
+        builderBg.value = '#' + (defaults.bg || '000000').slice(0, 6);
+        // Show fill only for themes that have it in defaults
+        var hasFill = defaults.fill !== undefined;
+        builderFillGroup.style.display = hasFill ? 'contents' : 'none';
+        builderFill.value = '#' + (defaults.fill || defaults.bg || '000000').slice(0, 6);
+        builderSpeed.value = defaults.speed || 60;
+        builderSpeedVal.textContent = defaults.speed || 60;
+        builderDirection.value = defaults.direction || 'left';
+        builderScale.value = defaults.scale || 1;
+        builderScaleVal.textContent = defaults.scale || 1;
+        builderFont.value = defaults.font || '';
+        userChanged = { color: false, bg: false, fill: false, speed: false, direction: false, scale: false, font: false };
+        themeParamValues = {};
+      }
+
+      // Build theme-specific param controls dynamically
+      function rebuildThemeParams() {
+        builderThemeParams.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+
+        var themeId = builderTheme.value;
+        var keys = Settings.getThemeParamKeys(themeId);
+        if (keys.length === 0) return;
+
+        var defaults = getDefaults();
+        var KNOWN = Settings.KNOWN_PARAMS;
+
+        keys.forEach(function(key) {
+          var meta = KNOWN[key];
+          var defVal = defaults[key];
+          var type;
+          if (meta && meta.type !== 'auto') {
+            type = meta.type;
+          } else {
+            type = Settings.inferType(defVal);
+          }
+          var labelKey = meta ? meta.label : 'settings.param.' + key;
+
+          var row = document.createElement('div');
+          row.className = 'builder-row';
+
+          var label = document.createElement('span');
+          label.className = 'builder-label';
+          label.textContent = I18n.t(labelKey);
+          row.appendChild(label);
+
+          if (type === 'color') {
+            var hexVal = (typeof defVal === 'string' ? defVal : '000000').slice(0, 6);
+            var ci = document.createElement('input');
+            ci.type = 'color';
+            ci.className = 'builder-color-input';
+            ci.value = '#' + hexVal;
+            ci.addEventListener('input', function() {
+              themeParamValues[key] = this.value.replace('#', '');
+              buildUrl();
+            });
+            row.appendChild(ci);
+          } else if (type === 'range') {
+            var min = (meta && meta.min !== undefined) ? meta.min : 0;
+            var max = (meta && meta.max !== undefined) ? meta.max : 100;
+            var step = (meta && meta.step !== undefined) ? meta.step : 1;
+            var numVal = (typeof defVal === 'number') ? defVal : parseFloat(defVal) || min;
+            var ri = document.createElement('input');
+            ri.type = 'range';
+            ri.className = 'builder-range';
+            ri.min = min;
+            ri.max = max;
+            ri.step = step;
+            ri.value = numVal;
+            var rv = document.createElement('span');
+            rv.className = 'builder-range-value';
+            rv.textContent = numVal;
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              themeParamValues[key] = parseFloat(this.value);
+              buildUrl();
+            });
+            row.appendChild(ri);
+            row.appendChild(rv);
+          } else if (type === 'boolean') {
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox';
+            cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb);
+            toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              themeParamValues[key] = this.checked;
+              buildUrl();
+            });
+            row.appendChild(toggle);
+          } else if (type === 'select') {
+            var sel = document.createElement('select');
+            sel.className = 'builder-select';
+            var opts = (meta && meta.options) ? meta.options : [];
+            opts.forEach(function(opt) {
+              var o = document.createElement('option');
+              o.value = opt;
+              var tk = 'settings.' + key + '.' + (opt || 'none');
+              var translated = I18n.t(tk);
+              o.textContent = (translated !== tk) ? translated : (opt || '\u2014');
+              if (opt === defVal || (opt === '' && !defVal)) o.selected = true;
+              sel.appendChild(o);
+            });
+            sel.addEventListener('change', function() {
+              themeParamValues[key] = this.value;
+              buildUrl();
+            });
+            row.appendChild(sel);
+          } else {
+            var ti = document.createElement('input');
+            ti.type = 'text';
+            ti.className = 'builder-string-input';
+            ti.value = defVal || '';
+            ti.placeholder = key;
+            ti.addEventListener('change', function() {
+              themeParamValues[key] = this.value;
+              buildUrl();
+            });
+            row.appendChild(ti);
+          }
+
+          builderThemeParams.appendChild(row);
+        });
+      }
+
+      builderTheme.addEventListener('change', function() {
+        syncToThemeDefaults();
+        rebuildThemeParams();
+        buildUrl();
+      });
+      builderColor.addEventListener('input', function() { userChanged.color = true; buildUrl(); });
+      builderBg.addEventListener('input', function() { userChanged.bg = true; buildUrl(); });
+      builderFill.addEventListener('input', function() { userChanged.fill = true; buildUrl(); });
+      builderMode.addEventListener('change', buildUrl);
+      builderSpeed.addEventListener('input', function() {
+        builderSpeedVal.textContent = this.value;
+        userChanged.speed = true;
+        buildUrl();
+      });
+      builderDirection.addEventListener('change', function() { userChanged.direction = true; buildUrl(); });
+      builderScale.addEventListener('input', function() {
+        builderScaleVal.textContent = this.value;
+        userChanged.scale = true;
+        buildUrl();
+      });
+      builderFont.addEventListener('change', function() { userChanged.font = true; buildUrl(); });
+      input.addEventListener('input', buildUrl);
 
       goBtn.addEventListener('click', navigate);
       input.addEventListener('keydown', function(e) {

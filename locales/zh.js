@@ -59,5 +59,99 @@ I18n.register('zh', {
   'toolbar.toast.casting': '\u6295\u5c4f\u4e2d...',
   'toolbar.toast.castFailed': '\u6295\u5c4f\u5931\u8d25',
   'toolbar.toast.linkCopied': '\u94fe\u63a5\u5df2\u590d\u5236\uff01',
-  'toolbar.toast.copyFailed': '\u590d\u5236\u5931\u8d25'
+  'toolbar.toast.copyFailed': '\u590d\u5236\u5931\u8d25',
+
+  // Toolbar - Settings
+  'toolbar.settings': '\u8bbe\u7f6e',
+
+  // Settings panel
+  'settings.title': '\u8bbe\u7f6e',
+  'settings.text': '\u6587\u5b57',
+  'settings.theme': '\u4e3b\u9898',
+  'settings.section.general': '\u901a\u7528',
+  'settings.section.themeParams': '\u4e3b\u9898\u9009\u9879',
+
+  // Settings - param labels
+  'settings.param.color': '\u6587\u5b57\u989c\u8272',
+  'settings.param.bg': '\u80cc\u666f',
+  'settings.param.fill': '\u586b\u5145\u8272',
+  'settings.param.mode': '\u6a21\u5f0f',
+  'settings.param.speed': '\u901f\u5ea6',
+  'settings.param.direction': '\u65b9\u5411',
+  'settings.param.font': '\u5b57\u4f53',
+  'settings.param.scale': '\u7f29\u653e',
+  'settings.param.flicker': '\u95ea\u70c1',
+  'settings.param.scanlines': '\u626b\u63cf\u7ebf',
+  'settings.param.intensity': '\u5f3a\u5ea6',
+  'settings.param.typingSpeed': '\u6253\u5b57\u901f\u5ea6',
+  'settings.param.dot': '\u6307\u793a\u706f\u989c\u8272',
+  'settings.param.chase': '\u8ffd\u9010\u901f\u5ea6',
+  'settings.param.bulbColor': '\u706f\u6ce1\u989c\u8272',
+  'settings.param.rhythm': '\u8282\u594f',
+  'settings.param.rate': '\u9891\u7387',
+  'settings.param.grain': '\u7eb9\u7406',
+  'settings.param.warm': '\u6e29\u6696\u5ea6',
+  'settings.param.glitch': '\u6545\u969c',
+  'settings.param.sub': '\u526f\u6807\u9898',
+  'settings.param.exit': '\u51fa\u53e3',
+  'settings.param.arrow': '\u7bad\u5934',
+  'settings.param.glare': '\u7729\u5149',
+  'settings.param.glow': '\u53d1\u5149',
+  'settings.param.res': '\u5206\u8fa8\u7387',
+  'settings.param.gap': '\u95f4\u8ddd',
+  'settings.param.shape': '\u5f62\u72b6',
+  'settings.param.bezel': '\u8fb9\u6846',
+  'settings.param.weight': '\u5b57\u91cd',
+  'settings.param.wrap': '\u81ea\u52a8\u6362\u884c',
+
+  // Settings - mode options
+  'settings.mode.none': '\u81ea\u52a8',
+  'settings.mode.sign': '\u9759\u6001',
+  'settings.mode.flow': '\u6eda\u52a8',
+
+  // Settings - direction options
+  'settings.direction.left': '\u5411\u5de6',
+  'settings.direction.right': '\u5411\u53f3',
+
+  // Settings - arrow options
+  'settings.arrow.none': '\u65e0',
+  'settings.arrow.up': '\u4e0a',
+  'settings.arrow.down': '\u4e0b',
+  'settings.arrow.left': '\u5de6',
+  'settings.arrow.right': '\u53f3',
+
+  // Settings - shape options
+  'settings.shape.square': '\u65b9\u5f62',
+  'settings.shape.round': '\u5706\u5f62',
+
+  // Settings - weight options
+  'settings.weight.normal': '\u6b63\u5e38',
+  'settings.weight.bold': '\u7c97\u4f53',
+
+  // Settings - grain options
+  'settings.grain.dark': '\u6df1\u8272',
+  'settings.grain.light': '\u6d45\u8272',
+  'settings.grain.natural': '\u81ea\u7136',
+
+  // Settings - theme names
+  'settings.theme.default': '\u9ed8\u8ba4',
+  'settings.theme.neon': '\u9713\u8679\u706f',
+  'settings.theme.retro': '\u590d\u53e4',
+  'settings.theme.glitch': '\u6545\u969c\u98ce',
+  'settings.theme.typewriter': '\u6253\u5b57\u673a',
+  'settings.theme.gradient': '\u6e10\u53d8',
+  'settings.theme.hologram': '\u5168\u606f',
+  'settings.theme.broadcast': '\u76f4\u64ad',
+  'settings.theme.marquee': '\u706f\u7bb1',
+  'settings.theme.pulse': '\u8109\u51b2',
+  'settings.theme.aurora': '\u6781\u5149',
+  'settings.theme.firework': '\u70df\u82b1',
+  'settings.theme.wood': '\u6728\u677f',
+  'settings.theme.cyber': '\u8d5b\u535a',
+  'settings.theme.tokyo': '\u4e1c\u4eac',
+  'settings.theme.blueprint': '\u84dd\u56fe',
+  'settings.theme.monolith': '\u5de8\u77f3',
+  'settings.theme.street-sign': '\u8def\u724c',
+  'settings.theme.do-not-disturb': '\u8bf7\u52ff\u6253\u6270',
+  'settings.theme.dot-matrix': '\u70b9\u9635'
 });

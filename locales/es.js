@@ -59,5 +59,99 @@ I18n.register('es', {
   'toolbar.toast.casting': 'Transmitiendo...',
   'toolbar.toast.castFailed': 'Error de transmisi\u00f3n',
   'toolbar.toast.linkCopied': '\u00a1Enlace copiado!',
-  'toolbar.toast.copyFailed': 'Error al copiar'
+  'toolbar.toast.copyFailed': 'Error al copiar',
+
+  // Toolbar - Settings
+  'toolbar.settings': 'Ajustes',
+
+  // Settings panel
+  'settings.title': 'Ajustes',
+  'settings.text': 'Texto',
+  'settings.theme': 'Tema',
+  'settings.section.general': 'General',
+  'settings.section.themeParams': 'Opciones del Tema',
+
+  // Settings - param labels
+  'settings.param.color': 'Color del Texto',
+  'settings.param.bg': 'Fondo',
+  'settings.param.fill': 'Color de Relleno',
+  'settings.param.mode': 'Modo',
+  'settings.param.speed': 'Velocidad',
+  'settings.param.direction': 'Direcci\u00f3n',
+  'settings.param.font': 'Fuente',
+  'settings.param.scale': 'Escala',
+  'settings.param.flicker': 'Parpadeo',
+  'settings.param.scanlines': 'L\u00edneas de Escaneo',
+  'settings.param.intensity': 'Intensidad',
+  'settings.param.typingSpeed': 'Velocidad de Escritura',
+  'settings.param.dot': 'Color del Punto',
+  'settings.param.chase': 'Velocidad de Persecuci\u00f3n',
+  'settings.param.bulbColor': 'Color de Bombilla',
+  'settings.param.rhythm': 'Ritmo',
+  'settings.param.rate': 'Frecuencia',
+  'settings.param.grain': 'Grano',
+  'settings.param.warm': 'Calidez',
+  'settings.param.glitch': 'Glitch',
+  'settings.param.sub': 'Subt\u00edtulo',
+  'settings.param.exit': 'Salida',
+  'settings.param.arrow': 'Flecha',
+  'settings.param.glare': 'Resplandor',
+  'settings.param.glow': 'Brillo',
+  'settings.param.res': 'Resoluci\u00f3n',
+  'settings.param.gap': 'Espacio',
+  'settings.param.shape': 'Forma',
+  'settings.param.bezel': 'Bisel',
+  'settings.param.weight': 'Grosor',
+  'settings.param.wrap': 'Ajustar',
+
+  // Settings - mode options
+  'settings.mode.none': 'Auto',
+  'settings.mode.sign': 'Letrero',
+  'settings.mode.flow': 'Flujo',
+
+  // Settings - direction options
+  'settings.direction.left': 'Izquierda',
+  'settings.direction.right': 'Derecha',
+
+  // Settings - arrow options
+  'settings.arrow.none': 'Ninguna',
+  'settings.arrow.up': 'Arriba',
+  'settings.arrow.down': 'Abajo',
+  'settings.arrow.left': 'Izquierda',
+  'settings.arrow.right': 'Derecha',
+
+  // Settings - shape options
+  'settings.shape.square': 'Cuadrado',
+  'settings.shape.round': 'Redondo',
+
+  // Settings - weight options
+  'settings.weight.normal': 'Normal',
+  'settings.weight.bold': 'Negrita',
+
+  // Settings - grain options
+  'settings.grain.dark': 'Oscuro',
+  'settings.grain.light': 'Claro',
+  'settings.grain.natural': 'Natural',
+
+  // Settings - theme names
+  'settings.theme.default': 'Por Defecto',
+  'settings.theme.neon': 'Ne\u00f3n',
+  'settings.theme.retro': 'Retro',
+  'settings.theme.glitch': 'Glitch',
+  'settings.theme.typewriter': 'M\u00e1quina de Escribir',
+  'settings.theme.gradient': 'Degradado',
+  'settings.theme.hologram': 'Holograma',
+  'settings.theme.broadcast': 'Transmisi\u00f3n',
+  'settings.theme.marquee': 'Marquesina',
+  'settings.theme.pulse': 'Pulso',
+  'settings.theme.aurora': 'Aurora',
+  'settings.theme.firework': 'Fuegos Artificiales',
+  'settings.theme.wood': 'Madera',
+  'settings.theme.cyber': 'Ciber',
+  'settings.theme.tokyo': 'Tokio',
+  'settings.theme.blueprint': 'Plano',
+  'settings.theme.monolith': 'Monolito',
+  'settings.theme.street-sign': 'Se\u00f1al de Tr\u00e1fico',
+  'settings.theme.do-not-disturb': 'No Molestar',
+  'settings.theme.dot-matrix': 'Matriz de Puntos'
 });

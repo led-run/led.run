@@ -59,5 +59,99 @@ I18n.register('de', {
   'toolbar.toast.casting': '\u00dcbertragung...',
   'toolbar.toast.castFailed': '\u00dcbertragung fehlgeschlagen',
   'toolbar.toast.linkCopied': 'Link kopiert!',
-  'toolbar.toast.copyFailed': 'Kopieren fehlgeschlagen'
+  'toolbar.toast.copyFailed': 'Kopieren fehlgeschlagen',
+
+  // Toolbar - Settings
+  'toolbar.settings': 'Einstellungen',
+
+  // Settings panel
+  'settings.title': 'Einstellungen',
+  'settings.text': 'Text',
+  'settings.theme': 'Thema',
+  'settings.section.general': 'Allgemein',
+  'settings.section.themeParams': 'Thema-Optionen',
+
+  // Settings - param labels
+  'settings.param.color': 'Textfarbe',
+  'settings.param.bg': 'Hintergrund',
+  'settings.param.fill': 'F\u00fcllfarbe',
+  'settings.param.mode': 'Modus',
+  'settings.param.speed': 'Geschwindigkeit',
+  'settings.param.direction': 'Richtung',
+  'settings.param.font': 'Schriftart',
+  'settings.param.scale': 'Skalierung',
+  'settings.param.flicker': 'Flackern',
+  'settings.param.scanlines': 'Scanlines',
+  'settings.param.intensity': 'Intensit\u00e4t',
+  'settings.param.typingSpeed': 'Tippgeschwindigkeit',
+  'settings.param.dot': 'Punktfarbe',
+  'settings.param.chase': 'Laufgeschwindigkeit',
+  'settings.param.bulbColor': 'Gl\u00fchbirnenfarbe',
+  'settings.param.rhythm': 'Rhythmus',
+  'settings.param.rate': 'H\u00e4ufigkeit',
+  'settings.param.grain': 'Maserung',
+  'settings.param.warm': 'W\u00e4rme',
+  'settings.param.glitch': 'Glitch',
+  'settings.param.sub': 'Untertitel',
+  'settings.param.exit': 'Ausfahrt',
+  'settings.param.arrow': 'Pfeil',
+  'settings.param.glare': 'Blendung',
+  'settings.param.glow': 'Leuchten',
+  'settings.param.res': 'Aufl\u00f6sung',
+  'settings.param.gap': 'Abstand',
+  'settings.param.shape': 'Form',
+  'settings.param.bezel': 'Rahmen',
+  'settings.param.weight': 'St\u00e4rke',
+  'settings.param.wrap': 'Umbruch',
+
+  // Settings - mode options
+  'settings.mode.none': 'Auto',
+  'settings.mode.sign': 'Schild',
+  'settings.mode.flow': 'Laufschrift',
+
+  // Settings - direction options
+  'settings.direction.left': 'Links',
+  'settings.direction.right': 'Rechts',
+
+  // Settings - arrow options
+  'settings.arrow.none': 'Kein',
+  'settings.arrow.up': 'Oben',
+  'settings.arrow.down': 'Unten',
+  'settings.arrow.left': 'Links',
+  'settings.arrow.right': 'Rechts',
+
+  // Settings - shape options
+  'settings.shape.square': 'Quadrat',
+  'settings.shape.round': 'Rund',
+
+  // Settings - weight options
+  'settings.weight.normal': 'Normal',
+  'settings.weight.bold': 'Fett',
+
+  // Settings - grain options
+  'settings.grain.dark': 'Dunkel',
+  'settings.grain.light': 'Hell',
+  'settings.grain.natural': 'Nat\u00fcrlich',
+
+  // Settings - theme names
+  'settings.theme.default': 'Standard',
+  'settings.theme.neon': 'Neon',
+  'settings.theme.retro': 'Retro',
+  'settings.theme.glitch': 'Glitch',
+  'settings.theme.typewriter': 'Schreibmaschine',
+  'settings.theme.gradient': 'Farbverlauf',
+  'settings.theme.hologram': 'Hologramm',
+  'settings.theme.broadcast': 'Sendung',
+  'settings.theme.marquee': 'Laufschild',
+  'settings.theme.pulse': 'Puls',
+  'settings.theme.aurora': 'Polarlicht',
+  'settings.theme.firework': 'Feuerwerk',
+  'settings.theme.wood': 'Holz',
+  'settings.theme.cyber': 'Cyber',
+  'settings.theme.tokyo': 'Tokio',
+  'settings.theme.blueprint': 'Bauplan',
+  'settings.theme.monolith': 'Monolith',
+  'settings.theme.street-sign': 'Stra\u00dfenschild',
+  'settings.theme.do-not-disturb': 'Nicht St\u00f6ren',
+  'settings.theme.dot-matrix': 'Punktmatrix'
 });

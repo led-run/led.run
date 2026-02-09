@@ -59,5 +59,99 @@ I18n.register('ja', {
   'toolbar.toast.casting': '\u30ad\u30e3\u30b9\u30c8\u4e2d...',
   'toolbar.toast.castFailed': '\u30ad\u30e3\u30b9\u30c8\u5931\u6557',
   'toolbar.toast.linkCopied': '\u30ea\u30f3\u30af\u3092\u30b3\u30d4\u30fc\u3057\u307e\u3057\u305f\uff01',
-  'toolbar.toast.copyFailed': '\u30b3\u30d4\u30fc\u5931\u6557'
+  'toolbar.toast.copyFailed': '\u30b3\u30d4\u30fc\u5931\u6557',
+
+  // Toolbar - Settings
+  'toolbar.settings': '\u8a2d\u5b9a',
+
+  // Settings panel
+  'settings.title': '\u8a2d\u5b9a',
+  'settings.text': '\u30c6\u30ad\u30b9\u30c8',
+  'settings.theme': '\u30c6\u30fc\u30de',
+  'settings.section.general': '\u4e00\u822c',
+  'settings.section.themeParams': '\u30c6\u30fc\u30de\u30aa\u30d7\u30b7\u30e7\u30f3',
+
+  // Settings - param labels
+  'settings.param.color': '\u6587\u5b57\u8272',
+  'settings.param.bg': '\u80cc\u666f',
+  'settings.param.fill': '\u5857\u308a\u3064\u3076\u3057\u8272',
+  'settings.param.mode': '\u30e2\u30fc\u30c9',
+  'settings.param.speed': '\u901f\u5ea6',
+  'settings.param.direction': '\u65b9\u5411',
+  'settings.param.font': '\u30d5\u30a9\u30f3\u30c8',
+  'settings.param.scale': '\u30b9\u30b1\u30fc\u30eb',
+  'settings.param.flicker': '\u30d5\u30ea\u30c3\u30ab\u30fc',
+  'settings.param.scanlines': '\u30b9\u30ad\u30e3\u30f3\u30e9\u30a4\u30f3',
+  'settings.param.intensity': '\u5f37\u5ea6',
+  'settings.param.typingSpeed': '\u30bf\u30a4\u30d4\u30f3\u30b0\u901f\u5ea6',
+  'settings.param.dot': '\u30c9\u30c3\u30c8\u8272',
+  'settings.param.chase': '\u30c1\u30a7\u30a4\u30b9\u901f\u5ea6',
+  'settings.param.bulbColor': '\u30d0\u30eb\u30d6\u8272',
+  'settings.param.rhythm': '\u30ea\u30ba\u30e0',
+  'settings.param.rate': '\u983b\u5ea6',
+  'settings.param.grain': '\u6728\u76ee',
+  'settings.param.warm': '\u6e29\u304b\u307f',
+  'settings.param.glitch': '\u30b0\u30ea\u30c3\u30c1',
+  'settings.param.sub': '\u30b5\u30d6\u30bf\u30a4\u30c8\u30eb',
+  'settings.param.exit': '\u51fa\u53e3',
+  'settings.param.arrow': '\u77e2\u5370',
+  'settings.param.glare': '\u30b0\u30ec\u30a2',
+  'settings.param.glow': '\u30b0\u30ed\u30fc',
+  'settings.param.res': '\u89e3\u50cf\u5ea6',
+  'settings.param.gap': '\u9593\u9694',
+  'settings.param.shape': '\u5f62\u72b6',
+  'settings.param.bezel': '\u30d9\u30bc\u30eb',
+  'settings.param.weight': '\u30a6\u30a7\u30a4\u30c8',
+  'settings.param.wrap': '\u6298\u308a\u8fd4\u3057',
+
+  // Settings - mode options
+  'settings.mode.none': '\u81ea\u52d5',
+  'settings.mode.sign': '\u30b5\u30a4\u30f3',
+  'settings.mode.flow': '\u30d5\u30ed\u30fc',
+
+  // Settings - direction options
+  'settings.direction.left': '\u5de6',
+  'settings.direction.right': '\u53f3',
+
+  // Settings - arrow options
+  'settings.arrow.none': '\u306a\u3057',
+  'settings.arrow.up': '\u4e0a',
+  'settings.arrow.down': '\u4e0b',
+  'settings.arrow.left': '\u5de6',
+  'settings.arrow.right': '\u53f3',
+
+  // Settings - shape options
+  'settings.shape.square': '\u56db\u89d2',
+  'settings.shape.round': '\u4e38',
+
+  // Settings - weight options
+  'settings.weight.normal': '\u6a19\u6e96',
+  'settings.weight.bold': '\u592a\u5b57',
+
+  // Settings - grain options
+  'settings.grain.dark': '\u30c0\u30fc\u30af',
+  'settings.grain.light': '\u30e9\u30a4\u30c8',
+  'settings.grain.natural': '\u30ca\u30c1\u30e5\u30e9\u30eb',
+
+  // Settings - theme names
+  'settings.theme.default': '\u30c7\u30d5\u30a9\u30eb\u30c8',
+  'settings.theme.neon': '\u30cd\u30aa\u30f3',
+  'settings.theme.retro': '\u30ec\u30c8\u30ed',
+  'settings.theme.glitch': '\u30b0\u30ea\u30c3\u30c1',
+  'settings.theme.typewriter': '\u30bf\u30a4\u30d7\u30e9\u30a4\u30bf\u30fc',
+  'settings.theme.gradient': '\u30b0\u30e9\u30c7\u30fc\u30b7\u30e7\u30f3',
+  'settings.theme.hologram': '\u30db\u30ed\u30b0\u30e9\u30e0',
+  'settings.theme.broadcast': '\u30d6\u30ed\u30fc\u30c9\u30ad\u30e3\u30b9\u30c8',
+  'settings.theme.marquee': '\u30de\u30fc\u30ad\u30fc',
+  'settings.theme.pulse': '\u30d1\u30eb\u30b9',
+  'settings.theme.aurora': '\u30aa\u30fc\u30ed\u30e9',
+  'settings.theme.firework': '\u82b1\u706b',
+  'settings.theme.wood': '\u30a6\u30c3\u30c9',
+  'settings.theme.cyber': '\u30b5\u30a4\u30d0\u30fc',
+  'settings.theme.tokyo': '\u6771\u4eac',
+  'settings.theme.blueprint': '\u8a2d\u8a08\u56f3',
+  'settings.theme.monolith': '\u30e2\u30ce\u30ea\u30b9',
+  'settings.theme.street-sign': '\u9053\u8def\u6a19\u8b58',
+  'settings.theme.do-not-disturb': '\u304a\u4f11\u307f\u4e2d',
+  'settings.theme.dot-matrix': '\u30c9\u30c3\u30c8\u30de\u30c8\u30ea\u30af\u30b9'
 });

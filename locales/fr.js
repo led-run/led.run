@@ -59,5 +59,99 @@ I18n.register('fr', {
   'toolbar.toast.casting': 'Diffusion...',
   'toolbar.toast.castFailed': '\u00c9chec de diffusion',
   'toolbar.toast.linkCopied': 'Lien copi\u00e9 !',
-  'toolbar.toast.copyFailed': '\u00c9chec de copie'
+  'toolbar.toast.copyFailed': '\u00c9chec de copie',
+
+  // Toolbar - Settings
+  'toolbar.settings': 'Param\u00e8tres',
+
+  // Settings panel
+  'settings.title': 'Param\u00e8tres',
+  'settings.text': 'Texte',
+  'settings.theme': 'Th\u00e8me',
+  'settings.section.general': 'G\u00e9n\u00e9ral',
+  'settings.section.themeParams': 'Options du Th\u00e8me',
+
+  // Settings - param labels
+  'settings.param.color': 'Couleur du Texte',
+  'settings.param.bg': 'Arri\u00e8re-plan',
+  'settings.param.fill': 'Couleur de Remplissage',
+  'settings.param.mode': 'Mode',
+  'settings.param.speed': 'Vitesse',
+  'settings.param.direction': 'Direction',
+  'settings.param.font': 'Police',
+  'settings.param.scale': '\u00c9chelle',
+  'settings.param.flicker': 'Scintillement',
+  'settings.param.scanlines': 'Lignes de Balayage',
+  'settings.param.intensity': 'Intensit\u00e9',
+  'settings.param.typingSpeed': 'Vitesse de Frappe',
+  'settings.param.dot': 'Couleur du Point',
+  'settings.param.chase': 'Vitesse de Poursuite',
+  'settings.param.bulbColor': 'Couleur d\u2019Ampoule',
+  'settings.param.rhythm': 'Rythme',
+  'settings.param.rate': 'Fr\u00e9quence',
+  'settings.param.grain': 'Grain',
+  'settings.param.warm': 'Chaleur',
+  'settings.param.glitch': 'Glitch',
+  'settings.param.sub': 'Sous-titre',
+  'settings.param.exit': 'Sortie',
+  'settings.param.arrow': 'Fl\u00e8che',
+  'settings.param.glare': '\u00c9blouissement',
+  'settings.param.glow': 'Lueur',
+  'settings.param.res': 'R\u00e9solution',
+  'settings.param.gap': 'Espacement',
+  'settings.param.shape': 'Forme',
+  'settings.param.bezel': 'Cadre',
+  'settings.param.weight': '\u00c9paisseur',
+  'settings.param.wrap': 'Retour \u00e0 la Ligne',
+
+  // Settings - mode options
+  'settings.mode.none': 'Auto',
+  'settings.mode.sign': 'Panneau',
+  'settings.mode.flow': 'D\u00e9filement',
+
+  // Settings - direction options
+  'settings.direction.left': 'Gauche',
+  'settings.direction.right': 'Droite',
+
+  // Settings - arrow options
+  'settings.arrow.none': 'Aucune',
+  'settings.arrow.up': 'Haut',
+  'settings.arrow.down': 'Bas',
+  'settings.arrow.left': 'Gauche',
+  'settings.arrow.right': 'Droite',
+
+  // Settings - shape options
+  'settings.shape.square': 'Carr\u00e9',
+  'settings.shape.round': 'Rond',
+
+  // Settings - weight options
+  'settings.weight.normal': 'Normal',
+  'settings.weight.bold': 'Gras',
+
+  // Settings - grain options
+  'settings.grain.dark': 'Fonc\u00e9',
+  'settings.grain.light': 'Clair',
+  'settings.grain.natural': 'Naturel',
+
+  // Settings - theme names
+  'settings.theme.default': 'Par D\u00e9faut',
+  'settings.theme.neon': 'N\u00e9on',
+  'settings.theme.retro': 'R\u00e9tro',
+  'settings.theme.glitch': 'Glitch',
+  'settings.theme.typewriter': 'Machine \u00e0 \u00c9crire',
+  'settings.theme.gradient': 'D\u00e9grad\u00e9',
+  'settings.theme.hologram': 'Hologramme',
+  'settings.theme.broadcast': 'Diffusion',
+  'settings.theme.marquee': 'Chapiteau',
+  'settings.theme.pulse': 'Pulsation',
+  'settings.theme.aurora': 'Aurore',
+  'settings.theme.firework': 'Feu d\u2019Artifice',
+  'settings.theme.wood': 'Bois',
+  'settings.theme.cyber': 'Cyber',
+  'settings.theme.tokyo': 'Tokyo',
+  'settings.theme.blueprint': 'Plan',
+  'settings.theme.monolith': 'Monolithe',
+  'settings.theme.street-sign': 'Panneau Routier',
+  'settings.theme.do-not-disturb': 'Ne Pas D\u00e9ranger',
+  'settings.theme.dot-matrix': 'Matrice de Points'
 });

@@ -59,5 +59,99 @@ I18n.register('en', {
   'toolbar.toast.casting': 'Casting...',
   'toolbar.toast.castFailed': 'Cast failed',
   'toolbar.toast.linkCopied': 'Link copied!',
-  'toolbar.toast.copyFailed': 'Copy failed'
+  'toolbar.toast.copyFailed': 'Copy failed',
+
+  // Toolbar - Settings
+  'toolbar.settings': 'Settings',
+
+  // Settings panel
+  'settings.title': 'Settings',
+  'settings.text': 'Text',
+  'settings.theme': 'Theme',
+  'settings.section.general': 'General',
+  'settings.section.themeParams': 'Theme Options',
+
+  // Settings - param labels
+  'settings.param.color': 'Text Color',
+  'settings.param.bg': 'Background',
+  'settings.param.fill': 'Fill Color',
+  'settings.param.mode': 'Mode',
+  'settings.param.speed': 'Speed',
+  'settings.param.direction': 'Direction',
+  'settings.param.font': 'Font',
+  'settings.param.scale': 'Scale',
+  'settings.param.flicker': 'Flicker',
+  'settings.param.scanlines': 'Scanlines',
+  'settings.param.intensity': 'Intensity',
+  'settings.param.typingSpeed': 'Typing Speed',
+  'settings.param.dot': 'Dot Color',
+  'settings.param.chase': 'Chase Speed',
+  'settings.param.bulbColor': 'Bulb Color',
+  'settings.param.rhythm': 'Rhythm',
+  'settings.param.rate': 'Rate',
+  'settings.param.grain': 'Grain',
+  'settings.param.warm': 'Warmth',
+  'settings.param.glitch': 'Glitch',
+  'settings.param.sub': 'Subtitle',
+  'settings.param.exit': 'Exit',
+  'settings.param.arrow': 'Arrow',
+  'settings.param.glare': 'Glare',
+  'settings.param.glow': 'Glow',
+  'settings.param.res': 'Resolution',
+  'settings.param.gap': 'Gap',
+  'settings.param.shape': 'Shape',
+  'settings.param.bezel': 'Bezel',
+  'settings.param.weight': 'Weight',
+  'settings.param.wrap': 'Wrap',
+
+  // Settings - mode options
+  'settings.mode.none': 'Auto',
+  'settings.mode.sign': 'Sign',
+  'settings.mode.flow': 'Flow',
+
+  // Settings - direction options
+  'settings.direction.left': 'Left',
+  'settings.direction.right': 'Right',
+
+  // Settings - arrow options
+  'settings.arrow.none': 'None',
+  'settings.arrow.up': 'Up',
+  'settings.arrow.down': 'Down',
+  'settings.arrow.left': 'Left',
+  'settings.arrow.right': 'Right',
+
+  // Settings - shape options
+  'settings.shape.square': 'Square',
+  'settings.shape.round': 'Round',
+
+  // Settings - weight options
+  'settings.weight.normal': 'Normal',
+  'settings.weight.bold': 'Bold',
+
+  // Settings - grain options
+  'settings.grain.dark': 'Dark',
+  'settings.grain.light': 'Light',
+  'settings.grain.natural': 'Natural',
+
+  // Settings - theme names
+  'settings.theme.default': 'Default',
+  'settings.theme.neon': 'Neon',
+  'settings.theme.retro': 'Retro',
+  'settings.theme.glitch': 'Glitch',
+  'settings.theme.typewriter': 'Typewriter',
+  'settings.theme.gradient': 'Gradient',
+  'settings.theme.hologram': 'Hologram',
+  'settings.theme.broadcast': 'Broadcast',
+  'settings.theme.marquee': 'Marquee',
+  'settings.theme.pulse': 'Pulse',
+  'settings.theme.aurora': 'Aurora',
+  'settings.theme.firework': 'Firework',
+  'settings.theme.wood': 'Wood',
+  'settings.theme.cyber': 'Cyber',
+  'settings.theme.tokyo': 'Tokyo',
+  'settings.theme.blueprint': 'Blueprint',
+  'settings.theme.monolith': 'Monolith',
+  'settings.theme.street-sign': 'Street Sign',
+  'settings.theme.do-not-disturb': 'Do Not Disturb',
+  'settings.theme.dot-matrix': 'Dot Matrix'
 });
