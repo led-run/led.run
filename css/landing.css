@@ -134,6 +134,41 @@
   min-width: 0;
 }
 
+.input-actions {
+  display: flex;
+  gap: 0.375rem;
+  align-items: center;
+}
+
+.btn-random {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  border: 1px solid var(--border-light);
+  color: var(--text-muted);
+  width: 42px;
+  height: 42px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.btn-random:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: rgba(0, 230, 118, 0.08);
+}
+
+.btn-random:active {
+  transform: scale(0.92);
+}
+
+.btn-random svg {
+  display: block;
+}
+
 .btn-launch {
   background: var(--text-main);
   color: #000;
@@ -364,8 +399,12 @@
     border-radius: 6px;
   }
   
-  .btn-launch {
+  .input-actions {
     width: 100%;
+  }
+
+  .btn-launch {
+    flex: 1;
   }
   
   .landing-footer {

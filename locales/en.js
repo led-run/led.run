@@ -11,6 +11,7 @@ I18n.register('en', {
   'landing.hero.title': 'Digital Signage,<br>Reimagined.',
   'landing.hero.subtitle': 'Transform any screen into a professional display in seconds. No apps, no accounts, just a URL.',
   'landing.input.go': 'Go',
+  'landing.input.random': 'Random style',
 
   // Landing - Section titles
   'landing.section.flow': 'Scrolling Marquee',

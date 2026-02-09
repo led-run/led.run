@@ -153,7 +153,19 @@
       html += '<div class="input-group">';
       html += '<div class="input-prefix">led.run/</div>';
       html += '<input class="url-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false" autofocus>';
+      html += '<div class="input-actions">';
+      html += '<button class="btn-random" title="' + I18n.t('landing.input.random') + '">';
+      html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+      html += '<rect x="1" y="1" width="22" height="22" rx="4"></rect>';
+      html += '<circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"></circle>';
+      html += '<circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none"></circle>';
+      html += '<circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none"></circle>';
+      html += '<circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"></circle>';
+      html += '<circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle>';
+      html += '</svg>';
+      html += '</button>';
       html += '<button class="btn-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '</div>';
       html += '</div>'; // end input-group
 
       // Builder toggle link
@@ -613,6 +625,62 @@
       input.addEventListener('keydown', function(e) {
         if (e.key === 'Enter') navigate();
       });
+
+      // Random style button
+      var randomBtn = container.querySelector('.btn-random');
+
+      function hslToHex(h, s, l) {
+        s /= 100; l /= 100;
+        var a = s * Math.min(l, 1 - l);
+        function f(n) {
+          var k = (n + h / 30) % 12;
+          var color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
+          return Math.round(255 * color).toString(16).padStart(2, '0');
+        }
+        return f(0) + f(8) + f(4);
+      }
+
+      var FILL_THEMES = ['broadcast', 'street-sign', 'wood', 'do-not-disturb', 'marquee', 'dot-matrix'];
+
+      function navigateRandom() {
+        var val = input.value.trim();
+        if (!val) return;
+
+        var themes = ThemeManager.getThemeIds();
+        var theme = themes[Math.floor(Math.random() * themes.length)];
+
+        var color = hslToHex(
+          Math.floor(Math.random() * 360),
+          70 + Math.floor(Math.random() * 30),
+          50 + Math.floor(Math.random() * 30)
+        );
+
+        var bg = hslToHex(
+          Math.floor(Math.random() * 360),
+          20 + Math.floor(Math.random() * 60),
+          5 + Math.floor(Math.random() * 15)
+        );
+
+        var fonts = Settings.FONT_PRESETS;
+        var font = fonts[Math.floor(Math.random() * fonts.length)].value;
+
+        var params = ['t=' + theme, 'c=' + color, 'bg=' + bg];
+
+        if (FILL_THEMES.indexOf(theme) !== -1) {
+          var fill = hslToHex(
+            Math.floor(Math.random() * 360),
+            20 + Math.floor(Math.random() * 60),
+            5 + Math.floor(Math.random() * 15)
+          );
+          params.push('fill=' + fill);
+        }
+
+        if (font) params.push('font=' + encodeURIComponent(font));
+
+        window.location.href = '/' + encodeURIComponent(val) + '?' + params.join('&');
+      }
+
+      randomBtn.addEventListener('click', navigateRandom);
 
       // Bind language switcher
       var langLinks = container.querySelectorAll('.footer-lang-link');

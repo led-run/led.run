@@ -11,6 +11,7 @@ I18n.register('fr', {
   'landing.hero.title': 'Affichage Num\u00e9rique,<br>R\u00e9invent\u00e9.',
   'landing.hero.subtitle': 'Transformez n\u2019importe quel \u00e9cran en affichage professionnel en quelques secondes. Sans app, sans compte, juste une URL.',
   'landing.input.go': 'Go',
+  'landing.input.random': 'Style al\u00e9atoire',
 
   // Landing - Section titles
   'landing.section.flow': 'D\u00e9filement',

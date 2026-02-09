@@ -11,6 +11,7 @@ I18n.register('de', {
   'landing.hero.title': 'Digitale Beschilderung,<br>Neu Definiert.',
   'landing.hero.subtitle': 'Verwandeln Sie jeden Bildschirm in Sekunden in ein professionelles Display. Keine Apps, kein Konto, nur eine URL.',
   'landing.input.go': 'Los',
+  'landing.input.random': 'Zuf\u00e4lliger Stil',
 
   // Landing - Section titles
   'landing.section.flow': 'Laufschrift',

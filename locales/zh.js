@@ -11,6 +11,7 @@ I18n.register('zh', {
   'landing.hero.title': '\u6570\u5b57\u6807\u724c\uff0c<br>\u91cd\u65b0\u5b9a\u4e49\u3002',
   'landing.hero.subtitle': '\u51e0\u79d2\u5185\u5c06\u4efb\u4f55\u5c4f\u5e55\u53d8\u4e3a\u4e13\u4e1a\u663e\u793a\u5c4f\u3002\u65e0\u9700\u5e94\u7528\uff0c\u65e0\u9700\u8d26\u53f7\uff0c\u53ea\u9700\u4e00\u4e2a URL\u3002',
   'landing.input.go': '\u542f\u52a8',
+  'landing.input.random': '\u968f\u673a\u98ce\u683c',
 
   // Landing - Section titles
   'landing.section.flow': '\u6eda\u52a8\u5b57\u5e55',
