@@ -13,6 +13,10 @@ I18n.register('en', {
   'landing.input.go': 'Go',
   'landing.input.random': 'Random style',
 
+  // Landing - Modes
+  'landing.mode.simple': 'Simple Build',
+  'landing.mode.builder': 'Builder Mode',
+
   // Landing - Section titles
   'landing.section.flow': 'Scrolling Marquee',
   'landing.section.sign': 'Static Signs',

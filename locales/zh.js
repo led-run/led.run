@@ -13,6 +13,10 @@ I18n.register('zh', {
   'landing.input.go': '\u542f\u52a8',
   'landing.input.random': '\u968f\u673a\u98ce\u683c',
 
+  // Landing - Modes
+  'landing.mode.simple': '\u7b80\u5355\u6784\u5efa',
+  'landing.mode.builder': '\u6784\u5efa\u5668\u6a21\u5f0f',
+
   // Landing - Section titles
   'landing.section.flow': '\u6eda\u52a8\u5b57\u5e55',
   'landing.section.sign': '\u9759\u6001\u6807\u724c',

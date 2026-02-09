@@ -131,14 +131,13 @@
       document.title = I18n.t('meta.title');
       document.body.style.overflow = 'auto';
 
-      // Update meta description
-      var metaDesc = document.querySelector('meta[name="description"]');
-      if (metaDesc) metaDesc.content = I18n.t('meta.description');
-
       var container = this._container;
       container.className = '';
       container.style.height = 'auto';
       container.style.overflow = 'auto';
+
+      // Current mode state
+      var activeMode = localStorage.getItem('led-active-mode') || 'simple';
 
       var html = '';
       html += '<div class="landing">';
@@ -149,38 +148,59 @@
       html += '<h1 class="hero-title">' + I18n.t('landing.hero.title') + '</h1>';
       html += '<p class="hero-subtitle">' + I18n.t('landing.hero.subtitle') + '</p>';
 
-      // Input
+      // Mode Switcher
+      html += '<div class="mode-switcher">';
+      html += '<button class="mode-tab' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">' + I18n.t('landing.mode.simple') + '</button>';
+      html += '<button class="mode-tab' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">' + I18n.t('landing.mode.builder') + '</button>';
+      html += '</div>';
+
+      html += '<div class="landing-content">';
+
+      // --- Simple Mode Panel ---
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" id="panel-simple">';
+      html += '<div class="simple-mode-container">';
       html += '<div class="input-group">';
       html += '<div class="input-prefix">led.run/</div>';
-      html += '<input class="url-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false" autofocus>';
+      html += '<input class="url-input" id="simple-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false">';
       html += '<div class="input-actions">';
-      html += '<button class="btn-random" title="' + I18n.t('landing.input.random') + '">';
+      html += '<button class="btn-random" id="simple-random" title="' + I18n.t('landing.input.random') + '">';
       html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
-      html += '<rect x="1" y="1" width="22" height="22" rx="4"></rect>';
-      html += '<circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"></circle>';
-      html += '<circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none"></circle>';
-      html += '<circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none"></circle>';
-      html += '<circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"></circle>';
-      html += '<circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle>';
-      html += '</svg>';
+      html += '<rect x="1" y="1" width="22" height="22" rx="4"></rect><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle></svg>';
       html += '</button>';
-      html += '<button class="btn-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-launch" id="simple-go">' + I18n.t('landing.input.go') + '</button>';
       html += '</div>';
-      html += '</div>'; // end input-group
+      html += '</div>';
+      html += '</div>';
+      html += '</div>';
 
-      // Builder toggle link
-      var builderOpen = localStorage.getItem('led-builder-mode') === 'advanced';
-      html += '<a class="builder-toggle-link' + (builderOpen ? ' open' : '') + '" id="builder-toggle">';
-      html += '<span class="builder-toggle-text">' + I18n.t(builderOpen ? 'landing.builder.hideAdvanced' : 'landing.builder.showAdvanced') + '</span>';
-      html += '<span class="builder-toggle-arrow">\u25be</span>';
-      html += '</a>';
+      // --- Builder Mode Panel ---
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" id="panel-builder">';
+      
+      // Top Level: The Preview "Canvas"
+      html += '<div class="builder-canvas">';
+      html += '<div class="preview-card">';
+      html += '<div class="preview-label">Live Preview</div>';
+      html += '<div id="builder-live-preview"></div>';
+      html += '</div>';
+      html += '</div>';
 
-      // Visual URL builder
-      html += '<div class="landing-builder' + (builderOpen ? ' builder-open' : '') + '">';
+      // Bottom Level: Modular Property Cards
+      html += '<div class="builder-grid">';
+      
+      // Card 1: Content & Identity
+      html += '<div class="prop-card">';
+      html += '<div class="prop-card-title">' + I18n.t('settings.text') + '</div>';
+      html += '<div class="prop-group">';
+      html += '<input type="text" class="builder-text-input" id="builder-text" placeholder="HELLO" autocomplete="off">';
+      html += '</div>';
+      html += '</div>';
 
-      // Row 1: Theme + Mode
-      html += '<div class="builder-row">';
-      html += '<span class="builder-label">' + I18n.t('settings.theme') + '</span>';
+      // Card 2: Theme & Layout
+      html += '<div class="prop-card">';
+      html += '<div class="prop-card-title">Theme & Mode</div>';
+      html += '<div class="prop-group">';
+      html += '<div class="prop-row">';
+      html += '<span class="prop-label">' + I18n.t('settings.theme') + '</span>';
       html += '<select class="builder-select" id="builder-theme">';
       var bThemeIds = ThemeManager.getThemeIds();
       html += '<option value="default">' + I18n.t('settings.theme.default') + '</option>';
@@ -189,45 +209,35 @@
         html += '<option value="' + id + '">' + I18n.t('settings.theme.' + id) + '</option>';
       });
       html += '</select>';
-      html += '<span class="builder-label">' + I18n.t('settings.param.mode') + '</span>';
-      html += '<select class="builder-select builder-select-narrow" id="builder-mode">';
+      html += '</div>';
+      html += '<div class="prop-row">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.mode') + '</span>';
+      html += '<select class="builder-select" id="builder-mode">';
       html += '<option value="">' + I18n.t('settings.mode.none') + '</option>';
       html += '<option value="sign">' + I18n.t('settings.mode.sign') + '</option>';
       html += '<option value="flow">' + I18n.t('settings.mode.flow') + '</option>';
       html += '</select>';
       html += '</div>';
+      html += '</div>';
+      html += '</div>';
 
-      // Row 2: Color + BG + Fill (fill only for card themes)
-      html += '<div class="builder-row">';
-      html += '<span class="builder-label">' + I18n.t('settings.param.color') + '</span>';
+      // Card 3: Visual Style
+      html += '<div class="prop-card">';
+      html += '<div class="prop-card-title">Visual Style</div>';
+      html += '<div class="prop-group">';
+      html += '<div class="prop-row">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
       html += '<input type="color" class="builder-color-input" id="builder-color" value="#00ff41">';
-      html += '<span class="builder-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
       html += '<input type="color" class="builder-color-input" id="builder-bg" value="#000000">';
-      html += '<span id="builder-fill-group" style="display:none">';
-      html += '<span class="builder-label">' + I18n.t('settings.param.fill') + '</span>';
+      html += '</div>';
+      html += '<div class="prop-row" id="builder-fill-row" style="display:none">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.fill') + '</span>';
       html += '<input type="color" class="builder-color-input" id="builder-fill" value="#000000">';
-      html += '</span>';
       html += '</div>';
-
-      // Row 3: Speed + Direction + Scale
-      html += '<div class="builder-row">';
-      html += '<span class="builder-label">' + I18n.t('settings.param.speed') + '</span>';
-      html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60">';
-      html += '<span class="builder-range-value" id="builder-speed-val">60</span>';
-      html += '<span class="builder-label">' + I18n.t('settings.param.direction') + '</span>';
-      html += '<select class="builder-select builder-select-narrow" id="builder-direction">';
-      html += '<option value="left">' + I18n.t('settings.direction.left') + '</option>';
-      html += '<option value="right">' + I18n.t('settings.direction.right') + '</option>';
-      html += '</select>';
-      html += '<span class="builder-label">' + I18n.t('settings.param.scale') + '</span>';
-      html += '<input type="range" class="builder-range builder-range-short" id="builder-scale" min="0.1" max="1" step="0.1" value="1">';
-      html += '<span class="builder-range-value" id="builder-scale-val">1</span>';
-      html += '</div>';
-
-      // Row 4: Font (combo select + custom input)
-      html += '<div class="builder-row">';
-      html += '<span class="builder-label">' + I18n.t('settings.param.font') + '</span>';
-      html += '<select class="builder-select" id="builder-font-select">';
+      html += '<div class="prop-row">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.font') + '</span>';
+      html += '<select class="builder-select" id="builder-font">';
       if (typeof Settings !== 'undefined' && Settings.FONT_PRESETS) {
         Settings.FONT_PRESETS.forEach(function(preset) {
           html += '<option value="' + preset.value + '">' + I18n.t(preset.labelKey) + '</option>';
@@ -235,22 +245,49 @@
         html += '<option value="' + Settings.FONT_CUSTOM_VALUE + '">' + I18n.t('settings.font.custom') + '</option>';
       }
       html += '</select>';
-      html += '<input type="text" class="builder-string-input" id="builder-font-custom" value="" placeholder="e.g. Helvetica, system-ui" style="display:none">';
+      html += '</div>';
+      html += '<input type="text" class="builder-text-input" id="builder-font-custom" placeholder="e.g. Helvetica" style="display:none; margin-top:8px">';
+      html += '</div>';
       html += '</div>';
 
-      // Theme-specific params (dynamically populated)
-      html += '<div id="builder-theme-params"></div>';
+      // Card 4: Dynamics
+      html += '<div class="prop-card">';
+      html += '<div class="prop-card-title">Dynamics</div>';
+      html += '<div class="prop-group">';
+      html += '<div class="prop-row-stack">';
+      html += '<div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="builder-speed-val">60</span></div>';
+      html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60">';
+      html += '</div>';
+      html += '<div class="prop-row-stack">';
+      html += '<div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="builder-scale-val">1.0</span></div>';
+      html += '<input type="range" class="builder-range" id="builder-scale" min="0.1" max="1" step="0.1" value="1">';
+      html += '</div>';
+      html += '</div>';
+      html += '</div>';
 
-      // URL preview with copy button
-      html += '<div class="builder-url-row">';
-      html += '<div class="builder-url-preview" id="builder-preview">led.run/HELLO</div>';
-      html += '<button class="builder-copy-btn" id="builder-copy" type="button">';
-      html += '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      // Card 5: Advanced (Dynamic)
+      html += '<div class="prop-card" id="builder-custom-section" style="display:none">';
+      html += '<div class="prop-card-title">Advanced Params</div>';
+      html += '<div class="prop-group" id="builder-theme-params"></div>';
+      html += '</div>';
+
+      // Final Action Card (URL & Go)
+      html += '<div class="prop-card prop-card-highlight">';
+      html += '<div class="builder-url-box">';
+      html += '<div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div>';
+      html += '</div>';
+      html += '<div class="builder-actions">';
+      html += '<button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
       html += '</button>';
       html += '</div>';
+      html += '</div>';
 
-      html += '</div>'; // end landing-builder
+      html += '</div>'; // end builder-grid
+      html += '</div>'; // end panel-builder
 
+      html += '</div>'; // end landing-content
       html += '</div>'; // end landing-hero
 
       // Helper to render a preset grid
@@ -259,14 +296,10 @@
         presets.forEach(function(p) {
           var href = '/' + encodeURIComponent(p.text) + (p.params || '');
           out += '<a class="preset-card" href="' + href + '">';
-
           out += '<div class="preset-header">';
           out += '<span class="preset-icon">' + p.icon + '</span>';
-          if (p.badgeKey) {
-            out += '<span class="preset-badge">' + I18n.t(p.badgeKey) + '</span>';
-          }
+          if (p.badgeKey) out += '<span class="preset-badge">' + I18n.t(p.badgeKey) + '</span>';
           out += '</div>';
-
           out += '<div class="preset-title">' + p.text + '</div>';
           out += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
           out += '</a>';
@@ -274,17 +307,11 @@
         return out;
       }
 
-      // Flow mode presets
+      // Sections
       html += '<div class="section-title">' + I18n.t('landing.section.flow') + '</div>';
-      html += '<div class="presets-grid">';
-      html += renderPresets(FLOW_PRESETS);
-      html += '</div>';
-
-      // Sign mode presets
+      html += '<div class="presets-grid">' + renderPresets(FLOW_PRESETS) + '</div>';
       html += '<div class="section-title">' + I18n.t('landing.section.sign') + '</div>';
-      html += '<div class="presets-grid">';
-      html += renderPresets(SIGN_PRESETS);
-      html += '</div>';
+      html += '<div class="presets-grid">' + renderPresets(SIGN_PRESETS) + '</div>';
 
       // Footer
       html += '<footer class="landing-footer">';
@@ -292,399 +319,256 @@
       html += '<div class="footer-links">';
       var docsHref = I18n.locale() === 'en' ? '/docs' : '/docs/' + I18n.locale() + '/';
       html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
-      html += '<a href="https://github.com/led-run/led.run" target="_blank">' + I18n.t('landing.footer.github') + '</a>';
-      html += '<a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">' + I18n.t('landing.footer.license') + '</a>';
+      html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
       html += '</div>';
-
-      // Language switcher
+      
+      // Language Switcher
       html += '<div class="footer-lang">';
-      html += '<span class="footer-lang-label">' + I18n.t('landing.footer.language') + ':</span>';
-      var supported = I18n.supported();
-      var currentLang = I18n.locale();
-      supported.forEach(function(lang, i) {
+      I18n.supported().forEach(function(lang, i) {
         if (i > 0) html += '<span class="footer-lang-sep">|</span>';
-        if (lang === currentLang) {
+        if (lang === I18n.locale()) {
           html += '<span class="footer-lang-current">' + LANG_LABELS[lang] + '</span>';
         } else {
           html += '<a class="footer-lang-link" href="#" data-lang="' + lang + '">' + LANG_LABELS[lang] + '</a>';
         }
       });
       html += '</div>';
-
       html += '</footer>';
 
       html += '</div>'; // end landing
 
       container.innerHTML = html;
 
-      // Bind input events
-      var input = container.querySelector('.url-input');
-      var goBtn = container.querySelector('.btn-launch');
-      var builderTheme = container.querySelector('#builder-theme');
-      var builderColor = container.querySelector('#builder-color');
-      var builderBg = container.querySelector('#builder-bg');
-      var builderFill = container.querySelector('#builder-fill');
-      var builderFillGroup = container.querySelector('#builder-fill-group');
-      var builderMode = container.querySelector('#builder-mode');
-      var builderSpeed = container.querySelector('#builder-speed');
-      var builderSpeedVal = container.querySelector('#builder-speed-val');
-      var builderDirection = container.querySelector('#builder-direction');
-      var builderScale = container.querySelector('#builder-scale');
-      var builderScaleVal = container.querySelector('#builder-scale-val');
-      var builderFontSelect = container.querySelector('#builder-font-select');
-      var builderFontCustom = container.querySelector('#builder-font-custom');
-      var builderPreview = container.querySelector('#builder-preview');
-      var builderThemeParams = container.querySelector('#builder-theme-params');
-      var builderToggle = container.querySelector('#builder-toggle');
-      var builderPanel = container.querySelector('.landing-builder');
-      var builderCopy = container.querySelector('#builder-copy');
+      // --- Interaction Logic ---
       var self = this;
-
-      // Track whether user has explicitly changed each common param
-      var userChanged = { color: false, bg: false, fill: false, speed: false, direction: false, scale: false, font: false };
-      // Theme-specific param values (only stores user-changed values)
+      var simpleInput = document.getElementById('simple-input');
+      var builderText = document.getElementById('builder-text');
+      var builderTheme = document.getElementById('builder-theme');
+      var builderMode = document.getElementById('builder-mode');
+      var builderColor = document.getElementById('builder-color');
+      var builderBg = document.getElementById('builder-bg');
+      var builderFill = document.getElementById('builder-fill');
+      var builderSpeed = document.getElementById('builder-speed');
+      var builderScale = document.getElementById('builder-scale');
+      var builderFont = document.getElementById('builder-font');
+      var builderFontCustom = document.getElementById('builder-font-custom');
+      var builderUrlPreview = document.getElementById('builder-url-preview');
+      var livePreview = document.getElementById('builder-live-preview');
+      
+      var userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
       var themeParamValues = {};
 
       function getDefaults() {
-        return ThemeManager.getDefaults(builderTheme.value) || { color: '00ff41', bg: '000000', speed: 60, direction: 'left', scale: 1 };
+        return ThemeManager.getDefaults(builderTheme.value) || {};
       }
 
-      function collectParams() {
-        var defaults = getDefaults();
-        var params = [];
-        if (builderTheme.value !== 'default') params.push('t=' + builderTheme.value);
-        if (userChanged.color) {
-          var color = builderColor.value.replace('#', '');
-          if (color !== (defaults.color || '').slice(0, 6)) params.push('c=' + color);
-        }
-        if (userChanged.bg) {
-          var bg = builderBg.value.replace('#', '');
-          if (bg !== (defaults.bg || '').slice(0, 6)) params.push('bg=' + bg);
-        }
-        if (userChanged.fill) {
-          var fill = builderFill.value.replace('#', '');
-          if (fill !== (defaults.fill || '').slice(0, 6)) params.push('fill=' + fill);
-        }
-        if (builderMode.value) params.push('mode=' + builderMode.value);
-        if (userChanged.speed) {
-          var speed = parseInt(builderSpeed.value, 10);
-          if (speed !== (defaults.speed || 60)) params.push('speed=' + speed);
-        }
-        if (userChanged.direction) {
-          if (builderDirection.value !== (defaults.direction || 'left')) params.push('dir=' + builderDirection.value);
-        }
-        if (userChanged.scale) {
-          var scale = parseFloat(builderScale.value);
-          if (scale !== (defaults.scale || 1)) params.push('scale=' + scale);
-        }
-        if (userChanged.font) {
-          var fontVal = builderFontSelect.value;
-          var font = (fontVal === Settings.FONT_CUSTOM_VALUE) ? builderFontCustom.value.trim() : fontVal;
-          if (font && font !== (defaults.font || '')) params.push('font=' + encodeURIComponent(font));
-        }
-        // Theme-specific params
-        for (var key in themeParamValues) {
-          var val = themeParamValues[key];
-          if (val !== undefined && val !== defaults[key]) {
-            params.push(encodeURIComponent(key) + '=' + encodeURIComponent(val));
-          }
-        }
-        return params;
-      }
-
-      function buildUrl() {
-        var val = input.value.trim() || 'HELLO';
-        var url = 'led.run/' + val;
-        var params = collectParams();
-        if (params.length) url += '?' + params.join('&');
-        builderPreview.textContent = url;
-      }
-
-      function isBuilderOpen() {
-        return builderPanel.classList.contains('builder-open');
-      }
-
-      function navigate() {
-        var val = input.value.trim();
-        if (val) {
-          var search = '';
-          if (isBuilderOpen()) {
-            var params = collectParams();
-            search = params.length ? '?' + params.join('&') : '';
-          }
-          window.location.href = '/' + encodeURIComponent(val) + search;
-        }
-      }
-
-      function syncToThemeDefaults() {
-        var defaults = getDefaults();
-        builderColor.value = '#' + (defaults.color || '00ff41').slice(0, 6);
-        builderBg.value = '#' + (defaults.bg || '000000').slice(0, 6);
-        // Show fill only for themes that have it in defaults
-        var hasFill = defaults.fill !== undefined;
-        builderFillGroup.style.display = hasFill ? 'contents' : 'none';
-        builderFill.value = '#' + (defaults.fill || defaults.bg || '000000').slice(0, 6);
-        builderSpeed.value = defaults.speed || 60;
-        builderSpeedVal.textContent = defaults.speed || 60;
-        builderDirection.value = defaults.direction || 'left';
-        builderScale.value = defaults.scale || 1;
-        builderScaleVal.textContent = defaults.scale || 1;
-        // Reset font combo control
-        var defFont = defaults.font || '';
-        var fontIsPreset = false;
-        if (typeof Settings !== 'undefined' && Settings.FONT_PRESETS) {
-          Settings.FONT_PRESETS.forEach(function(preset) {
-            if (preset.value === defFont) fontIsPreset = true;
-          });
-        }
-        if (fontIsPreset || !defFont) {
-          builderFontSelect.value = defFont;
-          builderFontCustom.value = '';
-          builderFontCustom.style.display = 'none';
-        } else {
-          builderFontSelect.value = Settings.FONT_CUSTOM_VALUE;
-          builderFontCustom.value = defFont;
-          builderFontCustom.style.display = '';
-        }
-        userChanged = { color: false, bg: false, fill: false, speed: false, direction: false, scale: false, font: false };
-        themeParamValues = {};
-      }
-
-      // Build theme-specific param controls dynamically
-      function rebuildThemeParams() {
-        builderThemeParams.innerHTML = '';
-        if (typeof Settings === 'undefined') return;
-
+      function updatePreview() {
+        var text = builderText.value.trim() || 'HELLO';
         var themeId = builderTheme.value;
-        var keys = Settings.getThemeParamKeys(themeId);
-        if (keys.length === 0) return;
-
         var defaults = getDefaults();
-        var KNOWN = Settings.KNOWN_PARAMS;
+        
+        var config = { mode: builderMode.value || undefined };
+        if (userChanged.color) config.color = builderColor.value.replace('#', '');
+        if (userChanged.bg) config.bg = builderBg.value.replace('#', '');
+        if (userChanged.fill) config.fill = builderFill.value.replace('#', '');
+        if (userChanged.speed) config.speed = parseInt(builderSpeed.value, 10);
+        if (userChanged.scale) config.scale = parseFloat(builderScale.value);
+        if (userChanged.font) {
+          var fontVal = builderFont.value;
+          config.font = (fontVal === Settings.FONT_CUSTOM_VALUE) ? builderFontCustom.value.trim() : fontVal;
+        }
+        
+        // Merge theme-specific params
+        for (var k in themeParamValues) config[k] = themeParamValues[k];
 
-        keys.forEach(function(key) {
-          var meta = KNOWN[key];
-          var defVal = defaults[key];
-          var type;
-          if (meta && meta.type !== 'auto') {
-            type = meta.type;
-          } else {
-            type = Settings.inferType(defVal);
+        // Update URL text
+        var params = [];
+        if (themeId !== 'default') params.push('t=' + themeId);
+        for (var key in config) {
+          if (config[key] !== undefined) params.push(key + '=' + encodeURIComponent(config[key]));
+        }
+        var url = 'led.run/' + encodeURIComponent(text) + (params.length ? '?' + params.join('&') : '');
+        builderUrlPreview.textContent = url;
+
+        // Update Live Preview
+        ThemeManager.switch(themeId, livePreview, text, config);
+        
+        // Ensure the theme correctly calculates sizes for the preview container
+        if (ThemeManager.resize) {
+          setTimeout(function() { ThemeManager.resize(); }, 0);
+        }
+      }
+
+      // Bind Mode Switcher
+      document.querySelectorAll('.mode-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var mode = this.dataset.mode;
+          localStorage.setItem('led-active-mode', mode);
+          document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.toggle('active', t === tab); });
+          document.querySelectorAll('.mode-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + mode); });
+          if (mode === 'builder') {
+            updatePreview();
+            // Trigger an extra resize after panel becomes visible
+            setTimeout(function() { if (ThemeManager.resize) ThemeManager.resize(); }, 50);
           }
-          var labelKey = meta ? meta.label : 'settings.param.' + key;
+        });
+      });
 
+      // Simple Mode Events
+      function goSimple() {
+        var val = simpleInput.value.trim();
+        if (val) window.location.href = '/' + encodeURIComponent(val);
+      }
+      document.getElementById('simple-go').addEventListener('click', goSimple);
+      simpleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') goSimple(); });
+      document.getElementById('simple-random').addEventListener('click', function() {
+        var val = simpleInput.value.trim() || 'HELLO';
+        var themes = ThemeManager.getThemeIds();
+        var theme = themes[Math.floor(Math.random() * themes.length)];
+        window.location.href = '/' + encodeURIComponent(val) + '?t=' + theme;
+      });
+
+      // Builder Mode Events
+      [builderText, builderTheme, builderMode, builderColor, builderBg, builderFill, builderSpeed, builderScale, builderFont, builderFontCustom].forEach(function(el) {
+        el.addEventListener('input', function() {
+          if (this.id !== 'builder-text' && this.id !== 'builder-theme' && this.id !== 'builder-mode') {
+            userChanged[this.id.replace('builder-', '')] = true;
+          }
+          if (this.id === 'builder-speed') document.getElementById('builder-speed-val').textContent = this.value;
+          if (this.id === 'builder-scale') document.getElementById('builder-scale-val').textContent = this.value;
+          
+          if (this.id === 'builder-font') {
+            builderFontCustom.style.display = (this.value === Settings.FONT_CUSTOM_VALUE) ? 'block' : 'none';
+          }
+
+          if (this.id === 'builder-theme') {
+            userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
+            themeParamValues = {};
+            syncBuilderToThemeDefaults();
+            rebuildThemeParams();
+          }
+          updatePreview();
+        });
+      });
+
+      function syncBuilderToThemeDefaults() {
+        var d = getDefaults();
+        builderColor.value = '#' + (d.color || '00ff41').slice(0, 6);
+        builderBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        var hasFill = d.fill !== undefined;
+        document.getElementById('builder-fill-row').style.display = hasFill ? 'flex' : 'none';
+        builderFill.value = '#' + (d.fill || '000000').slice(0, 6);
+        builderSpeed.value = d.speed || 60;
+        document.getElementById('builder-speed-val').textContent = builderSpeed.value;
+        builderScale.value = d.scale || 1;
+        document.getElementById('builder-scale-val').textContent = builderScale.value;
+        
+        // Reset font
+        builderFont.value = d.font || '';
+        builderFontCustom.value = '';
+        builderFontCustom.style.display = 'none';
+      }
+
+      function rebuildThemeParams() {
+        var themeParamsContainer = document.getElementById('builder-theme-params');
+        var customSection = document.getElementById('builder-custom-section');
+        themeParamsContainer.innerHTML = '';
+        
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(builderTheme.value);
+        customSection.style.display = keys.length ? 'flex' : 'none';
+        
+        keys.forEach(function(key) {
+          var meta = Settings.KNOWN_PARAMS[key];
+          var defVal = getDefaults()[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          
           var row = document.createElement('div');
-          row.className = 'builder-row';
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
 
-          var label = document.createElement('span');
-          label.className = 'builder-label';
-          label.textContent = I18n.t(labelKey);
-          row.appendChild(label);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
 
-          if (type === 'color') {
-            var hexVal = (typeof defVal === 'string' ? defVal : '000000').slice(0, 6);
-            var ci = document.createElement('input');
-            ci.type = 'color';
-            ci.className = 'builder-color-input';
-            ci.value = '#' + hexVal;
-            ci.addEventListener('input', function() {
-              themeParamValues[key] = this.value.replace('#', '');
-              buildUrl();
-            });
-            row.appendChild(ci);
-          } else if (type === 'range') {
-            var min = (meta && meta.min !== undefined) ? meta.min : 0;
-            var max = (meta && meta.max !== undefined) ? meta.max : 100;
-            var step = (meta && meta.step !== undefined) ? meta.step : 1;
-            var numVal = (typeof defVal === 'number') ? defVal : parseFloat(defVal) || min;
+          if (type === 'range') {
             var ri = document.createElement('input');
-            ri.type = 'range';
-            ri.className = 'builder-range';
-            ri.min = min;
-            ri.max = max;
-            ri.step = step;
-            ri.value = numVal;
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = meta.min || 0; ri.max = meta.max || 100; ri.step = meta.step || 1;
+            ri.value = defVal;
             var rv = document.createElement('span');
-            rv.className = 'builder-range-value';
-            rv.textContent = numVal;
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
             ri.addEventListener('input', function() {
               rv.textContent = this.value;
               themeParamValues[key] = parseFloat(this.value);
-              buildUrl();
+              updatePreview();
             });
-            row.appendChild(ri);
-            row.appendChild(rv);
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              themeParamValues[key] = this.value.replace('#', '');
+              updatePreview();
+            });
+            inputWrap.appendChild(ci);
           } else if (type === 'boolean') {
+            row.className = 'prop-row';
             var toggle = document.createElement('label');
             toggle.className = 'builder-toggle';
             var cb = document.createElement('input');
-            cb.type = 'checkbox';
-            cb.checked = !!defVal;
+            cb.type = 'checkbox'; cb.checked = !!defVal;
             var track = document.createElement('span');
             track.className = 'builder-toggle-track';
-            toggle.appendChild(cb);
-            toggle.appendChild(track);
+            toggle.appendChild(cb); toggle.appendChild(track);
             cb.addEventListener('change', function() {
               themeParamValues[key] = this.checked;
-              buildUrl();
+              updatePreview();
             });
-            row.appendChild(toggle);
-          } else if (type === 'select') {
-            var sel = document.createElement('select');
-            sel.className = 'builder-select';
-            var opts = (meta && meta.options) ? meta.options : [];
-            opts.forEach(function(opt) {
-              var o = document.createElement('option');
-              o.value = opt;
-              var tk = 'settings.' + key + '.' + (opt || 'none');
-              var translated = I18n.t(tk);
-              o.textContent = (translated !== tk) ? translated : (opt || '\u2014');
-              if (opt === defVal || (opt === '' && !defVal)) o.selected = true;
-              sel.appendChild(o);
-            });
-            sel.addEventListener('change', function() {
-              themeParamValues[key] = this.value;
-              buildUrl();
-            });
-            row.appendChild(sel);
-          } else {
-            var ti = document.createElement('input');
-            ti.type = 'text';
-            ti.className = 'builder-string-input';
-            ti.value = defVal || '';
-            ti.placeholder = key;
-            ti.addEventListener('change', function() {
-              themeParamValues[key] = this.value;
-              buildUrl();
-            });
-            row.appendChild(ti);
+            inputWrap.appendChild(toggle);
           }
-
-          builderThemeParams.appendChild(row);
+          row.appendChild(inputWrap);
+          themeParamsContainer.appendChild(row);
         });
       }
 
-      builderTheme.addEventListener('change', function() {
-        syncToThemeDefaults();
-        rebuildThemeParams();
-        buildUrl();
-      });
-      builderColor.addEventListener('input', function() { userChanged.color = true; buildUrl(); });
-      builderBg.addEventListener('input', function() { userChanged.bg = true; buildUrl(); });
-      builderFill.addEventListener('input', function() { userChanged.fill = true; buildUrl(); });
-      builderMode.addEventListener('change', buildUrl);
-      builderSpeed.addEventListener('input', function() {
-        builderSpeedVal.textContent = this.value;
-        userChanged.speed = true;
-        buildUrl();
-      });
-      builderDirection.addEventListener('change', function() { userChanged.direction = true; buildUrl(); });
-      builderScale.addEventListener('input', function() {
-        builderScaleVal.textContent = this.value;
-        userChanged.scale = true;
-        buildUrl();
-      });
-      builderFontSelect.addEventListener('change', function() {
-        userChanged.font = true;
-        if (this.value === Settings.FONT_CUSTOM_VALUE) {
-          builderFontCustom.style.display = '';
-          builderFontCustom.focus();
-        } else {
-          builderFontCustom.style.display = 'none';
+      document.getElementById('builder-launch').addEventListener('click', function() {
+        var text = builderText.value.trim() || 'HELLO';
+        var params = [];
+        if (builderTheme.value !== 'default') params.push('t=' + builderTheme.value);
+        if (builderMode.value) params.push('mode=' + builderMode.value);
+        if (userChanged.color) params.push('c=' + builderColor.value.replace('#', ''));
+        if (userChanged.bg) params.push('bg=' + builderBg.value.replace('#', ''));
+        if (userChanged.fill) params.push('fill=' + builderFill.value.replace('#', ''));
+        if (userChanged.speed) params.push('speed=' + builderSpeed.value);
+        if (userChanged.scale) params.push('scale=' + builderScale.value);
+        if (userChanged.font) {
+          var fv = builderFont.value;
+          params.push('font=' + encodeURIComponent(fv === Settings.FONT_CUSTOM_VALUE ? builderFontCustom.value.trim() : fv));
         }
-        buildUrl();
-      });
-      builderFontCustom.addEventListener('change', function() { userChanged.font = true; buildUrl(); });
-      input.addEventListener('input', buildUrl);
-
-      // Builder toggle
-      builderToggle.addEventListener('click', function(e) {
-        e.preventDefault();
-        var opening = !builderPanel.classList.contains('builder-open');
-        builderPanel.classList.toggle('builder-open');
-        builderToggle.classList.toggle('open');
-        var textEl = builderToggle.querySelector('.builder-toggle-text');
-        textEl.textContent = I18n.t(opening ? 'landing.builder.hideAdvanced' : 'landing.builder.showAdvanced');
-        localStorage.setItem('led-builder-mode', opening ? 'advanced' : 'simple');
+        for (var k in themeParamValues) params.push(k + '=' + encodeURIComponent(themeParamValues[k]));
+        
+        window.location.href = '/' + encodeURIComponent(text) + (params.length ? '?' + params.join('&') : '');
       });
 
-      // Copy URL button
-      builderCopy.addEventListener('click', function() {
-        var url = 'https://' + builderPreview.textContent;
+      document.getElementById('builder-copy').addEventListener('click', function() {
+        var url = 'https://' + builderUrlPreview.textContent;
         navigator.clipboard.writeText(url).then(function() {
-          builderCopy.innerHTML = '<svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"></polyline></svg>';
-          builderCopy.classList.add('copied');
-          setTimeout(function() {
-            builderCopy.innerHTML = '<svg viewBox="0 0 24 24"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-            builderCopy.classList.remove('copied');
-          }, 1500);
-        });
+          var originalIcon = this.innerHTML;
+          this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+        }.bind(this));
       });
 
-      goBtn.addEventListener('click', navigate);
-      input.addEventListener('keydown', function(e) {
-        if (e.key === 'Enter') navigate();
-      });
-
-      // Random style button
-      var randomBtn = container.querySelector('.btn-random');
-
-      function hslToHex(h, s, l) {
-        s /= 100; l /= 100;
-        var a = s * Math.min(l, 1 - l);
-        function f(n) {
-          var k = (n + h / 30) % 12;
-          var color = l - a * Math.max(Math.min(k - 3, 9 - k, 1), -1);
-          return Math.round(255 * color).toString(16).padStart(2, '0');
-        }
-        return f(0) + f(8) + f(4);
-      }
-
-      var FILL_THEMES = ['broadcast', 'street-sign', 'wood', 'do-not-disturb', 'marquee', 'dot-matrix'];
-
-      function navigateRandom() {
-        var val = input.value.trim();
-        if (!val) return;
-
-        var themes = ThemeManager.getThemeIds();
-        var theme = themes[Math.floor(Math.random() * themes.length)];
-
-        var color = hslToHex(
-          Math.floor(Math.random() * 360),
-          70 + Math.floor(Math.random() * 30),
-          50 + Math.floor(Math.random() * 30)
-        );
-
-        var bg = hslToHex(
-          Math.floor(Math.random() * 360),
-          20 + Math.floor(Math.random() * 60),
-          5 + Math.floor(Math.random() * 15)
-        );
-
-        var fonts = Settings.FONT_PRESETS;
-        var font = fonts[Math.floor(Math.random() * fonts.length)].value;
-
-        var params = ['t=' + theme, 'c=' + color, 'bg=' + bg];
-
-        if (FILL_THEMES.indexOf(theme) !== -1) {
-          var fill = hslToHex(
-            Math.floor(Math.random() * 360),
-            20 + Math.floor(Math.random() * 60),
-            5 + Math.floor(Math.random() * 15)
-          );
-          params.push('fill=' + fill);
-        }
-
-        if (font) params.push('font=' + encodeURIComponent(font));
-
-        window.location.href = '/' + encodeURIComponent(val) + '?' + params.join('&');
-      }
-
-      randomBtn.addEventListener('click', navigateRandom);
-
-      // Bind language switcher
-      var langLinks = container.querySelectorAll('.footer-lang-link');
-      langLinks.forEach(function(link) {
+      // Lang switcher
+      document.querySelectorAll('.footer-lang-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           I18n.setLocale(this.dataset.lang);
@@ -692,13 +576,13 @@
         });
       });
 
-      // Initialize theme params and URL preview
-      rebuildThemeParams();
-      buildUrl();
-
-      // Focus input
-      // setTimeout to ensure layout is settled
-      setTimeout(function() { input.focus(); }, 50);
+      // Initialize
+      if (activeMode === 'builder') {
+        syncBuilderToThemeDefaults();
+        rebuildThemeParams();
+        updatePreview();
+      }
+      setTimeout(function() { (activeMode === 'simple' ? simpleInput : builderText).focus(); }, 100);
     }
   };
 
