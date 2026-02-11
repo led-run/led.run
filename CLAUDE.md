@@ -221,7 +221,7 @@ For dynamic loading (without editing index.html): `TextManager.load('/texts/{id}
 
 ## Toolbar
 
-The floating toolbar provides fullscreen, rotate, cast, settings, and share buttons. It syncs with cursor auto-hide (fades out when cursor is hidden).
+The floating toolbar provides fullscreen, rotate, cast, settings, and share buttons. It syncs with cursor auto-hide (fades out when cursor is hidden). `Toolbar.init({ container, product })` accepts a `product` option ('text'/'light'/'sound') so rotation calls the correct manager's resize via `Settings.PRODUCT_ADAPTERS`.
 
 - **`data-theme` attribute**: `#app[data-theme="xxx"]` is set by app.js when a theme is active, enabling theme-scoped CSS selectors
 - **DOM structure** (stable API for theme CSS):
@@ -272,8 +272,8 @@ Themes can also fully override position, shape, and animations via standard CSS 
 | Settings | S | Open settings panel | Open settings panel | Open settings panel |
 | Next | Right arrow | — | Next effect | Next visualizer |
 | Previous | Left arrow | — | Previous effect | Previous visualizer |
-| Adjust up | Up arrow | — | Brightness +1 | Sensitivity +1 |
-| Adjust down | Down arrow | — | Brightness -1 | Sensitivity -1 |
+| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 |
+| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 |
 | Exit fullscreen | Escape | Yes | Yes | Yes |
 
 **Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture.
@@ -289,7 +289,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#display`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
 - **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 - **Presentation API casting** — `Cast` module uses W3C Presentation API (Chrome/Edge only); receiver detected via `navigator.presentation.receiver` (no URL params needed); receiver skips Controls + Toolbar for clean display; controller persists connection ID in `sessionStorage` for reconnect across page navigations; unsupported browsers never see the cast button
-- **Settings panel** — right-side drawer (desktop 360px) / bottom sheet (mobile ≤640px); opens via toolbar gear button or `S` key; disables cursor auto-hide while open; real-time preview via debounced `TextManager.switch()` on param change; `history.replaceState()` syncs URL without page reload; switching themes resets theme-specific params but preserves common params (color, bg, etc.); `KNOWN_PARAMS` metadata drives control types (color picker, range slider, select, toggle); polymorphic params like `glow` auto-detect type from theme defaults; product adapters (`PRODUCT_ADAPTERS`) map each product to its manager and param metadata
+- **Settings panel** — right-side drawer (desktop 360px) / bottom sheet (mobile ≤640px); opens via toolbar gear button or `S` key; disables cursor auto-hide while open; real-time preview via debounced manager switch on param change; `history.replaceState()` syncs URL without page reload; switching themes resets theme-specific params but preserves common params; `KNOWN_PARAMS` metadata drives control types (color picker, range slider, select, toggle); polymorphic params like `glow` auto-detect type from theme defaults; `PRODUCT_ADAPTERS` map each product to its manager, i18n prefix, common params, URL builder, and resize method; `Settings.syncThemeId(id)` allows external code (e.g., arrow key navigation) to notify Settings of theme changes; text input only shown for text product; `audioEngine` passed via init options for sound product
 - **Landing page** — Tab switcher (Text / Light / Sound); each product has Simple + Studio modes; Text simple mode navigates with `led.run/content` short links; mode preference persisted in `localStorage('led-active-mode')`
 - **Font param uses combo control** — `FONT_PRESETS` array defines web-safe presets (monospace, serif, sans-serif, cursive, Arial, Georgia, Courier New, Impact, Comic Sans MS) with i18n labels; `FONT_CUSTOM_VALUE = '__custom__'` sentinel triggers a text input for arbitrary font names; both settings panel and landing builder use the same combo pattern; `Settings.FONT_PRESETS` and `Settings.FONT_CUSTOM_VALUE` are exposed for reuse
 - **Random style button** — Landing page dice button next to GO picks random theme, random text color (HSL high saturation), random bg color (HSL low lightness), random fill color (for card themes only), and random font (from FONT_PRESETS); speed/direction/scale/theme-specific params use theme defaults
