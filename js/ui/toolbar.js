@@ -20,6 +20,7 @@
     _el: null,
     _toast: null,
     _container: null,
+    _product: 'text',
     _rotationIndex: 0,
     _unsubFullscreen: null,
     _unsubCast: null,
@@ -29,10 +30,12 @@
      * Initialize toolbar
      * @param {Object} options
      * @param {HTMLElement} options.container - The #display element
+     * @param {string} [options.product] - 'text' | 'light' | 'sound'
      */
     init: function(options) {
       options = options || {};
       this._container = options.container || document.getElementById('display');
+      this._product = options.product || 'text';
 
       this._render();
       this._bind();
@@ -147,9 +150,12 @@
       }
 
       // Wait one frame for CSS to settle, force reflow, then notify theme
+      var product = this._product;
       requestAnimationFrame(function() {
         container.offsetHeight; // force synchronous reflow
-        TextManager.resize();
+        if (typeof Settings !== 'undefined' && Settings.PRODUCT_ADAPTERS[product]) {
+          Settings.PRODUCT_ADAPTERS[product].resize();
+        }
       });
 
       // Try to lock orientation (silently fails outside fullscreen)
@@ -298,6 +304,7 @@
       }
 
       this._container = null;
+      this._product = 'text';
       this._rotationIndex = 0;
     }
   };
