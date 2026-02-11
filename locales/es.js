@@ -173,6 +173,27 @@ I18n.register('es', {
   'landing.builder.showAdvanced': 'Opciones Avanzadas',
   'landing.builder.hideAdvanced': 'Ocultar Opciones',
 
+  // Landing - Product tabs
+  'landing.tab.text': 'Texto',
+  'landing.tab.light': 'Luz',
+  'landing.tab.sound': 'Sonido',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Linterna blanca pura — m\u00e1xima luminosidad para cualquier situaci\u00f3n.',
+  'preset.light.strobe.desc': 'Luz estrobosc\u00f3pica r\u00e1pida para fiestas y eventos.',
+  'preset.light.disco.desc': 'Luces de fiesta disco multicolor giratorias.',
+  'preset.light.emergency.desc': 'Destello de emergencia alternando rojo y azul.',
+  'preset.light.candle.desc': 'C\u00e1lida llama de vela parpadeante para ambiente.',
+  'preset.light.rainbow.desc': 'Ciclo suave a trav\u00e9s de todos los colores del arco\u00edris.',
+  'preset.light.sos.desc': 'Se\u00f1al SOS en c\u00f3digo Morse — tres cortos, tres largos, tres cortos.',
+  'preset.light.gradient.desc': 'Transiciones de color en degradado fluido.',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': 'Analizador de espectro cl\u00e1sico con barras de frecuencia.',
+  'preset.sound.waveform.desc': 'Visualizaci\u00f3n de forma de onda de audio en tiempo real.',
+  'preset.sound.circle.desc': 'Visualizaci\u00f3n circular de frecuencia radiando desde el centro.',
+  'preset.sound.particles.desc': 'Sistema de part\u00edculas impulsado por audio que reacciona al sonido.',
+
   // Product titles
   'light.title': 'Luz',
   'sound.title': 'Sonido',

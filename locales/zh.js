@@ -177,6 +177,27 @@ I18n.register('zh', {
   'landing.builder.showAdvanced': '高级选项',
   'landing.builder.hideAdvanced': '收起选项',
 
+  // Landing - Product tabs
+  'landing.tab.text': '文字',
+  'landing.tab.light': '灯光',
+  'landing.tab.sound': '声音',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': '纯白手电筒 —— 任何场景的最大亮度。',
+  'preset.light.strobe.desc': '派对和活动的快速闪光频闪灯。',
+  'preset.light.disco.desc': '多彩旋转迪斯科派对灯光。',
+  'preset.light.emergency.desc': '红蓝交替应急闪光灯。',
+  'preset.light.candle.desc': '温暖闪烁的烛光，营造氛围。',
+  'preset.light.rainbow.desc': '平滑循环的彩虹色彩。',
+  'preset.light.sos.desc': '摩尔斯电码 SOS 信号 —— 三短三长三短。',
+  'preset.light.gradient.desc': '流动的渐变色彩过渡。',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': '经典频谱分析器，带频率柱状图。',
+  'preset.sound.waveform.desc': '实时音频波形线显示。',
+  'preset.sound.circle.desc': '从中心放射的圆形频率可视化。',
+  'preset.sound.particles.desc': '响应声音的音频驱动粒子系统。',
+
   // Product titles
   'light.title': '灯光',
   'sound.title': '声音',

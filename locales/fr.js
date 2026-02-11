@@ -173,6 +173,27 @@ I18n.register('fr', {
   'landing.builder.showAdvanced': 'Options Avanc\u00e9es',
   'landing.builder.hideAdvanced': 'Masquer les Options',
 
+  // Landing - Product tabs
+  'landing.tab.text': 'Texte',
+  'landing.tab.light': 'Lumi\u00e8re',
+  'landing.tab.sound': 'Son',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Lampe torche blanche pure \u2014 luminosit\u00e9 maximale pour toute situation.',
+  'preset.light.strobe.desc': 'Stroboscope \u00e0 flash rapide pour f\u00eates et \u00e9v\u00e9nements.',
+  'preset.light.disco.desc': 'Lumi\u00e8res de f\u00eate disco multicolores rotatives.',
+  'preset.light.emergency.desc': 'Clignotant d\u2019urgence alternant rouge et bleu.',
+  'preset.light.candle.desc': 'Flamme de bougie vacillante pour une ambiance chaleureuse.',
+  'preset.light.rainbow.desc': 'Cycle fluide \u00e0 travers toutes les couleurs de l\u2019arc-en-ciel.',
+  'preset.light.sos.desc': 'Signal SOS en code Morse \u2014 trois courts, trois longs, trois courts.',
+  'preset.light.gradient.desc': 'Transitions de couleurs en d\u00e9grad\u00e9 fluide.',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': 'Analyseur de spectre classique avec barres de fr\u00e9quence.',
+  'preset.sound.waveform.desc': 'Affichage de forme d\u2019onde audio en temps r\u00e9el.',
+  'preset.sound.circle.desc': 'Visualisation circulaire des fr\u00e9quences rayonnant du centre.',
+  'preset.sound.particles.desc': 'Syst\u00e8me de particules pilot\u00e9 par l\u2019audio r\u00e9agissant au son.',
+
   // Product titles
   'light.title': 'Lumi\u00e8re',
   'sound.title': 'Son',

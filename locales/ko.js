@@ -173,6 +173,27 @@ I18n.register('ko', {
   'landing.builder.showAdvanced': '고급 옵션',
   'landing.builder.hideAdvanced': '옵션 숨기기',
 
+  // Landing - Product tabs
+  'landing.tab.text': '텍스트',
+  'landing.tab.light': '라이트',
+  'landing.tab.sound': '사운드',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': '순백색 손전등 — 모든 상황에서 최대 밝기.',
+  'preset.light.strobe.desc': '파티와 이벤트를 위한 빠른 플래시 스트로브.',
+  'preset.light.disco.desc': '멀티컬러 회전 디스코 파티 조명.',
+  'preset.light.emergency.desc': '빨강과 파랑이 번갈아 깜박이는 비상등.',
+  'preset.light.candle.desc': '분위기를 연출하는 따뜻한 촛불 깜박임.',
+  'preset.light.rainbow.desc': '무지개 색상의 부드러운 순환.',
+  'preset.light.sos.desc': '모스 부호 SOS 신호 — 짧게 3번, 길게 3번, 짧게 3번.',
+  'preset.light.gradient.desc': '흐르는 그라데이션 색상 전환.',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': '주파수 바가 있는 클래식 스펙트럼 분석기.',
+  'preset.sound.waveform.desc': '실시간 오디오 파형 라인 디스플레이.',
+  'preset.sound.circle.desc': '중심에서 방사하는 원형 주파수 시각화.',
+  'preset.sound.particles.desc': '소리에 반응하는 오디오 구동 파티클 시스템.',
+
   // Product titles
   'light.title': '라이트',
   'sound.title': '사운드',

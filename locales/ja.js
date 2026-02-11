@@ -173,6 +173,27 @@ I18n.register('ja', {
   'landing.builder.showAdvanced': '詳細オプション',
   'landing.builder.hideAdvanced': 'オプションを隠す',
 
+  // Landing - Product tabs
+  'landing.tab.text': 'テキスト',
+  'landing.tab.light': 'ライト',
+  'landing.tab.sound': 'サウンド',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': '純白フラッシュライト — あらゆる場面で最大輝度。',
+  'preset.light.strobe.desc': 'パーティーやイベント向けの高速フラッシュストロボ。',
+  'preset.light.disco.desc': 'マルチカラー回転ディスコパーティーライト。',
+  'preset.light.emergency.desc': '赤と青の交互点滅する緊急灯。',
+  'preset.light.candle.desc': '温かみのあるゆらめくキャンドルの炎。',
+  'preset.light.rainbow.desc': 'レインボーカラーのスムーズな循環。',
+  'preset.light.sos.desc': 'モールス信号のSOS — 短3回、長3回、短3回。',
+  'preset.light.gradient.desc': '流れるようなグラデーション色の遷移。',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': '周波数バー付きのクラシックなスペクトラムアナライザー。',
+  'preset.sound.waveform.desc': 'リアルタイムのオーディオ波形ライン表示。',
+  'preset.sound.circle.desc': '中心から放射する円形周波数ビジュアライゼーション。',
+  'preset.sound.particles.desc': '音に反応するオーディオ駆動パーティクルシステム。',
+
   // Product titles
   'light.title': 'ライト',
   'sound.title': 'サウンド',

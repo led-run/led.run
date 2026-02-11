@@ -177,6 +177,27 @@ I18n.register('en', {
   'landing.builder.showAdvanced': 'Advanced Options',
   'landing.builder.hideAdvanced': 'Hide Options',
 
+  // Landing - Product tabs
+  'landing.tab.text': 'Text',
+  'landing.tab.light': 'Light',
+  'landing.tab.sound': 'Sound',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Pure white flashlight — maximum brightness for any situation.',
+  'preset.light.strobe.desc': 'Rapid flash strobe light for parties and events.',
+  'preset.light.disco.desc': 'Multi-color rotating disco party lights.',
+  'preset.light.emergency.desc': 'Red and blue alternating emergency flasher.',
+  'preset.light.candle.desc': 'Warm flickering candle flame for ambient mood.',
+  'preset.light.rainbow.desc': 'Smooth cycling through all rainbow colors.',
+  'preset.light.sos.desc': 'Morse code SOS signal — three short, three long, three short.',
+  'preset.light.gradient.desc': 'Flowing color gradient transitions.',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': 'Classic spectrum analyzer with frequency bars.',
+  'preset.sound.waveform.desc': 'Real-time audio waveform line display.',
+  'preset.sound.circle.desc': 'Circular frequency visualization radiating from center.',
+  'preset.sound.particles.desc': 'Audio-driven particle system reacting to sound.',
+
   // Product titles
   'light.title': 'Light',
   'sound.title': 'Sound',

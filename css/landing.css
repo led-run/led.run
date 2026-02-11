@@ -99,6 +99,57 @@
   margin: 0 auto;
 }
 
+/* Product Tab Switcher */
+.product-switcher {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 1.5rem;
+  width: fit-content;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.product-tab {
+  padding: 0.6rem 1.75rem;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--text-muted);
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: 1px solid transparent;
+  background: transparent;
+}
+
+.product-tab:hover {
+  color: var(--text-main);
+}
+
+.product-tab.active {
+  background: rgba(0, 230, 118, 0.1);
+  color: var(--primary);
+  border-color: rgba(0, 230, 118, 0.3);
+}
+
+.product-panel {
+  display: none;
+  animation: fadeIn 0.4s ease-out;
+}
+
+.product-panel.active {
+  display: block;
+}
+
+.text-presets-section {
+  display: none;
+  width: 100%;
+}
+
+.text-presets-section.active {
+  display: block;
+}
+
 .mode-switcher {
   display: flex;
   justify-content: center;
@@ -766,6 +817,12 @@
 
 .footer-lang-link:hover {
   color: var(--primary);
+}
+
+/* Compact preset grid for Light/Sound */
+.presets-grid-compact {
+  max-width: 600px;
+  margin: 0 auto;
 }
 
 /* Keyframes */

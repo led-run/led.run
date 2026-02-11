@@ -173,6 +173,27 @@ I18n.register('de', {
   'landing.builder.showAdvanced': 'Erweiterte Optionen',
   'landing.builder.hideAdvanced': 'Optionen Ausblenden',
 
+  // Landing - Product tabs
+  'landing.tab.text': 'Text',
+  'landing.tab.light': 'Licht',
+  'landing.tab.sound': 'Sound',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Rein wei\u00dfe Taschenlampe \u2014 maximale Helligkeit f\u00fcr jede Situation.',
+  'preset.light.strobe.desc': 'Schnelles Stroboskoplicht f\u00fcr Partys und Events.',
+  'preset.light.disco.desc': 'Mehrfarbig rotierende Disco-Party-Lichter.',
+  'preset.light.emergency.desc': 'Rot-blau alternierend blinkender Notfallblitzer.',
+  'preset.light.candle.desc': 'Warme flackernde Kerzenflamme f\u00fcr gem\u00fctliche Stimmung.',
+  'preset.light.rainbow.desc': 'Sanftes Durchlaufen aller Regenbogenfarben.',
+  'preset.light.sos.desc': 'SOS-Signal im Morsecode \u2014 drei kurz, drei lang, drei kurz.',
+  'preset.light.gradient.desc': 'Flie\u00dfende Farbverlauf-\u00dcberg\u00e4nge.',
+
+  // Landing - Sound presets
+  'preset.sound.bars.desc': 'Klassischer Spektrumanalysator mit Frequenzbalken.',
+  'preset.sound.waveform.desc': 'Echtzeit-Audio-Wellenformanzeige.',
+  'preset.sound.circle.desc': 'Kreisf\u00f6rmige Frequenzvisualisierung vom Zentrum ausstrahlend.',
+  'preset.sound.particles.desc': 'Audio-gesteuertes Partikelsystem, das auf Ger\u00e4usche reagiert.',
+
   // Product titles
   'light.title': 'Licht',
   'sound.title': 'Sound',
