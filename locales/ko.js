@@ -12,6 +12,8 @@ I18n.register('ko', {
   'landing.hero.subtitle': '\ubaa8\ub4e0 \ud654\uba74\uc744 \uba87 \ucd08 \ub9cc\uc5d0 \ud504\ub85c\ud398\uc154\ub110 \ub514\uc2a4\ud50c\ub808\uc774\ub85c. \uc571 \ud544\uc694 \uc5c6\uc74c, \uacc4\uc815 \ud544\uc694 \uc5c6\uc74c, URL\ub9cc \uc788\uc73c\uba74 \ub429\ub2c8\ub2e4.',
   'landing.input.go': '\uc2dc\uc791',
   'landing.input.random': '\ub79c\ub364 \uc2a4\ud0c0\uc77c',
+  'landing.mode.simple': '\uac04\ub2e8 \uad6c\uc131',
+  'landing.mode.builder': '\ube4c\ub354 \ubaa8\ub4dc',
 
   // Landing - Section titles
   'landing.section.flow': '\uc2a4\ud06c\ub864 \ub9c8\ud034',

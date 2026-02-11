@@ -12,6 +12,8 @@ I18n.register('es', {
   'landing.hero.subtitle': 'Transforma cualquier pantalla en un display profesional en segundos. Sin apps, sin cuentas, solo una URL.',
   'landing.input.go': 'Ir',
   'landing.input.random': 'Estilo aleatorio',
+  'landing.mode.simple': 'Modo Simple',
+  'landing.mode.builder': 'Modo Constructor',
 
   // Landing - Section titles
   'landing.section.flow': 'Marquesina con Desplazamiento',
