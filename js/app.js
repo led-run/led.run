@@ -138,7 +138,7 @@
           Fullscreen.toggle();
         }
       });
-      Toolbar.init({ container: this._container });
+      Toolbar.init({ container: this._container, product: 'text' });
 
       // Initialize settings panel
       if (typeof Settings !== 'undefined') {
@@ -179,6 +179,7 @@
           var nextId = ids[(idx + 1) % ids.length];
           LightManager.switch(nextId, App._container, productConfig);
           document.getElementById('app').dataset.theme = nextId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
         },
         onPrev: function() {
           var ids = LightManager.getEffectIds();
@@ -186,9 +187,16 @@
           var prevId = ids[(idx - 1 + ids.length) % ids.length];
           LightManager.switch(prevId, App._container, productConfig);
           document.getElementById('app').dataset.theme = prevId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+        },
+        onAdjust: function(delta) {
+          var config = LightManager.getCurrentConfig() || {};
+          var brightness = Math.max(10, Math.min(100, (config.brightness || 100) + delta * 5));
+          productConfig.brightness = brightness;
+          LightManager.switch(LightManager.getCurrentId(), App._container, productConfig);
         }
       });
-      Toolbar.init({ container: this._container });
+      Toolbar.init({ container: this._container, product: 'light' });
 
       if (typeof Settings !== 'undefined') {
         Settings.init({
@@ -239,6 +247,7 @@
             var nextId = ids[(idx + 1) % ids.length];
             SoundManager.switch(nextId, self._container, productConfig, AudioEngine);
             document.getElementById('app').dataset.theme = nextId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
           },
           onPrev: function() {
             var ids = SoundManager.getVisualizerIds();
@@ -246,16 +255,24 @@
             var prevId = ids[(idx - 1 + ids.length) % ids.length];
             SoundManager.switch(prevId, self._container, productConfig, AudioEngine);
             document.getElementById('app').dataset.theme = prevId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+          },
+          onAdjust: function(delta) {
+            var config = SoundManager.getCurrentConfig() || {};
+            var sensitivity = Math.max(1, Math.min(10, (config.sensitivity || 5) + delta));
+            productConfig.sensitivity = sensitivity;
+            SoundManager.switch(SoundManager.getCurrentId(), self._container, productConfig, AudioEngine);
           }
         });
-        Toolbar.init({ container: self._container });
+        Toolbar.init({ container: self._container, product: 'sound' });
 
         if (typeof Settings !== 'undefined') {
           Settings.init({
             container: self._container,
             product: 'sound',
             themeId: vizId,
-            themeConfig: productConfig
+            themeConfig: productConfig,
+            audioEngine: AudioEngine
           });
         }
 
