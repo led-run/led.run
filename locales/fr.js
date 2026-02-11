@@ -171,5 +171,42 @@ I18n.register('fr', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Options Avanc\u00e9es',
-  'landing.builder.hideAdvanced': 'Masquer les Options'
+  'landing.builder.hideAdvanced': 'Masquer les Options',
+
+  // Product titles
+  'light.title': 'Lumi\u00e8re',
+  'sound.title': 'Son',
+
+  // Light effect names
+  'settings.effect.solid': 'Uni',
+  'settings.effect.strobe': 'Stroboscope',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'D\u00e9grad\u00e9',
+  'settings.effect.emergency': 'Urgence',
+  'settings.effect.candle': 'Bougie',
+  'settings.effect.rainbow': 'Arc-en-ciel',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Barres',
+  'settings.visualizer.waveform': 'Forme d\u2019Onde',
+  'settings.visualizer.circle': 'Cercle',
+  'settings.visualizer.particles': 'Particules',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Couleurs',
+  'settings.param.brightness': 'Luminosit\u00e9',
+  'settings.param.sensitivity': 'Sensibilit\u00e9',
+  'settings.param.smoothing': 'Lissage',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio Non Support\u00e9',
+  'sound.error.notSupported.desc': 'Votre navigateur ne supporte pas l\u2019entr\u00e9e microphone. Veuillez essayer Chrome ou Firefox.',
+  'sound.error.denied.title': 'Acc\u00e8s au Microphone Refus\u00e9',
+  'sound.error.denied.desc': 'Veuillez autoriser l\u2019acc\u00e8s au microphone pour utiliser les visualisations sonores.',
+  'sound.error.generic.title': 'Erreur Audio',
+  'sound.error.generic.desc': 'Impossible d\u2019acc\u00e9der au microphone. Veuillez v\u00e9rifier les param\u00e8tres de votre appareil.',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Activer/d\u00e9sactiver le micro'
 });

@@ -171,5 +171,42 @@ I18n.register('ja', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '詳細オプション',
-  'landing.builder.hideAdvanced': 'オプションを隠す'
+  'landing.builder.hideAdvanced': 'オプションを隠す',
+
+  // Product titles
+  'light.title': 'ライト',
+  'sound.title': 'サウンド',
+
+  // Light effect names
+  'settings.effect.solid': 'ソリッド',
+  'settings.effect.strobe': 'ストロボ',
+  'settings.effect.disco': 'ディスコ',
+  'settings.effect.gradient': 'グラデーション',
+  'settings.effect.emergency': '緊急灯',
+  'settings.effect.candle': 'キャンドル',
+  'settings.effect.rainbow': 'レインボー',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'バー',
+  'settings.visualizer.waveform': '波形',
+  'settings.visualizer.circle': 'サークル',
+  'settings.visualizer.particles': 'パーティクル',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'カラー',
+  'settings.param.brightness': '明るさ',
+  'settings.param.sensitivity': '感度',
+  'settings.param.smoothing': 'スムージング',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'オーディオ非対応',
+  'sound.error.notSupported.desc': 'お使いのブラウザはマイク入力に対応していません。ChromeまたはFirefoxをお試しください。',
+  'sound.error.denied.title': 'マイクアクセス拒否',
+  'sound.error.denied.desc': 'サウンドビジュアライゼーションを使用するには、マイクアクセスを許可してください。',
+  'sound.error.generic.title': 'オーディオエラー',
+  'sound.error.generic.desc': 'マイクにアクセスできませんでした。デバイスの設定を確認してください。',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'マイク切替'
 });

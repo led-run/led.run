@@ -175,5 +175,42 @@ I18n.register('en', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Advanced Options',
-  'landing.builder.hideAdvanced': 'Hide Options'
+  'landing.builder.hideAdvanced': 'Hide Options',
+
+  // Product titles
+  'light.title': 'Light',
+  'sound.title': 'Sound',
+
+  // Light effect names
+  'settings.effect.solid': 'Solid',
+  'settings.effect.strobe': 'Strobe',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'Gradient',
+  'settings.effect.emergency': 'Emergency',
+  'settings.effect.candle': 'Candle',
+  'settings.effect.rainbow': 'Rainbow',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Bars',
+  'settings.visualizer.waveform': 'Waveform',
+  'settings.visualizer.circle': 'Circle',
+  'settings.visualizer.particles': 'Particles',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Colors',
+  'settings.param.brightness': 'Brightness',
+  'settings.param.sensitivity': 'Sensitivity',
+  'settings.param.smoothing': 'Smoothing',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio Not Supported',
+  'sound.error.notSupported.desc': 'Your browser does not support microphone input. Please try Chrome or Firefox.',
+  'sound.error.denied.title': 'Microphone Access Denied',
+  'sound.error.denied.desc': 'Please allow microphone access to use sound visualizations.',
+  'sound.error.generic.title': 'Audio Error',
+  'sound.error.generic.desc': 'Could not access the microphone. Please check your device settings.',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Toggle microphone'
 });

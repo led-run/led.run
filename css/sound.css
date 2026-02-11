@@ -1,0 +1,24 @@
+/**
+ * Sound Product Styles
+ * Base styles for sound visualizers
+ */
+
+/* Sound visualizers fill entire container */
+#app[data-product="sound"] #display {
+  background: #000;
+}
+
+/* Microphone button in toolbar */
+.toolbar-btn[data-action="mic"] {
+  position: relative;
+}
+
+.toolbar-btn[data-action="mic"].mic-active {
+  color: #ff4444;
+  animation: mic-pulse 1.5s ease-in-out infinite;
+}
+
+@keyframes mic-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}

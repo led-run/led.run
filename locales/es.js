@@ -171,5 +171,42 @@ I18n.register('es', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Opciones Avanzadas',
-  'landing.builder.hideAdvanced': 'Ocultar Opciones'
+  'landing.builder.hideAdvanced': 'Ocultar Opciones',
+
+  // Product titles
+  'light.title': 'Luz',
+  'sound.title': 'Sonido',
+
+  // Light effect names
+  'settings.effect.solid': 'S\u00f3lido',
+  'settings.effect.strobe': 'Estrobosc\u00f3pico',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'Degradado',
+  'settings.effect.emergency': 'Emergencia',
+  'settings.effect.candle': 'Vela',
+  'settings.effect.rainbow': 'Arco\u00edris',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Barras',
+  'settings.visualizer.waveform': 'Forma de Onda',
+  'settings.visualizer.circle': 'C\u00edrculo',
+  'settings.visualizer.particles': 'Part\u00edculas',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Colores',
+  'settings.param.brightness': 'Brillo',
+  'settings.param.sensitivity': 'Sensibilidad',
+  'settings.param.smoothing': 'Suavizado',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio No Soportado',
+  'sound.error.notSupported.desc': 'Tu navegador no soporta entrada de micr\u00f3fono. Por favor usa Chrome o Firefox.',
+  'sound.error.denied.title': 'Acceso al Micr\u00f3fono Denegado',
+  'sound.error.denied.desc': 'Por favor permite el acceso al micr\u00f3fono para usar las visualizaciones de sonido.',
+  'sound.error.generic.title': 'Error de Audio',
+  'sound.error.generic.desc': 'No se pudo acceder al micr\u00f3fono. Por favor revisa la configuraci\u00f3n de tu dispositivo.',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Alternar micr\u00f3fono'
 });

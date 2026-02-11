@@ -171,5 +171,42 @@ I18n.register('ko', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '고급 옵션',
-  'landing.builder.hideAdvanced': '옵션 숨기기'
+  'landing.builder.hideAdvanced': '옵션 숨기기',
+
+  // Product titles
+  'light.title': '라이트',
+  'sound.title': '사운드',
+
+  // Light effect names
+  'settings.effect.solid': '단색',
+  'settings.effect.strobe': '스트로브',
+  'settings.effect.disco': '디스코',
+  'settings.effect.gradient': '그라데이션',
+  'settings.effect.emergency': '비상등',
+  'settings.effect.candle': '촛불',
+  'settings.effect.rainbow': '무지개',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': '바',
+  'settings.visualizer.waveform': '파형',
+  'settings.visualizer.circle': '원형',
+  'settings.visualizer.particles': '파티클',
+
+  // Light/Sound param labels
+  'settings.param.colors': '색상',
+  'settings.param.brightness': '밝기',
+  'settings.param.sensitivity': '감도',
+  'settings.param.smoothing': '스무딩',
+
+  // Sound errors
+  'sound.error.notSupported.title': '오디오 미지원',
+  'sound.error.notSupported.desc': '브라우저가 마이크 입력을 지원하지 않습니다. Chrome 또는 Firefox를 사용해 주세요.',
+  'sound.error.denied.title': '마이크 접근 거부',
+  'sound.error.denied.desc': '사운드 시각화를 사용하려면 마이크 접근을 허용해 주세요.',
+  'sound.error.generic.title': '오디오 오류',
+  'sound.error.generic.desc': '마이크에 접근할 수 없습니다. 기기 설정을 확인해 주세요.',
+
+  // Toolbar - Mic
+  'toolbar.mic': '마이크 전환'
 });

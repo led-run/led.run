@@ -175,5 +175,42 @@ I18n.register('zh', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '高级选项',
-  'landing.builder.hideAdvanced': '收起选项'
+  'landing.builder.hideAdvanced': '收起选项',
+
+  // Product titles
+  'light.title': '灯光',
+  'sound.title': '声音',
+
+  // Light effect names
+  'settings.effect.solid': '纯色',
+  'settings.effect.strobe': '频闪',
+  'settings.effect.disco': '迪斯科',
+  'settings.effect.gradient': '渐变',
+  'settings.effect.emergency': '警灯',
+  'settings.effect.candle': '烛光',
+  'settings.effect.rainbow': '彩虹',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': '频谱',
+  'settings.visualizer.waveform': '波形',
+  'settings.visualizer.circle': '圆形',
+  'settings.visualizer.particles': '粒子',
+
+  // Light/Sound param labels
+  'settings.param.colors': '颜色',
+  'settings.param.brightness': '亮度',
+  'settings.param.sensitivity': '灵敏度',
+  'settings.param.smoothing': '平滑度',
+
+  // Sound errors
+  'sound.error.notSupported.title': '不支持音频',
+  'sound.error.notSupported.desc': '您的浏览器不支持麦克风输入。请使用 Chrome 或 Firefox。',
+  'sound.error.denied.title': '麦克风权限被拒绝',
+  'sound.error.denied.desc': '请允许麦克风访问以使用声音可视化。',
+  'sound.error.generic.title': '音频错误',
+  'sound.error.generic.desc': '无法访问麦克风。请检查设备设置。',
+
+  // Toolbar - Mic
+  'toolbar.mic': '切换麦克风'
 });

@@ -171,5 +171,42 @@ I18n.register('de', {
 
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Erweiterte Optionen',
-  'landing.builder.hideAdvanced': 'Optionen Ausblenden'
+  'landing.builder.hideAdvanced': 'Optionen Ausblenden',
+
+  // Product titles
+  'light.title': 'Licht',
+  'sound.title': 'Sound',
+
+  // Light effect names
+  'settings.effect.solid': 'Vollfarbe',
+  'settings.effect.strobe': 'Stroboskop',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'Farbverlauf',
+  'settings.effect.emergency': 'Notfall',
+  'settings.effect.candle': 'Kerze',
+  'settings.effect.rainbow': 'Regenbogen',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Balken',
+  'settings.visualizer.waveform': 'Wellenform',
+  'settings.visualizer.circle': 'Kreis',
+  'settings.visualizer.particles': 'Partikel',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Farben',
+  'settings.param.brightness': 'Helligkeit',
+  'settings.param.sensitivity': 'Empfindlichkeit',
+  'settings.param.smoothing': 'Gl\u00e4ttung',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio Nicht Unterst\u00fctzt',
+  'sound.error.notSupported.desc': 'Ihr Browser unterst\u00fctzt keine Mikrofoneingabe. Bitte verwenden Sie Chrome oder Firefox.',
+  'sound.error.denied.title': 'Mikrofonzugriff Verweigert',
+  'sound.error.denied.desc': 'Bitte erlauben Sie den Mikrofonzugriff, um Sound-Visualisierungen zu nutzen.',
+  'sound.error.generic.title': 'Audiofehler',
+  'sound.error.generic.desc': 'Zugriff auf das Mikrofon nicht m\u00f6glich. Bitte \u00fcberpr\u00fcfen Sie Ihre Ger\u00e4teeinstellungen.',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Mikrofon umschalten'
 });
