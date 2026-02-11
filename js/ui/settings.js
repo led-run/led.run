@@ -77,7 +77,7 @@
     /**
      * Initialize settings panel
      * @param {Object} options
-     * @param {HTMLElement} options.container - The #sign-container element
+     * @param {HTMLElement} options.container - The #display element
      * @param {string} options.text - Current display text
      * @param {string} options.themeId - Current theme ID
      * @param {Object} options.themeConfig - Current theme config (URL params only, no defaults)

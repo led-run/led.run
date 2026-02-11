@@ -131,18 +131,18 @@ body.cursor-hidden .sign-toolbar {
   50% { opacity: 0.4; }
 }
 
-/* Rotation classes applied to #sign-container */
-#sign-container.rotated-90 {
+/* Rotation classes applied to #display */
+#display.rotated-90 {
   width: 100vh;
   height: 100vw;
   transform: translate(calc((100vw - 100vh) / 2), calc((100vh - 100vw) / 2)) rotate(90deg);
 }
 
-#sign-container.rotated-180 {
+#display.rotated-180 {
   transform: rotate(180deg);
 }
 
-#sign-container.rotated-270 {
+#display.rotated-270 {
   width: 100vh;
   height: 100vw;
   transform: translate(calc((100vw - 100vh) / 2), calc((100vh - 100vw) / 2)) rotate(270deg);

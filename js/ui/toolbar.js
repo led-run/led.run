@@ -28,11 +28,11 @@
     /**
      * Initialize toolbar
      * @param {Object} options
-     * @param {HTMLElement} options.container - The #sign-container element
+     * @param {HTMLElement} options.container - The #display element
      */
     init: function(options) {
       options = options || {};
-      this._container = options.container || document.getElementById('sign-container');
+      this._container = options.container || document.getElementById('display');
 
       this._render();
       this._bind();

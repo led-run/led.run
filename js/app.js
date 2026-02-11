@@ -44,7 +44,7 @@
      * Boot the application
      */
     init() {
-      this._container = document.getElementById('sign-container');
+      this._container = document.getElementById('display');
 
       // Parse URL
       var parsed = URLParser.parse();
