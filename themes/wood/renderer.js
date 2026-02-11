@@ -230,6 +230,6 @@
     }
   };
 
-  ThemeManager.register(WoodTheme);
+  TextManager.register(WoodTheme);
 
 })(typeof window !== 'undefined' ? window : this);

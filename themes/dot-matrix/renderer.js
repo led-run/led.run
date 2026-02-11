@@ -548,6 +548,6 @@
     }
   };
 
-  ThemeManager.register(DotMatrixTheme);
+  TextManager.register(DotMatrixTheme);
 
 })(typeof window !== 'undefined' ? window : this);

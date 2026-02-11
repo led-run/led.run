@@ -205,6 +205,6 @@
     }
   };
 
-  ThemeManager.register(GradientTheme);
+  TextManager.register(GradientTheme);
 
 })(typeof window !== 'undefined' ? window : this);

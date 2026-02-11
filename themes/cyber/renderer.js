@@ -267,6 +267,6 @@
     }
   };
 
-  ThemeManager.register(CyberTheme);
+  TextManager.register(CyberTheme);
 
 })(typeof window !== 'undefined' ? window : this);

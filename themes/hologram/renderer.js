@@ -172,6 +172,6 @@
     }
   };
 
-  ThemeManager.register(HologramTheme);
+  TextManager.register(HologramTheme);
 
 })(typeof window !== 'undefined' ? window : this);

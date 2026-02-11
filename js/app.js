@@ -80,7 +80,7 @@
       document.title = text + ' \u2014 led.run';
 
       // Switch theme
-      ThemeManager.switch(themeId, this._container, text, themeConfig);
+      TextManager.switch(themeId, this._container, text, themeConfig);
       document.getElementById('app').dataset.theme = themeId;
 
       // Initialize App-level UI
@@ -96,7 +96,7 @@
       // Initialize controls with callbacks bridging to current theme
       Controls.init({
         onTogglePause: function() {
-          var theme = ThemeManager.getCurrent();
+          var theme = TextManager.getCurrent();
           if (theme && theme.togglePause) {
             theme.togglePause();
           }
@@ -202,7 +202,7 @@
       html += '<div class="prop-row">';
       html += '<span class="prop-label">' + I18n.t('settings.theme') + '</span>';
       html += '<select class="builder-select" id="builder-theme">';
-      var bThemeIds = ThemeManager.getThemeIds();
+      var bThemeIds = TextManager.getThemeIds();
       html += '<option value="default">' + I18n.t('settings.theme.default') + '</option>';
       bThemeIds.forEach(function(id) {
         if (id === 'default') return;
@@ -359,7 +359,7 @@
       var themeParamValues = {};
 
       function getDefaults() {
-        return ThemeManager.getDefaults(builderTheme.value) || {};
+        return TextManager.getDefaults(builderTheme.value) || {};
       }
 
       function updatePreview() {
@@ -391,11 +391,11 @@
         builderUrlPreview.textContent = url;
 
         // Update Live Preview
-        ThemeManager.switch(themeId, livePreview, text, config);
+        TextManager.switch(themeId, livePreview, text, config);
         
         // Ensure the theme correctly calculates sizes for the preview container
-        if (ThemeManager.resize) {
-          setTimeout(function() { ThemeManager.resize(); }, 0);
+        if (TextManager.resize) {
+          setTimeout(function() { TextManager.resize(); }, 0);
         }
       }
 
@@ -409,7 +409,7 @@
           if (mode === 'builder') {
             updatePreview();
             // Trigger an extra resize after panel becomes visible
-            setTimeout(function() { if (ThemeManager.resize) ThemeManager.resize(); }, 50);
+            setTimeout(function() { if (TextManager.resize) TextManager.resize(); }, 50);
           }
         });
       });
@@ -423,7 +423,7 @@
       simpleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') goSimple(); });
       document.getElementById('simple-random').addEventListener('click', function() {
         var val = simpleInput.value.trim() || 'HELLO';
-        var themes = ThemeManager.getThemeIds();
+        var themes = TextManager.getThemeIds();
         var theme = themes[Math.floor(Math.random() * themes.length)];
         window.location.href = '/' + encodeURIComponent(val) + '?t=' + theme;
       });

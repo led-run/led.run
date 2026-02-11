@@ -202,6 +202,6 @@
     }
   };
 
-  ThemeManager.register(GoldTheme);
+  TextManager.register(GoldTheme);
 
 })(typeof window !== 'undefined' ? window : this);

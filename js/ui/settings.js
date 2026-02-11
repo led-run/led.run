@@ -115,7 +115,7 @@
       this._panel.classList.add('open');
       // Disable cursor auto-hide while settings is open
       if (typeof Cursor !== 'undefined') Cursor.disable();
-      // Sync current state from ThemeManager
+      // Sync current state from TextManager
       this._syncFromCurrent();
     },
 
@@ -150,12 +150,12 @@
     },
 
     /**
-     * Sync internal state from ThemeManager
+     * Sync internal state from TextManager
      * @private
      */
     _syncFromCurrent: function() {
-      var currentId = ThemeManager.getCurrentId();
-      var currentText = ThemeManager.getCurrentText();
+      var currentId = TextManager.getCurrentId();
+      var currentText = TextManager.getCurrentText();
       if (currentId) this._themeId = currentId;
       if (currentText) this._text = currentText;
       this._rebuildBody();
@@ -234,7 +234,7 @@
       var self = this;
 
       // Get current merged config
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var defaults = TextManager.getDefaults(this._themeId) || {};
       var merged = Object.assign({}, defaults, this._themeConfig);
 
       // 1. Text input
@@ -254,7 +254,7 @@
       var themeSection = this._createSection('settings.theme');
       var grid = document.createElement('div');
       grid.className = 'settings-theme-grid';
-      var themeIds = ThemeManager.getThemeIds();
+      var themeIds = TextManager.getThemeIds();
       themeIds.forEach(function(id) {
         var chip = document.createElement('span');
         chip.className = 'settings-theme-chip' + (id === self._themeId ? ' active' : '');
@@ -635,7 +635,7 @@
      */
     _setParam: function(key, value) {
       // Compare with theme defaults to decide whether to store
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var defaults = TextManager.getDefaults(this._themeId) || {};
       if (value === defaults[key]) {
         delete this._themeConfig[key];
       } else {
@@ -667,7 +667,7 @@
       if (this._onBeforeApply) this._onBeforeApply();
 
       // Switch theme with current params
-      ThemeManager.switch(this._themeId, this._container, this._text, this._themeConfig);
+      TextManager.switch(this._themeId, this._container, this._text, this._themeConfig);
       document.getElementById('app').dataset.theme = this._themeId;
 
       // Update page title
@@ -693,7 +693,7 @@
       }
 
       // Include params that differ from defaults
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var defaults = TextManager.getDefaults(this._themeId) || {};
       var config = this._themeConfig;
       for (var key in config) {
         if (config[key] !== defaults[key] && APP_PARAMS.indexOf(key) === -1) {
@@ -732,7 +732,7 @@
    * @returns {string[]}
    */
   Settings.getThemeParamKeys = function(themeId) {
-    var defaults = ThemeManager.getDefaults(themeId) || {};
+    var defaults = TextManager.getDefaults(themeId) || {};
     var keys = [];
     for (var key in defaults) {
       if (COMMON_PARAMS.indexOf(key) === -1 && APP_PARAMS.indexOf(key) === -1) {

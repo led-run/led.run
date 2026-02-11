@@ -211,6 +211,6 @@
     }
   };
 
-  ThemeManager.register(BlueprintTheme);
+  TextManager.register(BlueprintTheme);
 
 })(typeof window !== 'undefined' ? window : this);

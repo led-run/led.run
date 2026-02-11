@@ -275,6 +275,6 @@
     }
   };
 
-  ThemeManager.register(BroadcastTheme);
+  TextManager.register(BroadcastTheme);
 
 })(typeof window !== 'undefined' ? window : this);

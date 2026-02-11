@@ -151,6 +151,6 @@
     }
   };
 
-  ThemeManager.register(DoNotDisturbTheme);
+  TextManager.register(DoNotDisturbTheme);
 
 })(typeof window !== 'undefined' ? window : this);

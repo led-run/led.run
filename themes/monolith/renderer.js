@@ -182,6 +182,6 @@
     }
   };
 
-  ThemeManager.register(MonolithTheme);
+  TextManager.register(MonolithTheme);
 
 })(typeof window !== 'undefined' ? window : this);

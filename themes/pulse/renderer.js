@@ -215,6 +215,6 @@
     }
   };
 
-  ThemeManager.register(PulseTheme);
+  TextManager.register(PulseTheme);
 
 })(typeof window !== 'undefined' ? window : this);

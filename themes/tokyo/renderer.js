@@ -256,6 +256,6 @@
     }
   };
 
-  ThemeManager.register(TokyoTheme);
+  TextManager.register(TokyoTheme);
 
 })(typeof window !== 'undefined' ? window : this);

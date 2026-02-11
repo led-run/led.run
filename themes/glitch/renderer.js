@@ -212,6 +212,6 @@
     }
   };
 
-  ThemeManager.register(GlitchTheme);
+  TextManager.register(GlitchTheme);
 
 })(typeof window !== 'undefined' ? window : this);

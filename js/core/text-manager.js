@@ -1,11 +1,11 @@
 /**
- * Theme Manager
- * Theme registration, switching, and lifecycle management
+ * Text Manager
+ * Text theme registration, switching, and lifecycle management
  */
 ;(function(global) {
   'use strict';
 
-  const ThemeManager = {
+  const TextManager = {
     _themes: new Map(),
     _current: null,
     _currentId: null,
@@ -173,6 +173,6 @@
   };
 
   // Export
-  global.ThemeManager = ThemeManager;
+  global.TextManager = TextManager;
 
 })(typeof window !== 'undefined' ? window : this);

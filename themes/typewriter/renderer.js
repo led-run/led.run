@@ -220,6 +220,6 @@
     }
   };
 
-  ThemeManager.register(TypewriterTheme);
+  TextManager.register(TypewriterTheme);
 
 })(typeof window !== 'undefined' ? window : this);

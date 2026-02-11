@@ -216,7 +216,7 @@
     }
   };
 
-  // Register with ThemeManager
-  ThemeManager.register(DefaultTheme);
+  // Register with TextManager
+  TextManager.register(DefaultTheme);
 
 })(typeof window !== 'undefined' ? window : this);

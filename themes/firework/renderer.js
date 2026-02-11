@@ -421,6 +421,6 @@
     }
   };
 
-  ThemeManager.register(FireworkTheme);
+  TextManager.register(FireworkTheme);
 
 })(typeof window !== 'undefined' ? window : this);

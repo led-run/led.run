@@ -149,7 +149,7 @@
       // Wait one frame for CSS to settle, force reflow, then notify theme
       requestAnimationFrame(function() {
         container.offsetHeight; // force synchronous reflow
-        ThemeManager.resize();
+        TextManager.resize();
       });
 
       // Try to lock orientation (silently fails outside fullscreen)

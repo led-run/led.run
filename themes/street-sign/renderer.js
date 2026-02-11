@@ -229,6 +229,6 @@
     }
   };
 
-  ThemeManager.register(StreetSignTheme);
+  TextManager.register(StreetSignTheme);
 
 })(typeof window !== 'undefined' ? window : this);

@@ -340,6 +340,6 @@
     }
   };
 
-  ThemeManager.register(MarqueeTheme);
+  TextManager.register(MarqueeTheme);
 
 })(typeof window !== 'undefined' ? window : this);

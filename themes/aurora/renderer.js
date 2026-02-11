@@ -323,6 +323,6 @@
     }
   };
 
-  ThemeManager.register(AuroraTheme);
+  TextManager.register(AuroraTheme);
 
 })(typeof window !== 'undefined' ? window : this);

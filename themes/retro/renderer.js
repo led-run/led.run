@@ -176,6 +176,6 @@
     }
   };
 
-  ThemeManager.register(RetroTheme);
+  TextManager.register(RetroTheme);
 
 })(typeof window !== 'undefined' ? window : this);

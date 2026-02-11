@@ -164,6 +164,6 @@
     }
   };
 
-  ThemeManager.register(NeonTheme);
+  TextManager.register(NeonTheme);
 
 })(typeof window !== 'undefined' ? window : this);
