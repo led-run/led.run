@@ -39,6 +39,7 @@
 
   var App = {
     _container: null,
+    _product: 'text',
 
     /**
      * Boot the application
@@ -46,54 +47,63 @@
     init() {
       this._container = document.getElementById('display');
 
-      // Parse URL
+      // Parse URL (includes product detection)
       var parsed = URLParser.parse();
+      this._product = parsed.product || 'text';
       var text = parsed.text;
 
-      // Separate app-level and theme-level params
+      // Separate app-level and product-level params
       var appConfig = {};
-      var themeConfig = {};
+      var productConfig = {};
 
       for (var key in parsed) {
-        if (key === 'text') continue;
+        if (key === 'text' || key === 'product') continue;
         if (APP_PARAMS.indexOf(key) !== -1) {
           appConfig[key] = parsed[key];
         } else {
-          themeConfig[key] = parsed[key];
+          productConfig[key] = parsed[key];
         }
       }
 
       // Initialize i18n (before any rendering)
       I18n.init(appConfig.lang);
 
-      // No text → show landing page
-      if (!text) {
+      // Landing page: text product with no text, or light/sound with no path content
+      if (this._product === 'text' && !text) {
         this._showLanding();
         return;
       }
 
-      // Determine theme
-      var themeId = themeConfig.theme || 'default';
-      delete themeConfig.theme;
+      // Route to product-specific initialization
+      switch (this._product) {
+        case 'light':
+          this._initLight(productConfig, appConfig);
+          break;
+        case 'sound':
+          this._initSound(productConfig, appConfig);
+          break;
+        default:
+          this._initText(text, productConfig, appConfig);
+          break;
+      }
+    },
 
-      // Set page title
+    /**
+     * Initialize Text product
+     * @private
+     */
+    _initText: function(text, productConfig, appConfig) {
+      var themeId = productConfig.theme || 'default';
+      delete productConfig.theme;
+
       document.title = text + ' \u2014 led.run';
 
-      // Switch theme
-      TextManager.switch(themeId, this._container, text, themeConfig);
+      TextManager.switch(themeId, this._container, text, productConfig);
       document.getElementById('app').dataset.theme = themeId;
 
-      // Initialize App-level UI
-      WakeLock.init({ wakelock: appConfig.wakelock });
-      Cursor.init({ cursor: appConfig.cursor });
+      this._initCommonUI(appConfig);
 
-      // Receiver mode: clean display only (no controls, no toolbar)
-      if (typeof Cast !== 'undefined' && Cast._isReceiver()) {
-        Cast.init();
-        return;
-      }
-
-      // Initialize controls with callbacks bridging to current theme
+      // Text-specific controls
       Controls.init({
         onTogglePause: function() {
           var theme = TextManager.getCurrent();
@@ -111,16 +121,203 @@
       if (typeof Settings !== 'undefined') {
         Settings.init({
           container: this._container,
+          product: 'text',
           text: text,
           themeId: themeId,
-          themeConfig: themeConfig
+          themeConfig: productConfig
         });
       }
 
-      // Initialize cast (auto-reconnects if session exists)
+      this._initCast();
+    },
+
+    /**
+     * Initialize Light product
+     * @private
+     */
+    _initLight: function(productConfig, appConfig) {
+      var effectId = productConfig.theme || 'solid';
+      delete productConfig.theme;
+
+      document.title = I18n.t('light.title') + ' \u2014 led.run';
+
+      LightManager.switch(effectId, this._container, productConfig);
+      document.getElementById('app').dataset.theme = effectId;
+
+      this._initCommonUI(appConfig);
+
+      Controls.init({
+        onFullscreen: function() {
+          Fullscreen.toggle();
+        },
+        onNext: function() {
+          var ids = LightManager.getEffectIds();
+          var idx = ids.indexOf(LightManager.getCurrentId());
+          var nextId = ids[(idx + 1) % ids.length];
+          LightManager.switch(nextId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = nextId;
+        },
+        onPrev: function() {
+          var ids = LightManager.getEffectIds();
+          var idx = ids.indexOf(LightManager.getCurrentId());
+          var prevId = ids[(idx - 1 + ids.length) % ids.length];
+          LightManager.switch(prevId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = prevId;
+        }
+      });
+      Toolbar.init({ container: this._container });
+
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          product: 'light',
+          themeId: effectId,
+          themeConfig: productConfig
+        });
+      }
+
+      this._initCast();
+    },
+
+    /**
+     * Initialize Sound product
+     * @private
+     */
+    _initSound: function(productConfig, appConfig) {
+      var vizId = productConfig.theme || 'bars';
+      delete productConfig.theme;
+      var self = this;
+
+      document.title = I18n.t('sound.title') + ' \u2014 led.run';
+
+      this._initCommonUI(appConfig);
+
+      // Check audio support first
+      if (!AudioEngine.isSupported()) {
+        this._showAudioError('notSupported');
+        return;
+      }
+
+      // Request microphone access
+      AudioEngine.init({
+        fftSize: 2048,
+        smoothingTimeConstant: productConfig.smoothing || 0.8
+      }).then(function() {
+        SoundManager.switch(vizId, self._container, productConfig, AudioEngine);
+        document.getElementById('app').dataset.theme = vizId;
+
+        Controls.init({
+          onFullscreen: function() {
+            Fullscreen.toggle();
+          },
+          onNext: function() {
+            var ids = SoundManager.getVisualizerIds();
+            var idx = ids.indexOf(SoundManager.getCurrentId());
+            var nextId = ids[(idx + 1) % ids.length];
+            SoundManager.switch(nextId, self._container, productConfig, AudioEngine);
+            document.getElementById('app').dataset.theme = nextId;
+          },
+          onPrev: function() {
+            var ids = SoundManager.getVisualizerIds();
+            var idx = ids.indexOf(SoundManager.getCurrentId());
+            var prevId = ids[(idx - 1 + ids.length) % ids.length];
+            SoundManager.switch(prevId, self._container, productConfig, AudioEngine);
+            document.getElementById('app').dataset.theme = prevId;
+          }
+        });
+        Toolbar.init({ container: self._container });
+
+        if (typeof Settings !== 'undefined') {
+          Settings.init({
+            container: self._container,
+            product: 'sound',
+            themeId: vizId,
+            themeConfig: productConfig
+          });
+        }
+
+        self._initCast();
+      }).catch(function(err) {
+        console.error('Microphone access failed:', err);
+        self._showAudioError(err.name === 'NotAllowedError' ? 'denied' : 'error');
+      });
+    },
+
+    /**
+     * Initialize common UI modules (WakeLock, Cursor, Cast receiver)
+     * @private
+     */
+    _initCommonUI: function(appConfig) {
+      WakeLock.init({ wakelock: appConfig.wakelock });
+      Cursor.init({ cursor: appConfig.cursor });
+
+      // Receiver mode: clean display only (no controls, no toolbar)
+      if (typeof Cast !== 'undefined' && Cast._isReceiver()) {
+        Cast.init();
+        return;
+      }
+    },
+
+    /**
+     * Initialize casting
+     * @private
+     */
+    _initCast: function() {
       if (typeof Cast !== 'undefined') {
         Cast.init();
       }
+    },
+
+    /**
+     * Show audio error message
+     * @private
+     * @param {string} reason - 'notSupported' | 'denied' | 'error'
+     */
+    _showAudioError: function(reason) {
+      var container = this._container;
+      container.innerHTML = '';
+      container.className = '';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+
+      var msg = document.createElement('div');
+      msg.style.textAlign = 'center';
+      msg.style.padding = '40px';
+      msg.style.color = '#fff';
+      msg.style.fontFamily = '-apple-system, sans-serif';
+
+      var icon = document.createElement('div');
+      icon.style.fontSize = '48px';
+      icon.style.marginBottom = '16px';
+
+      var title = document.createElement('div');
+      title.style.fontSize = '20px';
+      title.style.fontWeight = '600';
+      title.style.marginBottom = '8px';
+
+      var desc = document.createElement('div');
+      desc.style.fontSize = '14px';
+      desc.style.opacity = '0.7';
+
+      if (reason === 'notSupported') {
+        icon.textContent = '\uD83C\uDFA4';
+        title.textContent = I18n.t('sound.error.notSupported.title');
+        desc.textContent = I18n.t('sound.error.notSupported.desc');
+      } else if (reason === 'denied') {
+        icon.textContent = '\uD83D\uDD07';
+        title.textContent = I18n.t('sound.error.denied.title');
+        desc.textContent = I18n.t('sound.error.denied.desc');
+      } else {
+        icon.textContent = '\u26A0\uFE0F';
+        title.textContent = I18n.t('sound.error.generic.title');
+        desc.textContent = I18n.t('sound.error.generic.desc');
+      }
+
+      msg.appendChild(icon);
+      msg.appendChild(title);
+      msg.appendChild(desc);
+      container.appendChild(msg);
     },
 
     /**
