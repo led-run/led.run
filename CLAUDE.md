@@ -263,11 +263,26 @@ Themes can also fully override position, shape, and animations via standard CSS 
 | Share | Yes | Yes | Yes |
 | Microphone | No | No | Yes |
 
+## Keyboard & Pointer Controls
+
+| Action | Key/Gesture | Text | Light | Sound |
+|--------|-------------|------|-------|-------|
+| Toggle pause | Space | Pause/resume animation | — | — |
+| Fullscreen | F / DblClick | Yes | Yes | Yes |
+| Settings | S | Open settings panel | Open settings panel | Open settings panel |
+| Next | Right arrow | — | Next effect | Next visualizer |
+| Previous | Left arrow | — | Previous effect | Previous visualizer |
+| Adjust up | Up arrow | — | Brightness +1 | Sensitivity +1 |
+| Adjust down | Down arrow | — | Brightness -1 | Sensitivity -1 |
+| Exit fullscreen | Escape | Yes | Yes | Yes |
+
+**Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture.
+
 ## Key Design Decisions
 
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
-- **Controls bridge via App** — Controls → App callbacks → TextManager.getCurrent()
+- **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
 - **UI modules copied from til.re** — fullscreen.js, wakelock.js, cursor.js are identical
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
 - **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
