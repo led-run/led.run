@@ -4,7 +4,7 @@
  */
 
 /* Toolbar container */
-.sign-toolbar {
+.toolbar {
   --toolbar-bg: rgba(18, 18, 20, 0.85);
   --toolbar-border: rgba(255, 255, 255, 0.08);
   --toolbar-btn-bg: transparent;
@@ -32,14 +32,14 @@
 }
 
 /* Cursor sync — hide toolbar when cursor is hidden */
-body.cursor-hidden .sign-toolbar {
+body.cursor-hidden .toolbar {
   opacity: 0;
   pointer-events: none;
   transform: translateX(-50%) translateY(12px);
 }
 
 /* Toolbar buttons */
-.sign-toolbar-btn {
+.toolbar-btn {
   display: flex;
   align-items: center;
   justify-content: center;
@@ -55,17 +55,17 @@ body.cursor-hidden .sign-toolbar {
   -webkit-tap-highlight-color: transparent;
 }
 
-.sign-toolbar-btn:hover {
+.toolbar-btn:hover {
   background: var(--toolbar-btn-hover-bg);
   color: var(--toolbar-btn-hover-color);
   transform: scale(1.1);
 }
 
-.sign-toolbar-btn:active {
+.toolbar-btn:active {
   transform: scale(0.92);
 }
 
-.sign-toolbar-btn svg {
+.toolbar-btn svg {
   width: 22px;
   height: 22px;
   stroke: currentColor;
@@ -76,23 +76,23 @@ body.cursor-hidden .sign-toolbar {
   transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.sign-toolbar-btn[data-action="settings"]:hover svg {
+.toolbar-btn[data-action="settings"]:hover svg {
   transform: rotate(60deg);
 }
 
 /* Special treatment for settings button to make it more distinct if needed */
-.sign-toolbar-btn[data-action="settings"] {
+.toolbar-btn[data-action="settings"] {
   margin-left: 2px;
   background: rgba(255, 255, 255, 0.04);
 }
 
-.sign-toolbar-btn[data-action="settings"]:hover {
+.toolbar-btn[data-action="settings"]:hover {
   background: rgba(0, 230, 118, 0.15);
   color: #00e676;
 }
 
 /* Toast notification */
-.sign-toolbar-toast {
+.toolbar-toast {
   position: fixed;
   bottom: 90px;
   left: 50%;
@@ -115,13 +115,13 @@ body.cursor-hidden .sign-toolbar {
   transition: opacity 0.2s ease, transform 0.2s cubic-bezier(0.2, 0.8, 0.2, 1);
 }
 
-.sign-toolbar-toast.visible {
+.toolbar-toast.visible {
   opacity: 1;
   transform: translateX(-50%) translateY(0);
 }
 
 /* Cast button active state — breathing pulse */
-.sign-toolbar-btn.casting-active {
+.toolbar-btn.casting-active {
   color: #2979ff;
   animation: cast-pulse 2s ease-in-out infinite;
 }
