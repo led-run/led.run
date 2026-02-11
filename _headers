@@ -10,7 +10,7 @@
 /js/*
   Cache-Control: public, max-age=86400
 
-/themes/*
+/texts/*
   Cache-Control: public, max-age=86400
 
 /docs/*

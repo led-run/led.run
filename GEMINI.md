@@ -18,7 +18,7 @@
 - **`text-engine.js`**: A utility for calculating the optimal font size to fit text within a given container (auto-fit logic).
 - **`text-manager.js`**: The central registry for themes. It manages theme registration, dynamic loading, and switching between themes.
 
-### 2. Theme System (`themes/{id}/`)
+### 2. Theme System (`texts/{id}/`)
 Themes are autonomous modules consisting of:
 - **`renderer.js`**: Implements the theme logic. Each theme must register itself with `TextManager` and implement an interface:
   - `init(container, text, config)`: Sets up the theme.
@@ -56,19 +56,19 @@ This project has **no build step**. It can be served locally using any static fi
 - **Styling:** CSS variables are used extensively for theme customization (colors, backgrounds).
 - **Parameter Aliasing:** Short aliases are supported (e.g., `t` for `theme`, `c` for `color`).
 - **Container Dimensions:** Themes must use `this._container.clientWidth/clientHeight` (or CSS `100%`) for sizing, never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`). Toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same.
-- **No Inline Transform on Container:** Themes must never set inline `transform` on the `#sign-container` element — toolbar rotation uses CSS class `transform` on it. Use an inner wrapper div for theme transforms like `scale()`.
+- **No Inline Transform on Container:** Themes must never set inline `transform` on the `#display` element — toolbar rotation uses CSS class `transform` on it. Use an inner wrapper div for theme transforms like `scale()`.
 
 ---
 
 ## Extending the Project
 
 ### Adding a New Theme
-1. Create a new directory in `themes/{id}/`.
+1. Create a new directory in `texts/{id}/`.
 2. Add `style.css` and `renderer.js`.
 3. In `renderer.js`, call `TextManager.register(MyNewTheme)`.
 4. Register the new theme in `index.html` by adding the corresponding `<link>` and `<script>` tags.
 5. (Optional) Add the theme to the examples on the landing page in `js/app.js`.
-6. **Important:** Ensure the theme uses container dimensions (`this._container.clientWidth/clientHeight` or CSS `100%`) instead of viewport dimensions, and never sets inline `transform` on `#sign-container`. See "Coding Conventions" above for details.
+6. **Important:** Ensure the theme uses container dimensions (`this._container.clientWidth/clientHeight` or CSS `100%`) instead of viewport dimensions, and never sets inline `transform` on `#display`. See "Coding Conventions" above for details.
 
 ### Adding a New UI Module
 1. Create a file in `js/ui/`.
