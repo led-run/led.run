@@ -84,8 +84,8 @@
       var barColor = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var radiusFraction = parseFloat(cfg.radius) || self.defaults.radius;
+      var ctx = self._ctx;
 
-      // Clamp radius
       if (radiusFraction < 0.1) radiusFraction = 0.1;
       if (radiusFraction > 0.5) radiusFraction = 0.5;
 
@@ -97,8 +97,8 @@
       if (maxBarLength < 10) maxBarLength = 10;
 
       // Clear with background
-      self._ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      self._ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      ctx.fillRect(0, 0, w, h);
 
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
@@ -107,31 +107,62 @@
         freqData = self._audioEngine.getFrequencyData();
       }
 
+      // Lighter color for bar tips
+      var lightR = Math.min(255, barColor.r + Math.round((255 - barColor.r) * 0.5));
+      var lightG = Math.min(255, barColor.g + Math.round((255 - barColor.g) * 0.5));
+      var lightB = Math.min(255, barColor.b + Math.round((255 - barColor.b) * 0.5));
+      var colorStr = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
+
       if (!freqData || freqData.length === 0) {
-        // Idle state: draw base circle outline
-        self._ctx.strokeStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.2)';
-        self._ctx.lineWidth = 1;
-        self._ctx.beginPath();
-        self._ctx.arc(centerX, centerY, baseRadius, 0, Math.PI * 2);
-        self._ctx.stroke();
+        // Idle state: draw base circle with subtle glow
+        ctx.shadowColor = colorStr;
+        ctx.shadowBlur = 6;
+        ctx.strokeStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.2)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, baseRadius, 0, Math.PI * 2);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
         self._animFrameId = requestAnimationFrame(function() { self._draw(); });
         return;
       }
 
       var binCount = freqData.length;
-      // Number of bars around the circle
       var barCount = Math.min(binCount, 360);
       var binsPerBar = Math.floor(binCount / barCount);
       if (binsPerBar < 1) binsPerBar = 1;
 
       var angleStep = (Math.PI * 2) / barCount;
       var sensitivityScale = sensitivity / 5;
+      var barLineWidth = Math.max(1, (Math.PI * 2 * baseRadius) / barCount * 0.6);
 
-      self._ctx.strokeStyle = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
-      self._ctx.lineWidth = Math.max(1, (Math.PI * 2 * baseRadius) / barCount * 0.6);
+      // Calculate average amplitude for inner pulse
+      var totalSum = 0;
+      for (var i = 0; i < freqData.length; i++) {
+        totalSum += freqData[i];
+      }
+      var avgAmplitude = (totalSum / freqData.length / 255) * sensitivityScale;
+      if (avgAmplitude > 1) avgAmplitude = 1;
+
+      // Inner pulse fill: radial gradient modulated by amplitude
+      var pulseAlpha = avgAmplitude * 0.3;
+      if (pulseAlpha > 0.01) {
+        var innerGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, baseRadius);
+        innerGrad.addColorStop(0, 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',' + pulseAlpha.toFixed(3) + ')');
+        innerGrad.addColorStop(0.7, 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',' + (pulseAlpha * 0.3).toFixed(3) + ')');
+        innerGrad.addColorStop(1, 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0)');
+        ctx.fillStyle = innerGrad;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, baseRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      // Draw frequency bars with glow and gradient
+      ctx.shadowColor = colorStr;
+      ctx.shadowBlur = 8;
+      ctx.lineWidth = barLineWidth;
 
       for (var i = 0; i < barCount; i++) {
-        // Average the frequency bins for this bar
         var sum = 0;
         var start = i * binsPerBar;
         var end = Math.min(start + binsPerBar, binCount);
@@ -140,32 +171,41 @@
         }
         var avg = sum / (end - start);
 
-        // Normalize and apply sensitivity
         var normalized = (avg / 255) * sensitivityScale;
         if (normalized > 1) normalized = 1;
 
         var barLength = normalized * maxBarLength;
         if (barLength < 1) barLength = 1;
 
-        var angle = i * angleStep - Math.PI / 2; // Start from top
+        var angle = i * angleStep - Math.PI / 2;
+        var cos = Math.cos(angle);
+        var sin = Math.sin(angle);
 
-        var x1 = centerX + Math.cos(angle) * baseRadius;
-        var y1 = centerY + Math.sin(angle) * baseRadius;
-        var x2 = centerX + Math.cos(angle) * (baseRadius + barLength);
-        var y2 = centerY + Math.sin(angle) * (baseRadius + barLength);
+        var x1 = centerX + cos * baseRadius;
+        var y1 = centerY + sin * baseRadius;
+        var x2 = centerX + cos * (baseRadius + barLength);
+        var y2 = centerY + sin * (baseRadius + barLength);
 
-        self._ctx.beginPath();
-        self._ctx.moveTo(x1, y1);
-        self._ctx.lineTo(x2, y2);
-        self._ctx.stroke();
+        // Gradient from base color to lighter at tip
+        var grad = ctx.createLinearGradient(x1, y1, x2, y2);
+        grad.addColorStop(0, colorStr);
+        grad.addColorStop(1, 'rgb(' + lightR + ',' + lightG + ',' + lightB + ')');
+
+        ctx.strokeStyle = grad;
+        ctx.beginPath();
+        ctx.moveTo(x1, y1);
+        ctx.lineTo(x2, y2);
+        ctx.stroke();
       }
 
+      ctx.shadowBlur = 0;
+
       // Draw base circle outline
-      self._ctx.strokeStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.5)';
-      self._ctx.lineWidth = 1;
-      self._ctx.beginPath();
-      self._ctx.arc(centerX, centerY, baseRadius, 0, Math.PI * 2);
-      self._ctx.stroke();
+      ctx.strokeStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.5)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, baseRadius, 0, Math.PI * 2);
+      ctx.stroke();
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }

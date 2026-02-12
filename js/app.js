@@ -421,7 +421,7 @@
 
       // Text Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
-      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">Live Preview</div><div id="builder-live-preview"></div></div></div>';
+      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="builder-live-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Card 1: Content
@@ -429,7 +429,7 @@
       html += '<div class="prop-group"><input type="text" class="builder-text-input" id="builder-text" placeholder="HELLO" autocomplete="off"></div></div>';
 
       // Card 2: Theme & Mode
-      html += '<div class="prop-card"><div class="prop-card-title">Theme & Mode</div><div class="prop-group">';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.themeAndMode') + '</div><div class="prop-group">';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.theme') + '</span>';
       html += '<select class="builder-select" id="builder-theme">';
       var bThemeIds = TextManager.getThemeIds();
@@ -444,10 +444,16 @@
       html += '<option value="">' + I18n.t('settings.mode.none') + '</option>';
       html += '<option value="sign">' + I18n.t('settings.mode.sign') + '</option>';
       html += '<option value="flow">' + I18n.t('settings.mode.flow') + '</option>';
-      html += '</select></div></div></div>';
+      html += '</select></div>';
+      html += '<div class="prop-row" id="builder-direction-row" style="display:none"><span class="prop-label">' + I18n.t('settings.param.direction') + '</span>';
+      html += '<select class="builder-select" id="builder-direction">';
+      html += '<option value="left">' + I18n.t('settings.direction.left') + '</option>';
+      html += '<option value="right">' + I18n.t('settings.direction.right') + '</option>';
+      html += '</select></div>';
+      html += '</div></div>';
 
       // Card 3: Visual Style
-      html += '<div class="prop-card"><div class="prop-card-title">Visual Style</div><div class="prop-group">';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
       html += '<input type="color" class="builder-color-input" id="builder-color" value="#00ff41">';
       html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
@@ -467,7 +473,7 @@
       html += '</div></div>';
 
       // Card 4: Dynamics
-      html += '<div class="prop-card"><div class="prop-card-title">Dynamics</div><div class="prop-group">';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.dynamics') + '</div><div class="prop-group">';
       html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="builder-speed-val">60</span></div>';
       html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60"></div>';
       html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="builder-scale-val">1.0</span></div>';
@@ -475,7 +481,7 @@
       html += '</div></div>';
 
       // Card 5: Advanced (Dynamic)
-      html += '<div class="prop-card" id="builder-custom-section" style="display:none"><div class="prop-card-title">Advanced Params</div>';
+      html += '<div class="prop-card" id="builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="builder-theme-params"></div></div>';
 
       // Action Card
@@ -511,8 +517,8 @@
       html += '<div class="builder-grid">';
 
       // Effect selection
-      html += '<div class="prop-card"><div class="prop-card-title">Effect</div><div class="prop-group">';
-      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.theme') + '</span>';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.effect') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.effectLabel') + '</span>';
       html += '<select class="builder-select" id="light-builder-effect">';
       var effectIds = LightManager.getEffectIds();
       effectIds.forEach(function(id) {
@@ -521,24 +527,28 @@
       html += '</select></div></div></div>';
 
       // Color
-      html += '<div class="prop-card"><div class="prop-card-title">Visual Style</div><div class="prop-group">';
-      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
-      html += '<input type="color" class="builder-color-input" id="light-builder-color" value="#ffffff">';
-      html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<div class="prop-card" id="light-builder-style-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row" id="light-builder-color-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="light-builder-color" value="#ffffff"></div>';
+      html += '<div class="prop-row" id="light-builder-bg-row"><span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
       html += '<input type="color" class="builder-color-input" id="light-builder-bg" value="#000000"></div>';
       html += '</div></div>';
 
       // Speed & Brightness
-      html += '<div class="prop-card"><div class="prop-card-title">Dynamics</div><div class="prop-group">';
-      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="light-builder-speed-val">5</span></div>';
+      html += '<div class="prop-card" id="light-builder-dynamics-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.dynamics') + '</div><div class="prop-group">';
+      html += '<div class="prop-row-stack" id="light-builder-speed-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="light-builder-speed-val">5</span></div>';
       html += '<input type="range" class="builder-range" id="light-builder-speed" min="1" max="20" step="1" value="5"></div>';
-      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.brightness') + '</span><span class="val" id="light-builder-brightness-val">100</span></div>';
+      html += '<div class="prop-row-stack" id="light-builder-brightness-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.brightness') + '</span><span class="val" id="light-builder-brightness-val">100</span></div>';
       html += '<input type="range" class="builder-range" id="light-builder-brightness" min="10" max="100" step="5" value="100"></div>';
       html += '</div></div>';
 
+      // Light Advanced (Dynamic)
+      html += '<div class="prop-card" id="light-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="light-builder-effect-params"></div></div>';
+
       // Light Action Card
       html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="light-builder-url">led.run/light</div></div>';
+      html += '<div class="builder-url-preview" id="light-builder-url">led.run/light?t=solid</div></div>';
       html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
 
       html += '</div>'; // builder-grid
@@ -566,8 +576,8 @@
       html += '<div class="builder-grid">';
 
       // Visualizer selection
-      html += '<div class="prop-card"><div class="prop-card-title">Visualizer</div><div class="prop-group">';
-      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.theme') + '</span>';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualizer') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.visualizerLabel') + '</span>';
       html += '<select class="builder-select" id="sound-builder-viz">';
       var vizIds = SoundManager.getVisualizerIds();
       vizIds.forEach(function(id) {
@@ -576,7 +586,7 @@
       html += '</select></div></div></div>';
 
       // Color
-      html += '<div class="prop-card"><div class="prop-card-title">Visual Style</div><div class="prop-group">';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
       html += '<input type="color" class="builder-color-input" id="sound-builder-color" value="#00ff41">';
       html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
@@ -584,16 +594,20 @@
       html += '</div></div>';
 
       // Sensitivity & Smoothing
-      html += '<div class="prop-card"><div class="prop-card-title">Audio</div><div class="prop-group">';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.audio') + '</div><div class="prop-group">';
       html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.sensitivity') + '</span><span class="val" id="sound-builder-sens-val">5</span></div>';
       html += '<input type="range" class="builder-range" id="sound-builder-sensitivity" min="1" max="10" step="1" value="5"></div>';
-      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.smoothing') + '</span><span class="val" id="sound-builder-smooth-val">0.8</span></div>';
+      html += '<div class="prop-row-stack" id="sound-builder-smoothing-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.smoothing') + '</span><span class="val" id="sound-builder-smooth-val">0.8</span></div>';
       html += '<input type="range" class="builder-range" id="sound-builder-smoothing" min="0" max="1" step="0.1" value="0.8"></div>';
       html += '</div></div>';
 
+      // Sound Advanced (Dynamic)
+      html += '<div class="prop-card" id="sound-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="sound-builder-viz-params"></div></div>';
+
       // Sound Action Card
       html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="sound-builder-url">led.run/sound</div></div>';
+      html += '<div class="builder-url-preview" id="sound-builder-url">led.run/sound?t=bars</div></div>';
       html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
 
       html += '</div>'; // builder-grid
@@ -698,7 +712,9 @@
       var builderUrlPreview = document.getElementById('builder-url-preview');
       var livePreview = document.getElementById('builder-live-preview');
 
-      var userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
+      var builderDirection = document.getElementById('builder-direction');
+
+      var userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false, direction: false };
       var themeParamValues = {};
 
       function getDefaults() {
@@ -715,6 +731,7 @@
         if (userChanged.fill) config.fill = builderFill.value.replace('#', '');
         if (userChanged.speed) config.speed = parseInt(builderSpeed.value, 10);
         if (userChanged.scale) config.scale = parseFloat(builderScale.value);
+        if (userChanged.direction) config.direction = builderDirection.value;
         if (userChanged.font) {
           var fontVal = builderFont.value;
           config.font = (fontVal === Settings.FONT_CUSTOM_VALUE) ? builderFontCustom.value.trim() : fontVal;
@@ -746,16 +763,18 @@
       });
 
       // Builder mode events
-      [builderText, builderTheme, builderMode, builderColor, builderBg, builderFill, builderSpeed, builderScale, builderFont, builderFontCustom].forEach(function(el) {
+      [builderText, builderTheme, builderMode, builderDirection, builderColor, builderBg, builderFill, builderSpeed, builderScale, builderFont, builderFontCustom].forEach(function(el) {
         el.addEventListener('input', function() {
           if (this.id !== 'builder-text' && this.id !== 'builder-theme' && this.id !== 'builder-mode') {
-            userChanged[this.id.replace('builder-', '')] = true;
+            var changedKey = this.id.replace('builder-', '');
+            if (changedKey === 'font-custom') changedKey = 'font';
+            userChanged[changedKey] = true;
           }
           if (this.id === 'builder-speed') document.getElementById('builder-speed-val').textContent = this.value;
           if (this.id === 'builder-scale') document.getElementById('builder-scale-val').textContent = this.value;
           if (this.id === 'builder-font') builderFontCustom.style.display = (this.value === Settings.FONT_CUSTOM_VALUE) ? 'block' : 'none';
           if (this.id === 'builder-theme') {
-            userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
+            userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false, direction: false };
             themeParamValues = {};
             syncBuilderToThemeDefaults();
             rebuildThemeParams();
@@ -774,6 +793,8 @@
         document.getElementById('builder-speed-val').textContent = builderSpeed.value;
         builderScale.value = d.scale || 1;
         document.getElementById('builder-scale-val').textContent = builderScale.value;
+        document.getElementById('builder-direction-row').style.display = d.direction !== undefined ? 'flex' : 'none';
+        builderDirection.value = d.direction || 'left';
         builderFont.value = d.font || '';
         builderFontCustom.value = '';
         builderFontCustom.style.display = 'none';
@@ -854,6 +875,7 @@
         if (userChanged.fill) params.push('fill=' + builderFill.value.replace('#', ''));
         if (userChanged.speed) params.push('speed=' + builderSpeed.value);
         if (userChanged.scale) params.push('scale=' + builderScale.value);
+        if (userChanged.direction) params.push('dir=' + builderDirection.value);
         if (userChanged.font) {
           var fv = builderFont.value;
           params.push('font=' + encodeURIComponent(fv === Settings.FONT_CUSTOM_VALUE ? builderFontCustom.value.trim() : fv));
@@ -879,23 +901,157 @@
       var lightBrightness = document.getElementById('light-builder-brightness');
       var lightUrl = document.getElementById('light-builder-url');
 
-      function updateLightUrl() {
-        var params = [];
-        var effectId = lightEffect.value;
-        if (effectId !== 'solid') params.push('t=' + effectId);
-        params.push('color=' + lightColor.value.replace('#', ''));
-        params.push('bg=' + lightBg.value.replace('#', ''));
-        params.push('speed=' + lightSpeed.value);
-        if (lightBrightness.value !== '100') params.push('brightness=' + lightBrightness.value);
-        lightUrl.textContent = 'led.run/light' + (params.length ? '?' + params.join('&') : '');
+      var lightUserChanged = { color: false, bg: false, speed: false, brightness: false };
+      var lightEffectParamValues = {};
+
+      function getLightDefaults() {
+        return LightManager.getDefaults(lightEffect.value) || {};
       }
 
-      [lightEffect, lightColor, lightBg, lightSpeed, lightBrightness].forEach(function(el) {
+      function syncLightBuilderToEffectDefaults() {
+        var d = getLightDefaults();
+        lightColor.value = '#' + (d.color || 'ffffff').slice(0, 6);
+        lightBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        lightSpeed.value = d.speed || 5;
+        document.getElementById('light-builder-speed-val').textContent = lightSpeed.value;
+        lightBrightness.value = d.brightness || 100;
+        document.getElementById('light-builder-brightness-val').textContent = lightBrightness.value;
+      }
+
+      function syncLightBuilderVisibility() {
+        var d = getLightDefaults();
+        var showColor = d.color !== undefined;
+        var showBg = d.bg !== undefined;
+        var showSpeed = d.speed !== undefined;
+        var showBrightness = d.brightness !== undefined;
+        document.getElementById('light-builder-color-row').style.display = showColor ? '' : 'none';
+        document.getElementById('light-builder-bg-row').style.display = showBg ? '' : 'none';
+        document.getElementById('light-builder-speed-row').style.display = showSpeed ? '' : 'none';
+        document.getElementById('light-builder-brightness-row').style.display = showBrightness ? '' : 'none';
+        document.getElementById('light-builder-style-card').style.display = (showColor || showBg) ? '' : 'none';
+        document.getElementById('light-builder-dynamics-card').style.display = (showSpeed || showBrightness) ? '' : 'none';
+      }
+
+      function rebuildLightEffectParams() {
+        var container = document.getElementById('light-builder-effect-params');
+        var section = document.getElementById('light-builder-custom-section');
+        container.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(lightEffect.value, 'light');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getLightDefaults();
+        var lightAdapter = Settings.PRODUCT_ADAPTERS.light;
+        keys.forEach(function(key) {
+          var meta = (lightAdapter.knownParamOverrides && lightAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              lightEffectParamValues[key] = parseFloat(this.value);
+              updateLightUrl();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              lightEffectParamValues[key] = this.value.replace('#', '');
+              updateLightUrl();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'string') {
+            row.className = 'prop-row';
+            var si = document.createElement('input');
+            si.type = 'text'; si.className = 'builder-text-input';
+            si.value = defVal || '';
+            si.addEventListener('change', function() {
+              lightEffectParamValues[key] = this.value;
+              updateLightUrl();
+            });
+            inputWrap.appendChild(si);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              lightEffectParamValues[key] = this.checked;
+              updateLightUrl();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      function updateLightUrl() {
+        var effectId = lightEffect.value;
+        var d = getLightDefaults();
+        var params = ['t=' + effectId];
+        if (lightUserChanged.color && d.color !== undefined) {
+          var c = lightColor.value.replace('#', '');
+          if (c !== (d.color || 'ffffff')) params.push('color=' + c);
+        }
+        if (lightUserChanged.bg && d.bg !== undefined) {
+          var b = lightBg.value.replace('#', '');
+          if (b !== (d.bg || '000000')) params.push('bg=' + b);
+        }
+        if (lightUserChanged.speed && d.speed !== undefined) {
+          if (lightSpeed.value !== String(d.speed || 5)) params.push('speed=' + lightSpeed.value);
+        }
+        if (lightUserChanged.brightness && d.brightness !== undefined) {
+          if (lightBrightness.value !== String(d.brightness || 100)) params.push('brightness=' + lightBrightness.value);
+        }
+        for (var k in lightEffectParamValues) {
+          if (lightEffectParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(lightEffectParamValues[k]));
+        }
+        lightUrl.textContent = 'led.run/light?' + params.join('&');
+      }
+
+      [lightColor, lightBg, lightSpeed, lightBrightness].forEach(function(el) {
         el.addEventListener('input', function() {
+          var paramKey = this.id.replace('light-builder-', '');
+          lightUserChanged[paramKey] = true;
           if (this.id === 'light-builder-speed') document.getElementById('light-builder-speed-val').textContent = this.value;
           if (this.id === 'light-builder-brightness') document.getElementById('light-builder-brightness-val').textContent = this.value;
           updateLightUrl();
         });
+      });
+
+      lightEffect.addEventListener('input', function() {
+        lightUserChanged = { color: false, bg: false, speed: false, brightness: false };
+        lightEffectParamValues = {};
+        syncLightBuilderToEffectDefaults();
+        syncLightBuilderVisibility();
+        rebuildLightEffectParams();
+        updateLightUrl();
       });
 
       document.getElementById('light-builder-launch').addEventListener('click', function() {
@@ -911,23 +1067,150 @@
       var soundSmooth = document.getElementById('sound-builder-smoothing');
       var soundUrl = document.getElementById('sound-builder-url');
 
-      function updateSoundUrl() {
-        var params = [];
-        var vizId = soundViz.value;
-        if (vizId !== 'bars') params.push('t=' + vizId);
-        params.push('color=' + soundColor.value.replace('#', ''));
-        params.push('bg=' + soundBg.value.replace('#', ''));
-        if (soundSens.value !== '5') params.push('sensitivity=' + soundSens.value);
-        if (soundSmooth.value !== '0.8') params.push('smoothing=' + soundSmooth.value);
-        soundUrl.textContent = 'led.run/sound' + (params.length ? '?' + params.join('&') : '');
+      var soundUserChanged = { color: false, bg: false, sensitivity: false, smoothing: false };
+      var soundVizParamValues = {};
+
+      function getSoundDefaults() {
+        return SoundManager.getDefaults(soundViz.value) || {};
       }
 
-      [soundViz, soundColor, soundBg, soundSens, soundSmooth].forEach(function(el) {
+      function syncSoundBuilderToVizDefaults() {
+        var d = getSoundDefaults();
+        soundColor.value = '#' + (d.color || '00ff41').slice(0, 6);
+        soundBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        soundSens.value = d.sensitivity || 5;
+        document.getElementById('sound-builder-sens-val').textContent = soundSens.value;
+        soundSmooth.value = d.smoothing !== undefined ? d.smoothing : 0.8;
+        document.getElementById('sound-builder-smooth-val').textContent = soundSmooth.value;
+      }
+
+      function syncSoundBuilderVisibility() {
+        var d = getSoundDefaults();
+        document.getElementById('sound-builder-smoothing-row').style.display =
+          d.smoothing !== undefined ? '' : 'none';
+      }
+
+      function rebuildSoundVizParams() {
+        var container = document.getElementById('sound-builder-viz-params');
+        var section = document.getElementById('sound-builder-custom-section');
+        container.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(soundViz.value, 'sound');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getSoundDefaults();
+        keys.forEach(function(key) {
+          var meta = Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              soundVizParamValues[key] = parseFloat(this.value);
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              soundVizParamValues[key] = this.value.replace('#', '');
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'string') {
+            row.className = 'prop-row';
+            var si = document.createElement('input');
+            si.type = 'text'; si.className = 'builder-text-input';
+            si.value = defVal || '';
+            si.addEventListener('change', function() {
+              soundVizParamValues[key] = this.value;
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(si);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              soundVizParamValues[key] = this.checked;
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      function updateSoundUrl() {
+        var vizId = soundViz.value;
+        var d = getSoundDefaults();
+        var params = ['t=' + vizId];
+        if (soundUserChanged.color) {
+          var c = soundColor.value.replace('#', '');
+          if (c !== (d.color || '00ff41')) params.push('color=' + c);
+        }
+        if (soundUserChanged.bg) {
+          var b = soundBg.value.replace('#', '');
+          if (b !== (d.bg || '000000')) params.push('bg=' + b);
+        }
+        if (soundUserChanged.sensitivity) {
+          if (soundSens.value !== String(d.sensitivity || 5)) params.push('sensitivity=' + soundSens.value);
+        }
+        if (soundUserChanged.smoothing && d.smoothing !== undefined) {
+          if (soundSmooth.value !== String(d.smoothing)) params.push('smoothing=' + soundSmooth.value);
+        }
+        for (var k in soundVizParamValues) {
+          if (soundVizParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(soundVizParamValues[k]));
+        }
+        soundUrl.textContent = 'led.run/sound?' + params.join('&');
+      }
+
+      [soundColor, soundBg, soundSens, soundSmooth].forEach(function(el) {
         el.addEventListener('input', function() {
+          var paramKey = this.id.replace('sound-builder-', '');
+          if (paramKey === 'sensitivity') soundUserChanged.sensitivity = true;
+          else if (paramKey === 'smoothing') soundUserChanged.smoothing = true;
+          else soundUserChanged[paramKey] = true;
           if (this.id === 'sound-builder-sensitivity') document.getElementById('sound-builder-sens-val').textContent = this.value;
           if (this.id === 'sound-builder-smoothing') document.getElementById('sound-builder-smooth-val').textContent = this.value;
           updateSoundUrl();
         });
+      });
+
+      soundViz.addEventListener('input', function() {
+        soundUserChanged = { color: false, bg: false, sensitivity: false, smoothing: false };
+        soundVizParamValues = {};
+        syncSoundBuilderToVizDefaults();
+        syncSoundBuilderVisibility();
+        rebuildSoundVizParams();
+        updateSoundUrl();
       });
 
       document.getElementById('sound-builder-launch').addEventListener('click', function() {
@@ -944,14 +1227,22 @@
         });
       });
 
-      // Initialize builder if active
+      // Initialize all builders (DOM exists even when panels are hidden)
+      syncBuilderToThemeDefaults();
+      rebuildThemeParams();
       if (activeMode === 'builder' && activeProduct === 'text') {
-        syncBuilderToThemeDefaults();
-        rebuildThemeParams();
         updateTextPreview();
       }
-      if (activeMode === 'builder' && activeProduct === 'light') updateLightUrl();
-      if (activeMode === 'builder' && activeProduct === 'sound') updateSoundUrl();
+
+      syncLightBuilderToEffectDefaults();
+      syncLightBuilderVisibility();
+      rebuildLightEffectParams();
+      updateLightUrl();
+
+      syncSoundBuilderToVizDefaults();
+      syncSoundBuilderVisibility();
+      rebuildSoundVizParams();
+      updateSoundUrl();
 
       // Focus
       setTimeout(function() {

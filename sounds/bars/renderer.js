@@ -89,10 +89,11 @@
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var smoothing = parseFloat(cfg.smoothing) || self.defaults.smoothing;
       var barCount = parseInt(cfg.barCount, 10) || self.defaults.barCount;
+      var ctx = self._ctx;
 
       // Clear with background
-      self._ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      self._ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      ctx.fillRect(0, 0, w, h);
 
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
@@ -101,15 +102,17 @@
         freqData = self._audioEngine.getFrequencyData();
       }
 
+      var barWidth = w / barCount;
+      var gap = Math.max(1, barWidth * 0.1);
+      var barW = barWidth - gap;
+      var baselineY = h * 0.85; // Leave room for mirror below
+
       if (!freqData || freqData.length === 0) {
         // Idle state: draw dim baseline bars
-        self._ctx.fillStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.15)';
-        var idleBarWidth = w / barCount;
-        var gap = Math.max(1, idleBarWidth * 0.1);
+        ctx.fillStyle = 'rgba(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ',0.15)';
         for (var i = 0; i < barCount; i++) {
-          var x = i * idleBarWidth;
-          var idleH = 2;
-          self._ctx.fillRect(x + gap / 2, h - idleH, idleBarWidth - gap, idleH);
+          var x = i * barWidth + gap / 2;
+          ctx.fillRect(x, baselineY - 2, barW, 2);
         }
         self._animFrameId = requestAnimationFrame(function() { self._draw(); });
         return;
@@ -125,10 +128,14 @@
         self._smoothedData = new Float32Array(barCount);
       }
 
-      var barWidth = w / barCount;
-      var gap = Math.max(1, barWidth * 0.1);
+      // Lighter color for gradient top
+      var lightR = Math.min(255, barColor.r + Math.round((255 - barColor.r) * 0.6));
+      var lightG = Math.min(255, barColor.g + Math.round((255 - barColor.g) * 0.6));
+      var lightB = Math.min(255, barColor.b + Math.round((255 - barColor.b) * 0.6));
 
-      self._ctx.fillStyle = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
+      // Enable glow
+      ctx.shadowColor = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
+      ctx.shadowBlur = 8;
 
       for (var i = 0; i < barCount; i++) {
         // Average the frequency bins for this bar
@@ -147,12 +154,49 @@
         var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
         if (normalized > 1) normalized = 1;
 
-        var barH = normalized * h;
+        var barH = normalized * baselineY;
         if (barH < 1) barH = 1;
 
-        var x = i * barWidth;
-        self._ctx.fillRect(x + gap / 2, h - barH, barWidth - gap, barH);
+        var x = i * barWidth + gap / 2;
+        var barTop = baselineY - barH;
+
+        // Gradient fill: base color at bottom → lighter at top
+        var grad = ctx.createLinearGradient(0, barTop, 0, baselineY);
+        grad.addColorStop(0, 'rgb(' + lightR + ',' + lightG + ',' + lightB + ')');
+        grad.addColorStop(1, 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')');
+        ctx.fillStyle = grad;
+
+        // Draw bar body
+        ctx.fillRect(x, barTop, barW, barH);
+
+        // Rounded top (half-circle arc)
+        if (barH > 2) {
+          var arcRadius = barW / 2;
+          ctx.beginPath();
+          ctx.arc(x + barW / 2, barTop, arcRadius, Math.PI, 0);
+          ctx.fill();
+        }
       }
+
+      // Disable glow for mirror
+      ctx.shadowBlur = 0;
+
+      // Draw mirror reflection below baseline
+      ctx.globalAlpha = 0.15;
+      for (var i = 0; i < barCount; i++) {
+        var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
+        if (normalized > 1) normalized = 1;
+
+        var barH = normalized * baselineY;
+        if (barH < 1) barH = 1;
+
+        var mirrorH = Math.min(barH * 0.5, h - baselineY);
+        var x = i * barWidth + gap / 2;
+
+        ctx.fillStyle = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
+        ctx.fillRect(x, baselineY, barW, mirrorH);
+      }
+      ctx.globalAlpha = 1;
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }

@@ -75,7 +75,7 @@ I18n.register('ja', {
   'settings.section.themeParams': '\u30c6\u30fc\u30de\u30aa\u30d7\u30b7\u30e7\u30f3',
 
   // Settings - param labels
-  'settings.param.color': '\u6587\u5b57\u8272',
+  'settings.param.color': 'カラー',
   'settings.param.bg': '\u80cc\u666f',
   'settings.param.fill': '\u5857\u308a\u3064\u3076\u3057\u8272',
   'settings.param.mode': '\u30e2\u30fc\u30c9',
@@ -171,6 +171,22 @@ I18n.register('ja', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'カスタム...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'エフェクト',
+  'settings.visualizerLabel': 'ビジュアライザー',
+  'settings.section.effectParams': 'エフェクトオプション',
+  'settings.section.vizParams': 'ビジュアライザーオプション',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'ライブプレビュー',
+  'landing.builder.card.themeAndMode': 'テーマとモード',
+  'landing.builder.card.visualStyle': 'ビジュアルスタイル',
+  'landing.builder.card.dynamics': 'ダイナミクス',
+  'landing.builder.card.advanced': '詳細パラメータ',
+  'landing.builder.card.effect': 'エフェクト',
+  'landing.builder.card.visualizer': 'ビジュアライザー',
+  'landing.builder.card.audio': 'オーディオ',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '詳細オプション',
   'landing.builder.hideAdvanced': 'オプションを隠す',
@@ -221,6 +237,11 @@ I18n.register('ja', {
   'settings.param.brightness': '明るさ',
   'settings.param.sensitivity': '感度',
   'settings.param.smoothing': 'スムージング',
+  'settings.param.warmth': '暖かさ',
+  'settings.param.barCount': 'バー数',
+  'settings.param.lineWidth': '線幅',
+  'settings.param.radius': '半径',
+  'settings.param.count': 'パーティクル数',
 
   // Sound errors
   'sound.error.notSupported.title': 'オーディオ非対応',

@@ -75,7 +75,7 @@ I18n.register('es', {
   'settings.section.themeParams': 'Opciones del Tema',
 
   // Settings - param labels
-  'settings.param.color': 'Color del Texto',
+  'settings.param.color': 'Color',
   'settings.param.bg': 'Fondo',
   'settings.param.fill': 'Color de Relleno',
   'settings.param.mode': 'Modo',
@@ -171,6 +171,22 @@ I18n.register('es', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Personalizada...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Efecto',
+  'settings.visualizerLabel': 'Visualizador',
+  'settings.section.effectParams': 'Opciones del Efecto',
+  'settings.section.vizParams': 'Opciones del Visualizador',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Vista Previa',
+  'landing.builder.card.themeAndMode': 'Tema y Modo',
+  'landing.builder.card.visualStyle': 'Estilo Visual',
+  'landing.builder.card.dynamics': 'Din\u00e1mica',
+  'landing.builder.card.advanced': 'Par\u00e1metros Avanzados',
+  'landing.builder.card.effect': 'Efecto',
+  'landing.builder.card.visualizer': 'Visualizador',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Opciones Avanzadas',
   'landing.builder.hideAdvanced': 'Ocultar Opciones',
@@ -221,6 +237,11 @@ I18n.register('es', {
   'settings.param.brightness': 'Brillo',
   'settings.param.sensitivity': 'Sensibilidad',
   'settings.param.smoothing': 'Suavizado',
+  'settings.param.warmth': 'Calidez',
+  'settings.param.barCount': 'Barras',
+  'settings.param.lineWidth': 'Grosor',
+  'settings.param.radius': 'Radio',
+  'settings.param.count': 'Partículas',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio No Soportado',

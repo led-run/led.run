@@ -75,7 +75,7 @@ I18n.register('fr', {
   'settings.section.themeParams': 'Options du Th\u00e8me',
 
   // Settings - param labels
-  'settings.param.color': 'Couleur du Texte',
+  'settings.param.color': 'Couleur',
   'settings.param.bg': 'Arri\u00e8re-plan',
   'settings.param.fill': 'Couleur de Remplissage',
   'settings.param.mode': 'Mode',
@@ -171,6 +171,22 @@ I18n.register('fr', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Personnalis\u00e9e...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Effet',
+  'settings.visualizerLabel': 'Visualiseur',
+  'settings.section.effectParams': 'Options de l\u2019Effet',
+  'settings.section.vizParams': 'Options du Visualiseur',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Aper\u00e7u en Direct',
+  'landing.builder.card.themeAndMode': 'Th\u00e8me et Mode',
+  'landing.builder.card.visualStyle': 'Style Visuel',
+  'landing.builder.card.dynamics': 'Dynamique',
+  'landing.builder.card.advanced': 'Param\u00e8tres Avanc\u00e9s',
+  'landing.builder.card.effect': 'Effet',
+  'landing.builder.card.visualizer': 'Visualiseur',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Options Avanc\u00e9es',
   'landing.builder.hideAdvanced': 'Masquer les Options',
@@ -221,6 +237,11 @@ I18n.register('fr', {
   'settings.param.brightness': 'Luminosit\u00e9',
   'settings.param.sensitivity': 'Sensibilit\u00e9',
   'settings.param.smoothing': 'Lissage',
+  'settings.param.warmth': 'Chaleur',
+  'settings.param.barCount': 'Barres',
+  'settings.param.lineWidth': 'Largeur',
+  'settings.param.radius': 'Rayon',
+  'settings.param.count': 'Particules',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio Non Support\u00e9',

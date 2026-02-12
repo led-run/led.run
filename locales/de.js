@@ -75,7 +75,7 @@ I18n.register('de', {
   'settings.section.themeParams': 'Thema-Optionen',
 
   // Settings - param labels
-  'settings.param.color': 'Textfarbe',
+  'settings.param.color': 'Farbe',
   'settings.param.bg': 'Hintergrund',
   'settings.param.fill': 'F\u00fcllfarbe',
   'settings.param.mode': 'Modus',
@@ -171,6 +171,22 @@ I18n.register('de', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Benutzerdefiniert...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Effekt',
+  'settings.visualizerLabel': 'Visualizer',
+  'settings.section.effectParams': 'Effekt-Optionen',
+  'settings.section.vizParams': 'Visualizer-Optionen',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Live-Vorschau',
+  'landing.builder.card.themeAndMode': 'Thema & Modus',
+  'landing.builder.card.visualStyle': 'Visueller Stil',
+  'landing.builder.card.dynamics': 'Dynamik',
+  'landing.builder.card.advanced': 'Erweiterte Parameter',
+  'landing.builder.card.effect': 'Effekt',
+  'landing.builder.card.visualizer': 'Visualizer',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Erweiterte Optionen',
   'landing.builder.hideAdvanced': 'Optionen Ausblenden',
@@ -221,6 +237,11 @@ I18n.register('de', {
   'settings.param.brightness': 'Helligkeit',
   'settings.param.sensitivity': 'Empfindlichkeit',
   'settings.param.smoothing': 'Gl\u00e4ttung',
+  'settings.param.warmth': 'W\u00e4rme',
+  'settings.param.barCount': 'Balken',
+  'settings.param.lineWidth': 'Linienbreite',
+  'settings.param.radius': 'Radius',
+  'settings.param.count': 'Partikelanzahl',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio Nicht Unterst\u00fctzt',

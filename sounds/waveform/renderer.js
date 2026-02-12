@@ -84,10 +84,11 @@
       var lineColor = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var lineWidth = parseFloat(cfg.lineWidth) || self.defaults.lineWidth;
+      var ctx = self._ctx;
 
       // Clear with background
-      self._ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      self._ctx.fillRect(0, 0, w, h);
+      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      ctx.fillRect(0, 0, w, h);
 
       var timeDomainData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
@@ -97,20 +98,24 @@
       }
 
       var centerY = h / 2;
+      var colorStr = 'rgb(' + lineColor.r + ',' + lineColor.g + ',' + lineColor.b + ')';
 
-      self._ctx.strokeStyle = 'rgb(' + lineColor.r + ',' + lineColor.g + ',' + lineColor.b + ')';
-      self._ctx.lineWidth = lineWidth;
-      self._ctx.lineJoin = 'round';
-      self._ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.lineCap = 'round';
 
       if (!timeDomainData || timeDomainData.length === 0) {
-        // Idle state: draw a flat center line
-        self._ctx.globalAlpha = 0.3;
-        self._ctx.beginPath();
-        self._ctx.moveTo(0, centerY);
-        self._ctx.lineTo(w, centerY);
-        self._ctx.stroke();
-        self._ctx.globalAlpha = 1;
+        // Idle state: draw a flat center line with glow
+        ctx.shadowColor = colorStr;
+        ctx.shadowBlur = 6;
+        ctx.strokeStyle = colorStr;
+        ctx.lineWidth = lineWidth;
+        ctx.globalAlpha = 0.3;
+        ctx.beginPath();
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(w, centerY);
+        ctx.stroke();
+        ctx.globalAlpha = 1;
+        ctx.shadowBlur = 0;
         self._animFrameId = requestAnimationFrame(function() { self._draw(); });
         return;
       }
@@ -119,28 +124,62 @@
       var sliceWidth = w / (bufferLength - 1);
       var sensitivityScale = sensitivity / 5;
 
-      self._ctx.beginPath();
-
+      // Build waveform path points
+      var points = [];
       for (var i = 0; i < bufferLength; i++) {
-        // timeDomainData values: 0-255, 128 is center (silence)
-        var sample = (timeDomainData[i] - 128) / 128; // Normalize to -1..1
+        var sample = (timeDomainData[i] - 128) / 128;
         var scaledSample = sample * sensitivityScale;
-
-        // Clamp
         if (scaledSample > 1) scaledSample = 1;
         if (scaledSample < -1) scaledSample = -1;
 
-        var x = i * sliceWidth;
-        var y = centerY + scaledSample * (h / 2);
-
-        if (i === 0) {
-          self._ctx.moveTo(x, y);
-        } else {
-          self._ctx.lineTo(x, y);
-        }
+        points.push({
+          x: i * sliceWidth,
+          y: centerY + scaledSample * (h / 2)
+        });
       }
 
-      self._ctx.stroke();
+      // Semi-transparent gradient fill between waveform and center
+      var fillGrad = ctx.createLinearGradient(0, 0, 0, h);
+      fillGrad.addColorStop(0, 'rgba(' + lineColor.r + ',' + lineColor.g + ',' + lineColor.b + ',0.12)');
+      fillGrad.addColorStop(0.5, 'rgba(' + lineColor.r + ',' + lineColor.g + ',' + lineColor.b + ',0.02)');
+      fillGrad.addColorStop(1, 'rgba(' + lineColor.r + ',' + lineColor.g + ',' + lineColor.b + ',0.12)');
+
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (var i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.lineTo(w, centerY);
+      ctx.lineTo(0, centerY);
+      ctx.closePath();
+      ctx.fillStyle = fillGrad;
+      ctx.fill();
+
+      // Draw wider halo stroke first (lower alpha)
+      ctx.globalAlpha = 0.3;
+      ctx.strokeStyle = colorStr;
+      ctx.lineWidth = lineWidth * 3;
+      ctx.shadowColor = colorStr;
+      ctx.shadowBlur = 12;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (var i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.stroke();
+
+      // Draw crisp main stroke on top
+      ctx.globalAlpha = 1;
+      ctx.lineWidth = lineWidth;
+      ctx.shadowBlur = 8;
+      ctx.beginPath();
+      ctx.moveTo(points[0].x, points[0].y);
+      for (var i = 1; i < points.length; i++) {
+        ctx.lineTo(points[i].x, points[i].y);
+      }
+      ctx.stroke();
+
+      ctx.shadowBlur = 0;
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }

@@ -50,6 +50,13 @@
     sensitivity: { type: 'range', label: 'settings.param.sensitivity', min: 1, max: 10, step: 1 },
     smoothing:   { type: 'range', label: 'settings.param.smoothing', min: 0, max: 1, step: 0.1 },
     colors:      { type: 'string', label: 'settings.param.colors' },
+    // Light-specific
+    warmth:      { type: 'range', label: 'settings.param.warmth', min: 1, max: 10, step: 1 },
+    // Sound-specific
+    barCount:    { type: 'range', label: 'settings.param.barCount', min: 8, max: 256, step: 8 },
+    lineWidth:   { type: 'range', label: 'settings.param.lineWidth', min: 1, max: 10, step: 0.5 },
+    radius:      { type: 'range', label: 'settings.param.radius', min: 0.1, max: 0.5, step: 0.05 },
+    count:       { type: 'range', label: 'settings.param.count', min: 50, max: 500, step: 50 },
     // Theme-specific
     flicker:   { type: 'range', label: 'settings.param.flicker', min: 0, max: 10, step: 0.5 },
     scanlines: { type: 'boolean', label: 'settings.param.scanlines' },
@@ -90,6 +97,8 @@
       commonParams: TEXT_COMMON_PARAMS,
       defaultId: 'default',
       hasText: true,
+      sectionLabel: 'settings.theme',
+      sectionParamsLabel: 'settings.section.themeParams',
       buildPath: function(ctx) { return '/' + encodeURIComponent(ctx.text); },
       resize: function() { TextManager.resize(); }
     },
@@ -104,8 +113,13 @@
       commonParams: LIGHT_COMMON_PARAMS,
       defaultId: 'solid',
       hasText: false,
+      sectionLabel: 'settings.effectLabel',
+      sectionParamsLabel: 'settings.section.effectParams',
       buildPath: function() { return '/light'; },
-      resize: function() { LightManager.resize(); }
+      resize: function() { LightManager.resize(); },
+      knownParamOverrides: {
+        speed: { type: 'range', label: 'settings.param.speed', min: 1, max: 20, step: 1 }
+      }
     },
     sound: {
       getIds: function() { return SoundManager.getVisualizerIds(); },
@@ -118,6 +132,8 @@
       commonParams: SOUND_COMMON_PARAMS,
       defaultId: 'bars',
       hasText: false,
+      sectionLabel: 'settings.visualizerLabel',
+      sectionParamsLabel: 'settings.section.vizParams',
       buildPath: function() { return '/sound'; },
       resize: function() { SoundManager.resize(); }
     }
@@ -332,7 +348,7 @@
       }
 
       // 2. Theme/Effect/Visualizer selector
-      var themeSection = this._createSection('settings.theme');
+      var themeSection = this._createSection(adapter.sectionLabel);
       var grid = document.createElement('div');
       grid.className = 'settings-theme-grid';
       var themeIds = adapter.getIds();
@@ -368,7 +384,7 @@
       }
 
       if (themeSpecific.length > 0) {
-        var themeSection2 = this._createSection('settings.section.themeParams');
+        var themeSection2 = this._createSection(adapter.sectionParamsLabel);
         themeSpecific.forEach(function(key) {
           var field = self._buildField(key, merged[key], defaults[key]);
           if (field) themeSection2.appendChild(field);
@@ -402,7 +418,8 @@
      * @returns {HTMLElement|null}
      */
     _buildField: function(key, value, defaultValue) {
-      var meta = KNOWN_PARAMS[key];
+      var adapter = PRODUCT_ADAPTERS[this._product];
+      var meta = (adapter.knownParamOverrides && adapter.knownParamOverrides[key]) || KNOWN_PARAMS[key];
       var type;
 
       if (meta && meta.type !== 'auto') {

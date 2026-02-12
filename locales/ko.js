@@ -75,7 +75,7 @@ I18n.register('ko', {
   'settings.section.themeParams': '\ud14c\ub9c8 \uc635\uc158',
 
   // Settings - param labels
-  'settings.param.color': '\ud14d\uc2a4\ud2b8 \uc0c9\uc0c1',
+  'settings.param.color': '색상',
   'settings.param.bg': '\ubc30\uacbd',
   'settings.param.fill': '\ucc44\uc6b0\uae30 \uc0c9\uc0c1',
   'settings.param.mode': '\ubaa8\ub4dc',
@@ -171,6 +171,22 @@ I18n.register('ko', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': '사용자 정의...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': '효과',
+  'settings.visualizerLabel': '비주얼라이저',
+  'settings.section.effectParams': '효과 옵션',
+  'settings.section.vizParams': '비주얼라이저 옵션',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': '실시간 미리보기',
+  'landing.builder.card.themeAndMode': '테마 및 모드',
+  'landing.builder.card.visualStyle': '비주얼 스타일',
+  'landing.builder.card.dynamics': '다이내믹스',
+  'landing.builder.card.advanced': '고급 매개변수',
+  'landing.builder.card.effect': '효과',
+  'landing.builder.card.visualizer': '비주얼라이저',
+  'landing.builder.card.audio': '오디오',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '고급 옵션',
   'landing.builder.hideAdvanced': '옵션 숨기기',
@@ -221,6 +237,11 @@ I18n.register('ko', {
   'settings.param.brightness': '밝기',
   'settings.param.sensitivity': '감도',
   'settings.param.smoothing': '스무딩',
+  'settings.param.warmth': '따뜻함',
+  'settings.param.barCount': '바 개수',
+  'settings.param.lineWidth': '선 굵기',
+  'settings.param.radius': '반지름',
+  'settings.param.count': '입자 수',
 
   // Sound errors
   'sound.error.notSupported.title': '오디오 미지원',

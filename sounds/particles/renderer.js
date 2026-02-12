@@ -8,6 +8,25 @@
     return { r: r, g: g, b: b };
   }
 
+  // Convert RGB to HSL, returns [h(0-360), s(0-1), l(0-1)]
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b);
+    var min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if (max === min) {
+      h = s = 0;
+    } else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      if (max === r) h = ((g - b) / d + (g < b ? 6 : 0)) / 6;
+      else if (max === g) h = ((b - r) / d + 2) / 6;
+      else h = ((r - g) / d + 4) / 6;
+      h *= 360;
+    }
+    return [h, s, l];
+  }
+
   var ParticlesVisualizer = {
     id: 'particles',
 
@@ -25,12 +44,20 @@
     _animFrameId: null,
     _config: null,
     _particles: null,
+    _baseHsl: null,
+    _isBlackBg: true,
 
     init: function(container, config, audioEngine) {
       this._container = container;
       this._config = config;
       this._audioEngine = audioEngine;
       this._particles = [];
+
+      var pColor = hexToRgb(config.color || this.defaults.color);
+      this._baseHsl = rgbToHsl(pColor.r, pColor.g, pColor.b);
+
+      var bgColor = hexToRgb(config.bg || this.defaults.bg);
+      this._isBlackBg = (bgColor.r + bgColor.g + bgColor.b) < 30;
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -72,6 +99,7 @@
       this._audioEngine = null;
       this._config = null;
       this._particles = null;
+      this._baseHsl = null;
     },
 
     _resizeHandler: function() {
@@ -88,11 +116,13 @@
       return {
         x: Math.random() * w,
         y: randomY ? Math.random() * h : h + Math.random() * 20,
-        vx: (Math.random() - 0.5) * 1.5,  // Horizontal drift
-        vy: -(Math.random() * 1.5 + 0.5),  // Upward velocity
+        vx: (Math.random() - 0.5) * 1.5,
+        vy: -(Math.random() * 1.5 + 0.5),
         size: Math.random() * 3 + 1,
-        life: 1.0,                          // 1.0 = full, 0.0 = dead
-        decay: Math.random() * 0.005 + 0.003
+        life: 1.0,
+        maxLife: 1.0,
+        decay: Math.random() * 0.005 + 0.003,
+        hueShift: 0  // accumulated hue shift as particle ages
       };
     },
 
@@ -104,13 +134,20 @@
       var h = self._container.clientHeight;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
-      var particleColor = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var maxCount = parseInt(cfg.count, 10) || self.defaults.count;
+      var ctx = self._ctx;
+      var baseHsl = self._baseHsl;
 
-      // Clear with background
-      self._ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      self._ctx.fillRect(0, 0, w, h);
+      if (self._isBlackBg) {
+        // Trail effect: semi-transparent background overlay
+        ctx.fillStyle = 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.15)';
+        ctx.fillRect(0, 0, w, h);
+      } else {
+        // Non-black bg: full clear to avoid alpha accumulation
+        ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+        ctx.fillRect(0, 0, w, h);
+      }
 
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
@@ -121,12 +158,11 @@
       }
 
       if (freqData && freqData.length > 0) {
-        // Calculate average amplitude
         var sum = 0;
         for (var i = 0; i < freqData.length; i++) {
           sum += freqData[i];
         }
-        avgAmplitude = sum / freqData.length / 255; // 0-1
+        avgAmplitude = sum / freqData.length / 255;
       }
 
       var sensitivityScale = sensitivity / 5;
@@ -136,47 +172,59 @@
       // Spawn rate: more particles when louder
       var spawnRate = isRunning ? Math.floor(1 + scaledAmplitude * 5) : 1;
 
-      // Spawn new particles if under limit
       for (var s = 0; s < spawnRate; s++) {
         if (self._particles.length < maxCount) {
           self._particles.push(self._createParticle(w, h, false));
         }
       }
 
-      // Update and draw particles
+      // Enable glow
+      ctx.shadowBlur = 6;
+
       var aliveParticles = [];
 
       for (var i = 0; i < self._particles.length; i++) {
         var p = self._particles[i];
 
-        // Audio drives speed: base speed + amplitude boost
         var speedMultiplier = 1 + scaledAmplitude * 3;
         p.x += p.vx * speedMultiplier;
         p.y += p.vy * speedMultiplier;
 
-        // Fade based on vertical position (fade as approaching top)
         var positionFade = p.y / h;
         if (positionFade < 0) positionFade = 0;
 
         p.life -= p.decay * speedMultiplier;
 
         if (p.life <= 0 || p.y < -10) {
-          continue; // Remove dead particles
+          continue;
         }
 
-        // Size affected by amplitude
+        // Hue shift as particle ages: shift by up to 60 degrees over lifetime
+        var ageFraction = 1 - (p.life / p.maxLife);
+        p.hueShift = ageFraction * 60;
+
         var drawSize = p.size * (1 + scaledAmplitude * 2);
         var alpha = p.life * positionFade;
         if (alpha < 0) alpha = 0;
         if (alpha > 1) alpha = 1;
 
-        self._ctx.fillStyle = 'rgba(' + particleColor.r + ',' + particleColor.g + ',' + particleColor.b + ',' + alpha.toFixed(3) + ')';
-        self._ctx.beginPath();
-        self._ctx.arc(p.x, p.y, drawSize, 0, Math.PI * 2);
-        self._ctx.fill();
+        // Color with hue shift
+        var hue = (baseHsl[0] + p.hueShift) % 360;
+        var sat = Math.round(baseHsl[1] * 100);
+        var lit = Math.round(baseHsl[2] * 100);
+
+        var colorStr = 'hsla(' + Math.round(hue) + ',' + sat + '%,' + lit + '%,' + alpha.toFixed(3) + ')';
+        ctx.shadowColor = 'hsl(' + Math.round(hue) + ',' + sat + '%,' + lit + '%)';
+
+        ctx.fillStyle = colorStr;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, drawSize, 0, Math.PI * 2);
+        ctx.fill();
 
         aliveParticles.push(p);
       }
+
+      ctx.shadowBlur = 0;
 
       self._particles = aliveParticles;
 

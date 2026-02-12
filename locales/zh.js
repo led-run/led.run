@@ -77,7 +77,7 @@ I18n.register('zh', {
   'settings.section.themeParams': '\u4e3b\u9898\u9009\u9879',
 
   // Settings - param labels
-  'settings.param.color': '\u6587\u5b57\u989c\u8272',
+  'settings.param.color': '颜色',
   'settings.param.bg': '\u80cc\u666f',
   'settings.param.fill': '\u586b\u5145\u8272',
   'settings.param.mode': '\u6a21\u5f0f',
@@ -173,6 +173,22 @@ I18n.register('zh', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': '自定义...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': '效果',
+  'settings.visualizerLabel': '可视化器',
+  'settings.section.effectParams': '效果选项',
+  'settings.section.vizParams': '可视化器选项',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': '实时预览',
+  'landing.builder.card.themeAndMode': '主题和模式',
+  'landing.builder.card.visualStyle': '视觉样式',
+  'landing.builder.card.dynamics': '动态',
+  'landing.builder.card.advanced': '高级参数',
+  'landing.builder.card.effect': '效果',
+  'landing.builder.card.visualizer': '可视化器',
+  'landing.builder.card.audio': '音频',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '高级选项',
   'landing.builder.hideAdvanced': '收起选项',
@@ -223,6 +239,11 @@ I18n.register('zh', {
   'settings.param.brightness': '亮度',
   'settings.param.sensitivity': '灵敏度',
   'settings.param.smoothing': '平滑度',
+  'settings.param.warmth': '暖度',
+  'settings.param.barCount': '柱数',
+  'settings.param.lineWidth': '线宽',
+  'settings.param.radius': '半径',
+  'settings.param.count': '粒子数',
 
   // Sound errors
   'sound.error.notSupported.title': '不支持音频',
