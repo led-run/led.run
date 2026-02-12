@@ -775,9 +775,11 @@
       var path = adapter.buildPath({ text: this._text });
       var params = new URLSearchParams();
 
-      // Always include theme if not default
-      if (this._themeId && this._themeId !== adapter.defaultId) {
-        params.set('t', this._themeId);
+      // Always include theme if not default (text) or always (light/sound)
+      if (this._themeId) {
+        if (!adapter.hasText || this._themeId !== adapter.defaultId) {
+          params.set('t', this._themeId);
+        }
       }
 
       // Include params that differ from defaults

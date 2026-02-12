@@ -12,6 +12,7 @@
     _source: null,
     _stream: null,
     _running: false,
+    _gestureHandler: null,
 
     /**
      * Check if Web Audio API and getUserMedia are supported
@@ -30,7 +31,7 @@
      * @param {Object} options
      * @param {number} options.fftSize - FFT size (default 2048)
      * @param {number} options.smoothingTimeConstant - Smoothing (0–1, default 0.8)
-     * @returns {Promise} Resolves when audio pipeline is ready
+     * @returns {Promise} Resolves when audio pipeline is connected (context may still be suspended)
      */
     init: function(options) {
       var self = this;
@@ -53,7 +54,39 @@
 
           self._source.connect(self._analyser);
           self._running = true;
+
+          // Chrome autoplay policy: context may start suspended when there is
+          // no user gesture (e.g. mic permission was previously saved).
+          // Attempt resume now; install gesture listeners as fallback.
+          if (self._context.state !== 'running') {
+            self._context.resume();
+            self._listenForGesture();
+          }
         });
+    },
+
+    /**
+     * Listen for first user gesture to resume a suspended AudioContext.
+     * Standard workaround for Chrome autoplay policy — context.resume()
+     * must be called during a user-initiated event to reliably transition
+     * from 'suspended' to 'running'.
+     * @private
+     */
+    _listenForGesture: function() {
+      var self = this;
+      function onGesture() {
+        if (self._context && self._context.state !== 'running') {
+          self._context.resume();
+        }
+        document.removeEventListener('click', onGesture, true);
+        document.removeEventListener('touchstart', onGesture, true);
+        document.removeEventListener('keydown', onGesture, true);
+        self._gestureHandler = null;
+      }
+      document.addEventListener('click', onGesture, true);
+      document.addEventListener('touchstart', onGesture, true);
+      document.addEventListener('keydown', onGesture, true);
+      self._gestureHandler = onGesture;
     },
 
     /**
@@ -141,7 +174,7 @@
      * @returns {boolean}
      */
     isRunning: function() {
-      return this._running;
+      return this._running && this._context && this._context.state === 'running';
     },
 
     /**
@@ -149,6 +182,13 @@
      */
     destroy: function() {
       this._running = false;
+
+      if (this._gestureHandler) {
+        document.removeEventListener('click', this._gestureHandler, true);
+        document.removeEventListener('touchstart', this._gestureHandler, true);
+        document.removeEventListener('keydown', this._gestureHandler, true);
+        this._gestureHandler = null;
+      }
 
       if (this._source) {
         this._source.disconnect();

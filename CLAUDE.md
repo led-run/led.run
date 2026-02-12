@@ -116,6 +116,8 @@ isRunning(), destroy()
 
 Pipeline: `getUserMedia({ audio }) → AudioContext → MediaStreamSource → AnalyserNode`
 
+**Chrome autoplay policy handling**: When mic permission is pre-saved, `getUserMedia` resolves without a dialog (no user gesture), so AudioContext starts `suspended`. `init()` resolves immediately after pipeline setup (`_running = true`), attempts a non-blocking `context.resume()`, and installs one-time `click`/`touchstart`/`keydown` listeners as fallback. On first user interaction, `context.resume()` is called with a real gesture, transitioning to `'running'`. `isRunning()` gates on `context.state === 'running'`, so visualizers show idle state until context resumes, then auto-transition.
+
 ## File Structure
 
 ```
@@ -294,6 +296,8 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Font param uses combo control** — `FONT_PRESETS` array defines web-safe presets (monospace, serif, sans-serif, cursive, Arial, Georgia, Courier New, Impact, Comic Sans MS) with i18n labels; `FONT_CUSTOM_VALUE = '__custom__'` sentinel triggers a text input for arbitrary font names; both settings panel and landing builder use the same combo pattern; `Settings.FONT_PRESETS` and `Settings.FONT_CUSTOM_VALUE` are exposed for reuse
 - **Random style button** — Landing page dice button next to GO picks random theme, random text color (HSL high saturation), random bg color (HSL low lightness), random fill color (for card themes only), and random font (from FONT_PRESETS); speed/direction/scale/theme-specific params use theme defaults
 - **Multi-product routing** — URLParser detects product from path prefix; App.init() switches on product type to call `_initText`/`_initLight`/`_initSound`; each product initializes its own manager, controls, and settings
+- **Light/Sound share URLs must include `?t=`** — `/light` and `/sound` without `?t=` route to the landing page; `_syncURL()` always emits `?t=` for light/sound products (even for default effect/visualizer), so share links like `/light?t=solid` and `/sound?t=bars` work correctly; text product keeps existing behavior (no `?t=` for default theme)
+- **AudioContext needs user-gesture resume** — Chrome autoplay policy starts AudioContext in `suspended` state when `getUserMedia` resolves without a dialog (pre-saved permission = no user gesture). `AudioEngine.init()` never blocks on `context.resume()` — it resolves immediately after pipeline setup, attempts a non-blocking resume, and installs one-time gesture listeners (`click`/`touchstart`/`keydown`) as fallback. `isRunning()` checks `context.state === 'running'` so visualizers gate data reads correctly and auto-transition when the context resumes
 
 ## Internationalization (i18n)
 
