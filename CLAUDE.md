@@ -190,6 +190,16 @@ js/app.js                 App entry + multi-product orchestrator
 | `candle` | Candlelight flicker simulation | `color`, `warmth` |
 | `rainbow` | Rainbow color cycle | `speed` |
 | `sos` | Morse code SOS signal | `color` |
+| `breathing` | Slow radial breathing pulse | `cycle`, `depth` |
+| `sunset` | Sunset sky gradient with sun and clouds | `sunSize`, `cloudDensity` |
+| `heartbeat` | Center pulse with BPM-driven ripple rings | `bpm`, `pulse` |
+| `matrix-rain` | Falling green characters (Canvas) | `density` |
+| `aurora-waves` | Multi-layer sine wave aurora bands | `waves`, `amplitude` |
+| `campfire` | Particle campfire with sparks and smoke | `sparks`, `wind` |
+| `lightning` | Fractal lightning bolts + flash (≤3Hz safe) | `frequency`, `branches` |
+| `kaleidoscope` | N-fold rotational symmetry patterns | `symmetry`, `complexity` |
+| `plasma` | Classic sine-wave plasma (1/4 res buffer) | `waveScale`, `intensity` |
+| `lava-lamp` | Metaball lava lamp (1/4 res buffer) | `blobCount`, `viscosity` |
 
 ## Available Sound Visualizers
 
@@ -199,6 +209,16 @@ js/app.js                 App entry + multi-product orchestrator
 | `waveform` | Real-time waveform line | `color`, `sensitivity`, `lineWidth` |
 | `circle` | Circular frequency visualization | `color`, `sensitivity`, `radius` |
 | `particles` | Audio-driven particle system | `color`, `sensitivity`, `count` |
+| `meter` | Professional VU meter (green/yellow/red) | `orientation`, `showPeak` |
+| `equalizer` | Multi-band segmented LED equalizer | `bands` |
+| `ripple` | Sound-triggered concentric ripple rings | `threshold` |
+| `wave-stack` | Multi-layer frequency waves stacked | `layers` |
+| `radar` | Radar sweep with frequency signal blips | `scanSpeed` |
+| `tunnel` | Concentric rings expanding from center | `shape` |
+| `dna-helix` | DNA double helix modulated by audio | `rotationSpeed` |
+| `spectrum-3d` | Pseudo-3D perspective spectrum | `depth` |
+| `fireworks` | Sound-triggered firework explosions | `trails` |
+| `galaxy` | Rotating spiral arm particle galaxy | `arms` |
 
 ## Script Load Order
 
