@@ -46,7 +46,17 @@
     { id: 'candle', icon: '\uD83D\uDD6F\uFE0F', descKey: 'preset.light.candle.desc', params: '?t=candle' },
     { id: 'rainbow', icon: '\uD83C\uDF08', descKey: 'preset.light.rainbow.desc', params: '?t=rainbow' },
     { id: 'sos', icon: '\uD83C\uDD98', descKey: 'preset.light.sos.desc', params: '?t=sos' },
-    { id: 'gradient', icon: '\uD83C\uDF05', descKey: 'preset.light.gradient.desc', params: '?t=gradient' }
+    { id: 'gradient', icon: '\uD83C\uDF05', descKey: 'preset.light.gradient.desc', params: '?t=gradient' },
+    { id: 'breathing', icon: '\uD83E\uDEC1', descKey: 'preset.light.breathing.desc', params: '?t=breathing' },
+    { id: 'sunset', icon: '\uD83C\uDF05', descKey: 'preset.light.sunset.desc', params: '?t=sunset' },
+    { id: 'heartbeat', icon: '\uD83D\uDC93', descKey: 'preset.light.heartbeat.desc', params: '?t=heartbeat' },
+    { id: 'matrix-rain', icon: '\uD83D\uDFE9', descKey: 'preset.light.matrix-rain.desc', params: '?t=matrix-rain' },
+    { id: 'aurora-waves', icon: '\uD83C\uDF0C', descKey: 'preset.light.aurora-waves.desc', params: '?t=aurora-waves' },
+    { id: 'campfire', icon: '\uD83C\uDF5E', descKey: 'preset.light.campfire.desc', params: '?t=campfire' },
+    { id: 'lightning', icon: '\u26C8\uFE0F', descKey: 'preset.light.lightning.desc', params: '?t=lightning' },
+    { id: 'kaleidoscope', icon: '\uD83D\uDD2E', descKey: 'preset.light.kaleidoscope.desc', params: '?t=kaleidoscope' },
+    { id: 'plasma', icon: '\uD83C\uDF0A', descKey: 'preset.light.plasma.desc', params: '?t=plasma' },
+    { id: 'lava-lamp', icon: '\uD83E\uDEAB', descKey: 'preset.light.lava-lamp.desc', params: '?t=lava-lamp' }
   ];
 
   // Sound visualizer presets — for landing page
@@ -54,7 +64,17 @@
     { id: 'bars', icon: '\uD83C\uDFB5', descKey: 'preset.sound.bars.desc', params: '?t=bars' },
     { id: 'waveform', icon: '\uD83C\uDF0A', descKey: 'preset.sound.waveform.desc', params: '?t=waveform' },
     { id: 'circle', icon: '\u2B55', descKey: 'preset.sound.circle.desc', params: '?t=circle' },
-    { id: 'particles', icon: '\u2728', descKey: 'preset.sound.particles.desc', params: '?t=particles' }
+    { id: 'particles', icon: '\u2728', descKey: 'preset.sound.particles.desc', params: '?t=particles' },
+    { id: 'meter', icon: '\uD83D\uDCCA', descKey: 'preset.sound.meter.desc', params: '?t=meter' },
+    { id: 'equalizer', icon: '\uD83C\uDFDA\uFE0F', descKey: 'preset.sound.equalizer.desc', params: '?t=equalizer' },
+    { id: 'ripple', icon: '\uD83D\uDCA7', descKey: 'preset.sound.ripple.desc', params: '?t=ripple' },
+    { id: 'wave-stack', icon: '\uD83C\uDF0A', descKey: 'preset.sound.wave-stack.desc', params: '?t=wave-stack' },
+    { id: 'radar', icon: '\uD83D\uDCE1', descKey: 'preset.sound.radar.desc', params: '?t=radar' },
+    { id: 'tunnel', icon: '\uD83D\uDD73\uFE0F', descKey: 'preset.sound.tunnel.desc', params: '?t=tunnel' },
+    { id: 'dna-helix', icon: '\uD83E\uDDEC', descKey: 'preset.sound.dna-helix.desc', params: '?t=dna-helix' },
+    { id: 'spectrum-3d', icon: '\uD83D\uDDFB', descKey: 'preset.sound.spectrum-3d.desc', params: '?t=spectrum-3d' },
+    { id: 'fireworks', icon: '\uD83C\uDF86', descKey: 'preset.sound.fireworks.desc', params: '?t=fireworks' },
+    { id: 'galaxy', icon: '\uD83C\uDF0C', descKey: 'preset.sound.galaxy.desc', params: '?t=galaxy' }
   ];
 
   var App = {

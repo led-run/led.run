@@ -80,7 +80,36 @@
     shape:     { type: 'select', label: 'settings.param.shape', options: ['square', 'round'] },
     bezel:     { type: 'boolean', label: 'settings.param.bezel' },
     weight:    { type: 'select', label: 'settings.param.weight', options: ['normal', 'bold'] },
-    wrap:      { type: 'boolean', label: 'settings.param.wrap' }
+    wrap:      { type: 'boolean', label: 'settings.param.wrap' },
+    // Light custom params
+    cycle:        { type: 'range', label: 'settings.param.cycle', min: 4, max: 20, step: 2 },
+    depth:        { type: 'range', label: 'settings.param.depth', min: 1, max: 10, step: 1 },
+    sunSize:      { type: 'range', label: 'settings.param.sunSize', min: 1, max: 10, step: 1 },
+    cloudDensity: { type: 'range', label: 'settings.param.cloudDensity', min: 1, max: 10, step: 1 },
+    bpm:          { type: 'range', label: 'settings.param.bpm', min: 60, max: 180, step: 6 },
+    pulse:        { type: 'range', label: 'settings.param.pulse', min: 1, max: 10, step: 1 },
+    density:      { type: 'range', label: 'settings.param.density', min: 1, max: 10, step: 1 },
+    waves:        { type: 'range', label: 'settings.param.waves', min: 3, max: 12, step: 1 },
+    amplitude:    { type: 'range', label: 'settings.param.amplitude', min: 1, max: 10, step: 1 },
+    sparks:       { type: 'range', label: 'settings.param.sparks', min: 0, max: 10, step: 1 },
+    wind:         { type: 'range', label: 'settings.param.wind', min: 0, max: 10, step: 1 },
+    frequency:    { type: 'range', label: 'settings.param.frequency', min: 1, max: 10, step: 1 },
+    branches:     { type: 'range', label: 'settings.param.branches', min: 1, max: 10, step: 1 },
+    symmetry:     { type: 'range', label: 'settings.param.symmetry', min: 4, max: 16, step: 2 },
+    complexity:   { type: 'range', label: 'settings.param.complexity', min: 1, max: 10, step: 1 },
+    waveScale:    { type: 'range', label: 'settings.param.waveScale', min: 1, max: 10, step: 1 },
+    blobCount:    { type: 'range', label: 'settings.param.blobCount', min: 5, max: 20, step: 1 },
+    viscosity:    { type: 'range', label: 'settings.param.viscosity', min: 1, max: 10, step: 1 },
+    // Sound custom params
+    scanSpeed:     { type: 'range', label: 'settings.param.scanSpeed', min: 1, max: 10, step: 1 },
+    threshold:     { type: 'range', label: 'settings.param.threshold', min: 1, max: 10, step: 1 },
+    rotationSpeed: { type: 'range', label: 'settings.param.rotationSpeed', min: 1, max: 10, step: 1 },
+    trails:        { type: 'range', label: 'settings.param.trails', min: 1, max: 10, step: 1 },
+    arms:          { type: 'range', label: 'settings.param.arms', min: 2, max: 6, step: 1 },
+    bands:         { type: 'range', label: 'settings.param.bands', min: 8, max: 32, step: 4 },
+    layers:        { type: 'range', label: 'settings.param.layers', min: 3, max: 10, step: 1 },
+    orientation:   { type: 'select', label: 'settings.param.orientation', options: ['vertical', 'horizontal'] },
+    showPeak:      { type: 'boolean', label: 'settings.param.showPeak' }
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder
@@ -135,7 +164,11 @@
       sectionLabel: 'settings.visualizerLabel',
       sectionParamsLabel: 'settings.section.vizParams',
       buildPath: function() { return '/sound'; },
-      resize: function() { SoundManager.resize(); }
+      resize: function() { SoundManager.resize(); },
+      knownParamOverrides: {
+        shape: { type: 'select', label: 'settings.param.shape', options: ['circle', 'square'] },
+        depth: { type: 'range', label: 'settings.param.depth', min: 3, max: 15, step: 1 }
+      }
     }
   };
 
