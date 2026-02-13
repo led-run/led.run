@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+Disallow: /css/
+Disallow: /js/
+Disallow: /texts/
+Disallow: /lights/
+Disallow: /sounds/
+Disallow: /locales/
+Sitemap: https://led.run/sitemap.xml

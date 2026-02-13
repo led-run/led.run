@@ -1,5 +1,9 @@
 # Cloudflare Pages URL Rewrite
 
+# SEO files
+/robots.txt   /robots.txt   200
+/sitemap.xml  /sitemap.xml  200
+
 # Static assets - no redirect
 /css/*      /css/:splat      200
 /js/*       /js/:splat       200
