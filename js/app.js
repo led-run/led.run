@@ -61,20 +61,18 @@
 
   // Sound visualizer presets — for landing page
   var SOUND_PRESETS = [
-    { id: 'bars', icon: '\uD83C\uDFB5', descKey: 'preset.sound.bars.desc', params: '?t=bars' },
-    { id: 'waveform', icon: '\uD83C\uDF0A', descKey: 'preset.sound.waveform.desc', params: '?t=waveform' },
-    { id: 'circle', icon: '\u2B55', descKey: 'preset.sound.circle.desc', params: '?t=circle' },
-    { id: 'particles', icon: '\u2728', descKey: 'preset.sound.particles.desc', params: '?t=particles' },
-    { id: 'meter', icon: '\uD83D\uDCCA', descKey: 'preset.sound.meter.desc', params: '?t=meter' },
-    { id: 'equalizer', icon: '\uD83C\uDFDA\uFE0F', descKey: 'preset.sound.equalizer.desc', params: '?t=equalizer' },
-    { id: 'ripple', icon: '\uD83D\uDCA7', descKey: 'preset.sound.ripple.desc', params: '?t=ripple' },
-    { id: 'wave-stack', icon: '\uD83C\uDF0A', descKey: 'preset.sound.wave-stack.desc', params: '?t=wave-stack' },
-    { id: 'radar', icon: '\uD83D\uDCE1', descKey: 'preset.sound.radar.desc', params: '?t=radar' },
-    { id: 'tunnel', icon: '\uD83D\uDD73\uFE0F', descKey: 'preset.sound.tunnel.desc', params: '?t=tunnel' },
-    { id: 'dna-helix', icon: '\uD83E\uDDEC', descKey: 'preset.sound.dna-helix.desc', params: '?t=dna-helix' },
-    { id: 'spectrum-3d', icon: '\uD83D\uDDFB', descKey: 'preset.sound.spectrum-3d.desc', params: '?t=spectrum-3d' },
-    { id: 'fireworks', icon: '\uD83C\uDF86', descKey: 'preset.sound.fireworks.desc', params: '?t=fireworks' },
-    { id: 'galaxy', icon: '\uD83C\uDF0C', descKey: 'preset.sound.galaxy.desc', params: '?t=galaxy' }
+    { id: 'bars', icon: '\uD83C\uDFB5', descKey: 'landing.sound.preset.bars', params: '?t=bars' },
+    { id: 'scope', icon: '\uD83D\uDCCA', descKey: 'landing.sound.preset.scope', params: '?t=scope' },
+    { id: 'ocean', icon: '\uD83C\uDF0A', descKey: 'landing.sound.preset.ocean', params: '?t=ocean' },
+    { id: 'alchemy', icon: '\u2697\uFE0F', descKey: 'landing.sound.preset.alchemy', params: '?t=alchemy' },
+    { id: 'battery', icon: '\uD83D\uDD0B', descKey: 'landing.sound.preset.battery', params: '?t=battery' },
+    { id: 'ambience', icon: '\uD83D\uDCAB', descKey: 'landing.sound.preset.ambience', params: '?t=ambience' },
+    { id: 'particle', icon: '\u2728', descKey: 'landing.sound.preset.particle', params: '?t=particle' },
+    { id: 'musical-colors', icon: '\uD83C\uDF08', descKey: 'landing.sound.preset.musical-colors', params: '?t=musical-colors' },
+    { id: 'spikes', icon: '\u2B50', descKey: 'landing.sound.preset.spikes', params: '?t=spikes' },
+    { id: 'plenoptic', icon: '\uD83D\uDD2E', descKey: 'landing.sound.preset.plenoptic', params: '?t=plenoptic' },
+    { id: 'waveform-3d', icon: '\uD83D\uDCC8', descKey: 'landing.sound.preset.waveform-3d', params: '?t=waveform-3d' },
+    { id: 'spectrum-circle', icon: '\u2B55', descKey: 'landing.sound.preset.spectrum-circle', params: '?t=spectrum-circle' }
   ];
 
   var App = {
