@@ -207,8 +207,8 @@
 
       // 1. Inner ring: thin circle at innerRadius with subtle glow
       var innerRingPulse = hasData
-        ? 1 + vol * sensMul * 0.15
-        : 1 + Math.sin(timeSec * 1.5) * 0.03;
+        ? 1 + vol * sensMul * 0.25
+        : 1 + Math.sin(timeSec * 1.5) * 0.06;
       var innerRingR = innerRadius * innerRingPulse;
       var innerRingAlpha = hasData
         ? 0.3 + vol * sensMul * 0.5
@@ -269,7 +269,7 @@
 
         // Enable glow for bars
         ctx.shadowColor = 'rgb(' + barColor.r + ',' + barColor.g + ',' + barColor.b + ')';
-        ctx.shadowBlur = 10;
+        ctx.shadowBlur = 14;
         ctx.lineWidth = 2.2;
         ctx.lineCap = 'round';
 
@@ -313,8 +313,8 @@
       var outerRingRadius = maxRadius + 8;
       var rotAngle = timeSec * 0.4; // slow rotation
       var outerAlpha = hasData
-        ? 0.15 + vol * sensMul * 0.6
-        : 0.06 + Math.sin(timeSec * 0.5) * 0.03;
+        ? 0.25 + vol * sensMul * 0.6
+        : 0.15 + Math.sin(timeSec * 0.5) * 0.05;
       if (outerAlpha > 0.75) outerAlpha = 0.75;
 
       var prevComposite = ctx.globalCompositeOperation;

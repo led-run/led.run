@@ -281,7 +281,7 @@
 
         // Short idle spikes with gentle ripple
         var angleStep = (Math.PI * 2) / spikeCount;
-        ctx.strokeStyle = 'rgba(' + spikeColor.r + ',' + spikeColor.g + ',' + spikeColor.b + ',0.2)';
+        ctx.strokeStyle = 'rgba(' + spikeColor.r + ',' + spikeColor.g + ',' + spikeColor.b + ',0.35)';
         ctx.lineWidth = 1;
         ctx.lineCap = 'round';
         for (var i = 0; i < spikeCount; i++) {
@@ -349,7 +349,7 @@
 
       // Draw spikes with glow
       ctx.shadowColor = 'rgb(' + spikeColor.r + ',' + spikeColor.g + ',' + spikeColor.b + ')';
-      ctx.shadowBlur = 8 + bassEnergy * 6;
+      ctx.shadowBlur = 12 + bassEnergy * 10;
       ctx.lineCap = 'round';
 
       for (var i = 0; i < spikeCount; i++) {
@@ -382,7 +382,7 @@
         var grad = ctx.createLinearGradient(x1, y1, x2, y2);
         grad.addColorStop(0, 'rgb(' + darkColor.r + ',' + darkColor.g + ',' + darkColor.b + ')');
         grad.addColorStop(0.5, 'rgb(' + spikeColor.r + ',' + spikeColor.g + ',' + spikeColor.b + ')');
-        grad.addColorStop(1, 'rgba(255,255,255,' + (0.35 + normalized * 0.5) + ')');
+        grad.addColorStop(1, 'rgba(255,255,255,' + (0.5 + normalized * 0.5) + ')');
 
         ctx.strokeStyle = grad;
         // Line width varies by energy: 1.5 (quiet) to 4 (loud)
@@ -394,8 +394,8 @@
         ctx.stroke();
 
         // Tip particles: when spike exceeds 70% of max length
-        if (normalized > 0.7) {
-          var particleChance = (normalized - 0.7) / 0.3; // 0 at 70%, 1 at 100%
+        if (normalized > 0.6) {
+          var particleChance = (normalized - 0.6) / 0.4; // 0 at 60%, 1 at 100%
           // Spawn 1-2 particles probabilistically
           if (Math.random() < particleChance * 0.6) {
             self._spawnParticle(x2, y2, angle, normalized);

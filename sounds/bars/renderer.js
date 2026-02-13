@@ -161,8 +161,8 @@
       // Reflection gradient mask: fades from semi-transparent to fully transparent
       var reflectionH = h - baselineY;
       var reflMask = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflectionH);
-      reflMask.addColorStop(0, 'rgba(' + midR + ',' + midG + ',' + midB + ',0.18)');
-      reflMask.addColorStop(0.3, 'rgba(' + midR + ',' + midG + ',' + midB + ',0.08)');
+      reflMask.addColorStop(0, 'rgba(' + midR + ',' + midG + ',' + midB + ',0.28)');
+      reflMask.addColorStop(0.3, 'rgba(' + midR + ',' + midG + ',' + midB + ',0.12)');
       reflMask.addColorStop(1, 'rgba(' + midR + ',' + midG + ',' + midB + ',0)');
 
       this._gradientCache = {
@@ -248,7 +248,7 @@
       ctx.fillRect(0, baselineY - 0.5, w, 1);
 
       var barWidth = w / barCount;
-      var gap = Math.max(1, barWidth * 0.18);
+      var gap = Math.max(1, barWidth * 0.12);
       var barW = barWidth - gap;
       var cornerR = Math.max(1.5, barW * 0.15);
 
@@ -275,7 +275,7 @@
 
         for (var i = 0; i < barCount; i++) {
           var x = i * barWidth + gap / 2;
-          var idlePulse = Math.sin(time * 2 + i * 0.15) * 0.5 + 0.5;
+          var idlePulse = Math.sin(time * 1.2 + i * 0.15) * 0.3 + 0.5;
           var idleH = 2 + idlePulse * 2;
           var idleAlpha = 0.08 + breathe * 0.04;
 
@@ -314,7 +314,7 @@
 
       // --- Draw bars with glow ---
       ctx.shadowColor = cache.midColor;
-      ctx.shadowBlur = 12;
+      ctx.shadowBlur = 18;
 
       for (var i = 0; i < barCount; i++) {
         var bin = logBins[i];
