@@ -1,61 +1,69 @@
-# led.run
+# led.run — Display Toolkit
 
-Minimal digital signage. URL is your sign.
+Turn any screen into a text sign, light effect, or sound visualizer. 50+ display modes. No apps, no accounts — just a URL.
 
-## Usage
+## Products
 
-Just put your text in the URL:
+### Text — 20 Themes
 
-```
-https://led.run/OPEN
-https://led.run/Hello World
-https://led.run/你好
-```
-
-### Parameters
-
-Add query parameters to customize:
+LED-style text signs with auto-fit sizing, sign and flow modes.
 
 ```
-https://led.run/SALE?c=ff0000            # Red text
-https://led.run/SALE?c=80ff0000          # Semi-transparent red text
-https://led.run/OPEN?bg=40ffffff         # White bg, 25% opacity
-https://led.run/OPEN?t=neon              # Neon theme
-https://led.run/RETRO?t=retro            # CRT retro theme
-https://led.run/Welcome!?mode=flow       # Force scrolling mode
-https://led.run/NEWS?speed=120&dir=right # Fast, right-to-left scroll
+led.run/HELLO                           Simple sign
+led.run/OPEN?t=neon&c=ff2d78            Neon theme, custom color
+led.run/WELCOME?mode=flow&speed=120     Scrolling marquee
+led.run/text/light                      Display the word "light"
 ```
 
-| Param | Alias | Description |
-|-------|-------|-------------|
-| `theme` | `t` | Theme: `default`, `neon`, `retro` |
-| `mode` | — | `sign` (static) or `flow` (scroll) |
-| `color` | `c` | Text color hex, 6 or 8 digit (no `#`). 8-digit AARRGGBB, e.g. `80ff0000` |
-| `bg` | — | Background color hex, 6 or 8 digit (no `#`). 8-digit AARRGGBB, e.g. `40ffffff` |
-| `speed` | — | Scroll speed (default: 60) |
-| `direction` | `dir` | Scroll direction: `left` or `right` |
-| `font` | — | Custom font family |
-| `wakelock` | `w` | Keep screen on (`true`/`false`) |
+### Light — 18 Effects
 
-## Themes
+Full-screen light effects: flashlight, strobe, disco, candle, aurora, and more.
 
-- **default** — Classic LED sign, green on black with subtle glow
-- **neon** — Neon sign with glow, breathe, and flicker animations
-- **retro** — CRT monitor with scanlines and vignette
+```
+led.run/light?t=solid                   Flashlight
+led.run/light?t=disco&speed=3           Disco rotation
+led.run/light?t=candle&warmth=80        Warm candlelight
+led.run/light?t=aurora-waves            Northern lights
+```
+
+### Sound — 12 Visualizers
+
+Real-time audio visualizations driven by your microphone.
+
+```
+led.run/sound?t=bars                    Spectrum analyzer
+led.run/sound?t=ocean&waveCount=10      Moonlit ocean
+led.run/sound?t=waveform-3d             3D waveform
+led.run/sound?t=spectrum-circle         Circular spectrum
+```
+
+## URL Protocol
+
+```
+Text:   led.run/HELLO?t=neon              Path = text content
+        led.run/text/HELLO?t=neon         Explicit /text/ prefix
+Light:  led.run/light?t=disco             Product prefix + params
+Sound:  led.run/sound?t=bars              Product prefix + params
+```
+
+All parameters are optional "preference hints" — themes decide whether to consume them.
 
 ## Controls
 
-| Input | Action |
-|-------|--------|
-| `Space` | Pause/resume |
-| `F` | Toggle fullscreen |
-| `Escape` | Exit fullscreen |
-| Click | Pause/resume |
-| Double-click | Toggle fullscreen |
+| Key | Text | Light | Sound |
+|-----|------|-------|-------|
+| Space | Pause/resume | — | — |
+| F / Double-click | Fullscreen | Fullscreen | Fullscreen |
+| S | Settings | Settings | Settings |
+| ← → | — | Prev/next effect | Prev/next visualizer |
+| ↑ ↓ | — | Brightness ±5 | Sensitivity ±1 |
+| Esc | Exit fullscreen | Exit fullscreen | Exit fullscreen |
 
-## Auto Mode Detection
+## Documentation
 
-Short text (≤10 characters) displays as a static **SIGN**. Longer text automatically scrolls as **FLOW**. Override with `?mode=sign` or `?mode=flow`.
+Full docs with all themes, effects, visualizers, and parameters: [led.run/docs](https://led.run/docs)
+
+Available in: English, 中文, 日本語, 한국어, Español, Français, Deutsch
 
 ## Development
 
