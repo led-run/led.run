@@ -10,8 +10,6 @@
 
   function hslToRgb(h, s, l) {
     h = ((h % 360) + 360) % 360;
-    s = Math.max(0, Math.min(1, s));
-    l = Math.max(0, Math.min(1, l));
     var c = (1 - Math.abs(2 * l - 1)) * s;
     var x = c * (1 - Math.abs((h / 60) % 2 - 1));
     var m = l - c / 2;
@@ -36,7 +34,6 @@
       ctx.beginPath();
       ctx.roundRect(x, y, w, h, radii);
     } else {
-      // Fallback: manually draw rounded rect with individual corner radii
       var tl = Math.min(radii[0] || 0, w / 2, h / 2);
       var tr = Math.min(radii[1] || 0, w / 2, h / 2);
       var br = Math.min(radii[2] || 0, w / 2, h / 2);
@@ -65,21 +62,17 @@
       return hslToRgb((index / barCount) * 360, 0.9, 0.55);
     }
     if (colorMode === 'gradient') {
-      // Green (120) → Yellow (60) → Red (0) across bar index
       var hue = 120 - (index / Math.max(1, barCount - 1)) * 120;
       return hslToRgb(hue, 0.9, 0.5);
     }
     return baseColor;
   }
 
-  // Build per-bar vertical gradient
-  function buildBarGradient(ctx, baselineY, color) {
+  // Pre-compute color variant strings from an RGB base color
+  function buildColorSet(color) {
     var deepR = Math.floor(color.r * 0.3);
     var deepG = Math.floor(color.g * 0.3);
     var deepB = Math.floor(color.b * 0.3);
-    var midR = color.r;
-    var midG = color.g;
-    var midB = color.b;
     var lightR = Math.min(255, color.r + Math.round((255 - color.r) * 0.6));
     var lightG = Math.min(255, color.g + Math.round((255 - color.g) * 0.6));
     var lightB = Math.min(255, color.b + Math.round((255 - color.b) * 0.6));
@@ -87,18 +80,13 @@
     var hotG = Math.min(255, color.g + Math.round((255 - color.g) * 0.85));
     var hotB = Math.min(255, color.b + Math.round((255 - color.b) * 0.85));
 
-    var grad = ctx.createLinearGradient(0, 0, 0, baselineY);
-    grad.addColorStop(0, 'rgb(' + hotR + ',' + hotG + ',' + hotB + ')');
-    grad.addColorStop(0.15, 'rgb(' + lightR + ',' + lightG + ',' + lightB + ')');
-    grad.addColorStop(0.5, 'rgb(' + midR + ',' + midG + ',' + midB + ')');
-    grad.addColorStop(1, 'rgb(' + deepR + ',' + deepG + ',' + deepB + ')');
-
     return {
-      grad: grad,
-      mid: 'rgb(' + midR + ',' + midG + ',' + midB + ')',
+      deep:  'rgb(' + deepR + ',' + deepG + ',' + deepB + ')',
+      mid:   'rgb(' + color.r + ',' + color.g + ',' + color.b + ')',
       light: 'rgb(' + lightR + ',' + lightG + ',' + lightB + ')',
+      hot:   'rgb(' + hotR + ',' + hotG + ',' + hotB + ')',
       peakGlow: 'rgba(' + lightR + ',' + lightG + ',' + lightB + ',0.6)',
-      reflMid: { r: midR, g: midG, b: midB }
+      reflR: color.r, reflG: color.g, reflB: color.b
     };
   }
 
@@ -124,14 +112,17 @@
     _logBins: null,
     _peaks: null,
     _peakTimestamps: null,
-    _gradientCache: null,
-    _reflectionMask: null,
+    // Cache fields
     _cachedWidth: 0,
     _cachedHeight: 0,
     _cachedColor: null,
     _cachedBarCount: 0,
     _cachedColorMode: null,
-    _barGradients: null,
+    // Cached draw data — rebuilt only when config changes
+    _barGrad: null,        // single mode: shared CanvasGradient
+    _barGrads: null,       // multi mode: per-bar CanvasGradient[]
+    _colors: null,         // per-bar colorSet[] (or single colorSet at [0])
+    _reflGrads: null,      // per-bar reflection CanvasGradient[] (or single at [0])
 
     init: function(container, config, audioEngine) {
       this._container = container;
@@ -141,14 +132,15 @@
       this._logBins = null;
       this._peaks = null;
       this._peakTimestamps = null;
-      this._gradientCache = null;
-      this._reflectionMask = null;
       this._cachedWidth = 0;
       this._cachedHeight = 0;
       this._cachedColor = null;
       this._cachedBarCount = 0;
       this._cachedColorMode = null;
-      this._barGradients = null;
+      this._barGrad = null;
+      this._barGrads = null;
+      this._colors = null;
+      this._reflGrads = null;
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -184,9 +176,10 @@
       this._logBins = null;
       this._peaks = null;
       this._peakTimestamps = null;
-      this._gradientCache = null;
-      this._reflectionMask = null;
-      this._barGradients = null;
+      this._barGrad = null;
+      this._barGrads = null;
+      this._colors = null;
+      this._reflGrads = null;
       this._config = null;
     },
 
@@ -198,46 +191,57 @@
       this._canvas.width = w * dpr;
       this._canvas.height = h * dpr;
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      // Invalidate gradient cache so it rebuilds on next frame
-      this._gradientCache = null;
-      this._reflectionMask = null;
-      this._barGradients = null;
+      this._cachedWidth = 0; // force rebuild
     },
 
-    _buildGradientCache: function(w, h, barColor, barCount, colorMode) {
+    _rebuildCache: function(w, h, barColor, barCount, colorMode) {
       var ctx = this._ctx;
       var baselineY = h * 0.82;
+      var reflZone = h - baselineY;
+      var isSingle = colorMode === 'single';
 
-      // For single mode, build a shared gradient
-      if (colorMode === 'single') {
-        var info = buildBarGradient(ctx, baselineY, barColor);
-        this._gradientCache = {
-          barGrad: info.grad,
-          midColor: info.mid,
-          lightColor: info.light,
-          peakColor: info.light,
-          peakGlow: info.peakGlow
-        };
-        // Reflection mask
-        var rm = info.reflMid;
-        var reflectionH = h - baselineY;
-        var reflMask = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflectionH);
-        reflMask.addColorStop(0, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0.32)');
-        reflMask.addColorStop(0.3, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0.14)');
-        reflMask.addColorStop(1, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0)');
-        this._reflectionMask = reflMask;
-        this._barGradients = null;
+      if (isSingle) {
+        // Single mode: one shared gradient + one color set + one reflection
+        var cs = buildColorSet(barColor);
+        var grad = ctx.createLinearGradient(0, 0, 0, baselineY);
+        grad.addColorStop(0, cs.hot);
+        grad.addColorStop(0.15, cs.light);
+        grad.addColorStop(0.5, cs.mid);
+        grad.addColorStop(1, cs.deep);
+        this._barGrad = grad;
+        this._barGrads = null;
+        this._colors = [cs];
+
+        var rg = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflZone);
+        rg.addColorStop(0, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.32)');
+        rg.addColorStop(0.3, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.14)');
+        rg.addColorStop(1, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0)');
+        this._reflGrads = [rg];
       } else {
-        // For rainbow/gradient modes, build per-bar gradients
-        this._barGradients = [];
-        this._gradientCache = null;
+        // Multi mode: per-bar gradients, colors, reflections — all pre-cached
+        this._barGrad = null;
+        var grads = new Array(barCount);
+        var colors = new Array(barCount);
+        var refls = new Array(barCount);
         for (var i = 0; i < barCount; i++) {
           var c = getBarColor(i, barCount, barColor, colorMode);
-          var info = buildBarGradient(ctx, baselineY, c);
-          this._barGradients.push(info);
+          var cs = buildColorSet(c);
+          colors[i] = cs;
+          var grad = ctx.createLinearGradient(0, 0, 0, baselineY);
+          grad.addColorStop(0, cs.hot);
+          grad.addColorStop(0.15, cs.light);
+          grad.addColorStop(0.5, cs.mid);
+          grad.addColorStop(1, cs.deep);
+          grads[i] = grad;
+          var rg = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflZone);
+          rg.addColorStop(0, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.32)');
+          rg.addColorStop(0.3, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.14)');
+          rg.addColorStop(1, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0)');
+          refls[i] = rg;
         }
-        // Use first bar color for reflection mask (will be overridden per-bar)
-        this._reflectionMask = null;
+        this._barGrads = grads;
+        this._colors = colors;
+        this._reflGrads = refls;
       }
 
       this._cachedWidth = w;
@@ -289,10 +293,10 @@
       var colorMode = cfg.colorMode || self.defaults.colorMode;
       var ctx = self._ctx;
       var now = performance.now();
+      var isSingle = colorMode === 'single';
 
-      // Rebuild gradient cache if dimensions, color, barCount, or colorMode changed
-      if ((!self._gradientCache && !self._barGradients) ||
-          self._cachedWidth !== w ||
+      // Rebuild cache only when config changes
+      if (self._cachedWidth !== w ||
           self._cachedHeight !== h ||
           self._cachedColor === null ||
           self._cachedColor.r !== barColor.r ||
@@ -300,28 +304,30 @@
           self._cachedColor.b !== barColor.b ||
           self._cachedBarCount !== barCount ||
           self._cachedColorMode !== colorMode) {
-        self._buildGradientCache(w, h, barColor, barCount, colorMode);
+        self._rebuildCache(w, h, barColor, barCount, colorMode);
       }
 
       var baselineY = h * 0.82;
+      var sensRatio = sensitivity / 5;
 
-      // Clear with background
+      // Clear
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
 
-      // Subtle baseline separator line
-      var sepColor = colorMode === 'single' ? barColor : getBarColor(Math.floor(barCount / 2), barCount, barColor, colorMode);
-      ctx.fillStyle = 'rgba(' + sepColor.r + ',' + sepColor.g + ',' + sepColor.b + ',0.06)';
+      // Baseline separator
+      var sepCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
+      ctx.fillStyle = 'rgba(' + sepCs.reflR + ',' + sepCs.reflG + ',' + sepCs.reflB + ',0.06)';
       ctx.fillRect(0, baselineY - 0.5, w, 1);
 
       var barWidth = w / barCount;
       var gap = Math.max(1, barWidth * 0.12);
       var barW = barWidth - gap;
       var cornerR = Math.max(1.5, barW * 0.15);
+      var halfGap = gap / 2;
+      var cornerRBot = cornerR * 0.3;
 
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
-
       if (isRunning) {
         freqData = self._audioEngine.getFrequencyData();
       }
@@ -336,33 +342,32 @@
       }
 
       if (!freqData || freqData.length === 0) {
-        // --- Idle state ---
+        // --- Idle state (no shadow needed) ---
         var time = now * 0.001;
         var breathe = 0.5 + Math.sin(time * 1.5) * 0.3;
 
         for (var i = 0; i < barCount; i++) {
-          var x = i * barWidth + gap / 2;
+          var x = i * barWidth + halfGap;
           var idlePulse = Math.sin(time * 1.2 + i * 0.15) * 0.3 + 0.5;
           var idleH = 3 + idlePulse * 3;
           var idleAlpha = 0.12 + breathe * 0.06;
 
-          var idleColor = colorMode === 'single' ? barColor : getBarColor(i, barCount, barColor, colorMode);
-          ctx.fillStyle = 'rgba(' + idleColor.r + ',' + idleColor.g + ',' + idleColor.b + ',' + idleAlpha.toFixed(3) + ')';
+          var cs = isSingle ? self._colors[0] : self._colors[i];
+          ctx.fillStyle = 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',' + idleAlpha.toFixed(3) + ')';
           roundRect(ctx, x, baselineY - idleH, barW, idleH, [cornerR, cornerR, 0, 0]);
           ctx.fill();
 
-          // Peak indicators at baseline in idle — gentle breathing glow
+          // Peak indicators at baseline
           var peakAlpha = 0.15 + idlePulse * 0.08;
-          ctx.fillStyle = 'rgba(' + idleColor.r + ',' + idleColor.g + ',' + idleColor.b + ',' + peakAlpha.toFixed(3) + ')';
+          ctx.fillStyle = 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',' + peakAlpha.toFixed(3) + ')';
           ctx.fillRect(x, baselineY - idleH - 3, barW, 2);
         }
 
-        // Reset peaks during idle
-        if (self._peaks) {
-          for (var p = 0; p < barCount; p++) {
-            self._peaks[p] *= 0.95;
-            if (self._peaks[p] < 0.001) self._peaks[p] = 0;
-          }
+        // Decay peaks
+        var peaks = self._peaks;
+        for (var p = 0; p < barCount; p++) {
+          peaks[p] *= 0.95;
+          if (peaks[p] < 0.001) peaks[p] = 0;
         }
 
         self._animFrameId = requestAnimationFrame(function() { self._draw(); });
@@ -372,152 +377,116 @@
       // --- Active state ---
       var logBins = self._generateLogBins(barCount, freqData.length);
 
-      // Initialize smoothed data
       if (!self._smoothedData || self._smoothedData.length !== barCount) {
         self._smoothedData = new Float32Array(barCount);
       }
 
-      // Peak fall speed: 2px per frame (~120px/s at 60fps)
       var peakFallPerFrame = 2;
       var peakHoldMs = 600;
+      var maxBarH = baselineY * 0.95;
+      var invMaxBarH = 1 / maxBarH;
+      var smoothedData = self._smoothedData;
+      var peaks = self._peaks;
+      var peakTs = self._peakTimestamps;
 
-      // --- Draw bars ---
-      var isSingle = colorMode === 'single';
-      if (isSingle && self._gradientCache) {
-        ctx.shadowColor = self._gradientCache.midColor;
-        ctx.shadowBlur = 18;
-      }
+      // --- Pass 1: Draw bars with glow ---
+      // Set shadowBlur ONCE before the loop, not per-bar
+      var glowCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
+      ctx.shadowColor = glowCs.mid;
+      ctx.shadowBlur = 18;
 
       for (var i = 0; i < barCount; i++) {
         var bin = logBins[i];
         var sum = 0;
-        var count = bin.end - bin.start;
+        var cnt = bin.end - bin.start;
         for (var j = bin.start; j < bin.end; j++) {
           sum += freqData[j];
         }
-        var avg = sum / count;
 
-        self._smoothedData[i] = self._smoothedData[i] * smoothing + avg * (1 - smoothing);
+        smoothedData[i] = smoothedData[i] * smoothing + (sum / cnt) * (1 - smoothing);
 
-        var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
+        var normalized = (smoothedData[i] / 255) * sensRatio;
         if (normalized > 1) normalized = 1;
 
-        var maxBarH = baselineY * 0.95;
         var barH = normalized * maxBarH;
         if (barH < 1) barH = 1;
 
-        var x = i * barWidth + gap / 2;
+        var x = i * barWidth + halfGap;
         var barTop = baselineY - barH;
 
-        // Per-bar gradient or shared gradient
-        if (isSingle) {
-          ctx.fillStyle = self._gradientCache.barGrad;
-        } else {
-          var bg = self._barGradients[i];
-          ctx.shadowColor = bg.mid;
-          ctx.shadowBlur = 18;
-          ctx.fillStyle = bg.grad;
-        }
-
-        roundRect(ctx, x, barTop, barW, barH, [cornerR, cornerR, cornerR * 0.3, cornerR * 0.3]);
+        ctx.fillStyle = isSingle ? self._barGrad : self._barGrads[i];
+        roundRect(ctx, x, barTop, barW, barH, [cornerR, cornerR, cornerRBot, cornerRBot]);
         ctx.fill();
 
-        // Edge highlight for glass effect — thin bright line at top
-        if (barH > 4) {
-          var highlightColor = isSingle ? self._gradientCache.lightColor : self._barGradients[i].light;
-          ctx.fillStyle = highlightColor;
-          ctx.globalAlpha = 0.3;
-          ctx.fillRect(x + 1, barTop, barW - 2, 1);
-          ctx.globalAlpha = 1;
-        }
-
-        if (!isSingle) {
-          ctx.shadowBlur = 0;
-        }
-
-        // Update peak tracking
-        var normalizedH = barH / maxBarH;
-        if (normalizedH >= self._peaks[i]) {
-          self._peaks[i] = normalizedH;
-          self._peakTimestamps[i] = now;
-        } else {
-          var elapsed = now - self._peakTimestamps[i];
-          if (elapsed > peakHoldMs) {
-            // Convert pixel fall to normalized fall
-            var fallAmount = peakFallPerFrame / maxBarH;
-            self._peaks[i] -= fallAmount;
-            if (self._peaks[i] < 0) self._peaks[i] = 0;
-          }
+        // Update peaks (inline, no function call overhead)
+        var nh = barH * invMaxBarH;
+        if (nh >= peaks[i]) {
+          peaks[i] = nh;
+          peakTs[i] = now;
+        } else if (now - peakTs[i] > peakHoldMs) {
+          peaks[i] -= peakFallPerFrame * invMaxBarH;
+          if (peaks[i] < 0) peaks[i] = 0;
         }
       }
 
-      // Reset shadowBlur after bar drawing
       ctx.shadowBlur = 0;
 
-      // --- Draw peak indicators (always visible) ---
-      var peakDotH = Math.max(2, barW * 0.12);
-
+      // --- Pass 2: Glass highlight (batch with single globalAlpha) ---
+      ctx.globalAlpha = 0.3;
       for (var i = 0; i < barCount; i++) {
-        var peakBarH = self._peaks[i] * baselineY * 0.95;
-        var peakY = baselineY - peakBarH - peakDotH - 2;
-        var x = i * barWidth + gap / 2;
+        var normalized = (smoothedData[i] / 255) * sensRatio;
+        if (normalized > 1) normalized = 1;
+        var barH = normalized * maxBarH;
+        if (barH <= 4) continue;
 
-        // Clamp peak Y so it never goes below baseline
-        if (peakY > baselineY - peakDotH - 2) {
-          peakY = baselineY - peakDotH - 2;
-        }
-
-        // Peak dot with glow
-        var peakColor, peakGlow;
-        if (isSingle) {
-          peakColor = self._gradientCache.peakColor;
-          peakGlow = self._gradientCache.peakGlow;
-        } else {
-          peakColor = self._barGradients[i].light;
-          peakGlow = self._barGradients[i].peakGlow;
-        }
-
-        ctx.shadowColor = peakGlow;
-        ctx.shadowBlur = 6;
-        ctx.fillStyle = peakColor;
-        ctx.fillRect(x, peakY, barW, peakDotH);
-        ctx.shadowBlur = 0;
+        var x = i * barWidth + halfGap;
+        var barTop = baselineY - barH;
+        ctx.fillStyle = isSingle ? self._colors[0].light : self._colors[i].light;
+        ctx.fillRect(x + 1, barTop, barW - 2, 1);
       }
-
-      // --- Draw reflection (bottom 18% of canvas) ---
-      var reflZone = h - baselineY;
-      ctx.save();
       ctx.globalAlpha = 1;
 
+      // --- Pass 3: Peak indicators (single shadow setup) ---
+      var peakDotH = Math.max(2, barW * 0.12);
+      var peakBaseY = baselineY - peakDotH - 2;
+
+      // Set peak glow once
+      var peakGlowCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
+      ctx.shadowColor = peakGlowCs.peakGlow;
+      ctx.shadowBlur = 6;
+
       for (var i = 0; i < barCount; i++) {
-        var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
-        if (normalized > 1) normalized = 1;
+        var peakBarH = peaks[i] * maxBarH;
+        var peakY = baselineY - peakBarH - peakDotH - 2;
+        if (peakY > peakBaseY) peakY = peakBaseY;
 
-        var barH = normalized * baselineY * 0.95;
-        if (barH < 1) continue;
-
-        var mirrorH = Math.min(barH * 0.45, reflZone * 0.85);
-        if (mirrorH < 1) continue;
-
-        var x = i * barWidth + gap / 2;
-
-        if (isSingle && self._reflectionMask) {
-          ctx.fillStyle = self._reflectionMask;
-        } else if (self._barGradients && self._barGradients[i]) {
-          // Per-bar reflection color
-          var rm = self._barGradients[i].reflMid;
-          var reflGrad = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflZone);
-          reflGrad.addColorStop(0, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0.32)');
-          reflGrad.addColorStop(0.3, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0.14)');
-          reflGrad.addColorStop(1, 'rgba(' + rm.r + ',' + rm.g + ',' + rm.b + ',0)');
-          ctx.fillStyle = reflGrad;
-        }
-
-        roundRect(ctx, x, baselineY + 1, barW, mirrorH, [0, 0, cornerR * 0.3, cornerR * 0.3]);
-        ctx.fill();
+        var x = i * barWidth + halfGap;
+        ctx.fillStyle = isSingle ? self._colors[0].light : self._colors[i].light;
+        ctx.fillRect(x, peakY, barW, peakDotH);
       }
 
-      ctx.restore();
+      ctx.shadowBlur = 0;
+
+      // --- Pass 4: Reflections (no shadow) ---
+      var reflZone = h - baselineY;
+      var reflLimit = reflZone * 0.85;
+
+      for (var i = 0; i < barCount; i++) {
+        var normalized = (smoothedData[i] / 255) * sensRatio;
+        if (normalized > 1) normalized = 1;
+
+        var barH = normalized * maxBarH;
+        if (barH < 1) continue;
+
+        var mirrorH = barH * 0.45;
+        if (mirrorH > reflLimit) mirrorH = reflLimit;
+        if (mirrorH < 1) continue;
+
+        var x = i * barWidth + halfGap;
+        ctx.fillStyle = isSingle ? self._reflGrads[0] : self._reflGrads[i];
+        roundRect(ctx, x, baselineY + 1, barW, mirrorH, [0, 0, cornerRBot, cornerRBot]);
+        ctx.fill();
+      }
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }
