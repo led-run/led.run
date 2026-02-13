@@ -100,7 +100,16 @@
     waveScale:    { type: 'range', label: 'settings.param.waveScale', min: 1, max: 10, step: 1 },
     blobCount:    { type: 'range', label: 'settings.param.blobCount', min: 5, max: 20, step: 1 },
     viscosity:    { type: 'range', label: 'settings.param.viscosity', min: 1, max: 10, step: 1 },
-    // Sound custom params
+    // Sound custom params (WMP visualizers)
+    gridLines:     { type: 'boolean', label: 'settings.param.gridLines' },
+    waveCount:     { type: 'range', label: 'settings.param.waveCount', min: 3, max: 10, step: 1 },
+    pulseSpeed:    { type: 'range', label: 'settings.param.pulseSpeed', min: 1, max: 10, step: 1 },
+    glowRadius:    { type: 'range', label: 'settings.param.glowRadius', min: 0.3, max: 1, step: 0.1 },
+    gridSize:      { type: 'range', label: 'settings.param.gridSize', min: 10, max: 40, step: 2 },
+    colorShift:    { type: 'range', label: 'settings.param.colorShift', min: 1, max: 10, step: 1 },
+    spikeCount:    { type: 'range', label: 'settings.param.spikeCount', min: 32, max: 128, step: 8 },
+    innerRadius:   { type: 'range', label: 'settings.param.innerRadius', min: 0.1, max: 0.4, step: 0.05 },
+    // Sound legacy params (kept for compatibility if needed)
     scanSpeed:     { type: 'range', label: 'settings.param.scanSpeed', min: 1, max: 10, step: 1 },
     threshold:     { type: 'range', label: 'settings.param.threshold', min: 1, max: 10, step: 1 },
     rotationSpeed: { type: 'range', label: 'settings.param.rotationSpeed', min: 1, max: 10, step: 1 },
