@@ -77,7 +77,7 @@ I18n.register('zh', {
   'settings.section.themeParams': '\u4e3b\u9898\u9009\u9879',
 
   // Settings - param labels
-  'settings.param.color': '\u6587\u5b57\u989c\u8272',
+  'settings.param.color': '颜色',
   'settings.param.bg': '\u80cc\u666f',
   'settings.param.fill': '\u586b\u5145\u8272',
   'settings.param.mode': '\u6a21\u5f0f',
@@ -173,7 +173,163 @@ I18n.register('zh', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': '自定义...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': '效果',
+  'settings.visualizerLabel': '可视化器',
+  'settings.section.effectParams': '效果选项',
+  'settings.section.vizParams': '可视化器选项',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': '实时预览',
+  'landing.builder.card.themeAndMode': '主题和模式',
+  'landing.builder.card.visualStyle': '视觉样式',
+  'landing.builder.card.dynamics': '动态',
+  'landing.builder.card.advanced': '高级参数',
+  'landing.builder.card.effect': '效果',
+  'landing.builder.card.visualizer': '可视化器',
+  'landing.builder.card.audio': '音频',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '高级选项',
-  'landing.builder.hideAdvanced': '收起选项'
+  'landing.builder.hideAdvanced': '收起选项',
+
+  // Landing - Product tabs
+  'landing.tab.text': '文字',
+  'landing.tab.light': '灯光',
+  'landing.tab.sound': '声音',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': '纯白手电筒 —— 任何场景的最大亮度。',
+  'preset.light.strobe.desc': '派对和活动的快速闪光频闪灯。',
+  'preset.light.disco.desc': '多彩旋转迪斯科派对灯光。',
+  'preset.light.emergency.desc': '红蓝交替应急闪光灯。',
+  'preset.light.candle.desc': '温暖闪烁的烛光，营造氛围。',
+  'preset.light.rainbow.desc': '平滑循环的彩虹色彩。',
+  'preset.light.sos.desc': '摩尔斯电码 SOS 信号 —— 三短三长三短。',
+  'preset.light.gradient.desc': '流动的渐变色彩过渡。',
+
+  // Product titles
+  'light.title': '灯光',
+  'sound.title': '声音',
+
+  // Light effect names
+  'settings.effect.solid': '纯色',
+  'settings.effect.strobe': '频闪',
+  'settings.effect.disco': '迪斯科',
+  'settings.effect.gradient': '渐变',
+  'settings.effect.emergency': '警灯',
+  'settings.effect.candle': '烛光',
+  'settings.effect.rainbow': '彩虹',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': '频谱',
+  'settings.visualizer.scope': '示波器',
+  'settings.visualizer.ocean': '海浪',
+  'settings.visualizer.alchemy': '能量球',
+  'settings.visualizer.battery': '脉冲',
+  'settings.visualizer.ambience': '氛围',
+  'settings.visualizer.particle': '点阵',
+  'settings.visualizer.musical-colors': '彩色',
+  'settings.visualizer.spikes': '放射',
+  'settings.visualizer.plenoptic': '光场',
+  'settings.visualizer.waveform-3d': '3D波形',
+  'settings.visualizer.spectrum-circle': '环形',
+
+  // Light/Sound param labels
+  'settings.param.colors': '颜色',
+  'settings.param.brightness': '亮度',
+  'settings.param.sensitivity': '灵敏度',
+  'settings.param.smoothing': '平滑度',
+  'settings.param.warmth': '暖度',
+  'settings.param.barCount': '柱数',
+  'settings.param.colorMode': '配色模式',
+  'settings.param.lineWidth': '线宽',
+  // Sound errors
+  'sound.error.notSupported.title': '不支持音频',
+  'sound.error.notSupported.desc': '您的浏览器不支持麦克风输入。请使用 Chrome 或 Firefox。',
+  'sound.error.denied.title': '麦克风权限被拒绝',
+  'sound.error.denied.desc': '请允许麦克风访问以使用声音可视化。',
+  'sound.error.generic.title': '音频错误',
+  'sound.error.generic.desc': '无法访问麦克风。请检查设备设置。',
+
+  // New light effect names
+  'settings.effect.breathing': '呼吸',
+  'settings.effect.sunset': '日落',
+  'settings.effect.heartbeat': '心跳',
+  'settings.effect.matrix-rain': '矩阵雨',
+  'settings.effect.aurora-waves': '极光波',
+  'settings.effect.campfire': '篝火',
+  'settings.effect.lightning': '闪电',
+  'settings.effect.kaleidoscope': '万花筒',
+  'settings.effect.plasma': '等离子',
+  'settings.effect.lava-lamp': '熔岩灯',
+
+  // New light preset descriptions
+  'preset.light.breathing.desc': '平静的呼吸脉冲，适合冥想和放松。',
+  'preset.light.sunset.desc': '温暖的日落天空，飘过的云朵和金色太阳。',
+  'preset.light.heartbeat.desc': '有节奏的心跳脉冲，伴随扩散的波纹环。',
+  'preset.light.matrix-rain.desc': '绿色字符如数字雨般层叠下落。',
+  'preset.light.aurora-waves.desc': '绿、粉、紫色的极光波带流动。',
+  'preset.light.campfire.desc': '温暖的篝火，带火星和升腾的烟雾。',
+  'preset.light.lightning.desc': '戏剧性的闪电，伴随雷鸣闪光效果。',
+  'preset.light.kaleidoscope.desc': '迷人的旋转万花筒对称图案。',
+  'preset.light.plasma.desc': '经典演示场景等离子体，流动的 HSL 色彩。',
+  'preset.light.lava-lamp.desc': '复古熔岩灯，液滴漂浮融合。',
+
+  // New param labels
+  'settings.param.cycle': '呼吸周期',
+  'settings.param.depth': '深度',
+  'settings.param.sunSize': '太阳大小',
+  'settings.param.cloudDensity': '云层密度',
+  'settings.param.bpm': 'BPM',
+  'settings.param.pulse': '脉冲',
+  'settings.param.density': '密度',
+  'settings.param.waves': '波浪',
+  'settings.param.amplitude': '振幅',
+  'settings.param.sparks': '火星',
+  'settings.param.wind': '风力',
+  'settings.param.frequency': '频率',
+  'settings.param.branches': '分支',
+  'settings.param.symmetry': '对称',
+  'settings.param.complexity': '复杂度',
+  'settings.param.waveScale': '波纹尺度',
+  'settings.param.blobCount': '液滴数',
+  'settings.param.viscosity': '粘度',
+  'settings.param.gridLines': '网格线',
+  'settings.param.waveCount': '波浪层数',
+  'settings.param.pulseSpeed': '脉冲速度',
+  'settings.param.glowRadius': '光晕半径',
+  'settings.param.gridSize': '网格密度',
+  'settings.param.colorShift': '色彩变换',
+  'settings.param.spikeCount': '尖刺数量',
+  'settings.param.innerRadius': '内圈半径',
+  'settings.param.mcPreset': 'Musical Colors 预设',
+  'settings.param.ambPreset': '氛围光预设',
+
+  // Color mode options
+  'settings.colorMode.single': '单色',
+  'settings.colorMode.rainbow': '彩虹',
+  'settings.colorMode.gradient': '渐变',
+
+  // Select option translations
+  'settings.shape.circle': '圆形',
+  'settings.shape.square': '方形',
+
+  // Toolbar - Mic
+  'toolbar.mic': '切换麦克风',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': '高级频谱柱，绿色 LED 渐变',
+  'landing.sound.preset.scope': '双通道示波器，带网格线',
+  'landing.sound.preset.ocean': '多层海洋波浪，频率驱动',
+  'landing.sound.preset.alchemy': '能量球与粒子旋涡',
+  'landing.sound.preset.battery': '脉冲同心环，色相循环',
+  'landing.sound.preset.ambience': '柔和环境光，呼吸效果',
+  'landing.sound.preset.particle': '3D 透视点阵网格',
+  'landing.sound.preset.musical-colors': '彩虹色彩流动柱状图',
+  'landing.sound.preset.spikes': '360° 中心放射尖刺',
+  'landing.sound.preset.plenoptic': '光场景深模糊效果',
+  'landing.sound.preset.waveform-3d': '3D 透视波形深度层',
+  'landing.sound.preset.spectrum-circle': '向外辐射环形频谱'
 });

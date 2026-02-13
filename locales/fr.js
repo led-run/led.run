@@ -12,6 +12,8 @@ I18n.register('fr', {
   'landing.hero.subtitle': 'Transformez n\u2019importe quel \u00e9cran en affichage professionnel en quelques secondes. Sans app, sans compte, juste une URL.',
   'landing.input.go': 'Go',
   'landing.input.random': 'Style al\u00e9atoire',
+  'landing.mode.simple': 'Mode Simple',
+  'landing.mode.builder': 'Mode Constructeur',
 
   // Landing - Section titles
   'landing.section.flow': 'D\u00e9filement',
@@ -73,7 +75,7 @@ I18n.register('fr', {
   'settings.section.themeParams': 'Options du Th\u00e8me',
 
   // Settings - param labels
-  'settings.param.color': 'Couleur du Texte',
+  'settings.param.color': 'Couleur',
   'settings.param.bg': 'Arri\u00e8re-plan',
   'settings.param.fill': 'Couleur de Remplissage',
   'settings.param.mode': 'Mode',
@@ -169,7 +171,164 @@ I18n.register('fr', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Personnalis\u00e9e...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Effet',
+  'settings.visualizerLabel': 'Visualiseur',
+  'settings.section.effectParams': 'Options de l\u2019Effet',
+  'settings.section.vizParams': 'Options du Visualiseur',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Aper\u00e7u en Direct',
+  'landing.builder.card.themeAndMode': 'Th\u00e8me et Mode',
+  'landing.builder.card.visualStyle': 'Style Visuel',
+  'landing.builder.card.dynamics': 'Dynamique',
+  'landing.builder.card.advanced': 'Param\u00e8tres Avanc\u00e9s',
+  'landing.builder.card.effect': 'Effet',
+  'landing.builder.card.visualizer': 'Visualiseur',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Options Avanc\u00e9es',
-  'landing.builder.hideAdvanced': 'Masquer les Options'
+  'landing.builder.hideAdvanced': 'Masquer les Options',
+
+  // Landing - Product tabs
+  'landing.tab.text': 'Texte',
+  'landing.tab.light': 'Lumi\u00e8re',
+  'landing.tab.sound': 'Son',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Lampe torche blanche pure \u2014 luminosit\u00e9 maximale pour toute situation.',
+  'preset.light.strobe.desc': 'Stroboscope \u00e0 flash rapide pour f\u00eates et \u00e9v\u00e9nements.',
+  'preset.light.disco.desc': 'Lumi\u00e8res de f\u00eate disco multicolores rotatives.',
+  'preset.light.emergency.desc': 'Clignotant d\u2019urgence alternant rouge et bleu.',
+  'preset.light.candle.desc': 'Flamme de bougie vacillante pour une ambiance chaleureuse.',
+  'preset.light.rainbow.desc': 'Cycle fluide \u00e0 travers toutes les couleurs de l\u2019arc-en-ciel.',
+  'preset.light.sos.desc': 'Signal SOS en code Morse \u2014 trois courts, trois longs, trois courts.',
+  'preset.light.gradient.desc': 'Transitions de couleurs en d\u00e9grad\u00e9 fluide.',
+
+  // Product titles
+  'light.title': 'Lumi\u00e8re',
+  'sound.title': 'Son',
+
+  // Light effect names
+  'settings.effect.solid': 'Uni',
+  'settings.effect.strobe': 'Stroboscope',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'D\u00e9grad\u00e9',
+  'settings.effect.emergency': 'Urgence',
+  'settings.effect.candle': 'Bougie',
+  'settings.effect.rainbow': 'Arc-en-ciel',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Barres',
+  'settings.visualizer.scope': 'Oscilloscope',
+  'settings.visualizer.ocean': 'Oc\u00e9an',
+  'settings.visualizer.alchemy': 'Alchimie',
+  'settings.visualizer.battery': 'Batterie',
+  'settings.visualizer.ambience': 'Ambiance',
+  'settings.visualizer.particle': 'Particule',
+  'settings.visualizer.musical-colors': 'Couleurs',
+  'settings.visualizer.spikes': 'Pointes',
+  'settings.visualizer.plenoptic': 'Pl\u00e9noptique',
+  'settings.visualizer.waveform-3d': 'Onde 3D',
+  'settings.visualizer.spectrum-circle': 'Cercle',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Couleurs',
+  'settings.param.brightness': 'Luminosit\u00e9',
+  'settings.param.sensitivity': 'Sensibilit\u00e9',
+  'settings.param.smoothing': 'Lissage',
+  'settings.param.warmth': 'Chaleur',
+  'settings.param.barCount': 'Barres',
+  'settings.param.colorMode': 'Mode Couleur',
+  'settings.param.lineWidth': 'Largeur',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio Non Support\u00e9',
+  'sound.error.notSupported.desc': 'Votre navigateur ne supporte pas l\u2019entr\u00e9e microphone. Veuillez essayer Chrome ou Firefox.',
+  'sound.error.denied.title': 'Acc\u00e8s au Microphone Refus\u00e9',
+  'sound.error.denied.desc': 'Veuillez autoriser l\u2019acc\u00e8s au microphone pour utiliser les visualisations sonores.',
+  'sound.error.generic.title': 'Erreur Audio',
+  'sound.error.generic.desc': 'Impossible d\u2019acc\u00e9der au microphone. Veuillez v\u00e9rifier les param\u00e8tres de votre appareil.',
+
+  // New light effect names
+  'settings.effect.breathing': 'Respiration',
+  'settings.effect.sunset': 'Coucher de Soleil',
+  'settings.effect.heartbeat': 'Battement de C\u0153ur',
+  'settings.effect.matrix-rain': 'Pluie Matrix',
+  'settings.effect.aurora-waves': 'Vagues d\u2019Aurore',
+  'settings.effect.campfire': 'Feu de Camp',
+  'settings.effect.lightning': '\u00c9clair',
+  'settings.effect.kaleidoscope': 'Kal\u00e9idoscope',
+  'settings.effect.plasma': 'Plasma',
+  'settings.effect.lava-lamp': 'Lampe \u00e0 Lave',
+
+  // New light preset descriptions
+  'preset.light.breathing.desc': 'Pulsation de respiration calme pour la m\u00e9ditation et la relaxation.',
+  'preset.light.sunset.desc': 'Ciel de coucher de soleil chaud avec nuages flottants et soleil dor\u00e9.',
+  'preset.light.heartbeat.desc': 'Pulsation rythmique de battement de c\u0153ur avec anneaux de vagues expansifs.',
+  'preset.light.matrix-rain.desc': 'Caract\u00e8res verts tombant en cascade comme une pluie num\u00e9rique.',
+  'preset.light.aurora-waves.desc': 'Bandes de lumi\u00e8re d\u2019aurore fluides en vert, rose et violet.',
+  'preset.light.campfire.desc': 'Feu de camp chaleureux avec \u00e9tincelles et fum\u00e9e montante.',
+  'preset.light.lightning.desc': '\u00c9clairs dramatiques avec effets de flash de tonnerre.',
+  'preset.light.kaleidoscope.desc': 'Motifs sym\u00e9triques fascinants de kal\u00e9idoscope rotatif.',
+  'preset.light.plasma.desc': 'Plasma classique de demoscene avec couleurs HSL fluides.',
+  'preset.light.lava-lamp.desc': 'Lampe \u00e0 lave r\u00e9tro avec gouttes flottantes et fusionnantes.',
+
+  // New param labels
+  'settings.param.cycle': 'Cycle de Respiration',
+  'settings.param.depth': 'Profondeur',
+  'settings.param.sunSize': 'Taille du Soleil',
+  'settings.param.cloudDensity': 'Densit\u00e9 des Nuages',
+  'settings.param.bpm': 'BPM',
+  'settings.param.pulse': 'Pulsation',
+  'settings.param.density': 'Densit\u00e9',
+  'settings.param.waves': 'Vagues',
+  'settings.param.amplitude': 'Amplitude',
+  'settings.param.sparks': '\u00c9tincelles',
+  'settings.param.wind': 'Vent',
+  'settings.param.frequency': 'Fr\u00e9quence',
+  'settings.param.branches': 'Branches',
+  'settings.param.symmetry': 'Sym\u00e9trie',
+  'settings.param.complexity': 'Complexit\u00e9',
+  'settings.param.waveScale': '\u00c9chelle d\u2019Onde',
+  'settings.param.blobCount': 'Nombre de Gouttes',
+  'settings.param.viscosity': 'Viscosit\u00e9',
+  'settings.param.gridLines': 'Lignes de Grille',
+  'settings.param.waveCount': 'Nombre de Vagues',
+  'settings.param.pulseSpeed': 'Vitesse de Pulsation',
+  'settings.param.glowRadius': 'Rayon de Lueur',
+  'settings.param.gridSize': 'Taille de Grille',
+  'settings.param.colorShift': 'Changement de Couleur',
+  'settings.param.spikeCount': 'Nombre de Pointes',
+  'settings.param.innerRadius': 'Rayon Intérieur',
+  'settings.param.mcPreset': 'Préréglage Musical Colors',
+  'settings.param.ambPreset': 'Préréglage Ambiance',
+
+  // Color mode options
+  'settings.colorMode.single': 'Couleur Unique',
+  'settings.colorMode.rainbow': 'Arc-en-ciel',
+  'settings.colorMode.gradient': 'D\u00e9grad\u00e9',
+
+  // Select option translations
+  'settings.shape.circle': 'Cercle',
+  'settings.shape.square': 'Carr\u00e9',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Activer/d\u00e9sactiver le micro',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'Barres de spectre premium avec d\u00e9grad\u00e9 LED vert',
+  'landing.sound.preset.scope': 'Oscilloscope double canal avec grille',
+  'landing.sound.preset.ocean': 'Vagues océaniques en couches pilotées par la fréquence',
+  'landing.sound.preset.alchemy': 'Orbe d\'énergie avec vortex de particules',
+  'landing.sound.preset.battery': 'Anneaux concentriques pulsants avec changement de teinte',
+  'landing.sound.preset.ambience': 'Lueur ambiante douce avec effet de respiration',
+  'landing.sound.preset.particle': 'Plan de grille de points avec perspective 3D',
+  'landing.sound.preset.musical-colors': 'Barres fluides colorées avec teintes arc-en-ciel',
+  'landing.sound.preset.spikes': 'Pointes radiales de 360° depuis le centre',
+  'landing.sound.preset.plenoptic': 'Champ lumineux avec flou de profondeur de champ',
+  'landing.sound.preset.waveform-3d': 'Forme d\'onde en perspective 3D avec couches de profondeur',
+  'landing.sound.preset.spectrum-circle': 'Spectre circulaire rayonnant vers l\'extérieur'
 });

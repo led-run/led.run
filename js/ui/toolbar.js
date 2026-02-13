@@ -20,6 +20,7 @@
     _el: null,
     _toast: null,
     _container: null,
+    _product: 'text',
     _rotationIndex: 0,
     _unsubFullscreen: null,
     _unsubCast: null,
@@ -28,11 +29,13 @@
     /**
      * Initialize toolbar
      * @param {Object} options
-     * @param {HTMLElement} options.container - The #sign-container element
+     * @param {HTMLElement} options.container - The #display element
+     * @param {string} [options.product] - 'text' | 'light' | 'sound'
      */
     init: function(options) {
       options = options || {};
-      this._container = options.container || document.getElementById('sign-container');
+      this._container = options.container || document.getElementById('display');
+      this._product = options.product || 'text';
 
       this._render();
       this._bind();
@@ -47,22 +50,22 @@
 
       // Toolbar
       var toolbar = document.createElement('div');
-      toolbar.className = 'sign-toolbar';
+      toolbar.className = 'toolbar';
 
       var castBtn = (typeof Cast !== 'undefined' && Cast.isSupported())
-        ? '<button class="sign-toolbar-btn" data-action="cast" aria-label="' + I18n.t('toolbar.cast') + '">' + ICON_CAST + '</button>'
+        ? '<button class="toolbar-btn" data-action="cast" aria-label="' + I18n.t('toolbar.cast') + '">' + ICON_CAST + '</button>'
         : '';
 
       toolbar.innerHTML =
-        '<button class="sign-toolbar-btn" data-action="fullscreen" aria-label="' + I18n.t('toolbar.fullscreen') + '">' + ICON_FULLSCREEN_ENTER + '</button>' +
-        '<button class="sign-toolbar-btn" data-action="rotate" aria-label="' + I18n.t('toolbar.rotate') + '">' + ICON_ROTATE + '</button>' +
+        '<button class="toolbar-btn" data-action="fullscreen" aria-label="' + I18n.t('toolbar.fullscreen') + '">' + ICON_FULLSCREEN_ENTER + '</button>' +
+        '<button class="toolbar-btn" data-action="rotate" aria-label="' + I18n.t('toolbar.rotate') + '">' + ICON_ROTATE + '</button>' +
         castBtn +
-        '<button class="sign-toolbar-btn" data-action="settings" aria-label="' + I18n.t('toolbar.settings') + '">' + ICON_SETTINGS + '</button>' +
-        '<button class="sign-toolbar-btn" data-action="share" aria-label="' + I18n.t('toolbar.share') + '">' + ICON_SHARE + '</button>';
+        '<button class="toolbar-btn" data-action="settings" aria-label="' + I18n.t('toolbar.settings') + '">' + ICON_SETTINGS + '</button>' +
+        '<button class="toolbar-btn" data-action="share" aria-label="' + I18n.t('toolbar.share') + '">' + ICON_SHARE + '</button>';
 
       // Toast
       var toast = document.createElement('div');
-      toast.className = 'sign-toolbar-toast';
+      toast.className = 'toolbar-toast';
 
       app.appendChild(toolbar);
       app.appendChild(toast);
@@ -80,7 +83,7 @@
 
       // Button click delegation
       this._el.addEventListener('click', function(e) {
-        var btn = e.target.closest('.sign-toolbar-btn');
+        var btn = e.target.closest('.toolbar-btn');
         if (!btn) return;
 
         var action = btn.dataset.action;
@@ -147,9 +150,12 @@
       }
 
       // Wait one frame for CSS to settle, force reflow, then notify theme
+      var product = this._product;
       requestAnimationFrame(function() {
         container.offsetHeight; // force synchronous reflow
-        ThemeManager.resize();
+        if (typeof Settings !== 'undefined' && Settings.PRODUCT_ADAPTERS[product]) {
+          Settings.PRODUCT_ADAPTERS[product].resize();
+        }
       });
 
       // Try to lock orientation (silently fails outside fullscreen)
@@ -298,6 +304,7 @@
       }
 
       this._container = null;
+      this._product = 'text';
       this._rotationIndex = 0;
     }
   };

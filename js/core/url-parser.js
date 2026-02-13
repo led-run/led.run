@@ -1,9 +1,12 @@
 /**
  * URL Parser
- * Extract display text and configuration parameters from URL
+ * Extract product type, display text, and configuration parameters from URL
  */
 ;(function(global) {
   'use strict';
+
+  // Reserved product path prefixes
+  var PRODUCTS = ['text', 'light', 'sound'];
 
   // Parameter alias mapping
   const PARAM_ALIASES = {
@@ -24,34 +27,67 @@
   const URLParser = {
     /**
      * Parse current URL
-     * @returns {Object} Parse result { text, ...config }
+     * @returns {Object} Parse result { product, text, ...config }
+     *   product: 'text' | 'light' | 'sound'
+     *   text: display text (only for text product)
      */
     parse() {
       const path = window.location.pathname;
       const search = window.location.search;
 
-      // Extract display text from path
-      const text = this._extractText(path);
+      // Detect product and extract text
+      const detected = this._detectProduct(path);
 
       // Parse query parameters (aliases resolved inline)
       const config = this._parseQueryString(search);
 
       return {
-        text,
+        product: detected.product,
+        text: detected.text,
         ...config
       };
     },
 
     /**
-     * Extract display text from path
+     * Detect product type and extract text from path
      * @private
      * @param {string} path - URL path
-     * @returns {string}
+     * @returns {Object} { product: string, text: string }
      */
-    _extractText(path) {
-      // Remove leading slash, decode entire path as display text
-      const cleanPath = path.replace(/^\/+/, '');
-      return decodeURIComponent(cleanPath);
+    _detectProduct(path) {
+      // Remove leading slash
+      var cleanPath = path.replace(/^\/+/, '');
+
+      // Empty path → landing page (text product default)
+      if (!cleanPath) {
+        return { product: 'text', text: '' };
+      }
+
+      // Split path into segments
+      var slashIndex = cleanPath.indexOf('/');
+      var firstSegment = slashIndex === -1 ? cleanPath : cleanPath.slice(0, slashIndex);
+      var rest = slashIndex === -1 ? '' : cleanPath.slice(slashIndex + 1);
+
+      // Check if first segment is a reserved product prefix
+      var lowerFirst = firstSegment.toLowerCase();
+
+      if (lowerFirst === 'light') {
+        // Light product — no text content
+        return { product: 'light', text: '' };
+      }
+
+      if (lowerFirst === 'sound') {
+        // Sound product — no text content
+        return { product: 'sound', text: '' };
+      }
+
+      if (lowerFirst === 'text') {
+        // Explicit text product prefix — rest is the display text
+        return { product: 'text', text: decodeURIComponent(rest) };
+      }
+
+      // Not a reserved prefix — entire path is text content (backward compatible)
+      return { product: 'text', text: decodeURIComponent(cleanPath) };
     },
 
     /**

@@ -77,7 +77,7 @@ I18n.register('en', {
   'settings.section.themeParams': 'Theme Options',
 
   // Settings - param labels
-  'settings.param.color': 'Text Color',
+  'settings.param.color': 'Color',
   'settings.param.bg': 'Background',
   'settings.param.fill': 'Fill Color',
   'settings.param.mode': 'Mode',
@@ -173,7 +173,168 @@ I18n.register('en', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Custom...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Effect',
+  'settings.visualizerLabel': 'Visualizer',
+  'settings.section.effectParams': 'Effect Options',
+  'settings.section.vizParams': 'Visualizer Options',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Live Preview',
+  'landing.builder.card.themeAndMode': 'Theme & Mode',
+  'landing.builder.card.visualStyle': 'Visual Style',
+  'landing.builder.card.dynamics': 'Dynamics',
+  'landing.builder.card.advanced': 'Advanced Params',
+  'landing.builder.card.effect': 'Effect',
+  'landing.builder.card.visualizer': 'Visualizer',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Advanced Options',
-  'landing.builder.hideAdvanced': 'Hide Options'
+  'landing.builder.hideAdvanced': 'Hide Options',
+
+  // Landing - Product tabs
+  'landing.tab.text': 'Text',
+  'landing.tab.light': 'Light',
+  'landing.tab.sound': 'Sound',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Pure white flashlight — maximum brightness for any situation.',
+  'preset.light.strobe.desc': 'Rapid flash strobe light for parties and events.',
+  'preset.light.disco.desc': 'Multi-color rotating disco party lights.',
+  'preset.light.emergency.desc': 'Red and blue alternating emergency flasher.',
+  'preset.light.candle.desc': 'Warm flickering candle flame for ambient mood.',
+  'preset.light.rainbow.desc': 'Smooth cycling through all rainbow colors.',
+  'preset.light.sos.desc': 'Morse code SOS signal — three short, three long, three short.',
+  'preset.light.gradient.desc': 'Flowing color gradient transitions.',
+
+  // Landing - Sound presets
+
+  // Product titles
+  'light.title': 'Light',
+  'sound.title': 'Sound',
+
+  // Light effect names
+  'settings.effect.solid': 'Solid',
+  'settings.effect.strobe': 'Strobe',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'Gradient',
+  'settings.effect.emergency': 'Emergency',
+  'settings.effect.candle': 'Candle',
+  'settings.effect.rainbow': 'Rainbow',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Bars',
+  'settings.visualizer.scope': 'Scope',
+  'settings.visualizer.ocean': 'Ocean',
+  'settings.visualizer.alchemy': 'Alchemy',
+  'settings.visualizer.battery': 'Battery',
+  'settings.visualizer.ambience': 'Ambience',
+  'settings.visualizer.particle': 'Particle',
+  'settings.visualizer.musical-colors': 'Colors',
+  'settings.visualizer.spikes': 'Spikes',
+  'settings.visualizer.plenoptic': 'Plenoptic',
+  'settings.visualizer.waveform-3d': 'Waveform 3D',
+  'settings.visualizer.spectrum-circle': 'Circle',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Colors',
+  'settings.param.brightness': 'Brightness',
+  'settings.param.sensitivity': 'Sensitivity',
+  'settings.param.smoothing': 'Smoothing',
+  'settings.param.warmth': 'Warmth',
+  'settings.param.barCount': 'Bar Count',
+  'settings.param.colorMode': 'Color Mode',
+  'settings.param.lineWidth': 'Line Width',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio Not Supported',
+  'sound.error.notSupported.desc': 'Your browser does not support microphone input. Please try Chrome or Firefox.',
+  'sound.error.denied.title': 'Microphone Access Denied',
+  'sound.error.denied.desc': 'Please allow microphone access to use sound visualizations.',
+  'sound.error.generic.title': 'Audio Error',
+  'sound.error.generic.desc': 'Could not access the microphone. Please check your device settings.',
+
+  // New light effect names
+  'settings.effect.breathing': 'Breathing',
+  'settings.effect.sunset': 'Sunset',
+  'settings.effect.heartbeat': 'Heartbeat',
+  'settings.effect.matrix-rain': 'Matrix Rain',
+  'settings.effect.aurora-waves': 'Aurora Waves',
+  'settings.effect.campfire': 'Campfire',
+  'settings.effect.lightning': 'Lightning',
+  'settings.effect.kaleidoscope': 'Kaleidoscope',
+  'settings.effect.plasma': 'Plasma',
+  'settings.effect.lava-lamp': 'Lava Lamp',
+
+
+  // New light preset descriptions
+  'preset.light.breathing.desc': 'Calm breathing pulse for meditation and relaxation.',
+  'preset.light.sunset.desc': 'Warm sunset sky with drifting clouds and golden sun.',
+  'preset.light.heartbeat.desc': 'Rhythmic heartbeat pulse with expanding ripple rings.',
+  'preset.light.matrix-rain.desc': 'Falling green characters in cascading digital rain.',
+  'preset.light.aurora-waves.desc': 'Flowing aurora light bands in green, pink, and purple.',
+  'preset.light.campfire.desc': 'Warm crackling campfire with sparks and rising smoke.',
+  'preset.light.lightning.desc': 'Dramatic lightning bolts with thunder flash effects.',
+  'preset.light.kaleidoscope.desc': 'Mesmerizing rotating kaleidoscope symmetry patterns.',
+  'preset.light.plasma.desc': 'Classic demo-scene plasma with flowing HSL colors.',
+  'preset.light.lava-lamp.desc': 'Retro lava lamp with floating and merging blobs.',
+
+
+  // New param labels
+  'settings.param.cycle': 'Breath Cycle',
+  'settings.param.depth': 'Depth',
+  'settings.param.sunSize': 'Sun Size',
+  'settings.param.cloudDensity': 'Cloud Density',
+  'settings.param.bpm': 'BPM',
+  'settings.param.pulse': 'Pulse',
+  'settings.param.density': 'Density',
+  'settings.param.waves': 'Waves',
+  'settings.param.amplitude': 'Amplitude',
+  'settings.param.sparks': 'Sparks',
+  'settings.param.wind': 'Wind',
+  'settings.param.frequency': 'Frequency',
+  'settings.param.branches': 'Branches',
+  'settings.param.symmetry': 'Symmetry',
+  'settings.param.complexity': 'Complexity',
+  'settings.param.waveScale': 'Wave Scale',
+  'settings.param.blobCount': 'Blob Count',
+  'settings.param.viscosity': 'Viscosity',
+  'settings.param.gridLines': 'Grid Lines',
+  'settings.param.waveCount': 'Wave Count',
+  'settings.param.pulseSpeed': 'Pulse Speed',
+  'settings.param.glowRadius': 'Glow Radius',
+  'settings.param.gridSize': 'Grid Size',
+  'settings.param.colorShift': 'Color Shift',
+  'settings.param.spikeCount': 'Spike Count',
+  'settings.param.innerRadius': 'Inner Radius',
+  'settings.param.mcPreset': 'Musical Colors Preset',
+  'settings.param.ambPreset': 'Ambience Preset',
+
+  // Color mode options
+  'settings.colorMode.single': 'Single Color',
+  'settings.colorMode.rainbow': 'Rainbow',
+  'settings.colorMode.gradient': 'Gradient',
+
+  // Select option translations
+  'settings.shape.circle': 'Circle',
+  'settings.shape.square': 'Square',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Toggle microphone',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'Premium spectrum bars with green LED gradient',
+  'landing.sound.preset.scope': 'Dual-channel oscilloscope with grid',
+  'landing.sound.preset.ocean': 'Layered ocean waves driven by frequency',
+  'landing.sound.preset.alchemy': 'Energy orb with particle vortex',
+  'landing.sound.preset.battery': 'Pulsing concentric rings with hue shift',
+  'landing.sound.preset.ambience': 'Soft ambient glow with breathing effect',
+  'landing.sound.preset.particle': 'Dot grid plane with 3D perspective',
+  'landing.sound.preset.musical-colors': 'Colorful flowing bars with rainbow hues',
+  'landing.sound.preset.spikes': '360° radial spikes from center',
+  'landing.sound.preset.plenoptic': 'Light field with depth-of-field blur',
+  'landing.sound.preset.waveform-3d': '3D perspective waveform with depth layers',
+  'landing.sound.preset.spectrum-circle': 'Circular spectrum radiating outward'
 });

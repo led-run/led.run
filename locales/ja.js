@@ -12,6 +12,8 @@ I18n.register('ja', {
   'landing.hero.subtitle': '\u6570\u79d2\u3067\u3042\u3089\u3086\u308b\u753b\u9762\u3092\u30d7\u30ed\u306e\u30c7\u30a3\u30b9\u30d7\u30ec\u30a4\u306b\u3002\u30a2\u30d7\u30ea\u4e0d\u8981\u3001\u30a2\u30ab\u30a6\u30f3\u30c8\u4e0d\u8981\u3001URL\u3060\u3051\u3002',
   'landing.input.go': '\u958b\u59cb',
   'landing.input.random': '\u30e9\u30f3\u30c0\u30e0\u30b9\u30bf\u30a4\u30eb',
+  'landing.mode.simple': '\u30b7\u30f3\u30d7\u30eb\u69cb\u7bc9',
+  'landing.mode.builder': '\u30d3\u30eb\u30c0\u30fc\u30e2\u30fc\u30c9',
 
   // Landing - Section titles
   'landing.section.flow': '\u30b9\u30af\u30ed\u30fc\u30eb\u30de\u30fc\u30ad\u30fc',
@@ -73,7 +75,7 @@ I18n.register('ja', {
   'settings.section.themeParams': '\u30c6\u30fc\u30de\u30aa\u30d7\u30b7\u30e7\u30f3',
 
   // Settings - param labels
-  'settings.param.color': '\u6587\u5b57\u8272',
+  'settings.param.color': 'カラー',
   'settings.param.bg': '\u80cc\u666f',
   'settings.param.fill': '\u5857\u308a\u3064\u3076\u3057\u8272',
   'settings.param.mode': '\u30e2\u30fc\u30c9',
@@ -169,7 +171,163 @@ I18n.register('ja', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'カスタム...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'エフェクト',
+  'settings.visualizerLabel': 'ビジュアライザー',
+  'settings.section.effectParams': 'エフェクトオプション',
+  'settings.section.vizParams': 'ビジュアライザーオプション',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'ライブプレビュー',
+  'landing.builder.card.themeAndMode': 'テーマとモード',
+  'landing.builder.card.visualStyle': 'ビジュアルスタイル',
+  'landing.builder.card.dynamics': 'ダイナミクス',
+  'landing.builder.card.advanced': '詳細パラメータ',
+  'landing.builder.card.effect': 'エフェクト',
+  'landing.builder.card.visualizer': 'ビジュアライザー',
+  'landing.builder.card.audio': 'オーディオ',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': '詳細オプション',
-  'landing.builder.hideAdvanced': 'オプションを隠す'
+  'landing.builder.hideAdvanced': 'オプションを隠す',
+
+  // Landing - Product tabs
+  'landing.tab.text': 'テキスト',
+  'landing.tab.light': 'ライト',
+  'landing.tab.sound': 'サウンド',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': '純白フラッシュライト — あらゆる場面で最大輝度。',
+  'preset.light.strobe.desc': 'パーティーやイベント向けの高速フラッシュストロボ。',
+  'preset.light.disco.desc': 'マルチカラー回転ディスコパーティーライト。',
+  'preset.light.emergency.desc': '赤と青の交互点滅する緊急灯。',
+  'preset.light.candle.desc': '温かみのあるゆらめくキャンドルの炎。',
+  'preset.light.rainbow.desc': 'レインボーカラーのスムーズな循環。',
+  'preset.light.sos.desc': 'モールス信号のSOS — 短3回、長3回、短3回。',
+  'preset.light.gradient.desc': '流れるようなグラデーション色の遷移。',
+
+  // Product titles
+  'light.title': 'ライト',
+  'sound.title': 'サウンド',
+
+  // Light effect names
+  'settings.effect.solid': 'ソリッド',
+  'settings.effect.strobe': 'ストロボ',
+  'settings.effect.disco': 'ディスコ',
+  'settings.effect.gradient': 'グラデーション',
+  'settings.effect.emergency': '緊急灯',
+  'settings.effect.candle': 'キャンドル',
+  'settings.effect.rainbow': 'レインボー',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'バー',
+  'settings.visualizer.scope': 'スコープ',
+  'settings.visualizer.ocean': 'オーシャン',
+  'settings.visualizer.alchemy': 'アルケミー',
+  'settings.visualizer.battery': 'バッテリー',
+  'settings.visualizer.ambience': 'アンビエンス',
+  'settings.visualizer.particle': 'パーティクル',
+  'settings.visualizer.musical-colors': 'カラーズ',
+  'settings.visualizer.spikes': 'スパイク',
+  'settings.visualizer.plenoptic': 'プレノプティック',
+  'settings.visualizer.waveform-3d': '3Dウェーブ',
+  'settings.visualizer.spectrum-circle': 'サークル',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'カラー',
+  'settings.param.brightness': '明るさ',
+  'settings.param.sensitivity': '感度',
+  'settings.param.smoothing': 'スムージング',
+  'settings.param.warmth': '暖かさ',
+  'settings.param.barCount': 'バー数',
+  'settings.param.colorMode': 'カラーモード',
+  'settings.param.lineWidth': '線幅',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'オーディオ非対応',
+  'sound.error.notSupported.desc': 'お使いのブラウザはマイク入力に対応していません。ChromeまたはFirefoxをお試しください。',
+  'sound.error.denied.title': 'マイクアクセス拒否',
+  'sound.error.denied.desc': 'サウンドビジュアライゼーションを使用するには、マイクアクセスを許可してください。',
+  'sound.error.generic.title': 'オーディオエラー',
+  'sound.error.generic.desc': 'マイクにアクセスできませんでした。デバイスの設定を確認してください。',
+
+  // New light effect names
+  'settings.effect.breathing': 'ブリージング',
+  'settings.effect.sunset': 'サンセット',
+  'settings.effect.heartbeat': 'ハートビート',
+  'settings.effect.matrix-rain': 'マトリックスレイン',
+  'settings.effect.aurora-waves': 'オーロラウェーブ',
+  'settings.effect.campfire': 'キャンプファイア',
+  'settings.effect.lightning': 'ライトニング',
+  'settings.effect.kaleidoscope': '万華鏡',
+  'settings.effect.plasma': 'プラズマ',
+  'settings.effect.lava-lamp': 'ラバランプ',
+
+  // New light preset descriptions
+  'preset.light.breathing.desc': '瞑想やリラクゼーションに最適な穏やかな呼吸パルス。',
+  'preset.light.sunset.desc': '漂う雲と金色の太陽のある温かい夕焼け空。',
+  'preset.light.heartbeat.desc': '拡大する波紋リングを伴うリズミカルなハートビートパルス。',
+  'preset.light.matrix-rain.desc': 'カスケードするデジタルレインの落下する緑の文字。',
+  'preset.light.aurora-waves.desc': '緑、ピンク、紫のオーロラ光帯の流れ。',
+  'preset.light.campfire.desc': '火花と立ち上る煙のある温かい焚き火。',
+  'preset.light.lightning.desc': '雷の閃光効果を伴うドラマチックな稲妻。',
+  'preset.light.kaleidoscope.desc': '魅惑的な回転する万華鏡の対称パターン。',
+  'preset.light.plasma.desc': '流れるHSLカラーのクラシックなプラズマ。',
+  'preset.light.lava-lamp.desc': '浮遊し融合するブロブのレトロなラバランプ。',
+
+  // New param labels
+  'settings.param.cycle': '呼吸周期',
+  'settings.param.depth': '深度',
+  'settings.param.sunSize': '太陽サイズ',
+  'settings.param.cloudDensity': '雲の密度',
+  'settings.param.bpm': 'BPM',
+  'settings.param.pulse': 'パルス',
+  'settings.param.density': '密度',
+  'settings.param.waves': 'ウェーブ',
+  'settings.param.amplitude': '振幅',
+  'settings.param.sparks': '火花',
+  'settings.param.wind': '風',
+  'settings.param.frequency': '周波数',
+  'settings.param.branches': '分岐',
+  'settings.param.symmetry': '対称',
+  'settings.param.complexity': '複雑さ',
+  'settings.param.waveScale': '波スケール',
+  'settings.param.blobCount': 'ブロブ数',
+  'settings.param.viscosity': '粘性',
+  'settings.param.gridLines': 'グリッド線',
+  'settings.param.waveCount': '波の数',
+  'settings.param.pulseSpeed': 'パルス速度',
+  'settings.param.glowRadius': 'グロー半径',
+  'settings.param.gridSize': 'グリッドサイズ',
+  'settings.param.colorShift': 'カラーシフト',
+  'settings.param.spikeCount': 'スパイク数',
+  'settings.param.innerRadius': '内側半径',
+  'settings.param.mcPreset': 'Musical Colors プリセット',
+  'settings.param.ambPreset': 'アンビエンスプリセット',
+
+  // Color mode options
+  'settings.colorMode.single': '単色',
+  'settings.colorMode.rainbow': 'レインボー',
+  'settings.colorMode.gradient': 'グラデーション',
+
+  // Select option translations
+  'settings.shape.circle': '円',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'マイク切替',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'プレミアムスペクトラムバー、グリーンLEDグラデーション',
+  'landing.sound.preset.scope': 'グリッド付きデュアルチャンネルオシロスコープ',
+  'landing.sound.preset.ocean': '周波数駆動の多層オーシャンウェーブ',
+  'landing.sound.preset.alchemy': 'パーティクル渦巻きを伴うエネルギーオーブ',
+  'landing.sound.preset.battery': '色相シフト付き同心円パルスリング',
+  'landing.sound.preset.ambience': '呼吸効果を伴うソフトアンビエントグロー',
+  'landing.sound.preset.particle': '3D透視投影ドットグリッドプレーン',
+  'landing.sound.preset.musical-colors': 'レインボー色相のカラフルフローバー',
+  'landing.sound.preset.spikes': '中心から360°放射状スパイク',
+  'landing.sound.preset.plenoptic': '被写界深度ブラー付きライトフィールド',
+  'landing.sound.preset.waveform-3d': '深度レイヤー付き3D透視ウェーブフォーム',
+  'landing.sound.preset.spectrum-circle': '外側に放射するサーキュラースペクトラム'
 });

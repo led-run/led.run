@@ -1,0 +1,9 @@
+/**
+ * Light Product Styles
+ * Base styles for light effects
+ */
+
+/* Light effects fill entire container */
+#app[data-product="light"] #display {
+  background: #000;
+}

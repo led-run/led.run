@@ -1,12 +1,20 @@
 /**
  * Settings Panel Module
  * Visual configuration UI for theme parameters
+ * Supports Text, Light, and Sound products via PRODUCT_ADAPTERS
  */
 ;(function(global) {
   'use strict';
 
-  // Common params that appear for all themes (not theme-specific)
-  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill'];
+  // Text-product common params (shown in "General" section)
+  var TEXT_COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill'];
+  // Light-product common params
+  var LIGHT_COMMON_PARAMS = ['color', 'bg', 'speed', 'brightness'];
+  // Sound-product common params
+  var SOUND_COMMON_PARAMS = ['color', 'bg', 'sensitivity', 'smoothing'];
+
+  // Union of all product common params (kept for landing page builder reuse)
+  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing'];
 
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
@@ -37,6 +45,18 @@
     direction: { type: 'select', label: 'settings.param.direction', options: ['left', 'right'] },
     font:      { type: 'font', label: 'settings.param.font' },
     scale:     { type: 'range', label: 'settings.param.scale', min: 0.1, max: 1, step: 0.1 },
+    // Light/Sound common
+    brightness:  { type: 'range', label: 'settings.param.brightness', min: 10, max: 100, step: 5 },
+    sensitivity: { type: 'range', label: 'settings.param.sensitivity', min: 1, max: 10, step: 1 },
+    smoothing:   { type: 'range', label: 'settings.param.smoothing', min: 0, max: 1, step: 0.1 },
+    colors:      { type: 'string', label: 'settings.param.colors' },
+    // Light-specific
+    warmth:      { type: 'range', label: 'settings.param.warmth', min: 1, max: 10, step: 1 },
+    // Sound-specific
+    barCount:    { type: 'range', label: 'settings.param.barCount', min: 8, max: 256, step: 8 },
+    colorMode:   { type: 'select', label: 'settings.param.colorMode',
+                   options: ['single', 'rainbow', 'gradient'] },
+    lineWidth:   { type: 'range', label: 'settings.param.lineWidth', min: 1, max: 10, step: 0.5 },
     // Theme-specific
     flicker:   { type: 'range', label: 'settings.param.flicker', min: 0, max: 10, step: 0.5 },
     scanlines: { type: 'boolean', label: 'settings.param.scanlines' },
@@ -60,7 +80,100 @@
     shape:     { type: 'select', label: 'settings.param.shape', options: ['square', 'round'] },
     bezel:     { type: 'boolean', label: 'settings.param.bezel' },
     weight:    { type: 'select', label: 'settings.param.weight', options: ['normal', 'bold'] },
-    wrap:      { type: 'boolean', label: 'settings.param.wrap' }
+    wrap:      { type: 'boolean', label: 'settings.param.wrap' },
+    // Light custom params
+    cycle:        { type: 'range', label: 'settings.param.cycle', min: 4, max: 20, step: 2 },
+    depth:        { type: 'range', label: 'settings.param.depth', min: 1, max: 10, step: 1 },
+    sunSize:      { type: 'range', label: 'settings.param.sunSize', min: 1, max: 10, step: 1 },
+    cloudDensity: { type: 'range', label: 'settings.param.cloudDensity', min: 1, max: 10, step: 1 },
+    bpm:          { type: 'range', label: 'settings.param.bpm', min: 60, max: 180, step: 6 },
+    pulse:        { type: 'range', label: 'settings.param.pulse', min: 1, max: 10, step: 1 },
+    density:      { type: 'range', label: 'settings.param.density', min: 1, max: 10, step: 1 },
+    waves:        { type: 'range', label: 'settings.param.waves', min: 3, max: 12, step: 1 },
+    amplitude:    { type: 'range', label: 'settings.param.amplitude', min: 1, max: 10, step: 1 },
+    sparks:       { type: 'range', label: 'settings.param.sparks', min: 0, max: 10, step: 1 },
+    wind:         { type: 'range', label: 'settings.param.wind', min: 0, max: 10, step: 1 },
+    frequency:    { type: 'range', label: 'settings.param.frequency', min: 1, max: 10, step: 1 },
+    branches:     { type: 'range', label: 'settings.param.branches', min: 1, max: 10, step: 1 },
+    symmetry:     { type: 'range', label: 'settings.param.symmetry', min: 4, max: 16, step: 2 },
+    complexity:   { type: 'range', label: 'settings.param.complexity', min: 1, max: 10, step: 1 },
+    waveScale:    { type: 'range', label: 'settings.param.waveScale', min: 1, max: 10, step: 1 },
+    blobCount:    { type: 'range', label: 'settings.param.blobCount', min: 5, max: 20, step: 1 },
+    viscosity:    { type: 'range', label: 'settings.param.viscosity', min: 1, max: 10, step: 1 },
+    // Sound custom params (WMP visualizers)
+    gridLines:     { type: 'boolean', label: 'settings.param.gridLines' },
+    waveCount:     { type: 'range', label: 'settings.param.waveCount', min: 3, max: 10, step: 1 },
+    pulseSpeed:    { type: 'range', label: 'settings.param.pulseSpeed', min: 1, max: 10, step: 1 },
+    glowRadius:    { type: 'range', label: 'settings.param.glowRadius', min: 0.3, max: 1, step: 0.1 },
+    gridSize:      { type: 'range', label: 'settings.param.gridSize', min: 10, max: 40, step: 2 },
+    colorShift:    { type: 'range', label: 'settings.param.colorShift', min: 1, max: 10, step: 1 },
+    spikeCount:    { type: 'range', label: 'settings.param.spikeCount', min: 32, max: 128, step: 8 },
+    innerRadius:   { type: 'range', label: 'settings.param.innerRadius', min: 0.1, max: 0.4, step: 0.05 },
+    // WMP visualizer presets
+    mcPreset:      { type: 'select', label: 'settings.param.mcPreset',
+                     options: ['aurora', 'water', 'silky', 'electric', 'neon', 'flame', 'star'] },
+    ambPreset:     { type: 'select', label: 'settings.param.ambPreset',
+                     options: ['glow', 'water', 'swirl'] },
+  };
+
+  // Product adapters — map each product to its manager, params, i18n prefix, URL builder
+  var PRODUCT_ADAPTERS = {
+    text: {
+      getIds: function() { return TextManager.getThemeIds(); },
+      getDefaults: function(id) { return TextManager.getDefaults(id); },
+      getCurrentId: function() { return TextManager.getCurrentId(); },
+      getCurrentText: function() { return TextManager.getCurrentText(); },
+      doSwitch: function(id, container, config, ctx) {
+        TextManager.switch(id, container, ctx.text, config);
+      },
+      i18nPrefix: 'settings.theme.',
+      commonParams: TEXT_COMMON_PARAMS,
+      defaultId: 'default',
+      hasText: true,
+      sectionLabel: 'settings.theme',
+      sectionParamsLabel: 'settings.section.themeParams',
+      buildPath: function(ctx) { return '/' + encodeURIComponent(ctx.text); },
+      resize: function() { TextManager.resize(); }
+    },
+    light: {
+      getIds: function() { return LightManager.getEffectIds(); },
+      getDefaults: function(id) { return LightManager.getDefaults(id); },
+      getCurrentId: function() { return LightManager.getCurrentId(); },
+      doSwitch: function(id, container, config) {
+        LightManager.switch(id, container, config);
+      },
+      i18nPrefix: 'settings.effect.',
+      commonParams: LIGHT_COMMON_PARAMS,
+      defaultId: 'solid',
+      hasText: false,
+      sectionLabel: 'settings.effectLabel',
+      sectionParamsLabel: 'settings.section.effectParams',
+      buildPath: function() { return '/light'; },
+      resize: function() { LightManager.resize(); },
+      knownParamOverrides: {
+        speed: { type: 'range', label: 'settings.param.speed', min: 1, max: 20, step: 1 }
+      }
+    },
+    sound: {
+      getIds: function() { return SoundManager.getVisualizerIds(); },
+      getDefaults: function(id) { return SoundManager.getDefaults(id); },
+      getCurrentId: function() { return SoundManager.getCurrentId(); },
+      doSwitch: function(id, container, config, ctx) {
+        SoundManager.switch(id, container, config, ctx.audioEngine);
+      },
+      i18nPrefix: 'settings.visualizer.',
+      commonParams: SOUND_COMMON_PARAMS,
+      defaultId: 'bars',
+      hasText: false,
+      sectionLabel: 'settings.visualizerLabel',
+      sectionParamsLabel: 'settings.section.vizParams',
+      buildPath: function() { return '/sound'; },
+      resize: function() { SoundManager.resize(); },
+      knownParamOverrides: {
+        shape: { type: 'select', label: 'settings.param.shape', options: ['circle', 'square'] },
+        depth: { type: 'range', label: 'settings.param.depth', min: 4, max: 16, step: 1 }
+      }
+    }
   };
 
   var Settings = {
@@ -68,27 +181,33 @@
     _panel: null,
     _isOpen: false,
     _container: null,
+    _product: 'text',
     _text: '',
     _themeId: '',
     _themeConfig: null,
+    _audioEngine: null,
     _debounceTimer: null,
     _onBeforeApply: null,
 
     /**
      * Initialize settings panel
      * @param {Object} options
-     * @param {HTMLElement} options.container - The #sign-container element
-     * @param {string} options.text - Current display text
-     * @param {string} options.themeId - Current theme ID
-     * @param {Object} options.themeConfig - Current theme config (URL params only, no defaults)
-     * @param {Function} options.onBeforeApply - Called before applying changes (for rotation cleanup)
+     * @param {HTMLElement} options.container - The #display element
+     * @param {string} options.product - 'text' | 'light' | 'sound'
+     * @param {string} [options.text] - Current display text (text product only)
+     * @param {string} options.themeId - Current theme/effect/visualizer ID
+     * @param {Object} options.themeConfig - Current config (URL params only, no defaults)
+     * @param {Object} [options.audioEngine] - AudioEngine reference (sound product only)
+     * @param {Function} [options.onBeforeApply] - Called before applying changes
      */
     init: function(options) {
       options = options || {};
       this._container = options.container;
+      this._product = options.product || 'text';
       this._text = options.text || '';
-      this._themeId = options.themeId || 'default';
+      this._themeId = options.themeId || PRODUCT_ADAPTERS[this._product].defaultId;
       this._themeConfig = options.themeConfig || {};
+      this._audioEngine = options.audioEngine || null;
       this._onBeforeApply = options.onBeforeApply || null;
       this._render();
       this._bind();
@@ -115,7 +234,7 @@
       this._panel.classList.add('open');
       // Disable cursor auto-hide while settings is open
       if (typeof Cursor !== 'undefined') Cursor.disable();
-      // Sync current state from ThemeManager
+      // Sync current state from product manager
       this._syncFromCurrent();
     },
 
@@ -140,6 +259,15 @@
     },
 
     /**
+     * Sync theme ID from external source (e.g., arrow key navigation)
+     * @param {string} id - New theme/effect/visualizer ID
+     */
+    syncThemeId: function(id) {
+      this._themeId = id;
+      if (this._isOpen) this._rebuildBody();
+    },
+
+    /**
      * Destroy panel
      */
     destroy: function() {
@@ -150,14 +278,17 @@
     },
 
     /**
-     * Sync internal state from ThemeManager
+     * Sync internal state from product manager
      * @private
      */
     _syncFromCurrent: function() {
-      var currentId = ThemeManager.getCurrentId();
-      var currentText = ThemeManager.getCurrentText();
+      var adapter = PRODUCT_ADAPTERS[this._product];
+      var currentId = adapter.getCurrentId();
       if (currentId) this._themeId = currentId;
-      if (currentText) this._text = currentText;
+      if (adapter.hasText && adapter.getCurrentText) {
+        var currentText = adapter.getCurrentText();
+        if (currentText) this._text = currentText;
+      }
       this._rebuildBody();
     },
 
@@ -232,33 +363,36 @@
       var body = this._panel.querySelector('.settings-body');
       body.innerHTML = '';
       var self = this;
+      var adapter = PRODUCT_ADAPTERS[this._product];
 
       // Get current merged config
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var defaults = adapter.getDefaults(this._themeId) || {};
       var merged = Object.assign({}, defaults, this._themeConfig);
 
-      // 1. Text input
-      var textSection = this._createSection('settings.text');
-      var textInput = document.createElement('input');
-      textInput.type = 'text';
-      textInput.className = 'settings-text-input';
-      textInput.value = this._text;
-      textInput.addEventListener('change', function() {
-        self._text = this.value;
-        self._applyChanges();
-      });
-      textSection.appendChild(textInput);
-      body.appendChild(textSection);
+      // 1. Text input (text product only)
+      if (adapter.hasText) {
+        var textSection = this._createSection('settings.text');
+        var textInput = document.createElement('input');
+        textInput.type = 'text';
+        textInput.className = 'settings-text-input';
+        textInput.value = this._text;
+        textInput.addEventListener('change', function() {
+          self._text = this.value;
+          self._applyChanges();
+        });
+        textSection.appendChild(textInput);
+        body.appendChild(textSection);
+      }
 
-      // 2. Theme selector
-      var themeSection = this._createSection('settings.theme');
+      // 2. Theme/Effect/Visualizer selector
+      var themeSection = this._createSection(adapter.sectionLabel);
       var grid = document.createElement('div');
       grid.className = 'settings-theme-grid';
-      var themeIds = ThemeManager.getThemeIds();
+      var themeIds = adapter.getIds();
       themeIds.forEach(function(id) {
         var chip = document.createElement('span');
         chip.className = 'settings-theme-chip' + (id === self._themeId ? ' active' : '');
-        chip.textContent = I18n.t('settings.theme.' + id);
+        chip.textContent = I18n.t(adapter.i18nPrefix + id);
         chip.dataset.theme = id;
         chip.addEventListener('click', function() {
           self._onThemeSelect(id);
@@ -268,9 +402,9 @@
       themeSection.appendChild(grid);
       body.appendChild(themeSection);
 
-      // 3. General params
+      // 3. General params (product-specific common params)
       var generalSection = this._createSection('settings.section.general');
-      var generalParams = ['color', 'bg', 'fill', 'mode', 'speed', 'direction', 'scale', 'font'];
+      var generalParams = adapter.commonParams;
       generalParams.forEach(function(key) {
         if (merged[key] === undefined && key !== 'mode') return;
         var field = self._buildField(key, merged[key], defaults[key]);
@@ -281,13 +415,13 @@
       // 4. Theme-specific params
       var themeSpecific = [];
       for (var key in defaults) {
-        if (COMMON_PARAMS.indexOf(key) === -1 && APP_PARAMS.indexOf(key) === -1) {
+        if (adapter.commonParams.indexOf(key) === -1 && APP_PARAMS.indexOf(key) === -1) {
           themeSpecific.push(key);
         }
       }
 
       if (themeSpecific.length > 0) {
-        var themeSection2 = this._createSection('settings.section.themeParams');
+        var themeSection2 = this._createSection(adapter.sectionParamsLabel);
         themeSpecific.forEach(function(key) {
           var field = self._buildField(key, merged[key], defaults[key]);
           if (field) themeSection2.appendChild(field);
@@ -321,7 +455,8 @@
      * @returns {HTMLElement|null}
      */
     _buildField: function(key, value, defaultValue) {
-      var meta = KNOWN_PARAMS[key];
+      var adapter = PRODUCT_ADAPTERS[this._product];
+      var meta = (adapter.knownParamOverrides && adapter.knownParamOverrides[key]) || KNOWN_PARAMS[key];
       var type;
 
       if (meta && meta.type !== 'auto') {
@@ -616,10 +751,11 @@
       if (themeId === this._themeId) return;
       this._themeId = themeId;
       // Reset theme-specific params when switching themes
-      // Keep only common params from current config
+      // Keep only common params for this product
+      var adapter = PRODUCT_ADAPTERS[this._product];
       var newConfig = {};
       var oldConfig = this._themeConfig;
-      COMMON_PARAMS.forEach(function(key) {
+      adapter.commonParams.forEach(function(key) {
         if (oldConfig[key] !== undefined) {
           newConfig[key] = oldConfig[key];
         }
@@ -635,7 +771,8 @@
      */
     _setParam: function(key, value) {
       // Compare with theme defaults to decide whether to store
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var adapter = PRODUCT_ADAPTERS[this._product];
+      var defaults = adapter.getDefaults(this._themeId) || {};
       if (value === defaults[key]) {
         delete this._themeConfig[key];
       } else {
@@ -662,16 +799,20 @@
      */
     _applyChanges: function() {
       if (!this._container) return;
+      var adapter = PRODUCT_ADAPTERS[this._product];
 
       // Notify before apply (e.g., reset rotation)
       if (this._onBeforeApply) this._onBeforeApply();
 
-      // Switch theme with current params
-      ThemeManager.switch(this._themeId, this._container, this._text, this._themeConfig);
+      // Switch theme/effect/visualizer with current params
+      adapter.doSwitch(this._themeId, this._container, this._themeConfig, {
+        text: this._text,
+        audioEngine: this._audioEngine
+      });
       document.getElementById('app').dataset.theme = this._themeId;
 
       // Update page title
-      if (this._text) {
+      if (adapter.hasText && this._text) {
         document.title = this._text + ' \u2014 led.run';
       }
 
@@ -684,16 +825,19 @@
      * @private
      */
     _syncURL: function() {
-      var path = '/' + encodeURIComponent(this._text);
+      var adapter = PRODUCT_ADAPTERS[this._product];
+      var path = adapter.buildPath({ text: this._text });
       var params = new URLSearchParams();
 
-      // Always include theme if not default
-      if (this._themeId && this._themeId !== 'default') {
-        params.set('t', this._themeId);
+      // Always include theme if not default (text) or always (light/sound)
+      if (this._themeId) {
+        if (!adapter.hasText || this._themeId !== adapter.defaultId) {
+          params.set('t', this._themeId);
+        }
       }
 
       // Include params that differ from defaults
-      var defaults = ThemeManager.getDefaults(this._themeId) || {};
+      var defaults = adapter.getDefaults(this._themeId) || {};
       var config = this._themeConfig;
       for (var key in config) {
         if (config[key] !== defaults[key] && APP_PARAMS.indexOf(key) === -1) {
@@ -713,6 +857,7 @@
   Settings.APP_PARAMS = APP_PARAMS;
   Settings.FONT_PRESETS = FONT_PRESETS;
   Settings.FONT_CUSTOM_VALUE = FONT_CUSTOM_VALUE;
+  Settings.PRODUCT_ADAPTERS = PRODUCT_ADAPTERS;
 
   /**
    * Infer control type from a default value
@@ -729,13 +874,15 @@
   /**
    * Get theme-specific param keys (excluding common and app params)
    * @param {string} themeId
+   * @param {string} [product] - Product type (defaults to 'text')
    * @returns {string[]}
    */
-  Settings.getThemeParamKeys = function(themeId) {
-    var defaults = ThemeManager.getDefaults(themeId) || {};
+  Settings.getThemeParamKeys = function(themeId, product) {
+    var adapter = PRODUCT_ADAPTERS[product || 'text'];
+    var defaults = adapter.getDefaults(themeId) || {};
     var keys = [];
     for (var key in defaults) {
-      if (COMMON_PARAMS.indexOf(key) === -1 && APP_PARAMS.indexOf(key) === -1) {
+      if (adapter.commonParams.indexOf(key) === -1 && APP_PARAMS.indexOf(key) === -1) {
         keys.push(key);
       }
     }

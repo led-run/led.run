@@ -9,15 +9,16 @@
   var Controls = {
     _callbacks: null,
     _boundKeydown: null,
-    _boundClick: null,
     _boundDblClick: null,
-    _lastTap: 0,
 
     /**
      * Initialize controls
      * @param {Object} callbacks
-     * @param {Function} callbacks.onTogglePause - Called on Space / single click
+     * @param {Function} callbacks.onTogglePause - Called on Space
      * @param {Function} callbacks.onFullscreen - Called on F / double click
+     * @param {Function} callbacks.onNext - Called on Right arrow
+     * @param {Function} callbacks.onPrev - Called on Left arrow
+     * @param {Function} callbacks.onAdjust - Called on Up/Down arrow, receives +1 or -1
      */
     init(callbacks) {
       this._callbacks = callbacks || {};
@@ -61,6 +62,30 @@
               this._callbacks.onFullscreen();
             }
             break;
+          case 'ArrowRight':
+            e.preventDefault();
+            if (this._callbacks.onNext) {
+              this._callbacks.onNext();
+            }
+            break;
+          case 'ArrowLeft':
+            e.preventDefault();
+            if (this._callbacks.onPrev) {
+              this._callbacks.onPrev();
+            }
+            break;
+          case 'ArrowUp':
+            e.preventDefault();
+            if (this._callbacks.onAdjust) {
+              this._callbacks.onAdjust(1);
+            }
+            break;
+          case 'ArrowDown':
+            e.preventDefault();
+            if (this._callbacks.onAdjust) {
+              this._callbacks.onAdjust(-1);
+            }
+            break;
           case 'Escape':
             if (Fullscreen.isActive()) {
               Fullscreen.exit();
@@ -80,35 +105,13 @@
       // Double-click for fullscreen
       this._boundDblClick = function(e) {
         if (typeof Settings !== 'undefined' && Settings.isOpen()) return;
+        if (e.target.closest('button')) return;
         e.preventDefault();
         if (this._callbacks.onFullscreen) {
           this._callbacks.onFullscreen();
         }
       }.bind(this);
 
-      // Single-click for toggle pause (with double-click guard)
-      var clickTimer = null;
-      this._boundClick = function(e) {
-        // Ignore clicks when settings panel is open
-        if (typeof Settings !== 'undefined' && Settings.isOpen()) return;
-        // Ignore clicks on landing page interactive elements
-        if (e.target.closest('a, button, input')) return;
-
-        if (clickTimer) {
-          clearTimeout(clickTimer);
-          clickTimer = null;
-          return; // Double-click will handle it
-        }
-
-        clickTimer = setTimeout(function() {
-          clickTimer = null;
-          if (this._callbacks.onTogglePause) {
-            this._callbacks.onTogglePause();
-          }
-        }.bind(this), 250);
-      }.bind(this);
-
-      document.addEventListener('click', this._boundClick);
       document.addEventListener('dblclick', this._boundDblClick);
     },
 
@@ -119,10 +122,6 @@
       if (this._boundKeydown) {
         document.removeEventListener('keydown', this._boundKeydown);
         this._boundKeydown = null;
-      }
-      if (this._boundClick) {
-        document.removeEventListener('click', this._boundClick);
-        this._boundClick = null;
       }
       if (this._boundDblClick) {
         document.removeEventListener('dblclick', this._boundDblClick);

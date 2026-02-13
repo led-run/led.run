@@ -37,66 +37,117 @@
     { text: 'AIRPORT SHUTTLE -> GATE 4', icon: '🚌', descKey: 'preset.flow.dot-matrix.desc', params: '?t=dot-matrix' }
   ];
 
+  // Light effect presets — for landing page
+  var LIGHT_PRESETS = [
+    { id: 'solid', icon: '\uD83D\uDD26', descKey: 'preset.light.solid.desc', params: '?t=solid' },
+    { id: 'strobe', icon: '\u26A1', descKey: 'preset.light.strobe.desc', params: '?t=strobe&speed=5' },
+    { id: 'disco', icon: '\uD83C\uDF7E', descKey: 'preset.light.disco.desc', params: '?t=disco&colors=ff0000,00ff00,0000ff' },
+    { id: 'emergency', icon: '\uD83D\uDEA8', descKey: 'preset.light.emergency.desc', params: '?t=emergency&speed=3' },
+    { id: 'candle', icon: '\uD83D\uDD6F\uFE0F', descKey: 'preset.light.candle.desc', params: '?t=candle' },
+    { id: 'rainbow', icon: '\uD83C\uDF08', descKey: 'preset.light.rainbow.desc', params: '?t=rainbow' },
+    { id: 'sos', icon: '\uD83C\uDD98', descKey: 'preset.light.sos.desc', params: '?t=sos' },
+    { id: 'gradient', icon: '\uD83C\uDF05', descKey: 'preset.light.gradient.desc', params: '?t=gradient' },
+    { id: 'breathing', icon: '\uD83E\uDEC1', descKey: 'preset.light.breathing.desc', params: '?t=breathing' },
+    { id: 'sunset', icon: '\uD83C\uDF05', descKey: 'preset.light.sunset.desc', params: '?t=sunset' },
+    { id: 'heartbeat', icon: '\uD83D\uDC93', descKey: 'preset.light.heartbeat.desc', params: '?t=heartbeat' },
+    { id: 'matrix-rain', icon: '\uD83D\uDFE9', descKey: 'preset.light.matrix-rain.desc', params: '?t=matrix-rain' },
+    { id: 'aurora-waves', icon: '\uD83C\uDF0C', descKey: 'preset.light.aurora-waves.desc', params: '?t=aurora-waves' },
+    { id: 'campfire', icon: '\uD83C\uDF5E', descKey: 'preset.light.campfire.desc', params: '?t=campfire' },
+    { id: 'lightning', icon: '\u26C8\uFE0F', descKey: 'preset.light.lightning.desc', params: '?t=lightning' },
+    { id: 'kaleidoscope', icon: '\uD83D\uDD2E', descKey: 'preset.light.kaleidoscope.desc', params: '?t=kaleidoscope' },
+    { id: 'plasma', icon: '\uD83C\uDF0A', descKey: 'preset.light.plasma.desc', params: '?t=plasma' },
+    { id: 'lava-lamp', icon: '\uD83E\uDEAB', descKey: 'preset.light.lava-lamp.desc', params: '?t=lava-lamp' }
+  ];
+
+  // Sound visualizer presets — for landing page
+  var SOUND_PRESETS = [
+    { id: 'bars', icon: '\uD83C\uDFB5', descKey: 'landing.sound.preset.bars', params: '?t=bars' },
+    { id: 'scope', icon: '\uD83D\uDCCA', descKey: 'landing.sound.preset.scope', params: '?t=scope' },
+    { id: 'ocean', icon: '\uD83C\uDF0A', descKey: 'landing.sound.preset.ocean', params: '?t=ocean' },
+    { id: 'alchemy', icon: '\u2697\uFE0F', descKey: 'landing.sound.preset.alchemy', params: '?t=alchemy' },
+    { id: 'battery', icon: '\uD83D\uDD0B', descKey: 'landing.sound.preset.battery', params: '?t=battery' },
+    { id: 'ambience', icon: '\uD83D\uDCAB', descKey: 'landing.sound.preset.ambience', params: '?t=ambience' },
+    { id: 'particle', icon: '\u2728', descKey: 'landing.sound.preset.particle', params: '?t=particle' },
+    { id: 'musical-colors', icon: '\uD83C\uDF08', descKey: 'landing.sound.preset.musical-colors', params: '?t=musical-colors' },
+    { id: 'spikes', icon: '\u2B50', descKey: 'landing.sound.preset.spikes', params: '?t=spikes' },
+    { id: 'plenoptic', icon: '\uD83D\uDD2E', descKey: 'landing.sound.preset.plenoptic', params: '?t=plenoptic' },
+    { id: 'waveform-3d', icon: '\uD83D\uDCC8', descKey: 'landing.sound.preset.waveform-3d', params: '?t=waveform-3d' },
+    { id: 'spectrum-circle', icon: '\u2B55', descKey: 'landing.sound.preset.spectrum-circle', params: '?t=spectrum-circle' }
+  ];
+
   var App = {
     _container: null,
+    _product: 'text',
 
     /**
      * Boot the application
      */
     init() {
-      this._container = document.getElementById('sign-container');
+      this._container = document.getElementById('display');
 
-      // Parse URL
+      // Parse URL (includes product detection)
       var parsed = URLParser.parse();
+      this._product = parsed.product || 'text';
       var text = parsed.text;
 
-      // Separate app-level and theme-level params
+      // Separate app-level and product-level params
       var appConfig = {};
-      var themeConfig = {};
+      var productConfig = {};
 
       for (var key in parsed) {
-        if (key === 'text') continue;
+        if (key === 'text' || key === 'product') continue;
         if (APP_PARAMS.indexOf(key) !== -1) {
           appConfig[key] = parsed[key];
         } else {
-          themeConfig[key] = parsed[key];
+          productConfig[key] = parsed[key];
         }
       }
 
       // Initialize i18n (before any rendering)
       I18n.init(appConfig.lang);
 
-      // No text → show landing page
-      if (!text) {
-        this._showLanding();
+      // Landing page: no content to display
+      var isLanding = (this._product === 'text' && !text) ||
+                      (this._product === 'light' && !productConfig.theme) ||
+                      (this._product === 'sound' && !productConfig.theme);
+      if (isLanding) {
+        this._showLanding(this._product);
         return;
       }
 
-      // Determine theme
-      var themeId = themeConfig.theme || 'default';
-      delete themeConfig.theme;
+      // Route to product-specific initialization
+      switch (this._product) {
+        case 'light':
+          this._initLight(productConfig, appConfig);
+          break;
+        case 'sound':
+          this._initSound(productConfig, appConfig);
+          break;
+        default:
+          this._initText(text, productConfig, appConfig);
+          break;
+      }
+    },
 
-      // Set page title
+    /**
+     * Initialize Text product
+     * @private
+     */
+    _initText: function(text, productConfig, appConfig) {
+      var themeId = productConfig.theme || 'default';
+      delete productConfig.theme;
+
       document.title = text + ' \u2014 led.run';
 
-      // Switch theme
-      ThemeManager.switch(themeId, this._container, text, themeConfig);
+      TextManager.switch(themeId, this._container, text, productConfig);
       document.getElementById('app').dataset.theme = themeId;
 
-      // Initialize App-level UI
-      WakeLock.init({ wakelock: appConfig.wakelock });
-      Cursor.init({ cursor: appConfig.cursor });
+      this._initCommonUI(appConfig);
 
-      // Receiver mode: clean display only (no controls, no toolbar)
-      if (typeof Cast !== 'undefined' && Cast._isReceiver()) {
-        Cast.init();
-        return;
-      }
-
-      // Initialize controls with callbacks bridging to current theme
+      // Text-specific controls
       Controls.init({
         onTogglePause: function() {
-          var theme = ThemeManager.getCurrent();
+          var theme = TextManager.getCurrent();
           if (theme && theme.togglePause) {
             theme.togglePause();
           }
@@ -105,29 +156,235 @@
           Fullscreen.toggle();
         }
       });
-      Toolbar.init({ container: this._container });
+      Toolbar.init({ container: this._container, product: 'text' });
 
       // Initialize settings panel
       if (typeof Settings !== 'undefined') {
         Settings.init({
           container: this._container,
+          product: 'text',
           text: text,
           themeId: themeId,
-          themeConfig: themeConfig
+          themeConfig: productConfig
         });
       }
 
-      // Initialize cast (auto-reconnects if session exists)
+      this._initCast();
+    },
+
+    /**
+     * Initialize Light product
+     * @private
+     */
+    _initLight: function(productConfig, appConfig) {
+      var effectId = productConfig.theme || 'solid';
+      delete productConfig.theme;
+
+      document.title = I18n.t('light.title') + ' \u2014 led.run';
+
+      LightManager.switch(effectId, this._container, productConfig);
+      document.getElementById('app').dataset.theme = effectId;
+
+      this._initCommonUI(appConfig);
+
+      Controls.init({
+        onFullscreen: function() {
+          Fullscreen.toggle();
+        },
+        onNext: function() {
+          var ids = LightManager.getEffectIds();
+          var idx = ids.indexOf(LightManager.getCurrentId());
+          var nextId = ids[(idx + 1) % ids.length];
+          LightManager.switch(nextId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = nextId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
+        },
+        onPrev: function() {
+          var ids = LightManager.getEffectIds();
+          var idx = ids.indexOf(LightManager.getCurrentId());
+          var prevId = ids[(idx - 1 + ids.length) % ids.length];
+          LightManager.switch(prevId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = prevId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+        },
+        onAdjust: function(delta) {
+          var config = LightManager.getCurrentConfig() || {};
+          var brightness = Math.max(10, Math.min(100, (config.brightness || 100) + delta * 5));
+          productConfig.brightness = brightness;
+          LightManager.switch(LightManager.getCurrentId(), App._container, productConfig);
+        }
+      });
+      Toolbar.init({ container: this._container, product: 'light' });
+
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          product: 'light',
+          themeId: effectId,
+          themeConfig: productConfig
+        });
+      }
+
+      this._initCast();
+    },
+
+    /**
+     * Initialize Sound product
+     * @private
+     */
+    _initSound: function(productConfig, appConfig) {
+      var vizId = productConfig.theme || 'bars';
+      delete productConfig.theme;
+      var self = this;
+
+      document.title = I18n.t('sound.title') + ' \u2014 led.run';
+
+      this._initCommonUI(appConfig);
+
+      // Check audio support first
+      if (!AudioEngine.isSupported()) {
+        this._showAudioError('notSupported');
+        return;
+      }
+
+      // Request microphone access
+      AudioEngine.init({
+        fftSize: 2048,
+        smoothingTimeConstant: productConfig.smoothing || 0.8
+      }).then(function() {
+        SoundManager.switch(vizId, self._container, productConfig, AudioEngine);
+        document.getElementById('app').dataset.theme = vizId;
+
+        Controls.init({
+          onFullscreen: function() {
+            Fullscreen.toggle();
+          },
+          onNext: function() {
+            var ids = SoundManager.getVisualizerIds();
+            var idx = ids.indexOf(SoundManager.getCurrentId());
+            var nextId = ids[(idx + 1) % ids.length];
+            SoundManager.switch(nextId, self._container, productConfig, AudioEngine);
+            document.getElementById('app').dataset.theme = nextId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
+          },
+          onPrev: function() {
+            var ids = SoundManager.getVisualizerIds();
+            var idx = ids.indexOf(SoundManager.getCurrentId());
+            var prevId = ids[(idx - 1 + ids.length) % ids.length];
+            SoundManager.switch(prevId, self._container, productConfig, AudioEngine);
+            document.getElementById('app').dataset.theme = prevId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+          },
+          onAdjust: function(delta) {
+            var config = SoundManager.getCurrentConfig() || {};
+            var sensitivity = Math.max(1, Math.min(10, (config.sensitivity || 5) + delta));
+            productConfig.sensitivity = sensitivity;
+            SoundManager.switch(SoundManager.getCurrentId(), self._container, productConfig, AudioEngine);
+          }
+        });
+        Toolbar.init({ container: self._container, product: 'sound' });
+
+        if (typeof Settings !== 'undefined') {
+          Settings.init({
+            container: self._container,
+            product: 'sound',
+            themeId: vizId,
+            themeConfig: productConfig,
+            audioEngine: AudioEngine
+          });
+        }
+
+        self._initCast();
+      }).catch(function(err) {
+        console.error('Microphone access failed:', err);
+        self._showAudioError(err.name === 'NotAllowedError' ? 'denied' : 'error');
+      });
+    },
+
+    /**
+     * Initialize common UI modules (WakeLock, Cursor, Cast receiver)
+     * @private
+     */
+    _initCommonUI: function(appConfig) {
+      WakeLock.init({ wakelock: appConfig.wakelock });
+      Cursor.init({ cursor: appConfig.cursor });
+
+      // Receiver mode: clean display only (no controls, no toolbar)
+      if (typeof Cast !== 'undefined' && Cast._isReceiver()) {
+        Cast.init();
+        return;
+      }
+    },
+
+    /**
+     * Initialize casting
+     * @private
+     */
+    _initCast: function() {
       if (typeof Cast !== 'undefined') {
         Cast.init();
       }
     },
 
     /**
+     * Show audio error message
+     * @private
+     * @param {string} reason - 'notSupported' | 'denied' | 'error'
+     */
+    _showAudioError: function(reason) {
+      var container = this._container;
+      container.innerHTML = '';
+      container.className = '';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+
+      var msg = document.createElement('div');
+      msg.style.textAlign = 'center';
+      msg.style.padding = '40px';
+      msg.style.color = '#fff';
+      msg.style.fontFamily = '-apple-system, sans-serif';
+
+      var icon = document.createElement('div');
+      icon.style.fontSize = '48px';
+      icon.style.marginBottom = '16px';
+
+      var title = document.createElement('div');
+      title.style.fontSize = '20px';
+      title.style.fontWeight = '600';
+      title.style.marginBottom = '8px';
+
+      var desc = document.createElement('div');
+      desc.style.fontSize = '14px';
+      desc.style.opacity = '0.7';
+
+      if (reason === 'notSupported') {
+        icon.textContent = '\uD83C\uDFA4';
+        title.textContent = I18n.t('sound.error.notSupported.title');
+        desc.textContent = I18n.t('sound.error.notSupported.desc');
+      } else if (reason === 'denied') {
+        icon.textContent = '\uD83D\uDD07';
+        title.textContent = I18n.t('sound.error.denied.title');
+        desc.textContent = I18n.t('sound.error.denied.desc');
+      } else {
+        icon.textContent = '\u26A0\uFE0F';
+        title.textContent = I18n.t('sound.error.generic.title');
+        desc.textContent = I18n.t('sound.error.generic.desc');
+      }
+
+      msg.appendChild(icon);
+      msg.appendChild(title);
+      msg.appendChild(desc);
+      container.appendChild(msg);
+    },
+
+    /**
      * Show landing page
      * @private
+     * @param {string} activeProduct - 'text' | 'light' | 'sound'
      */
-    _showLanding() {
+    _showLanding(activeProduct) {
+      activeProduct = activeProduct || 'text';
       document.title = I18n.t('meta.title');
       document.body.style.overflow = 'auto';
 
@@ -148,6 +405,13 @@
       html += '<h1 class="hero-title">' + I18n.t('landing.hero.title') + '</h1>';
       html += '<p class="hero-subtitle">' + I18n.t('landing.hero.subtitle') + '</p>';
 
+      // Product Tab Switcher
+      html += '<div class="product-switcher">';
+      ['text', 'light', 'sound'].forEach(function(p) {
+        html += '<button class="product-tab' + (p === activeProduct ? ' active' : '') + '" data-product="' + p + '">' + I18n.t('landing.tab.' + p) + '</button>';
+      });
+      html += '</div>';
+
       // Mode Switcher
       html += '<div class="mode-switcher">';
       html += '<button class="mode-tab' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">' + I18n.t('landing.mode.simple') + '</button>';
@@ -156,8 +420,11 @@
 
       html += '<div class="landing-content">';
 
-      // --- Simple Mode Panel ---
-      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" id="panel-simple">';
+      // ====== TEXT PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'text' ? ' active' : '') + '" id="product-text">';
+
+      // Text Simple
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
       html += '<div class="simple-mode-container">';
       html += '<div class="input-group">';
       html += '<div class="input-prefix">led.run/</div>';
@@ -168,75 +435,50 @@
       html += '<rect x="1" y="1" width="22" height="22" rx="4"></rect><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle></svg>';
       html += '</button>';
       html += '<button class="btn-launch" id="simple-go">' + I18n.t('landing.input.go') + '</button>';
-      html += '</div>';
-      html += '</div>';
-      html += '</div>';
-      html += '</div>';
+      html += '</div></div></div></div>';
 
-      // --- Builder Mode Panel ---
-      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" id="panel-builder">';
-      
-      // Top Level: The Preview "Canvas"
-      html += '<div class="builder-canvas">';
-      html += '<div class="preview-card">';
-      html += '<div class="preview-label">Live Preview</div>';
-      html += '<div id="builder-live-preview"></div>';
-      html += '</div>';
-      html += '</div>';
-
-      // Bottom Level: Modular Property Cards
+      // Text Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="builder-live-preview"></div></div></div>';
       html += '<div class="builder-grid">';
-      
-      // Card 1: Content & Identity
-      html += '<div class="prop-card">';
-      html += '<div class="prop-card-title">' + I18n.t('settings.text') + '</div>';
-      html += '<div class="prop-group">';
-      html += '<input type="text" class="builder-text-input" id="builder-text" placeholder="HELLO" autocomplete="off">';
-      html += '</div>';
-      html += '</div>';
 
-      // Card 2: Theme & Layout
-      html += '<div class="prop-card">';
-      html += '<div class="prop-card-title">Theme & Mode</div>';
-      html += '<div class="prop-group">';
-      html += '<div class="prop-row">';
-      html += '<span class="prop-label">' + I18n.t('settings.theme') + '</span>';
+      // Card 1: Content
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('settings.text') + '</div>';
+      html += '<div class="prop-group"><input type="text" class="builder-text-input" id="builder-text" placeholder="HELLO" autocomplete="off"></div></div>';
+
+      // Card 2: Theme & Mode
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.themeAndMode') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.theme') + '</span>';
       html += '<select class="builder-select" id="builder-theme">';
-      var bThemeIds = ThemeManager.getThemeIds();
+      var bThemeIds = TextManager.getThemeIds();
       html += '<option value="default">' + I18n.t('settings.theme.default') + '</option>';
       bThemeIds.forEach(function(id) {
         if (id === 'default') return;
         html += '<option value="' + id + '">' + I18n.t('settings.theme.' + id) + '</option>';
       });
-      html += '</select>';
-      html += '</div>';
-      html += '<div class="prop-row">';
-      html += '<span class="prop-label">' + I18n.t('settings.param.mode') + '</span>';
+      html += '</select></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.mode') + '</span>';
       html += '<select class="builder-select" id="builder-mode">';
       html += '<option value="">' + I18n.t('settings.mode.none') + '</option>';
       html += '<option value="sign">' + I18n.t('settings.mode.sign') + '</option>';
       html += '<option value="flow">' + I18n.t('settings.mode.flow') + '</option>';
-      html += '</select>';
-      html += '</div>';
-      html += '</div>';
-      html += '</div>';
+      html += '</select></div>';
+      html += '<div class="prop-row" id="builder-direction-row" style="display:none"><span class="prop-label">' + I18n.t('settings.param.direction') + '</span>';
+      html += '<select class="builder-select" id="builder-direction">';
+      html += '<option value="left">' + I18n.t('settings.direction.left') + '</option>';
+      html += '<option value="right">' + I18n.t('settings.direction.right') + '</option>';
+      html += '</select></div>';
+      html += '</div></div>';
 
       // Card 3: Visual Style
-      html += '<div class="prop-card">';
-      html += '<div class="prop-card-title">Visual Style</div>';
-      html += '<div class="prop-group">';
-      html += '<div class="prop-row">';
-      html += '<span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
       html += '<input type="color" class="builder-color-input" id="builder-color" value="#00ff41">';
       html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
-      html += '<input type="color" class="builder-color-input" id="builder-bg" value="#000000">';
-      html += '</div>';
-      html += '<div class="prop-row" id="builder-fill-row" style="display:none">';
-      html += '<span class="prop-label">' + I18n.t('settings.param.fill') + '</span>';
-      html += '<input type="color" class="builder-color-input" id="builder-fill" value="#000000">';
-      html += '</div>';
-      html += '<div class="prop-row">';
-      html += '<span class="prop-label">' + I18n.t('settings.param.font') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="builder-bg" value="#000000"></div>';
+      html += '<div class="prop-row" id="builder-fill-row" style="display:none"><span class="prop-label">' + I18n.t('settings.param.fill') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="builder-fill" value="#000000"></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.font') + '</span>';
       html += '<select class="builder-select" id="builder-font">';
       if (typeof Settings !== 'undefined' && Settings.FONT_PRESETS) {
         Settings.FONT_PRESETS.forEach(function(preset) {
@@ -244,74 +486,178 @@
         });
         html += '<option value="' + Settings.FONT_CUSTOM_VALUE + '">' + I18n.t('settings.font.custom') + '</option>';
       }
-      html += '</select>';
-      html += '</div>';
+      html += '</select></div>';
       html += '<input type="text" class="builder-text-input" id="builder-font-custom" placeholder="e.g. Helvetica" style="display:none; margin-top:8px">';
-      html += '</div>';
-      html += '</div>';
+      html += '</div></div>';
 
       // Card 4: Dynamics
-      html += '<div class="prop-card">';
-      html += '<div class="prop-card-title">Dynamics</div>';
-      html += '<div class="prop-group">';
-      html += '<div class="prop-row-stack">';
-      html += '<div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="builder-speed-val">60</span></div>';
-      html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60">';
-      html += '</div>';
-      html += '<div class="prop-row-stack">';
-      html += '<div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="builder-scale-val">1.0</span></div>';
-      html += '<input type="range" class="builder-range" id="builder-scale" min="0.1" max="1" step="0.1" value="1">';
-      html += '</div>';
-      html += '</div>';
-      html += '</div>';
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.dynamics') + '</div><div class="prop-group">';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="builder-speed-val">60</span></div>';
+      html += '<input type="range" class="builder-range" id="builder-speed" min="10" max="300" step="10" value="60"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="builder-scale-val">1.0</span></div>';
+      html += '<input type="range" class="builder-range" id="builder-scale" min="0.1" max="1" step="0.1" value="1"></div>';
+      html += '</div></div>';
 
       // Card 5: Advanced (Dynamic)
-      html += '<div class="prop-card" id="builder-custom-section" style="display:none">';
-      html += '<div class="prop-card-title">Advanced Params</div>';
-      html += '<div class="prop-group" id="builder-theme-params"></div>';
-      html += '</div>';
+      html += '<div class="prop-card" id="builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="builder-theme-params"></div></div>';
 
-      // Final Action Card (URL & Go)
-      html += '<div class="prop-card prop-card-highlight">';
-      html += '<div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div>';
-      html += '</div>';
-      html += '<div class="builder-actions">';
-      html += '<button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      // Action Card
+      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
+      html += '<div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
       html += '<button class="btn-secondary" id="builder-copy" title="Copy URL">';
       html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      html += '</button>';
-      html += '</div>';
-      html += '</div>';
+      html += '</button></div></div>';
 
-      html += '</div>'; // end builder-grid
-      html += '</div>'; // end panel-builder
+      html += '</div>'; // builder-grid
+      html += '</div>'; // text builder mode-panel
+      html += '</div>'; // product-text
 
-      html += '</div>'; // end landing-content
-      html += '</div>'; // end landing-hero
+      // ====== LIGHT PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'light' ? ' active' : '') + '" id="product-light">';
 
-      // Helper to render a preset grid
+      // Light Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="presets-grid presets-grid-compact">';
+      LIGHT_PRESETS.forEach(function(p) {
+        var href = '/light' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.effect.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // Light Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-grid">';
+
+      // Effect selection
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.effect') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.effectLabel') + '</span>';
+      html += '<select class="builder-select" id="light-builder-effect">';
+      var effectIds = LightManager.getEffectIds();
+      effectIds.forEach(function(id) {
+        html += '<option value="' + id + '">' + I18n.t('settings.effect.' + id) + '</option>';
+      });
+      html += '</select></div></div></div>';
+
+      // Color
+      html += '<div class="prop-card" id="light-builder-style-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row" id="light-builder-color-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="light-builder-color" value="#ffffff"></div>';
+      html += '<div class="prop-row" id="light-builder-bg-row"><span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="light-builder-bg" value="#000000"></div>';
+      html += '</div></div>';
+
+      // Speed & Brightness
+      html += '<div class="prop-card" id="light-builder-dynamics-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.dynamics') + '</div><div class="prop-group">';
+      html += '<div class="prop-row-stack" id="light-builder-speed-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.speed') + '</span><span class="val" id="light-builder-speed-val">5</span></div>';
+      html += '<input type="range" class="builder-range" id="light-builder-speed" min="1" max="20" step="1" value="5"></div>';
+      html += '<div class="prop-row-stack" id="light-builder-brightness-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.brightness') + '</span><span class="val" id="light-builder-brightness-val">100</span></div>';
+      html += '<input type="range" class="builder-range" id="light-builder-brightness" min="10" max="100" step="5" value="100"></div>';
+      html += '</div></div>';
+
+      // Light Advanced (Dynamic)
+      html += '<div class="prop-card" id="light-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="light-builder-effect-params"></div></div>';
+
+      // Light Action Card
+      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
+      html += '<div class="builder-url-preview" id="light-builder-url">led.run/light?t=solid</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // light builder mode-panel
+      html += '</div>'; // product-light
+
+      // ====== SOUND PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'sound' ? ' active' : '') + '" id="product-sound">';
+
+      // Sound Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="presets-grid presets-grid-compact">';
+      SOUND_PRESETS.forEach(function(p) {
+        var href = '/sound' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.visualizer.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // Sound Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-grid">';
+
+      // Visualizer selection
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualizer') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.visualizerLabel') + '</span>';
+      html += '<select class="builder-select" id="sound-builder-viz">';
+      var vizIds = SoundManager.getVisualizerIds();
+      vizIds.forEach(function(id) {
+        html += '<option value="' + id + '">' + I18n.t('settings.visualizer.' + id) + '</option>';
+      });
+      html += '</select></div></div></div>';
+
+      // Color
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="sound-builder-color" value="#00ff41">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="sound-builder-bg" value="#000000"></div>';
+      html += '</div></div>';
+
+      // Sensitivity & Smoothing
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.audio') + '</div><div class="prop-group">';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.sensitivity') + '</span><span class="val" id="sound-builder-sens-val">5</span></div>';
+      html += '<input type="range" class="builder-range" id="sound-builder-sensitivity" min="1" max="10" step="1" value="5"></div>';
+      html += '<div class="prop-row-stack" id="sound-builder-smoothing-row"><div class="prop-label-row"><span>' + I18n.t('settings.param.smoothing') + '</span><span class="val" id="sound-builder-smooth-val">0.8</span></div>';
+      html += '<input type="range" class="builder-range" id="sound-builder-smoothing" min="0" max="1" step="0.1" value="0.8"></div>';
+      html += '</div></div>';
+
+      // Sound Advanced (Dynamic)
+      html += '<div class="prop-card" id="sound-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="sound-builder-viz-params"></div></div>';
+
+      // Sound Action Card
+      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
+      html += '<div class="builder-url-preview" id="sound-builder-url">led.run/sound?t=bars</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // sound builder mode-panel
+      html += '</div>'; // product-sound
+
+      html += '</div>'; // landing-content
+      html += '</div>'; // landing-hero
+
+      // Text preset sections (only for text product)
+      html += '<div class="text-presets-section' + (activeProduct === 'text' ? ' active' : '') + '" id="text-presets">';
+
+      // Helper to render preset grids
       function renderPresets(presets) {
         var out = '';
         presets.forEach(function(p) {
           var href = '/' + encodeURIComponent(p.text) + (p.params || '');
           out += '<a class="preset-card" href="' + href + '">';
-          out += '<div class="preset-header">';
-          out += '<span class="preset-icon">' + p.icon + '</span>';
+          out += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span>';
           if (p.badgeKey) out += '<span class="preset-badge">' + I18n.t(p.badgeKey) + '</span>';
           out += '</div>';
           out += '<div class="preset-title">' + p.text + '</div>';
-          out += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
-          out += '</a>';
+          out += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div></a>';
         });
         return out;
       }
 
-      // Sections
       html += '<div class="section-title">' + I18n.t('landing.section.flow') + '</div>';
       html += '<div class="presets-grid">' + renderPresets(FLOW_PRESETS) + '</div>';
       html += '<div class="section-title">' + I18n.t('landing.section.sign') + '</div>';
       html += '<div class="presets-grid">' + renderPresets(SIGN_PRESETS) + '</div>';
+      html += '</div>'; // text-presets-section
 
       // Footer
       html += '<footer class="landing-footer">';
@@ -321,7 +667,7 @@
       html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
       html += '</div>';
-      
+
       // Language Switcher
       html += '<div class="footer-lang">';
       I18n.supported().forEach(function(lang, i) {
@@ -334,13 +680,42 @@
       });
       html += '</div>';
       html += '</footer>';
-
-      html += '</div>'; // end landing
+      html += '</div>'; // landing
 
       container.innerHTML = html;
 
       // --- Interaction Logic ---
       var self = this;
+
+      // Product Tab Switcher
+      document.querySelectorAll('.product-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var product = this.dataset.product;
+          document.querySelectorAll('.product-tab').forEach(function(t) { t.classList.toggle('active', t === tab); });
+          document.querySelectorAll('.product-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'product-' + product); });
+          // Show text presets only for text product
+          var textPresets = document.getElementById('text-presets');
+          if (textPresets) textPresets.classList.toggle('active', product === 'text');
+        });
+      });
+
+      // Mode Switcher — applies to all product panels
+      document.querySelectorAll('.mode-tab').forEach(function(tab) {
+        tab.addEventListener('click', function() {
+          var mode = this.dataset.mode;
+          localStorage.setItem('led-active-mode', mode);
+          document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.toggle('active', t === tab); });
+          document.querySelectorAll('.mode-panel').forEach(function(p) {
+            p.classList.toggle('active', p.dataset.mode === mode);
+          });
+          if (mode === 'builder') {
+            updateTextPreview();
+            setTimeout(function() { if (TextManager.resize) TextManager.resize(); }, 50);
+          }
+        });
+      });
+
+      // ====== TEXT PANEL LOGIC ======
       var simpleInput = document.getElementById('simple-input');
       var builderText = document.getElementById('builder-text');
       var builderTheme = document.getElementById('builder-theme');
@@ -354,67 +729,44 @@
       var builderFontCustom = document.getElementById('builder-font-custom');
       var builderUrlPreview = document.getElementById('builder-url-preview');
       var livePreview = document.getElementById('builder-live-preview');
-      
-      var userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
+
+      var builderDirection = document.getElementById('builder-direction');
+
+      var userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false, direction: false };
       var themeParamValues = {};
 
       function getDefaults() {
-        return ThemeManager.getDefaults(builderTheme.value) || {};
+        return TextManager.getDefaults(builderTheme.value) || {};
       }
 
-      function updatePreview() {
+      function updateTextPreview() {
         var text = builderText.value.trim() || 'HELLO';
         var themeId = builderTheme.value;
-        var defaults = getDefaults();
-        
+
         var config = { mode: builderMode.value || undefined };
         if (userChanged.color) config.color = builderColor.value.replace('#', '');
         if (userChanged.bg) config.bg = builderBg.value.replace('#', '');
         if (userChanged.fill) config.fill = builderFill.value.replace('#', '');
         if (userChanged.speed) config.speed = parseInt(builderSpeed.value, 10);
         if (userChanged.scale) config.scale = parseFloat(builderScale.value);
+        if (userChanged.direction) config.direction = builderDirection.value;
         if (userChanged.font) {
           var fontVal = builderFont.value;
           config.font = (fontVal === Settings.FONT_CUSTOM_VALUE) ? builderFontCustom.value.trim() : fontVal;
         }
-        
-        // Merge theme-specific params
         for (var k in themeParamValues) config[k] = themeParamValues[k];
 
-        // Update URL text
         var params = [];
         if (themeId !== 'default') params.push('t=' + themeId);
         for (var key in config) {
           if (config[key] !== undefined) params.push(key + '=' + encodeURIComponent(config[key]));
         }
-        var url = 'led.run/' + encodeURIComponent(text) + (params.length ? '?' + params.join('&') : '');
-        builderUrlPreview.textContent = url;
-
-        // Update Live Preview
-        ThemeManager.switch(themeId, livePreview, text, config);
-        
-        // Ensure the theme correctly calculates sizes for the preview container
-        if (ThemeManager.resize) {
-          setTimeout(function() { ThemeManager.resize(); }, 0);
-        }
+        builderUrlPreview.textContent = 'led.run/' + encodeURIComponent(text) + (params.length ? '?' + params.join('&') : '');
+        TextManager.switch(themeId, livePreview, text, config);
+        if (TextManager.resize) setTimeout(function() { TextManager.resize(); }, 0);
       }
 
-      // Bind Mode Switcher
-      document.querySelectorAll('.mode-tab').forEach(function(tab) {
-        tab.addEventListener('click', function() {
-          var mode = this.dataset.mode;
-          localStorage.setItem('led-active-mode', mode);
-          document.querySelectorAll('.mode-tab').forEach(function(t) { t.classList.toggle('active', t === tab); });
-          document.querySelectorAll('.mode-panel').forEach(function(p) { p.classList.toggle('active', p.id === 'panel-' + mode); });
-          if (mode === 'builder') {
-            updatePreview();
-            // Trigger an extra resize after panel becomes visible
-            setTimeout(function() { if (ThemeManager.resize) ThemeManager.resize(); }, 50);
-          }
-        });
-      });
-
-      // Simple Mode Events
+      // Simple mode
       function goSimple() {
         var val = simpleInput.value.trim();
         if (val) window.location.href = '/' + encodeURIComponent(val);
@@ -423,31 +775,29 @@
       simpleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') goSimple(); });
       document.getElementById('simple-random').addEventListener('click', function() {
         var val = simpleInput.value.trim() || 'HELLO';
-        var themes = ThemeManager.getThemeIds();
+        var themes = TextManager.getThemeIds();
         var theme = themes[Math.floor(Math.random() * themes.length)];
         window.location.href = '/' + encodeURIComponent(val) + '?t=' + theme;
       });
 
-      // Builder Mode Events
-      [builderText, builderTheme, builderMode, builderColor, builderBg, builderFill, builderSpeed, builderScale, builderFont, builderFontCustom].forEach(function(el) {
+      // Builder mode events
+      [builderText, builderTheme, builderMode, builderDirection, builderColor, builderBg, builderFill, builderSpeed, builderScale, builderFont, builderFontCustom].forEach(function(el) {
         el.addEventListener('input', function() {
           if (this.id !== 'builder-text' && this.id !== 'builder-theme' && this.id !== 'builder-mode') {
-            userChanged[this.id.replace('builder-', '')] = true;
+            var changedKey = this.id.replace('builder-', '');
+            if (changedKey === 'font-custom') changedKey = 'font';
+            userChanged[changedKey] = true;
           }
           if (this.id === 'builder-speed') document.getElementById('builder-speed-val').textContent = this.value;
           if (this.id === 'builder-scale') document.getElementById('builder-scale-val').textContent = this.value;
-          
-          if (this.id === 'builder-font') {
-            builderFontCustom.style.display = (this.value === Settings.FONT_CUSTOM_VALUE) ? 'block' : 'none';
-          }
-
+          if (this.id === 'builder-font') builderFontCustom.style.display = (this.value === Settings.FONT_CUSTOM_VALUE) ? 'block' : 'none';
           if (this.id === 'builder-theme') {
-            userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false };
+            userChanged = { color: false, bg: false, fill: false, speed: false, scale: false, font: false, direction: false };
             themeParamValues = {};
             syncBuilderToThemeDefaults();
             rebuildThemeParams();
           }
-          updatePreview();
+          updateTextPreview();
         });
       });
 
@@ -455,15 +805,14 @@
         var d = getDefaults();
         builderColor.value = '#' + (d.color || '00ff41').slice(0, 6);
         builderBg.value = '#' + (d.bg || '000000').slice(0, 6);
-        var hasFill = d.fill !== undefined;
-        document.getElementById('builder-fill-row').style.display = hasFill ? 'flex' : 'none';
+        document.getElementById('builder-fill-row').style.display = d.fill !== undefined ? 'flex' : 'none';
         builderFill.value = '#' + (d.fill || '000000').slice(0, 6);
         builderSpeed.value = d.speed || 60;
         document.getElementById('builder-speed-val').textContent = builderSpeed.value;
         builderScale.value = d.scale || 1;
         document.getElementById('builder-scale-val').textContent = builderScale.value;
-        
-        // Reset font
+        document.getElementById('builder-direction-row').style.display = d.direction !== undefined ? 'flex' : 'none';
+        builderDirection.value = d.direction || 'left';
         builderFont.value = d.font || '';
         builderFontCustom.value = '';
         builderFontCustom.style.display = 'none';
@@ -473,16 +822,13 @@
         var themeParamsContainer = document.getElementById('builder-theme-params');
         var customSection = document.getElementById('builder-custom-section');
         themeParamsContainer.innerHTML = '';
-        
         if (typeof Settings === 'undefined') return;
         var keys = Settings.getThemeParamKeys(builderTheme.value);
         customSection.style.display = keys.length ? 'flex' : 'none';
-        
         keys.forEach(function(key) {
           var meta = Settings.KNOWN_PARAMS[key];
           var defVal = getDefaults()[key];
           var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
-          
           var row = document.createElement('div');
           row.className = 'prop-row-stack';
           var labelRow = document.createElement('div');
@@ -491,10 +837,8 @@
           labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
           labelRow.appendChild(labelText);
           row.appendChild(labelRow);
-
           var inputWrap = document.createElement('div');
           inputWrap.className = 'prop-input-wrap';
-
           if (type === 'range') {
             var ri = document.createElement('input');
             ri.type = 'range'; ri.className = 'builder-range';
@@ -506,7 +850,7 @@
             ri.addEventListener('input', function() {
               rv.textContent = this.value;
               themeParamValues[key] = parseFloat(this.value);
-              updatePreview();
+              updateTextPreview();
             });
             inputWrap.appendChild(ri);
           } else if (type === 'color') {
@@ -516,7 +860,7 @@
             ci.value = '#' + (defVal || '000000').slice(0, 6);
             ci.addEventListener('input', function() {
               themeParamValues[key] = this.value.replace('#', '');
-              updatePreview();
+              updateTextPreview();
             });
             inputWrap.appendChild(ci);
           } else if (type === 'boolean') {
@@ -530,7 +874,7 @@
             toggle.appendChild(cb); toggle.appendChild(track);
             cb.addEventListener('change', function() {
               themeParamValues[key] = this.checked;
-              updatePreview();
+              updateTextPreview();
             });
             inputWrap.appendChild(toggle);
           }
@@ -549,12 +893,12 @@
         if (userChanged.fill) params.push('fill=' + builderFill.value.replace('#', ''));
         if (userChanged.speed) params.push('speed=' + builderSpeed.value);
         if (userChanged.scale) params.push('scale=' + builderScale.value);
+        if (userChanged.direction) params.push('dir=' + builderDirection.value);
         if (userChanged.font) {
           var fv = builderFont.value;
           params.push('font=' + encodeURIComponent(fv === Settings.FONT_CUSTOM_VALUE ? builderFontCustom.value.trim() : fv));
         }
         for (var k in themeParamValues) params.push(k + '=' + encodeURIComponent(themeParamValues[k]));
-        
         window.location.href = '/' + encodeURIComponent(text) + (params.length ? '?' + params.join('&') : '');
       });
 
@@ -567,22 +911,363 @@
         }.bind(this));
       });
 
-      // Lang switcher
+      // ====== LIGHT PANEL LOGIC ======
+      var lightEffect = document.getElementById('light-builder-effect');
+      var lightColor = document.getElementById('light-builder-color');
+      var lightBg = document.getElementById('light-builder-bg');
+      var lightSpeed = document.getElementById('light-builder-speed');
+      var lightBrightness = document.getElementById('light-builder-brightness');
+      var lightUrl = document.getElementById('light-builder-url');
+
+      var lightUserChanged = { color: false, bg: false, speed: false, brightness: false };
+      var lightEffectParamValues = {};
+
+      function getLightDefaults() {
+        return LightManager.getDefaults(lightEffect.value) || {};
+      }
+
+      function syncLightBuilderToEffectDefaults() {
+        var d = getLightDefaults();
+        lightColor.value = '#' + (d.color || 'ffffff').slice(0, 6);
+        lightBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        lightSpeed.value = d.speed || 5;
+        document.getElementById('light-builder-speed-val').textContent = lightSpeed.value;
+        lightBrightness.value = d.brightness || 100;
+        document.getElementById('light-builder-brightness-val').textContent = lightBrightness.value;
+      }
+
+      function syncLightBuilderVisibility() {
+        var d = getLightDefaults();
+        var showColor = d.color !== undefined;
+        var showBg = d.bg !== undefined;
+        var showSpeed = d.speed !== undefined;
+        var showBrightness = d.brightness !== undefined;
+        document.getElementById('light-builder-color-row').style.display = showColor ? '' : 'none';
+        document.getElementById('light-builder-bg-row').style.display = showBg ? '' : 'none';
+        document.getElementById('light-builder-speed-row').style.display = showSpeed ? '' : 'none';
+        document.getElementById('light-builder-brightness-row').style.display = showBrightness ? '' : 'none';
+        document.getElementById('light-builder-style-card').style.display = (showColor || showBg) ? '' : 'none';
+        document.getElementById('light-builder-dynamics-card').style.display = (showSpeed || showBrightness) ? '' : 'none';
+      }
+
+      function rebuildLightEffectParams() {
+        var container = document.getElementById('light-builder-effect-params');
+        var section = document.getElementById('light-builder-custom-section');
+        container.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(lightEffect.value, 'light');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getLightDefaults();
+        var lightAdapter = Settings.PRODUCT_ADAPTERS.light;
+        keys.forEach(function(key) {
+          var meta = (lightAdapter.knownParamOverrides && lightAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              lightEffectParamValues[key] = parseFloat(this.value);
+              updateLightUrl();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              lightEffectParamValues[key] = this.value.replace('#', '');
+              updateLightUrl();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'string') {
+            row.className = 'prop-row';
+            var si = document.createElement('input');
+            si.type = 'text'; si.className = 'builder-text-input';
+            si.value = defVal || '';
+            si.addEventListener('change', function() {
+              lightEffectParamValues[key] = this.value;
+              updateLightUrl();
+            });
+            inputWrap.appendChild(si);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              lightEffectParamValues[key] = this.checked;
+              updateLightUrl();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      function updateLightUrl() {
+        var effectId = lightEffect.value;
+        var d = getLightDefaults();
+        var params = ['t=' + effectId];
+        if (lightUserChanged.color && d.color !== undefined) {
+          var c = lightColor.value.replace('#', '');
+          if (c !== (d.color || 'ffffff')) params.push('color=' + c);
+        }
+        if (lightUserChanged.bg && d.bg !== undefined) {
+          var b = lightBg.value.replace('#', '');
+          if (b !== (d.bg || '000000')) params.push('bg=' + b);
+        }
+        if (lightUserChanged.speed && d.speed !== undefined) {
+          if (lightSpeed.value !== String(d.speed || 5)) params.push('speed=' + lightSpeed.value);
+        }
+        if (lightUserChanged.brightness && d.brightness !== undefined) {
+          if (lightBrightness.value !== String(d.brightness || 100)) params.push('brightness=' + lightBrightness.value);
+        }
+        for (var k in lightEffectParamValues) {
+          if (lightEffectParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(lightEffectParamValues[k]));
+        }
+        lightUrl.textContent = 'led.run/light?' + params.join('&');
+      }
+
+      [lightColor, lightBg, lightSpeed, lightBrightness].forEach(function(el) {
+        el.addEventListener('input', function() {
+          var paramKey = this.id.replace('light-builder-', '');
+          lightUserChanged[paramKey] = true;
+          if (this.id === 'light-builder-speed') document.getElementById('light-builder-speed-val').textContent = this.value;
+          if (this.id === 'light-builder-brightness') document.getElementById('light-builder-brightness-val').textContent = this.value;
+          updateLightUrl();
+        });
+      });
+
+      lightEffect.addEventListener('input', function() {
+        lightUserChanged = { color: false, bg: false, speed: false, brightness: false };
+        lightEffectParamValues = {};
+        syncLightBuilderToEffectDefaults();
+        syncLightBuilderVisibility();
+        rebuildLightEffectParams();
+        updateLightUrl();
+      });
+
+      document.getElementById('light-builder-launch').addEventListener('click', function() {
+        var url = lightUrl.textContent.replace('led.run', '');
+        window.location.href = url;
+      });
+
+      // ====== SOUND PANEL LOGIC ======
+      var soundViz = document.getElementById('sound-builder-viz');
+      var soundColor = document.getElementById('sound-builder-color');
+      var soundBg = document.getElementById('sound-builder-bg');
+      var soundSens = document.getElementById('sound-builder-sensitivity');
+      var soundSmooth = document.getElementById('sound-builder-smoothing');
+      var soundUrl = document.getElementById('sound-builder-url');
+
+      var soundUserChanged = { color: false, bg: false, sensitivity: false, smoothing: false };
+      var soundVizParamValues = {};
+
+      function getSoundDefaults() {
+        return SoundManager.getDefaults(soundViz.value) || {};
+      }
+
+      function syncSoundBuilderToVizDefaults() {
+        var d = getSoundDefaults();
+        soundColor.value = '#' + (d.color || '00ff41').slice(0, 6);
+        soundBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        soundSens.value = d.sensitivity || 5;
+        document.getElementById('sound-builder-sens-val').textContent = soundSens.value;
+        soundSmooth.value = d.smoothing !== undefined ? d.smoothing : 0.8;
+        document.getElementById('sound-builder-smooth-val').textContent = soundSmooth.value;
+      }
+
+      function syncSoundBuilderVisibility() {
+        var d = getSoundDefaults();
+        document.getElementById('sound-builder-smoothing-row').style.display =
+          d.smoothing !== undefined ? '' : 'none';
+      }
+
+      function rebuildSoundVizParams() {
+        var container = document.getElementById('sound-builder-viz-params');
+        var section = document.getElementById('sound-builder-custom-section');
+        container.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(soundViz.value, 'sound');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getSoundDefaults();
+        keys.forEach(function(key) {
+          var meta = Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              soundVizParamValues[key] = parseFloat(this.value);
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              soundVizParamValues[key] = this.value.replace('#', '');
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'string') {
+            row.className = 'prop-row';
+            var si = document.createElement('input');
+            si.type = 'text'; si.className = 'builder-text-input';
+            si.value = defVal || '';
+            si.addEventListener('change', function() {
+              soundVizParamValues[key] = this.value;
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(si);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              soundVizParamValues[key] = this.checked;
+              updateSoundUrl();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      function updateSoundUrl() {
+        var vizId = soundViz.value;
+        var d = getSoundDefaults();
+        var params = ['t=' + vizId];
+        if (soundUserChanged.color) {
+          var c = soundColor.value.replace('#', '');
+          if (c !== (d.color || '00ff41')) params.push('color=' + c);
+        }
+        if (soundUserChanged.bg) {
+          var b = soundBg.value.replace('#', '');
+          if (b !== (d.bg || '000000')) params.push('bg=' + b);
+        }
+        if (soundUserChanged.sensitivity) {
+          if (soundSens.value !== String(d.sensitivity || 5)) params.push('sensitivity=' + soundSens.value);
+        }
+        if (soundUserChanged.smoothing && d.smoothing !== undefined) {
+          if (soundSmooth.value !== String(d.smoothing)) params.push('smoothing=' + soundSmooth.value);
+        }
+        for (var k in soundVizParamValues) {
+          if (soundVizParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(soundVizParamValues[k]));
+        }
+        soundUrl.textContent = 'led.run/sound?' + params.join('&');
+      }
+
+      [soundColor, soundBg, soundSens, soundSmooth].forEach(function(el) {
+        el.addEventListener('input', function() {
+          var paramKey = this.id.replace('sound-builder-', '');
+          if (paramKey === 'sensitivity') soundUserChanged.sensitivity = true;
+          else if (paramKey === 'smoothing') soundUserChanged.smoothing = true;
+          else soundUserChanged[paramKey] = true;
+          if (this.id === 'sound-builder-sensitivity') document.getElementById('sound-builder-sens-val').textContent = this.value;
+          if (this.id === 'sound-builder-smoothing') document.getElementById('sound-builder-smooth-val').textContent = this.value;
+          updateSoundUrl();
+        });
+      });
+
+      soundViz.addEventListener('input', function() {
+        soundUserChanged = { color: false, bg: false, sensitivity: false, smoothing: false };
+        soundVizParamValues = {};
+        syncSoundBuilderToVizDefaults();
+        syncSoundBuilderVisibility();
+        rebuildSoundVizParams();
+        updateSoundUrl();
+      });
+
+      document.getElementById('sound-builder-launch').addEventListener('click', function() {
+        var url = soundUrl.textContent.replace('led.run', '');
+        window.location.href = url;
+      });
+
+      // ====== LANG SWITCHER ======
       document.querySelectorAll('.footer-lang-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
           e.preventDefault();
           I18n.setLocale(this.dataset.lang);
-          self._showLanding();
+          self._showLanding(activeProduct);
         });
       });
 
-      // Initialize
-      if (activeMode === 'builder') {
-        syncBuilderToThemeDefaults();
-        rebuildThemeParams();
-        updatePreview();
+      // Initialize all builders (DOM exists even when panels are hidden)
+      syncBuilderToThemeDefaults();
+      rebuildThemeParams();
+      if (activeMode === 'builder' && activeProduct === 'text') {
+        updateTextPreview();
       }
-      setTimeout(function() { (activeMode === 'simple' ? simpleInput : builderText).focus(); }, 100);
+
+      syncLightBuilderToEffectDefaults();
+      syncLightBuilderVisibility();
+      rebuildLightEffectParams();
+      updateLightUrl();
+
+      syncSoundBuilderToVizDefaults();
+      syncSoundBuilderVisibility();
+      rebuildSoundVizParams();
+      updateSoundUrl();
+
+      // Focus
+      setTimeout(function() {
+        if (activeProduct === 'text') {
+          (activeMode === 'simple' ? simpleInput : builderText).focus();
+        }
+      }, 100);
     }
   };
 

@@ -12,6 +12,8 @@ I18n.register('es', {
   'landing.hero.subtitle': 'Transforma cualquier pantalla en un display profesional en segundos. Sin apps, sin cuentas, solo una URL.',
   'landing.input.go': 'Ir',
   'landing.input.random': 'Estilo aleatorio',
+  'landing.mode.simple': 'Modo Simple',
+  'landing.mode.builder': 'Modo Constructor',
 
   // Landing - Section titles
   'landing.section.flow': 'Marquesina con Desplazamiento',
@@ -73,7 +75,7 @@ I18n.register('es', {
   'settings.section.themeParams': 'Opciones del Tema',
 
   // Settings - param labels
-  'settings.param.color': 'Color del Texto',
+  'settings.param.color': 'Color',
   'settings.param.bg': 'Fondo',
   'settings.param.fill': 'Color de Relleno',
   'settings.param.mode': 'Modo',
@@ -169,7 +171,164 @@ I18n.register('es', {
   'settings.font.comicSans': 'Comic Sans',
   'settings.font.custom': 'Personalizada...',
 
+  // Settings - product-specific section labels
+  'settings.effectLabel': 'Efecto',
+  'settings.visualizerLabel': 'Visualizador',
+  'settings.section.effectParams': 'Opciones del Efecto',
+  'settings.section.vizParams': 'Opciones del Visualizador',
+
+  // Landing - Builder card titles
+  'landing.builder.card.livePreview': 'Vista Previa',
+  'landing.builder.card.themeAndMode': 'Tema y Modo',
+  'landing.builder.card.visualStyle': 'Estilo Visual',
+  'landing.builder.card.dynamics': 'Din\u00e1mica',
+  'landing.builder.card.advanced': 'Par\u00e1metros Avanzados',
+  'landing.builder.card.effect': 'Efecto',
+  'landing.builder.card.visualizer': 'Visualizador',
+  'landing.builder.card.audio': 'Audio',
+
   // Landing - Builder toggle
   'landing.builder.showAdvanced': 'Opciones Avanzadas',
-  'landing.builder.hideAdvanced': 'Ocultar Opciones'
+  'landing.builder.hideAdvanced': 'Ocultar Opciones',
+
+  // Landing - Product tabs
+  'landing.tab.text': 'Texto',
+  'landing.tab.light': 'Luz',
+  'landing.tab.sound': 'Sonido',
+
+  // Landing - Light presets
+  'preset.light.solid.desc': 'Linterna blanca pura — m\u00e1xima luminosidad para cualquier situaci\u00f3n.',
+  'preset.light.strobe.desc': 'Luz estrobosc\u00f3pica r\u00e1pida para fiestas y eventos.',
+  'preset.light.disco.desc': 'Luces de fiesta disco multicolor giratorias.',
+  'preset.light.emergency.desc': 'Destello de emergencia alternando rojo y azul.',
+  'preset.light.candle.desc': 'C\u00e1lida llama de vela parpadeante para ambiente.',
+  'preset.light.rainbow.desc': 'Ciclo suave a trav\u00e9s de todos los colores del arco\u00edris.',
+  'preset.light.sos.desc': 'Se\u00f1al SOS en c\u00f3digo Morse — tres cortos, tres largos, tres cortos.',
+  'preset.light.gradient.desc': 'Transiciones de color en degradado fluido.',
+
+  // Product titles
+  'light.title': 'Luz',
+  'sound.title': 'Sonido',
+
+  // Light effect names
+  'settings.effect.solid': 'S\u00f3lido',
+  'settings.effect.strobe': 'Estrobosc\u00f3pico',
+  'settings.effect.disco': 'Disco',
+  'settings.effect.gradient': 'Degradado',
+  'settings.effect.emergency': 'Emergencia',
+  'settings.effect.candle': 'Vela',
+  'settings.effect.rainbow': 'Arco\u00edris',
+  'settings.effect.sos': 'SOS',
+
+  // Sound visualizer names
+  'settings.visualizer.bars': 'Barras',
+  'settings.visualizer.scope': 'Osciloscopio',
+  'settings.visualizer.ocean': 'Oc\u00e9ano',
+  'settings.visualizer.alchemy': 'Alquimia',
+  'settings.visualizer.battery': 'Bater\u00eda',
+  'settings.visualizer.ambience': 'Ambiente',
+  'settings.visualizer.particle': 'Part\u00edcula',
+  'settings.visualizer.musical-colors': 'Colores',
+  'settings.visualizer.spikes': 'Picos',
+  'settings.visualizer.plenoptic': 'Plen\u00f3ptico',
+  'settings.visualizer.waveform-3d': 'Onda 3D',
+  'settings.visualizer.spectrum-circle': 'C\u00edrculo',
+
+  // Light/Sound param labels
+  'settings.param.colors': 'Colores',
+  'settings.param.brightness': 'Brillo',
+  'settings.param.sensitivity': 'Sensibilidad',
+  'settings.param.smoothing': 'Suavizado',
+  'settings.param.warmth': 'Calidez',
+  'settings.param.barCount': 'Barras',
+  'settings.param.colorMode': 'Modo de Color',
+  'settings.param.lineWidth': 'Grosor',
+
+  // Sound errors
+  'sound.error.notSupported.title': 'Audio No Soportado',
+  'sound.error.notSupported.desc': 'Tu navegador no soporta entrada de micr\u00f3fono. Por favor usa Chrome o Firefox.',
+  'sound.error.denied.title': 'Acceso al Micr\u00f3fono Denegado',
+  'sound.error.denied.desc': 'Por favor permite el acceso al micr\u00f3fono para usar las visualizaciones de sonido.',
+  'sound.error.generic.title': 'Error de Audio',
+  'sound.error.generic.desc': 'No se pudo acceder al micr\u00f3fono. Por favor revisa la configuraci\u00f3n de tu dispositivo.',
+
+  // New light effect names
+  'settings.effect.breathing': 'Respiraci\u00f3n',
+  'settings.effect.sunset': 'Atardecer',
+  'settings.effect.heartbeat': 'Latido',
+  'settings.effect.matrix-rain': 'Lluvia Matrix',
+  'settings.effect.aurora-waves': 'Ondas de Aurora',
+  'settings.effect.campfire': 'Fogata',
+  'settings.effect.lightning': 'Rel\u00e1mpago',
+  'settings.effect.kaleidoscope': 'Caleidoscopio',
+  'settings.effect.plasma': 'Plasma',
+  'settings.effect.lava-lamp': 'L\u00e1mpara de Lava',
+
+  // New light preset descriptions
+  'preset.light.breathing.desc': 'Pulso de respiraci\u00f3n calmante para meditaci\u00f3n y relajaci\u00f3n.',
+  'preset.light.sunset.desc': 'Cielo c\u00e1lido de atardecer con nubes flotantes y sol dorado.',
+  'preset.light.heartbeat.desc': 'Pulso r\u00edtmico de latido con anillos de onda expansivos.',
+  'preset.light.matrix-rain.desc': 'Caracteres verdes cayendo en cascada como lluvia digital.',
+  'preset.light.aurora-waves.desc': 'Bandas de luz aurora fluyendo en verde, rosa y p\u00farpura.',
+  'preset.light.campfire.desc': 'C\u00e1lida fogata con chispas y humo ascendente.',
+  'preset.light.lightning.desc': 'Dram\u00e1ticos rel\u00e1mpagos con efectos de flash de trueno.',
+  'preset.light.kaleidoscope.desc': 'Fascinantes patrones sim\u00e9tricos de caleidoscopio giratorio.',
+  'preset.light.plasma.desc': 'Plasma cl\u00e1sico de demoscene con colores HSL fluidos.',
+  'preset.light.lava-lamp.desc': 'L\u00e1mpara de lava retro con gotas flotantes y fusion\u00e1ndose.',
+
+  // New param labels
+  'settings.param.cycle': 'Ciclo de Respiraci\u00f3n',
+  'settings.param.depth': 'Profundidad',
+  'settings.param.sunSize': 'Tama\u00f1o del Sol',
+  'settings.param.cloudDensity': 'Densidad de Nubes',
+  'settings.param.bpm': 'BPM',
+  'settings.param.pulse': 'Pulso',
+  'settings.param.density': 'Densidad',
+  'settings.param.waves': 'Ondas',
+  'settings.param.amplitude': 'Amplitud',
+  'settings.param.sparks': 'Chispas',
+  'settings.param.wind': 'Viento',
+  'settings.param.frequency': 'Frecuencia',
+  'settings.param.branches': 'Ramas',
+  'settings.param.symmetry': 'Simetr\u00eda',
+  'settings.param.complexity': 'Complejidad',
+  'settings.param.waveScale': 'Escala de Onda',
+  'settings.param.blobCount': 'Cantidad de Gotas',
+  'settings.param.viscosity': 'Viscosidad',
+  'settings.param.gridLines': 'Líneas de Cuadrícula',
+  'settings.param.waveCount': 'Número de Ondas',
+  'settings.param.pulseSpeed': 'Velocidad de Pulso',
+  'settings.param.glowRadius': 'Radio de Brillo',
+  'settings.param.gridSize': 'Tamaño de Cuadrícula',
+  'settings.param.colorShift': 'Cambio de Color',
+  'settings.param.spikeCount': 'Número de Púas',
+  'settings.param.innerRadius': 'Radio Interior',
+  'settings.param.mcPreset': 'Preset de Musical Colors',
+  'settings.param.ambPreset': 'Preset de Ambiente',
+
+  // Color mode options
+  'settings.colorMode.single': 'Color \u00danico',
+  'settings.colorMode.rainbow': 'Arco\u00edris',
+  'settings.colorMode.gradient': 'Degradado',
+
+  // Select option translations
+  'settings.shape.circle': 'C\u00edrculo',
+  'settings.shape.square': 'Cuadrado',
+
+  // Toolbar - Mic
+  'toolbar.mic': 'Alternar micr\u00f3fono',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'Barras de espectro premium con gradiente LED verde',
+  'landing.sound.preset.scope': 'Osciloscopio de doble canal con cuadrícula',
+  'landing.sound.preset.ocean': 'Ondas oceánicas en capas impulsadas por frecuencia',
+  'landing.sound.preset.alchemy': 'Orbe de energía con vórtice de partículas',
+  'landing.sound.preset.battery': 'Anillos concéntricos pulsantes con cambio de tono',
+  'landing.sound.preset.ambience': 'Brillo ambiental suave con efecto de respiración',
+  'landing.sound.preset.particle': 'Plano de cuadrícula de puntos con perspectiva 3D',
+  'landing.sound.preset.musical-colors': 'Barras fluidas coloridas con tonos arcoíris',
+  'landing.sound.preset.spikes': 'Púas radiales de 360° desde el centro',
+  'landing.sound.preset.plenoptic': 'Campo de luz con desenfoque de profundidad de campo',
+  'landing.sound.preset.waveform-3d': 'Forma de onda en perspectiva 3D con capas de profundidad',
+  'landing.sound.preset.spectrum-circle': 'Espectro circular radiante hacia afuera'
 });
