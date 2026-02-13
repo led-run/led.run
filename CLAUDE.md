@@ -205,18 +205,18 @@ js/app.js                 App entry + multi-product orchestrator
 
 | ID | Effect | Custom Params |
 |----|--------|---------------|
-| `bars` | Classic spectrum bars (WMP style) | `smoothing`, `barCount` |
-| `scope` | Dual-channel oscilloscope | `lineWidth`, `gridLines` |
-| `ocean` | Multi-layer ocean waves | `waveCount` |
-| `alchemy` | Energy orb with particle vortex (enhanced trails, pulsing glow) | `complexity`, `sensitivity` |
-| `battery` | Pulsing concentric rings | `pulseSpeed` |
-| `ambience` | Ambient glow with breathing (3 presets: glow/water/swirl) | `ambPreset`, `glowRadius` |
-| `particle` | Dot grid plane with 3D perspective | `gridSize` |
-| `musical-colors` | Artistic flowing effects (7 presets: aurora/water/silky/electric/neon/flame/star) | `mcPreset`, `sensitivity` |
-| `spikes` | 360° radial spikes | `spikeCount` |
-| `plenoptic` | Light field with depth blur | `depth` |
-| `waveform-3d` | 3D perspective waveform | `depth` |
-| `spectrum-circle` | Circular spectrum | `innerRadius` |
+| `bars` | Premium WMP spectrum with peak indicators, reflections, rounded bars | `smoothing`, `barCount` |
+| `scope` | CRT phosphor oscilloscope with trail persistence, dotted grid, beam dot | `lineWidth`, `gridLines` |
+| `ocean` | Moonlit ocean dreamscape with stars, moon, foam particles (default 7 waves) | `waveCount` |
+| `alchemy` | Organic energy vortex with energy waves, HSL spiral color, radial trail fade | `complexity` |
+| `battery` | Sonar pulse system with radar sweep, gradient rings, interference glow | `pulseSpeed` |
+| `ambience` | Deep atmospheric presets: Nebula (glow), Ripple (water), Veil (swirl) | `ambPreset`, `glowRadius` |
+| `particle` | Tron-style 3D grid with connections, wave propagation, bloom lighting | `gridSize` |
+| `musical-colors` | Artistic flowing effects (7 presets: aurora/water/silky/electric/neon/flame/star) | `mcPreset` |
+| `spikes` | Dramatic 360° radial spikes with tip particles, inner core glow (default 96) | `spikeCount` |
+| `plenoptic` | Cinematic bokeh light field with pre-rendered textures, depth color variation | `depth` |
+| `waveform-3d` | Holographic 3D waveform with depth color gradient, grid lines (default depth 12) | `depth` |
+| `spectrum-circle` | Monstercat-style circular spectrum with log binning, rotating glow ring, orb | `innerRadius` |
 
 ## Script Load Order
 
