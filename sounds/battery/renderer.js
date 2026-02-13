@@ -1,6 +1,8 @@
 ;(function(global) {
   'use strict';
 
+  // --- Color helpers ---
+
   function hexToRgb(hex) {
     var r = parseInt(hex.slice(0, 2), 16);
     var g = parseInt(hex.slice(2, 4), 16);
@@ -13,21 +15,12 @@
     var x = c * (1 - Math.abs(((h / 60) % 2) - 1));
     var m = l - c / 2;
     var r, g, b;
-
-    if (h < 60) {
-      r = c; g = x; b = 0;
-    } else if (h < 120) {
-      r = x; g = c; b = 0;
-    } else if (h < 180) {
-      r = c; g = x; b = 0;
-    } else if (h < 240) {
-      r = x; g = 0; b = c;
-    } else if (h < 300) {
-      r = 0; g = x; b = c;
-    } else {
-      r = c; g = 0; b = x;
-    }
-
+    if (h < 60) { r = c; g = x; b = 0; }
+    else if (h < 120) { r = x; g = c; b = 0; }
+    else if (h < 180) { r = 0; g = c; b = x; }
+    else if (h < 240) { r = 0; g = x; b = c; }
+    else if (h < 300) { r = x; g = 0; b = c; }
+    else { r = c; g = 0; b = x; }
     return {
       r: Math.round((r + m) * 255),
       g: Math.round((g + m) * 255),
@@ -58,11 +51,13 @@
     return { h: h, s: s, l: l };
   }
 
+  // --- Sonar Pulse System ---
+
   var BatteryVisualizer = {
     id: 'battery',
 
     defaults: {
-      color: '00ff00',      // Starting green
+      color: '00ff41',
       bg: '000000',
       sensitivity: 5,
       pulseSpeed: 5
@@ -76,8 +71,11 @@
     _config: null,
     _pulses: null,
     _lastPulseTime: 0,
-    _time: 0,
     _avgVolume: 0,
+    _bassVolume: 0,
+    _scanAngle: 0,
+    _startTime: 0,
+    _lastFrameTime: 0,
 
     init: function(container, config, audioEngine) {
       this._container = container;
@@ -85,8 +83,11 @@
       this._audioEngine = audioEngine;
       this._pulses = [];
       this._lastPulseTime = 0;
-      this._time = 0;
       this._avgVolume = 0;
+      this._bassVolume = 0;
+      this._scanAngle = 0;
+      this._startTime = performance.now();
+      this._lastFrameTime = this._startTime;
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -136,21 +137,28 @@
       var self = this;
       if (!self._ctx || !self._canvas) return;
 
+      var now = performance.now();
+      var dt = (now - self._lastFrameTime) / 1000;
+      self._lastFrameTime = now;
+      // Clamp dt to avoid jumps from tab switches
+      if (dt > 0.1) dt = 0.016;
+      var elapsed = (now - self._startTime) / 1000;
+
       var w = self._container.clientWidth;
       var h = self._container.clientHeight;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
       var baseColor = hexToRgb(cfg.color || self.defaults.color);
+      var baseHsl = rgbToHsl(baseColor.r, baseColor.g, baseColor.b);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var pulseSpeed = parseFloat(cfg.pulseSpeed) || self.defaults.pulseSpeed;
       var ctx = self._ctx;
 
-      self._time += 0.016;
+      var centerX = w / 2;
+      var centerY = h / 2;
+      var maxRadius = Math.min(w, h) * 0.45;
 
-      // Clear with background
-      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      ctx.fillRect(0, 0, w, h);
-
+      // --- Audio analysis ---
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
 
@@ -158,91 +166,217 @@
         freqData = self._audioEngine.getFrequencyData();
       }
 
-      // Calculate average volume
       var volume = 0;
+      var bassVol = 0;
       if (freqData && freqData.length > 0) {
         var sum = 0;
         for (var i = 0; i < freqData.length; i++) {
           sum += freqData[i];
         }
         volume = sum / freqData.length / 255;
+
+        // Bass: first ~15% of bins
+        var bassEnd = Math.floor(freqData.length * 0.15);
+        var bassSum = 0;
+        for (var i = 0; i < bassEnd; i++) {
+          bassSum += freqData[i];
+        }
+        bassVol = bassSum / bassEnd / 255;
       } else {
-        volume = 0.05; // Idle state minimum
+        volume = 0.03;
+        bassVol = 0.03;
       }
 
-      // Smooth volume
-      self._avgVolume = self._avgVolume * 0.85 + volume * 0.15;
+      // Smooth volumes
+      self._avgVolume = self._avgVolume * 0.82 + volume * 0.18;
+      self._bassVolume = self._bassVolume * 0.80 + bassVol * 0.20;
 
       var normalizedVol = self._avgVolume * (sensitivity / 5);
       if (normalizedVol > 1) normalizedVol = 1;
 
-      var centerX = w / 2;
-      var centerY = h / 2;
-      var maxRadius = Math.sqrt(w * w + h * h) / 2;
+      var normalizedBass = self._bassVolume * (sensitivity / 5);
+      if (normalizedBass > 1) normalizedBass = 1;
 
-      // Trigger new pulse based on volume threshold and pulse speed
-      var pulseInterval = 1000 / pulseSpeed; // ms between pulses
-      var threshold = 0.15;
+      // --- Clear ---
+      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      ctx.fillRect(0, 0, w, h);
 
-      if (normalizedVol > threshold && (Date.now() - self._lastPulseTime) > pulseInterval) {
-        var baseHsl = rgbToHsl(baseColor.r, baseColor.g, baseColor.b);
+      // --- Use screen blending for interference glow ---
+      ctx.globalCompositeOperation = 'screen';
+
+      // --- Concentric reference rings ---
+      var refRingCount = 4;
+      for (var ri = 1; ri <= refRingCount; ri++) {
+        var refRadius = (ri / refRingCount) * maxRadius;
+        ctx.strokeStyle = 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.05)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, refRadius, 0, Math.PI * 2);
+        ctx.stroke();
+      }
+
+      // --- Trigger new pulse ---
+      var pulseInterval = 1200 / pulseSpeed;
+      var threshold = 0.12;
+
+      if (normalizedVol > threshold && (now - self._lastPulseTime) > pulseInterval) {
         self._pulses.push({
-          radius: 0,
-          maxRadius: maxRadius,
-          life: 0,
-          maxLife: 2.0, // seconds
+          birthTime: now,
+          maxLife: 2.5,
           hue: baseHsl.h,
           saturation: baseHsl.s,
           lightness: baseHsl.l,
           intensity: normalizedVol
         });
-        self._lastPulseTime = Date.now();
+        self._lastPulseTime = now;
       }
 
-      // Update and draw pulses
+      // --- Update and draw pulse rings ---
       for (var i = self._pulses.length - 1; i >= 0; i--) {
         var pulse = self._pulses[i];
-        pulse.life += 0.016;
+        var age = (now - pulse.birthTime) / 1000;
 
-        if (pulse.life >= pulse.maxLife) {
+        if (age >= pulse.maxLife) {
           self._pulses.splice(i, 1);
           continue;
         }
 
-        var progress = pulse.life / pulse.maxLife;
-        pulse.radius = progress * pulse.maxRadius;
+        var progress = age / pulse.maxLife;
+        var radius = progress * maxRadius;
 
-        // Hue shift over lifetime (120 degrees)
-        var currentHue = (pulse.hue + progress * 120) % 360;
-        var rgb = hslToRgb(currentHue, pulse.saturation, pulse.lightness);
+        // Hue shift over lifetime (90 degrees)
+        var currentHue = (pulse.hue + progress * 90) % 360;
+        var rgb = hslToRgb(currentHue, pulse.saturation, Math.min(pulse.lightness + 0.1, 0.6));
 
-        // Opacity fades out
-        var opacity = (1 - progress) * pulse.intensity * 0.6;
+        // Opacity: fade in quickly, then fade out
+        var fadeIn = Math.min(progress * 10, 1);
+        var fadeOut = 1 - progress;
+        var opacity = fadeIn * fadeOut * pulse.intensity * 0.7;
 
-        // Draw ring
+        // Ring lineWidth: thick at birth (6px), thin at maxRadius (1px)
+        var ringWidth = 6 - progress * 5;
+        if (ringWidth < 1) ringWidth = 1;
+
+        // Radial gradient fill: inner bright -> outer transparent
+        var gradInner = Math.max(0, radius - ringWidth * 4);
+        var gradOuter = radius + ringWidth * 4;
+        if (gradOuter > 0) {
+          var grad = ctx.createRadialGradient(centerX, centerY, gradInner, centerX, centerY, gradOuter);
+          grad.addColorStop(0, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0)');
+          // Peak brightness at the ring radius
+          var peakStop = (radius - gradInner) / (gradOuter - gradInner);
+          if (peakStop < 0) peakStop = 0;
+          if (peakStop > 1) peakStop = 1;
+          grad.addColorStop(peakStop, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + (opacity * 0.4) + ')');
+          grad.addColorStop(1, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0)');
+
+          ctx.fillStyle = grad;
+          ctx.beginPath();
+          ctx.arc(centerX, centerY, gradOuter, 0, Math.PI * 2);
+          ctx.fill();
+        }
+
+        // Stroke ring on top
         ctx.strokeStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + opacity + ')';
-        ctx.lineWidth = 3 + pulse.intensity * 2;
-        ctx.shadowColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0.8)';
-        ctx.shadowBlur = 15;
+        ctx.lineWidth = ringWidth;
+
+        // Subtle glow for the ring
+        ctx.shadowColor = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + (opacity * 0.8) + ')';
+        ctx.shadowBlur = 10 * fadeOut;
 
         ctx.beginPath();
-        ctx.arc(centerX, centerY, pulse.radius, 0, Math.PI * 2);
+        ctx.arc(centerX, centerY, radius, 0, Math.PI * 2);
         ctx.stroke();
+
+        ctx.shadowBlur = 0;
       }
+
+      // --- Radar scan line ---
+      var scanSpeed = 0.6; // radians per second
+      self._scanAngle += scanSpeed * dt;
+      if (self._scanAngle > Math.PI * 2) self._scanAngle -= Math.PI * 2;
+
+      var sweepAngle = Math.PI / 6; // ~30 degrees
+      var scanGrad = ctx.createConicGradient(self._scanAngle - sweepAngle, centerX, centerY);
+
+      // Normalize angle position in the conic gradient (0 to 1 range maps to 0 to 2*PI)
+      // The sweep is a small bright arc that fades
+      var sweepFraction = sweepAngle / (Math.PI * 2);
+      var scanOpacity = 0.08 + normalizedVol * 0.07;
+
+      scanGrad.addColorStop(0, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+      scanGrad.addColorStop(1 - sweepFraction, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+      scanGrad.addColorStop(1 - sweepFraction * 0.5, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + scanOpacity + ')');
+      scanGrad.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+
+      ctx.fillStyle = scanGrad;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, maxRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Scan leading edge line
+      var edgeX = centerX + Math.cos(self._scanAngle) * maxRadius;
+      var edgeY = centerY + Math.sin(self._scanAngle) * maxRadius;
+      ctx.strokeStyle = 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + (scanOpacity * 1.5) + ')';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(centerX, centerY);
+      ctx.lineTo(edgeX, edgeY);
+      ctx.stroke();
+
+      // --- Center core orb ---
+      // Multi-layer radial gradient, pulsing with bass
+      var coreBaseRadius = maxRadius * 0.06;
+      var corePulse = coreBaseRadius + normalizedBass * maxRadius * 0.06;
+      // Breathing in idle
+      var breathe = Math.sin(elapsed * 1.5) * 0.3 + 0.7;
+      if (!isRunning || normalizedVol < 0.05) {
+        corePulse = coreBaseRadius * (0.8 + breathe * 0.4);
+      }
+
+      // Outer glow layer
+      var outerGlowRadius = corePulse * 4;
+      var outerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, outerGlowRadius);
+      outerGlow.addColorStop(0, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + (0.15 + normalizedBass * 0.15) + ')');
+      outerGlow.addColorStop(0.4, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + (0.05 + normalizedBass * 0.05) + ')');
+      outerGlow.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+
+      ctx.fillStyle = outerGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, outerGlowRadius, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Mid layer: colored core
+      var midGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, corePulse * 2);
+      var brightRgb = hslToRgb(baseHsl.h, baseHsl.s, Math.min(baseHsl.l + 0.2, 0.7));
+      midGlow.addColorStop(0, 'rgba(255,255,255,' + (0.6 + normalizedBass * 0.3) + ')');
+      midGlow.addColorStop(0.3, 'rgba(' + brightRgb.r + ',' + brightRgb.g + ',' + brightRgb.b + ',' + (0.5 + normalizedBass * 0.3) + ')');
+      midGlow.addColorStop(0.7, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + (0.2 + normalizedBass * 0.1) + ')');
+      midGlow.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+
+      ctx.fillStyle = midGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, corePulse * 2, 0, Math.PI * 2);
+      ctx.fill();
+
+      // Inner bright core with shadow glow
+      ctx.shadowColor = 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.9)';
+      ctx.shadowBlur = 20 + normalizedBass * 15;
+
+      var innerGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, corePulse);
+      innerGlow.addColorStop(0, 'rgba(255,255,255,' + (0.9 + normalizedBass * 0.1) + ')');
+      innerGlow.addColorStop(0.5, 'rgba(' + brightRgb.r + ',' + brightRgb.g + ',' + brightRgb.b + ',0.7)');
+      innerGlow.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.3)');
+
+      ctx.fillStyle = innerGlow;
+      ctx.beginPath();
+      ctx.arc(centerX, centerY, corePulse, 0, Math.PI * 2);
+      ctx.fill();
 
       ctx.shadowBlur = 0;
 
-      // Idle state: draw subtle center glow
-      if (self._pulses.length === 0) {
-        var idleGlow = 20 + Math.sin(self._time * 2) * 5;
-        var idleGrad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, idleGlow);
-        idleGrad.addColorStop(0, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.3)');
-        idleGrad.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
-        ctx.fillStyle = idleGrad;
-        ctx.beginPath();
-        ctx.arc(centerX, centerY, idleGlow, 0, Math.PI * 2);
-        ctx.fill();
-      }
+      // --- Reset composite operation ---
+      ctx.globalCompositeOperation = 'source-over';
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }
