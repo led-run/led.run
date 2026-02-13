@@ -327,6 +327,14 @@ I18n.register('ko', {
   'settings.param.layers': '레이어',
   'settings.param.orientation': '방향',
   'settings.param.showPeak': '피크 표시',
+  'settings.param.gridLines': '그리드 라인',
+  'settings.param.waveCount': '웨이브 수',
+  'settings.param.pulseSpeed': '펄스 속도',
+  'settings.param.glowRadius': '글로우 반경',
+  'settings.param.gridSize': '그리드 크기',
+  'settings.param.colorShift': '색상 시프트',
+  'settings.param.spikeCount': '스파이크 수',
+  'settings.param.innerRadius': '내부 반경',
 
   // Select option translations
   'settings.orientation.vertical': '세로',
@@ -335,5 +343,33 @@ I18n.register('ko', {
   'settings.shape.square': '사각',
 
   // Toolbar - Mic
-  'toolbar.mic': '마이크 전환'
+  'toolbar.mic': '마이크 전환',
+
+  // Sound visualizer names
+  'sound.viz.bars': '클래식 스펙트럼',
+  'sound.viz.scope': '오실로스코프',
+  'sound.viz.ocean': '오션 웨이브',
+  'sound.viz.alchemy': '에너지 오브',
+  'sound.viz.battery': '펄스 웨이브',
+  'sound.viz.ambience': '앰비언트 글로우',
+  'sound.viz.particle': '도트 플레인',
+  'sound.viz.musical-colors': '컬러 플로우',
+  'sound.viz.spikes': '방사형 스파이크',
+  'sound.viz.plenoptic': '라이트 필드',
+  'sound.viz.waveform-3d': '3D 웨이브폼',
+  'sound.viz.spectrum-circle': '원형 스펙트럼',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'WMP 클래식 블루 그라데이션 스펙트럼 바',
+  'landing.sound.preset.scope': '그리드가 있는 듀얼 채널 오실로스코프',
+  'landing.sound.preset.ocean': '주파수 기반 다층 오션 웨이브',
+  'landing.sound.preset.alchemy': '파티클 소용돌이가 있는 에너지 오브',
+  'landing.sound.preset.battery': '색조 시프트가 있는 펄스 동심원',
+  'landing.sound.preset.ambience': '호흡 효과가 있는 부드러운 앰비언트 글로우',
+  'landing.sound.preset.particle': '3D 원근감이 있는 도트 그리드 플레인',
+  'landing.sound.preset.musical-colors': '무지개 색조의 다채로운 플로우 바',
+  'landing.sound.preset.spikes': '중심에서 360° 방사형 스파이크',
+  'landing.sound.preset.plenoptic': '피사계 심도 블러가 있는 라이트 필드',
+  'landing.sound.preset.waveform-3d': '깊이 레이어가 있는 3D 원근 웨이브폼',
+  'landing.sound.preset.spectrum-circle': '바깥쪽으로 방사하는 원형 스펙트럼'
 });

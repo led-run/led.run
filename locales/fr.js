@@ -327,6 +327,14 @@ I18n.register('fr', {
   'settings.param.layers': 'Couches',
   'settings.param.orientation': 'Orientation',
   'settings.param.showPeak': 'Afficher le Pic',
+  'settings.param.gridLines': 'Lignes de Grille',
+  'settings.param.waveCount': 'Nombre de Vagues',
+  'settings.param.pulseSpeed': 'Vitesse de Pulsation',
+  'settings.param.glowRadius': 'Rayon de Lueur',
+  'settings.param.gridSize': 'Taille de Grille',
+  'settings.param.colorShift': 'Changement de Couleur',
+  'settings.param.spikeCount': 'Nombre de Pointes',
+  'settings.param.innerRadius': 'Rayon Intérieur',
 
   // Select option translations
   'settings.orientation.vertical': 'Vertical',
@@ -335,5 +343,33 @@ I18n.register('fr', {
   'settings.shape.square': 'Carr\u00e9',
 
   // Toolbar - Mic
-  'toolbar.mic': 'Activer/d\u00e9sactiver le micro'
+  'toolbar.mic': 'Activer/d\u00e9sactiver le micro',
+
+  // Sound visualizer names
+  'sound.viz.bars': 'Spectre Classique',
+  'sound.viz.scope': 'Oscilloscope',
+  'sound.viz.ocean': 'Vagues Océaniques',
+  'sound.viz.alchemy': 'Orbe d\'Énergie',
+  'sound.viz.battery': 'Vagues Pulsantes',
+  'sound.viz.ambience': 'Lueur Ambiante',
+  'sound.viz.particle': 'Plan de Points',
+  'sound.viz.musical-colors': 'Flux de Couleurs',
+  'sound.viz.spikes': 'Pointes Radiales',
+  'sound.viz.plenoptic': 'Champ Lumineux',
+  'sound.viz.waveform-3d': 'Forme d\'Onde 3D',
+  'sound.viz.spectrum-circle': 'Spectre Circulaire',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'Barres de spectre classiques WMP avec dégradé bleu',
+  'landing.sound.preset.scope': 'Oscilloscope double canal avec grille',
+  'landing.sound.preset.ocean': 'Vagues océaniques en couches pilotées par la fréquence',
+  'landing.sound.preset.alchemy': 'Orbe d\'énergie avec vortex de particules',
+  'landing.sound.preset.battery': 'Anneaux concentriques pulsants avec changement de teinte',
+  'landing.sound.preset.ambience': 'Lueur ambiante douce avec effet de respiration',
+  'landing.sound.preset.particle': 'Plan de grille de points avec perspective 3D',
+  'landing.sound.preset.musical-colors': 'Barres fluides colorées avec teintes arc-en-ciel',
+  'landing.sound.preset.spikes': 'Pointes radiales de 360° depuis le centre',
+  'landing.sound.preset.plenoptic': 'Champ lumineux avec flou de profondeur de champ',
+  'landing.sound.preset.waveform-3d': 'Forme d\'onde en perspective 3D avec couches de profondeur',
+  'landing.sound.preset.spectrum-circle': 'Spectre circulaire rayonnant vers l\'extérieur'
 });

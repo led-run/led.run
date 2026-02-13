@@ -329,6 +329,14 @@ I18n.register('en', {
   'settings.param.layers': 'Layers',
   'settings.param.orientation': 'Orientation',
   'settings.param.showPeak': 'Show Peak',
+  'settings.param.gridLines': 'Grid Lines',
+  'settings.param.waveCount': 'Wave Count',
+  'settings.param.pulseSpeed': 'Pulse Speed',
+  'settings.param.glowRadius': 'Glow Radius',
+  'settings.param.gridSize': 'Grid Size',
+  'settings.param.colorShift': 'Color Shift',
+  'settings.param.spikeCount': 'Spike Count',
+  'settings.param.innerRadius': 'Inner Radius',
 
   // Select option translations
   'settings.orientation.vertical': 'Vertical',
@@ -337,5 +345,33 @@ I18n.register('en', {
   'settings.shape.square': 'Square',
 
   // Toolbar - Mic
-  'toolbar.mic': 'Toggle microphone'
+  'toolbar.mic': 'Toggle microphone',
+
+  // Sound visualizer names
+  'sound.viz.bars': 'Classic Spectrum',
+  'sound.viz.scope': 'Oscilloscope',
+  'sound.viz.ocean': 'Ocean Waves',
+  'sound.viz.alchemy': 'Energy Orb',
+  'sound.viz.battery': 'Pulsing Waves',
+  'sound.viz.ambience': 'Ambient Glow',
+  'sound.viz.particle': 'Dotplane',
+  'sound.viz.musical-colors': 'Color Flow',
+  'sound.viz.spikes': 'Radial Spikes',
+  'sound.viz.plenoptic': 'Light Field',
+  'sound.viz.waveform-3d': '3D Waveform',
+  'sound.viz.spectrum-circle': 'Circular Spectrum',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'WMP classic spectrum bars with blue gradient',
+  'landing.sound.preset.scope': 'Dual-channel oscilloscope with grid',
+  'landing.sound.preset.ocean': 'Layered ocean waves driven by frequency',
+  'landing.sound.preset.alchemy': 'Energy orb with particle vortex',
+  'landing.sound.preset.battery': 'Pulsing concentric rings with hue shift',
+  'landing.sound.preset.ambience': 'Soft ambient glow with breathing effect',
+  'landing.sound.preset.particle': 'Dot grid plane with 3D perspective',
+  'landing.sound.preset.musical-colors': 'Colorful flowing bars with rainbow hues',
+  'landing.sound.preset.spikes': '360° radial spikes from center',
+  'landing.sound.preset.plenoptic': 'Light field with depth-of-field blur',
+  'landing.sound.preset.waveform-3d': '3D perspective waveform with depth layers',
+  'landing.sound.preset.spectrum-circle': 'Circular spectrum radiating outward'
 });

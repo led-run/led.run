@@ -329,6 +329,14 @@ I18n.register('zh', {
   'settings.param.layers': '层数',
   'settings.param.orientation': '方向',
   'settings.param.showPeak': '显示峰值',
+  'settings.param.gridLines': '网格线',
+  'settings.param.waveCount': '波浪层数',
+  'settings.param.pulseSpeed': '脉冲速度',
+  'settings.param.glowRadius': '光晕半径',
+  'settings.param.gridSize': '网格密度',
+  'settings.param.colorShift': '色彩变换',
+  'settings.param.spikeCount': '尖刺数量',
+  'settings.param.innerRadius': '内圈半径',
 
   // Select option translations
   'settings.orientation.vertical': '垂直',
@@ -337,5 +345,33 @@ I18n.register('zh', {
   'settings.shape.square': '方形',
 
   // Toolbar - Mic
-  'toolbar.mic': '切换麦克风'
+  'toolbar.mic': '切换麦克风',
+
+  // Sound visualizer names
+  'sound.viz.bars': '经典频谱',
+  'sound.viz.scope': '示波器',
+  'sound.viz.ocean': '海洋波浪',
+  'sound.viz.alchemy': '能量球',
+  'sound.viz.battery': '脉冲波纹',
+  'sound.viz.ambience': '环境光晕',
+  'sound.viz.particle': '点阵平面',
+  'sound.viz.musical-colors': '彩色流动',
+  'sound.viz.spikes': '放射尖刺',
+  'sound.viz.plenoptic': '光场效果',
+  'sound.viz.waveform-3d': '3D波形',
+  'sound.viz.spectrum-circle': '环形频谱',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'WMP 经典蓝色渐变频谱柱',
+  'landing.sound.preset.scope': '双通道示波器，带网格线',
+  'landing.sound.preset.ocean': '多层海洋波浪，频率驱动',
+  'landing.sound.preset.alchemy': '能量球与粒子旋涡',
+  'landing.sound.preset.battery': '脉冲同心环，色相循环',
+  'landing.sound.preset.ambience': '柔和环境光，呼吸效果',
+  'landing.sound.preset.particle': '3D 透视点阵网格',
+  'landing.sound.preset.musical-colors': '彩虹色彩流动柱状图',
+  'landing.sound.preset.spikes': '360° 中心放射尖刺',
+  'landing.sound.preset.plenoptic': '光场景深模糊效果',
+  'landing.sound.preset.waveform-3d': '3D 透视波形深度层',
+  'landing.sound.preset.spectrum-circle': '向外辐射环形频谱'
 });

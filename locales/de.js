@@ -327,6 +327,14 @@ I18n.register('de', {
   'settings.param.layers': 'Schichten',
   'settings.param.orientation': 'Ausrichtung',
   'settings.param.showPeak': 'Spitze Anzeigen',
+  'settings.param.gridLines': 'Gitterlinien',
+  'settings.param.waveCount': 'Wellenanzahl',
+  'settings.param.pulseSpeed': 'Pulsgeschwindigkeit',
+  'settings.param.glowRadius': 'Leuchtradius',
+  'settings.param.gridSize': 'Gittergröße',
+  'settings.param.colorShift': 'Farbverschiebung',
+  'settings.param.spikeCount': 'Spitzenanzahl',
+  'settings.param.innerRadius': 'Innenradius',
 
   // Select option translations
   'settings.orientation.vertical': 'Vertikal',
@@ -335,5 +343,33 @@ I18n.register('de', {
   'settings.shape.square': 'Quadrat',
 
   // Toolbar - Mic
-  'toolbar.mic': 'Mikrofon umschalten'
+  'toolbar.mic': 'Mikrofon umschalten',
+
+  // Sound visualizer names
+  'sound.viz.bars': 'Klassisches Spektrum',
+  'sound.viz.scope': 'Oszilloskop',
+  'sound.viz.ocean': 'Ozeanwellen',
+  'sound.viz.alchemy': 'Energiekugel',
+  'sound.viz.battery': 'Pulsierende Wellen',
+  'sound.viz.ambience': 'Umgebungsleuchten',
+  'sound.viz.particle': 'Punktebene',
+  'sound.viz.musical-colors': 'Farbfluss',
+  'sound.viz.spikes': 'Radiale Spitzen',
+  'sound.viz.plenoptic': 'Lichtfeld',
+  'sound.viz.waveform-3d': '3D-Wellenform',
+  'sound.viz.spectrum-circle': 'Kreisförmiges Spektrum',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'WMP klassische Spektrumbalken mit blauem Farbverlauf',
+  'landing.sound.preset.scope': 'Zweikanal-Oszilloskop mit Gitter',
+  'landing.sound.preset.ocean': 'Mehrschichtige Ozeanwellen frequenzgetrieben',
+  'landing.sound.preset.alchemy': 'Energiekugel mit Partikelvortex',
+  'landing.sound.preset.battery': 'Pulsierende konzentrische Ringe mit Farbtonverschiebung',
+  'landing.sound.preset.ambience': 'Sanftes Umgebungsleuchten mit Atmungseffekt',
+  'landing.sound.preset.particle': 'Punktgitterebene mit 3D-Perspektive',
+  'landing.sound.preset.musical-colors': 'Farbenfrohe fließende Balken mit Regenbogentönen',
+  'landing.sound.preset.spikes': '360° radiale Spitzen vom Zentrum',
+  'landing.sound.preset.plenoptic': 'Lichtfeld mit Tiefenschärfe-Unschärfe',
+  'landing.sound.preset.waveform-3d': '3D-Perspektiven-Wellenform mit Tiefenschichten',
+  'landing.sound.preset.spectrum-circle': 'Kreisförmiges Spektrum nach außen strahlend'
 });

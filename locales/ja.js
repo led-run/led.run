@@ -327,6 +327,14 @@ I18n.register('ja', {
   'settings.param.layers': 'レイヤー',
   'settings.param.orientation': '向き',
   'settings.param.showPeak': 'ピーク表示',
+  'settings.param.gridLines': 'グリッド線',
+  'settings.param.waveCount': '波の数',
+  'settings.param.pulseSpeed': 'パルス速度',
+  'settings.param.glowRadius': 'グロー半径',
+  'settings.param.gridSize': 'グリッドサイズ',
+  'settings.param.colorShift': 'カラーシフト',
+  'settings.param.spikeCount': 'スパイク数',
+  'settings.param.innerRadius': '内側半径',
 
   // Select option translations
   'settings.orientation.vertical': '縦',
@@ -335,5 +343,33 @@ I18n.register('ja', {
   'settings.shape.square': '四角',
 
   // Toolbar - Mic
-  'toolbar.mic': 'マイク切替'
+  'toolbar.mic': 'マイク切替',
+
+  // Sound visualizer names
+  'sound.viz.bars': 'クラシックスペクトラム',
+  'sound.viz.scope': 'オシロスコープ',
+  'sound.viz.ocean': 'オーシャンウェーブ',
+  'sound.viz.alchemy': 'エネルギーオーブ',
+  'sound.viz.battery': 'パルスウェーブ',
+  'sound.viz.ambience': 'アンビエントグロー',
+  'sound.viz.particle': 'ドットプレーン',
+  'sound.viz.musical-colors': 'カラーフロー',
+  'sound.viz.spikes': 'ラジアルスパイク',
+  'sound.viz.plenoptic': 'ライトフィールド',
+  'sound.viz.waveform-3d': '3Dウェーブフォーム',
+  'sound.viz.spectrum-circle': 'サーキュラースペクトラム',
+
+  // Landing sound preset descriptions
+  'landing.sound.preset.bars': 'WMPクラシック・ブルーグラデーションスペクトラムバー',
+  'landing.sound.preset.scope': 'グリッド付きデュアルチャンネルオシロスコープ',
+  'landing.sound.preset.ocean': '周波数駆動の多層オーシャンウェーブ',
+  'landing.sound.preset.alchemy': 'パーティクル渦巻きを伴うエネルギーオーブ',
+  'landing.sound.preset.battery': '色相シフト付き同心円パルスリング',
+  'landing.sound.preset.ambience': '呼吸効果を伴うソフトアンビエントグロー',
+  'landing.sound.preset.particle': '3D透視投影ドットグリッドプレーン',
+  'landing.sound.preset.musical-colors': 'レインボー色相のカラフルフローバー',
+  'landing.sound.preset.spikes': '中心から360°放射状スパイク',
+  'landing.sound.preset.plenoptic': '被写界深度ブラー付きライトフィールド',
+  'landing.sound.preset.waveform-3d': '深度レイヤー付き3D透視ウェーブフォーム',
+  'landing.sound.preset.spectrum-circle': '外側に放射するサーキュラースペクトラム'
 });
