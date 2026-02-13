@@ -208,11 +208,11 @@ js/app.js                 App entry + multi-product orchestrator
 | `bars` | Classic spectrum bars (WMP style) | `smoothing`, `barCount` |
 | `scope` | Dual-channel oscilloscope | `lineWidth`, `gridLines` |
 | `ocean` | Multi-layer ocean waves | `waveCount` |
-| `alchemy` | Energy orb with particle vortex | `complexity` |
+| `alchemy` | Energy orb with particle vortex (enhanced trails, pulsing glow) | `complexity`, `sensitivity` |
 | `battery` | Pulsing concentric rings | `pulseSpeed` |
-| `ambience` | Ambient glow with breathing | `glowRadius` |
+| `ambience` | Ambient glow with breathing (3 presets: glow/water/swirl) | `ambPreset`, `glowRadius` |
 | `particle` | Dot grid plane with 3D perspective | `gridSize` |
-| `musical-colors` | Colorful flowing bars | `colorShift` |
+| `musical-colors` | Artistic flowing effects (7 presets: aurora/water/silky/electric/neon/flame/star) | `mcPreset`, `sensitivity` |
 | `spikes` | 360° radial spikes | `spikeCount` |
 | `plenoptic` | Light field with depth blur | `depth` |
 | `waveform-3d` | 3D perspective waveform | `depth` |

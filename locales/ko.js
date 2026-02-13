@@ -335,6 +335,8 @@ I18n.register('ko', {
   'settings.param.colorShift': '색상 시프트',
   'settings.param.spikeCount': '스파이크 수',
   'settings.param.innerRadius': '내부 반경',
+  'settings.param.mcPreset': 'Musical Colors 프리셋',
+  'settings.param.ambPreset': '앰비언스 프리셋',
 
   // Select option translations
   'settings.orientation.vertical': '세로',

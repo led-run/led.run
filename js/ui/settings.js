@@ -109,6 +109,11 @@
     colorShift:    { type: 'range', label: 'settings.param.colorShift', min: 1, max: 10, step: 1 },
     spikeCount:    { type: 'range', label: 'settings.param.spikeCount', min: 32, max: 128, step: 8 },
     innerRadius:   { type: 'range', label: 'settings.param.innerRadius', min: 0.1, max: 0.4, step: 0.05 },
+    // WMP visualizer presets
+    mcPreset:      { type: 'select', label: 'settings.param.mcPreset',
+                     options: ['aurora', 'water', 'silky', 'electric', 'neon', 'flame', 'star'] },
+    ambPreset:     { type: 'select', label: 'settings.param.ambPreset',
+                     options: ['glow', 'water', 'swirl'] },
     // Sound legacy params (kept for compatibility if needed)
     scanSpeed:     { type: 'range', label: 'settings.param.scanSpeed', min: 1, max: 10, step: 1 },
     threshold:     { type: 'range', label: 'settings.param.threshold', min: 1, max: 10, step: 1 },

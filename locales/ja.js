@@ -335,6 +335,8 @@ I18n.register('ja', {
   'settings.param.colorShift': 'カラーシフト',
   'settings.param.spikeCount': 'スパイク数',
   'settings.param.innerRadius': '内側半径',
+  'settings.param.mcPreset': 'Musical Colors プリセット',
+  'settings.param.ambPreset': 'アンビエンスプリセット',
 
   // Select option translations
   'settings.orientation.vertical': '縦',

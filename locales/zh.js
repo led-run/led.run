@@ -337,6 +337,8 @@ I18n.register('zh', {
   'settings.param.colorShift': '色彩变换',
   'settings.param.spikeCount': '尖刺数量',
   'settings.param.innerRadius': '内圈半径',
+  'settings.param.mcPreset': 'Musical Colors 预设',
+  'settings.param.ambPreset': '氛围光预设',
 
   // Select option translations
   'settings.orientation.vertical': '垂直',

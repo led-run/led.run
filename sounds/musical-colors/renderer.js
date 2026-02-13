@@ -1,6 +1,60 @@
 ;(function(global) {
   'use strict';
 
+  // Simple 1D Perlin-like noise generator
+  function NoiseGenerator() {
+    this.seed = Math.random() * 1000;
+    this.perm = [];
+    for (var i = 0; i < 256; i++) {
+      this.perm[i] = Math.floor(Math.random() * 256);
+    }
+  }
+
+  NoiseGenerator.prototype.noise = function(x) {
+    var xi = Math.floor(x) & 255;
+    var xf = x - Math.floor(x);
+    var u = this.fade(xf);
+    var a = this.perm[xi];
+    var b = this.perm[(xi + 1) & 255];
+    return this.lerp(u, this.grad(a, xf), this.grad(b, xf - 1));
+  };
+
+  NoiseGenerator.prototype.fade = function(t) {
+    return t * t * t * (t * (t * 6 - 15) + 10);
+  };
+
+  NoiseGenerator.prototype.lerp = function(t, a, b) {
+    return a + t * (b - a);
+  };
+
+  NoiseGenerator.prototype.grad = function(hash, x) {
+    return (hash & 1) === 0 ? x : -x;
+  };
+
+  // Particle class
+  function Particle(x, y, vx, vy, life, color, size) {
+    this.x = x;
+    this.y = y;
+    this.vx = vx;
+    this.vy = vy;
+    this.life = life;
+    this.maxLife = life;
+    this.color = color;
+    this.size = size;
+    this.alpha = 1;
+  }
+
+  Particle.prototype.update = function(dt) {
+    this.x += this.vx * dt;
+    this.y += this.vy * dt;
+    this.life -= dt;
+    this.alpha = Math.max(0, this.life / this.maxLife);
+  };
+
+  Particle.prototype.isDead = function() {
+    return this.life <= 0;
+  };
+
   function hexToRgb(hex) {
     var r = parseInt(hex.slice(0, 2), 16);
     var g = parseInt(hex.slice(2, 4), 16);
@@ -8,41 +62,81 @@
     return { r: r, g: g, b: b };
   }
 
-  function hslToRgb(h, s, l) {
-    var c = (1 - Math.abs(2 * l - 1)) * s;
-    var x = c * (1 - Math.abs(((h / 60) % 2) - 1));
-    var m = l - c / 2;
-    var r, g, b;
-
-    if (h < 60) {
-      r = c; g = x; b = 0;
-    } else if (h < 120) {
-      r = x; g = c; b = 0;
-    } else if (h < 180) {
-      r = c; g = x; b = 0;
-    } else if (h < 240) {
-      r = x; g = 0; b = c;
-    } else if (h < 300) {
-      r = 0; g = x; b = c;
-    } else {
-      r = c; g = 0; b = x;
+  // Preset configurations
+  var PRESETS = {
+    aurora: {
+      name: 'Aurora',
+      colors: [
+        { r: 0, g: 255, b: 150 },   // Green
+        { r: 100, g: 150, b: 255 }, // Blue
+        { r: 200, g: 100, b: 255 }  // Purple
+      ],
+      render: 'wave'
+    },
+    water: {
+      name: 'Water Spray',
+      colors: [
+        { r: 0, g: 200, b: 255 },   // Cyan
+        { r: 100, g: 220, b: 255 }, // Light blue
+        { r: 50, g: 150, b: 200 }   // Deep blue
+      ],
+      render: 'fountain'
+    },
+    silky: {
+      name: 'Silky Wave',
+      colors: [
+        { r: 255, g: 150, b: 200 }, // Pink
+        { r: 200, g: 150, b: 255 }, // Purple
+        { r: 150, g: 200, b: 255 }  // Light blue
+      ],
+      render: 'silk'
+    },
+    electric: {
+      name: 'Electric Green',
+      colors: [
+        { r: 0, g: 255, b: 100 },   // Electric green
+        { r: 200, g: 255, b: 100 }, // Yellow-green
+        { r: 100, g: 255, b: 150 }  // Bright green
+      ],
+      render: 'pulse'
+    },
+    neon: {
+      name: 'Neon Highway',
+      colors: [
+        { r: 255, g: 0, b: 100 },   // Hot pink
+        { r: 0, g: 200, b: 255 },   // Cyan
+        { r: 255, g: 200, b: 0 },   // Yellow
+        { r: 150, g: 0, b: 255 }    // Purple
+      ],
+      render: 'highway'
+    },
+    flame: {
+      name: 'Blue Flame',
+      colors: [
+        { r: 255, g: 255, b: 255 }, // White
+        { r: 150, g: 200, b: 255 }, // Light blue
+        { r: 50, g: 100, b: 255 }   // Deep blue
+      ],
+      render: 'flame'
+    },
+    star: {
+      name: 'Star Power',
+      colors: [
+        { r: 255, g: 255, b: 255 }, // White
+        { r: 255, g: 255, b: 150 }, // Pale yellow
+        { r: 255, g: 220, b: 100 }  // Gold
+      ],
+      render: 'starburst'
     }
-
-    return {
-      r: Math.round((r + m) * 255),
-      g: Math.round((g + m) * 255),
-      b: Math.round((b + m) * 255)
-    };
-  }
+  };
 
   var MusicalColorsVisualizer = {
     id: 'musical-colors',
 
     defaults: {
-      color: 'ff0000',      // Starting red (will be rainbowized)
       bg: '000000',
       sensitivity: 5,
-      colorShift: 3         // Hue rotation speed 1-10
+      mcPreset: 'aurora'  // Default preset
     },
 
     _canvas: null,
@@ -51,17 +145,19 @@
     _audioEngine: null,
     _animFrameId: null,
     _config: null,
-    _smoothedData: null,
-    _logBins: null,
-    _hueOffset: 0,
+    _particles: null,
+    _noise: null,
+    _time: 0,
+    _lastTime: 0,
 
     init: function(container, config, audioEngine) {
       this._container = container;
       this._config = config;
       this._audioEngine = audioEngine;
-      this._smoothedData = null;
-      this._logBins = null;
-      this._hueOffset = 0;
+      this._particles = [];
+      this._noise = new NoiseGenerator();
+      this._time = 0;
+      this._lastTime = performance.now();
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -93,8 +189,8 @@
       this._ctx = null;
       this._container = null;
       this._audioEngine = null;
-      this._smoothedData = null;
-      this._logBins = null;
+      this._particles = null;
+      this._noise = null;
       this._config = null;
     },
 
@@ -108,156 +204,373 @@
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     },
 
-    _generateLogBins: function(barCount, binCount) {
-      if (this._logBins && this._logBins.length === barCount) {
-        return this._logBins;
+    _getAverageVolume: function() {
+      if (!this._audioEngine || !this._audioEngine.isRunning()) {
+        return 0;
       }
-
-      this._logBins = [];
-      var minFreq = 1;
-      var maxFreq = binCount;
-      var logMin = Math.log(minFreq);
-      var logMax = Math.log(maxFreq);
-      var logStep = (logMax - logMin) / barCount;
-
-      for (var i = 0; i < barCount; i++) {
-        var startLog = logMin + i * logStep;
-        var endLog = logMin + (i + 1) * logStep;
-        var start = Math.floor(Math.exp(startLog));
-        var end = Math.ceil(Math.exp(endLog));
-        if (start < 1) start = 1;
-        if (end > binCount) end = binCount;
-        if (end <= start) end = start + 1;
-        this._logBins.push({ start: start, end: end });
+      var freqData = this._audioEngine.getFrequencyData();
+      if (!freqData || freqData.length === 0) {
+        return 0;
       }
-
-      return this._logBins;
+      var sum = 0;
+      for (var i = 0; i < freqData.length; i++) {
+        sum += freqData[i];
+      }
+      return sum / freqData.length / 255;
     },
 
     _draw: function() {
       var self = this;
       if (!self._ctx || !self._canvas) return;
 
+      var now = performance.now();
+      var dt = Math.min((now - self._lastTime) / 1000, 0.1);
+      self._lastTime = now;
+      self._time += dt;
+
       var w = self._container.clientWidth;
       var h = self._container.clientHeight;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
-      var colorShift = parseFloat(cfg.colorShift) || self.defaults.colorShift;
-      var barCount = 64;
-      var ctx = self._ctx;
+      var presetId = cfg.mcPreset || self.defaults.mcPreset;
+      var preset = PRESETS[presetId] || PRESETS.aurora;
 
-      // Hue rotation
-      self._hueOffset += colorShift * 0.2;
-      if (self._hueOffset > 360) self._hueOffset -= 360;
+      var volume = self._getAverageVolume() * (sensitivity / 5);
+      if (volume > 1) volume = 1;
 
-      // Clear with background
-      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
-      ctx.fillRect(0, 0, w, h);
+      // Clear with fade for trail effect
+      self._ctx.fillStyle = 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.1)';
+      self._ctx.fillRect(0, 0, w, h);
 
-      var freqData = null;
-      var isRunning = self._audioEngine && self._audioEngine.isRunning();
-
-      if (isRunning) {
-        freqData = self._audioEngine.getFrequencyData();
+      // Render based on preset type
+      switch (preset.render) {
+        case 'wave':
+          self._renderAurora(w, h, volume, preset.colors, dt);
+          break;
+        case 'fountain':
+          self._renderFountain(w, h, volume, preset.colors, dt);
+          break;
+        case 'silk':
+          self._renderSilk(w, h, volume, preset.colors, dt);
+          break;
+        case 'pulse':
+          self._renderPulse(w, h, volume, preset.colors, dt);
+          break;
+        case 'highway':
+          self._renderHighway(w, h, volume, preset.colors, dt);
+          break;
+        case 'flame':
+          self._renderFlame(w, h, volume, preset.colors, dt);
+          break;
+        case 'starburst':
+          self._renderStarburst(w, h, volume, preset.colors, dt);
+          break;
       }
-
-      var barWidth = w / barCount;
-      var gap = Math.max(1, barWidth * 0.15);
-      var barW = barWidth - gap;
-      var baselineY = h * 0.85;
-
-      if (!freqData || freqData.length === 0) {
-        // Idle state: colorful baseline
-        for (var i = 0; i < barCount; i++) {
-          var hue = (i / barCount * 360 + self._hueOffset) % 360;
-          var rgb = hslToRgb(hue, 0.8, 0.5);
-          ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0.2)';
-          var x = i * barWidth + gap / 2;
-          ctx.fillRect(x, baselineY - 2, barW, 2);
-        }
-        self._animFrameId = requestAnimationFrame(function() { self._draw(); });
-        return;
-      }
-
-      var logBins = self._generateLogBins(barCount, freqData.length);
-
-      if (!self._smoothedData || self._smoothedData.length !== barCount) {
-        self._smoothedData = new Float32Array(barCount);
-      }
-
-      // Enable glow
-      ctx.shadowBlur = 12;
-
-      for (var i = 0; i < barCount; i++) {
-        var bin = logBins[i];
-        var sum = 0;
-        var count = bin.end - bin.start;
-        for (var j = bin.start; j < bin.end; j++) {
-          sum += freqData[j];
-        }
-        var avg = sum / count;
-
-        self._smoothedData[i] = self._smoothedData[i] * 0.85 + avg * 0.15;
-
-        var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
-        if (normalized > 1) normalized = 1;
-
-        var barH = normalized * baselineY * 0.95;
-        if (barH < 1) barH = 1;
-
-        var x = i * barWidth + gap / 2;
-        var barTop = baselineY - barH;
-
-        // Rainbow hue distribution
-        var hue = (i / barCount * 360 + self._hueOffset) % 360;
-        var rgb = hslToRgb(hue, 0.8, 0.5);
-        var lightRgb = hslToRgb(hue, 0.7, 0.7);
-
-        // Gradient fill
-        var grad = ctx.createLinearGradient(0, baselineY, 0, barTop);
-        grad.addColorStop(0, 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
-        grad.addColorStop(1, 'rgb(' + lightRgb.r + ',' + lightRgb.g + ',' + lightRgb.b + ')');
-        ctx.fillStyle = grad;
-        ctx.shadowColor = 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')';
-
-        ctx.fillRect(x, barTop, barW, barH);
-
-        // Rounded top
-        if (barH > 3) {
-          var arcRadius = barW / 2;
-          ctx.beginPath();
-          ctx.arc(x + barW / 2, barTop, arcRadius, Math.PI, 0);
-          ctx.fill();
-        }
-      }
-
-      ctx.shadowBlur = 0;
-
-      // Mirror reflection with rainbow fade
-      ctx.globalAlpha = 0.2;
-      for (var i = 0; i < barCount; i++) {
-        var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
-        if (normalized > 1) normalized = 1;
-
-        var barH = normalized * baselineY * 0.95;
-        if (barH < 1) barH = 1;
-
-        var mirrorH = Math.min(barH * 0.4, (h - baselineY) * 0.8);
-        var x = i * barWidth + gap / 2;
-
-        var hue = (i / barCount * 360 + self._hueOffset) % 360;
-        var rgb = hslToRgb(hue, 0.8, 0.5);
-
-        var mirrorGrad = ctx.createLinearGradient(0, baselineY, 0, baselineY + mirrorH);
-        mirrorGrad.addColorStop(0, 'rgb(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ')');
-        mirrorGrad.addColorStop(1, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0)');
-        ctx.fillStyle = mirrorGrad;
-        ctx.fillRect(x, baselineY, barW, mirrorH);
-      }
-      ctx.globalAlpha = 1;
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
+    },
+
+    // Aurora: flowing wave bands
+    _renderAurora: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var bands = 5;
+      var time = this._time;
+
+      for (var i = 0; i < bands; i++) {
+        var color = colors[i % colors.length];
+        var yOffset = (i / bands) * h;
+        var amplitude = 50 + volume * 100;
+        var frequency = 0.01 + i * 0.002;
+
+        ctx.beginPath();
+        ctx.moveTo(0, yOffset);
+
+        for (var x = 0; x <= w; x += 5) {
+          var noise = this._noise.noise(x * frequency + time + i * 100);
+          var y = yOffset + Math.sin(x * 0.01 + time + i) * amplitude + noise * 30;
+          ctx.lineTo(x, y);
+        }
+
+        ctx.lineTo(w, h);
+        ctx.lineTo(0, h);
+        ctx.closePath();
+
+        var alpha = 0.15 + volume * 0.3;
+        ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + alpha + ')';
+        ctx.fill();
+
+        // Glow
+        ctx.shadowBlur = 20 + volume * 20;
+        ctx.shadowColor = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.5)';
+        ctx.strokeStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + (0.4 + volume * 0.4) + ')';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+    },
+
+    // Water Spray: particle fountain
+    _renderFountain: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var spawnRate = 2 + volume * 8;
+
+      // Spawn particles
+      for (var i = 0; i < spawnRate; i++) {
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var angle = -Math.PI / 2 + (Math.random() - 0.5) * 0.6;
+        var speed = 100 + volume * 300;
+        this._particles.push(new Particle(
+          w / 2,
+          h,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed,
+          1 + Math.random() * 2,
+          color,
+          2 + Math.random() * 3
+        ));
+      }
+
+      // Update and draw particles
+      ctx.shadowBlur = 15;
+      for (var i = this._particles.length - 1; i >= 0; i--) {
+        var p = this._particles[i];
+        p.vy += 200 * dt; // Gravity
+        p.update(dt);
+
+        if (p.isDead() || p.y > h) {
+          this._particles.splice(i, 1);
+          continue;
+        }
+
+        ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + p.alpha + ')';
+        ctx.shadowColor = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',0.8)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      // Limit particle count
+      if (this._particles.length > 500) {
+        this._particles.splice(0, this._particles.length - 500);
+      }
+    },
+
+    // Silky Wave: smooth sine wave flow
+    _renderSilk: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var waves = 4;
+      var time = this._time;
+
+      for (var i = 0; i < waves; i++) {
+        var color = colors[i % colors.length];
+        var amplitude = 60 + volume * 80;
+        var baseY = h / 2;
+
+        ctx.beginPath();
+        ctx.moveTo(0, baseY);
+
+        for (var x = 0; x <= w; x += 3) {
+          var y = baseY +
+            Math.sin(x * 0.01 + time * 2 + i * 0.5) * amplitude * 0.6 +
+            Math.sin(x * 0.02 + time * 1.5 + i) * amplitude * 0.4;
+          ctx.lineTo(x, y);
+        }
+
+        var alpha = 0.2 + volume * 0.2;
+        ctx.strokeStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + alpha + ')';
+        ctx.lineWidth = 15 + i * 5;
+        ctx.lineCap = 'round';
+        ctx.shadowBlur = 25;
+        ctx.shadowColor = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.6)';
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+      }
+    },
+
+    // Electric Green: lightning pulses
+    _renderPulse: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var pulseCount = 3 + Math.floor(volume * 5);
+
+      for (var i = 0; i < pulseCount; i++) {
+        var color = colors[i % colors.length];
+        var x = Math.random() * w;
+        var y = Math.random() * h;
+        var radius = 20 + volume * 80;
+
+        var grad = ctx.createRadialGradient(x, y, 0, x, y, radius);
+        grad.addColorStop(0, 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + (0.6 + volume * 0.4) + ')');
+        grad.addColorStop(0.5, 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + (0.2 + volume * 0.2) + ')');
+        grad.addColorStop(1, 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0)');
+
+        ctx.fillStyle = grad;
+        ctx.shadowBlur = 30 + volume * 30;
+        ctx.shadowColor = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.8)';
+        ctx.beginPath();
+        ctx.arc(x, y, radius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+    },
+
+    // Neon Highway: flowing lines with perspective
+    _renderHighway: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var lineCount = 4;
+      var time = this._time;
+      var speed = 200 + volume * 300;
+
+      // Spawn line particles
+      if (Math.random() < 0.3) {
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var lane = Math.floor(Math.random() * lineCount);
+        this._particles.push(new Particle(
+          (lane + 0.5) * (w / lineCount),
+          0,
+          0,
+          speed,
+          2,
+          color,
+          3 + Math.random() * 2
+        ));
+      }
+
+      // Draw particles
+      ctx.shadowBlur = 15;
+      for (var i = this._particles.length - 1; i >= 0; i--) {
+        var p = this._particles[i];
+        p.update(dt);
+
+        if (p.isDead() || p.y > h) {
+          this._particles.splice(i, 1);
+          continue;
+        }
+
+        // Perspective scale
+        var scale = p.y / h;
+        var size = p.size * (0.5 + scale * 1.5);
+
+        ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + p.alpha + ')';
+        ctx.shadowColor = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',0.8)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      if (this._particles.length > 300) {
+        this._particles.splice(0, this._particles.length - 300);
+      }
+    },
+
+    // Blue Flame: rising particles
+    _renderFlame: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var spawnRate = 3 + volume * 10;
+
+      // Spawn flame particles
+      for (var i = 0; i < spawnRate; i++) {
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var xOffset = (Math.random() - 0.5) * 100;
+        this._particles.push(new Particle(
+          w / 2 + xOffset,
+          h,
+          (Math.random() - 0.5) * 50,
+          -100 - volume * 150,
+          0.8 + Math.random() * 1.2,
+          color,
+          4 + Math.random() * 6
+        ));
+      }
+
+      // Draw particles
+      ctx.shadowBlur = 20;
+      for (var i = this._particles.length - 1; i >= 0; i--) {
+        var p = this._particles[i];
+        p.vx += (Math.random() - 0.5) * 20 * dt; // Flicker
+        p.update(dt);
+
+        if (p.isDead() || p.y < 0) {
+          this._particles.splice(i, 1);
+          continue;
+        }
+
+        var size = p.size * p.alpha;
+        ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + p.alpha + ')';
+        ctx.shadowColor = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',0.8)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      if (this._particles.length > 600) {
+        this._particles.splice(0, this._particles.length - 600);
+      }
+    },
+
+    // Star Power: radial bursts
+    _renderStarburst: function(w, h, volume, colors, dt) {
+      var ctx = this._ctx;
+      var centerX = w / 2;
+      var centerY = h / 2;
+
+      // Spawn burst particles
+      if (volume > 0.3 && Math.random() < 0.5) {
+        var color = colors[Math.floor(Math.random() * colors.length)];
+        var angle = Math.random() * Math.PI * 2;
+        var speed = 100 + volume * 200;
+        this._particles.push(new Particle(
+          centerX,
+          centerY,
+          Math.cos(angle) * speed,
+          Math.sin(angle) * speed,
+          1 + Math.random() * 1.5,
+          color,
+          3 + Math.random() * 4
+        ));
+      }
+
+      // Draw particles with trails
+      ctx.shadowBlur = 20;
+      for (var i = this._particles.length - 1; i >= 0; i--) {
+        var p = this._particles[i];
+        p.vx *= 0.98; // Slow down
+        p.vy *= 0.98;
+        p.update(dt);
+
+        if (p.isDead()) {
+          this._particles.splice(i, 1);
+          continue;
+        }
+
+        var size = p.size * p.alpha;
+        ctx.fillStyle = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',' + p.alpha + ')';
+        ctx.shadowColor = 'rgba(' + p.color.r + ',' + p.color.g + ',' + p.color.b + ',0.9)';
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, size, 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.shadowBlur = 0;
+
+      // Center glow
+      if (volume > 0.2) {
+        var color = colors[0];
+        var glowRadius = 30 + volume * 50;
+        var grad = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, glowRadius);
+        grad.addColorStop(0, 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',' + volume + ')');
+        grad.addColorStop(1, 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0)');
+        ctx.fillStyle = grad;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, glowRadius, 0, Math.PI * 2);
+        ctx.fill();
+      }
+
+      if (this._particles.length > 400) {
+        this._particles.splice(0, this._particles.length - 400);
+      }
     }
   };
 

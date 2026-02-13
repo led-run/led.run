@@ -15,7 +15,8 @@
       color: '4080ff',      // Blue ambient
       bg: '000000',
       sensitivity: 5,
-      glowRadius: 0.6       // 0.3-1.0
+      glowRadius: 0.6,      // 0.3-1.0
+      ambPreset: 'glow'     // glow, water, swirl
     },
 
     _canvas: null,
@@ -139,6 +140,9 @@
       var normalizedVol = self._avgVolume * (sensitivity / 5);
       if (normalizedVol > 1) normalizedVol = 1;
 
+      // Preset selection
+      var preset = cfg.ambPreset || self.defaults.ambPreset;
+
       // Slow hue shift
       self._hueShift += 0.1;
       if (self._hueShift > 360) self._hueShift -= 360;
@@ -162,11 +166,15 @@
 
       var maxRadius = Math.max(offW, offH) * glowRadius * radiusMultiplier;
 
-      // Multi-layer radial gradients for soft glow
+      // Multi-layer radial gradients for soft glow with shadowBlur
       var layers = 5;
       for (var i = 0; i < layers; i++) {
         var layerRadius = maxRadius * (1 - i / layers);
         var layerAlpha = (0.3 - i * 0.05) * (0.5 + normalizedVol * 0.5);
+
+        // Add glow effect with shadowBlur
+        offCtx.shadowBlur = 15 + normalizedVol * 10;
+        offCtx.shadowColor = 'rgba(' + Math.floor(r) + ',' + Math.floor(g) + ',' + Math.floor(b) + ',0.6)';
 
         var grad = offCtx.createRadialGradient(centerX, centerY, 0, centerX, centerY, layerRadius);
         grad.addColorStop(0, 'rgba(' + Math.floor(r) + ',' + Math.floor(g) + ',' + Math.floor(b) + ',' + layerAlpha + ')');
@@ -174,13 +182,42 @@
         grad.addColorStop(1, 'rgba(' + Math.floor(r * 0.5) + ',' + Math.floor(g * 0.5) + ',' + Math.floor(b * 0.5) + ',0)');
 
         offCtx.fillStyle = grad;
-        offCtx.fillRect(0, 0, offW, offH);
+
+        // Preset-specific rendering
+        if (preset === 'water') {
+          // Water: flowing outward from center
+          var waveOffset = Math.sin(self._time * 2 + i * 0.5) * 20;
+          offCtx.save();
+          offCtx.translate(Math.cos(self._time + i) * waveOffset, Math.sin(self._time + i) * waveOffset);
+          offCtx.fillRect(-offW, -offH, offW * 3, offH * 3);
+          offCtx.restore();
+        } else if (preset === 'swirl') {
+          // Swirl: rotating spiral
+          offCtx.save();
+          offCtx.translate(centerX, centerY);
+          offCtx.rotate(self._time * 0.3 + i * 0.2);
+          offCtx.translate(-centerX, -centerY);
+          offCtx.fillRect(0, 0, offW, offH);
+          offCtx.restore();
+        } else {
+          // Default glow: static centered
+          offCtx.fillRect(0, 0, offW, offH);
+        }
       }
+      offCtx.shadowBlur = 0;
 
       // Scale up offscreen canvas to main canvas (simple upscale creates blur effect)
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
       ctx.drawImage(self._offscreenCanvas, 0, 0, w, h);
+
+      // Flash white on music peaks
+      if (normalizedVol > 0.75) {
+        var flashAlpha = (normalizedVol - 0.75) * 4; // 0-1 range
+        if (flashAlpha > 1) flashAlpha = 1;
+        ctx.fillStyle = 'rgba(255, 255, 255, ' + (flashAlpha * 0.3) + ')';
+        ctx.fillRect(0, 0, w, h);
+      }
 
       // Optional: add subtle particle sparkles
       if (normalizedVol > 0.3) {

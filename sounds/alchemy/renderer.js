@@ -122,8 +122,12 @@
           radius: 50 + Math.random() * 200,
           speed: 0.01 + Math.random() * 0.02,
           spiralSpeed: 0.5 + Math.random() * 0.5,
+          upwardSpeed: 0.3 + Math.random() * 0.7, // Vertical rise speed
           size: 1 + Math.random() * 2,
-          opacity: 0.3 + Math.random() * 0.5
+          opacity: 0.3 + Math.random() * 0.5,
+          life: 1,              // Current life (0-1)
+          maxLife: 1,           // Maximum life
+          birthRadius: 50       // Starting radius for reset
         });
       }
     },
@@ -147,8 +151,8 @@
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
 
-      // Fade trail canvas
-      trailCtx.fillStyle = 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.1)';
+      // Fade trail canvas (slower fade = clearer trails)
+      trailCtx.fillStyle = 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.06)';
       trailCtx.fillRect(0, 0, w, h);
 
       var freqData = null;
@@ -195,8 +199,10 @@
       orbGrad.addColorStop(0.7, 'rgba(' + Math.floor(r * 0.6) + ',' + Math.floor(g * 0.6) + ',' + Math.floor(b * 0.6) + ',0.5)');
       orbGrad.addColorStop(1, 'rgba(' + Math.floor(r * 0.3) + ',' + Math.floor(g * 0.3) + ',' + Math.floor(b * 0.3) + ',0)');
 
+      // Dynamic pulsating glow (20-40px based on volume)
+      var glowPulse = Math.sin(self._time * 3) * 5; // ±5px pulse
       ctx.shadowColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-      ctx.shadowBlur = 30 + normalizedVol * 20;
+      ctx.shadowBlur = 20 + normalizedVol * 20 + glowPulse;
       ctx.fillStyle = orbGrad;
       ctx.beginPath();
       ctx.arc(centerX, centerY, orbRadius, 0, Math.PI * 2);
@@ -211,24 +217,41 @@
       for (var i = 0; i < self._particles.length; i++) {
         var p = self._particles[i];
 
-        // Logarithmic spiral motion
+        // Spiral motion with upward drift
         p.angle += p.speed * (1 + normalizedVol);
         p.radius += p.spiralSpeed * (0.5 + normalizedVol * 0.5);
 
-        // Reset particle if it goes too far
-        if (p.radius > Math.max(w, h) * 0.7) {
+        // Decay life over time
+        p.life -= 0.002 * (1 + normalizedVol);
+        if (p.life < 0) p.life = 0;
+
+        // Reset particle if it goes too far or dies
+        if (p.radius > Math.max(w, h) * 0.7 || p.life <= 0) {
           p.radius = 50 + Math.random() * 50;
           p.angle = Math.random() * Math.PI * 2;
+          p.life = 1;
+          p.birthRadius = p.radius;
         }
 
-        var x = centerX + Math.cos(p.angle) * p.radius;
-        var y = centerY + Math.sin(p.angle) * p.radius;
+        // Convert to Cartesian coordinates
+        var spiralX = Math.cos(p.angle) * p.radius;
+        var spiralY = Math.sin(p.angle) * p.radius;
+
+        // Add upward drift (negative y = up)
+        var upwardDrift = (p.birthRadius - p.radius) * p.upwardSpeed * (1 + normalizedVol * 0.5);
+        var x = centerX + spiralX;
+        var y = centerY + spiralY + upwardDrift;
+
+        // Life-based size and opacity
+        var lifeScale = 0.5 + p.life * 0.5; // 0.5-1.0
+        var particleSize = p.size * lifeScale;
+        var distanceFade = 1 - p.radius / (Math.max(w, h) * 0.7);
+        var particleAlpha = p.opacity * distanceFade * p.life;
 
         // Draw particle on trail canvas
-        var particleAlpha = p.opacity * (1 - p.radius / (Math.max(w, h) * 0.7));
         trailCtx.fillStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + particleAlpha + ')';
         trailCtx.beginPath();
-        trailCtx.arc(x, y, p.size, 0, Math.PI * 2);
+        trailCtx.arc(x, y, particleSize, 0, Math.PI * 2);
         trailCtx.fill();
       }
 

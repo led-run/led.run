@@ -335,6 +335,8 @@ I18n.register('fr', {
   'settings.param.colorShift': 'Changement de Couleur',
   'settings.param.spikeCount': 'Nombre de Pointes',
   'settings.param.innerRadius': 'Rayon Intérieur',
+  'settings.param.mcPreset': 'Préréglage Musical Colors',
+  'settings.param.ambPreset': 'Préréglage Ambiance',
 
   // Select option translations
   'settings.orientation.vertical': 'Vertical',
