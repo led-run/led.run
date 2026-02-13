@@ -209,10 +209,6 @@ I18n.register('en', {
   'preset.light.gradient.desc': 'Flowing color gradient transitions.',
 
   // Landing - Sound presets
-  'preset.sound.bars.desc': 'Classic spectrum analyzer with frequency bars.',
-  'preset.sound.waveform.desc': 'Real-time audio waveform line display.',
-  'preset.sound.circle.desc': 'Circular frequency visualization radiating from center.',
-  'preset.sound.particles.desc': 'Audio-driven particle system reacting to sound.',
 
   // Product titles
   'light.title': 'Light',
@@ -230,9 +226,17 @@ I18n.register('en', {
 
   // Sound visualizer names
   'settings.visualizer.bars': 'Bars',
-  'settings.visualizer.waveform': 'Waveform',
-  'settings.visualizer.circle': 'Circle',
-  'settings.visualizer.particles': 'Particles',
+  'settings.visualizer.scope': 'Scope',
+  'settings.visualizer.ocean': 'Ocean',
+  'settings.visualizer.alchemy': 'Alchemy',
+  'settings.visualizer.battery': 'Battery',
+  'settings.visualizer.ambience': 'Ambience',
+  'settings.visualizer.particle': 'Particle',
+  'settings.visualizer.musical-colors': 'Colors',
+  'settings.visualizer.spikes': 'Spikes',
+  'settings.visualizer.plenoptic': 'Plenoptic',
+  'settings.visualizer.waveform-3d': 'Waveform 3D',
+  'settings.visualizer.spectrum-circle': 'Circle',
 
   // Light/Sound param labels
   'settings.param.colors': 'Colors',
@@ -242,8 +246,6 @@ I18n.register('en', {
   'settings.param.warmth': 'Warmth',
   'settings.param.barCount': 'Bar Count',
   'settings.param.lineWidth': 'Line Width',
-  'settings.param.radius': 'Radius',
-  'settings.param.count': 'Particle Count',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio Not Supported',
@@ -265,17 +267,6 @@ I18n.register('en', {
   'settings.effect.plasma': 'Plasma',
   'settings.effect.lava-lamp': 'Lava Lamp',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'VU Meter',
-  'settings.visualizer.equalizer': 'Equalizer',
-  'settings.visualizer.ripple': 'Ripple',
-  'settings.visualizer.wave-stack': 'Wave Stack',
-  'settings.visualizer.radar': 'Radar',
-  'settings.visualizer.tunnel': 'Tunnel',
-  'settings.visualizer.dna-helix': 'DNA Helix',
-  'settings.visualizer.spectrum-3d': 'Spectrum 3D',
-  'settings.visualizer.fireworks': 'Fireworks',
-  'settings.visualizer.galaxy': 'Galaxy',
 
   // New light preset descriptions
   'preset.light.breathing.desc': 'Calm breathing pulse for meditation and relaxation.',
@@ -289,17 +280,6 @@ I18n.register('en', {
   'preset.light.plasma.desc': 'Classic demo-scene plasma with flowing HSL colors.',
   'preset.light.lava-lamp.desc': 'Retro lava lamp with floating and merging blobs.',
 
-  // New sound preset descriptions
-  'preset.sound.meter.desc': 'Professional VU meter with green/yellow/red segments.',
-  'preset.sound.equalizer.desc': 'Retro HiFi LED equalizer with segmented bands.',
-  'preset.sound.ripple.desc': 'Sound-triggered ripple rings expanding from center.',
-  'preset.sound.wave-stack.desc': 'Multi-layer frequency waves stacked by band.',
-  'preset.sound.radar.desc': 'Rotating radar sweep with frequency signal blips.',
-  'preset.sound.tunnel.desc': 'Audio-driven tunnel of expanding concentric rings.',
-  'preset.sound.dna-helix.desc': 'DNA double helix modulated by audio amplitude.',
-  'preset.sound.spectrum-3d.desc': 'Pseudo-3D perspective spectrum scrolling toward you.',
-  'preset.sound.fireworks.desc': 'Sound-triggered fireworks — bass booms, treble sparkles.',
-  'preset.sound.galaxy.desc': 'Rotating spiral galaxy with audio-driven star brightness.',
 
   // New param labels
   'settings.param.cycle': 'Breath Cycle',
@@ -320,15 +300,6 @@ I18n.register('en', {
   'settings.param.waveScale': 'Wave Scale',
   'settings.param.blobCount': 'Blob Count',
   'settings.param.viscosity': 'Viscosity',
-  'settings.param.scanSpeed': 'Scan Speed',
-  'settings.param.threshold': 'Threshold',
-  'settings.param.rotationSpeed': 'Rotation Speed',
-  'settings.param.trails': 'Trails',
-  'settings.param.arms': 'Spiral Arms',
-  'settings.param.bands': 'Bands',
-  'settings.param.layers': 'Layers',
-  'settings.param.orientation': 'Orientation',
-  'settings.param.showPeak': 'Show Peak',
   'settings.param.gridLines': 'Grid Lines',
   'settings.param.waveCount': 'Wave Count',
   'settings.param.pulseSpeed': 'Pulse Speed',
@@ -341,27 +312,11 @@ I18n.register('en', {
   'settings.param.ambPreset': 'Ambience Preset',
 
   // Select option translations
-  'settings.orientation.vertical': 'Vertical',
-  'settings.orientation.horizontal': 'Horizontal',
   'settings.shape.circle': 'Circle',
   'settings.shape.square': 'Square',
 
   // Toolbar - Mic
   'toolbar.mic': 'Toggle microphone',
-
-  // Sound visualizer names
-  'sound.viz.bars': 'Classic Spectrum',
-  'sound.viz.scope': 'Oscilloscope',
-  'sound.viz.ocean': 'Ocean Waves',
-  'sound.viz.alchemy': 'Energy Orb',
-  'sound.viz.battery': 'Pulsing Waves',
-  'sound.viz.ambience': 'Ambient Glow',
-  'sound.viz.particle': 'Dotplane',
-  'sound.viz.musical-colors': 'Color Flow',
-  'sound.viz.spikes': 'Radial Spikes',
-  'sound.viz.plenoptic': 'Light Field',
-  'sound.viz.waveform-3d': '3D Waveform',
-  'sound.viz.spectrum-circle': 'Circular Spectrum',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'WMP classic spectrum bars with blue gradient',

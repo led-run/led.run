@@ -206,12 +206,6 @@ I18n.register('es', {
   'preset.light.sos.desc': 'Se\u00f1al SOS en c\u00f3digo Morse — tres cortos, tres largos, tres cortos.',
   'preset.light.gradient.desc': 'Transiciones de color en degradado fluido.',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': 'Analizador de espectro cl\u00e1sico con barras de frecuencia.',
-  'preset.sound.waveform.desc': 'Visualizaci\u00f3n de forma de onda de audio en tiempo real.',
-  'preset.sound.circle.desc': 'Visualizaci\u00f3n circular de frecuencia radiando desde el centro.',
-  'preset.sound.particles.desc': 'Sistema de part\u00edculas impulsado por audio que reacciona al sonido.',
-
   // Product titles
   'light.title': 'Luz',
   'sound.title': 'Sonido',
@@ -228,9 +222,17 @@ I18n.register('es', {
 
   // Sound visualizer names
   'settings.visualizer.bars': 'Barras',
-  'settings.visualizer.waveform': 'Forma de Onda',
-  'settings.visualizer.circle': 'C\u00edrculo',
-  'settings.visualizer.particles': 'Part\u00edculas',
+  'settings.visualizer.scope': 'Osciloscopio',
+  'settings.visualizer.ocean': 'Oc\u00e9ano',
+  'settings.visualizer.alchemy': 'Alquimia',
+  'settings.visualizer.battery': 'Bater\u00eda',
+  'settings.visualizer.ambience': 'Ambiente',
+  'settings.visualizer.particle': 'Part\u00edcula',
+  'settings.visualizer.musical-colors': 'Colores',
+  'settings.visualizer.spikes': 'Picos',
+  'settings.visualizer.plenoptic': 'Plen\u00f3ptico',
+  'settings.visualizer.waveform-3d': 'Onda 3D',
+  'settings.visualizer.spectrum-circle': 'C\u00edrculo',
 
   // Light/Sound param labels
   'settings.param.colors': 'Colores',
@@ -240,8 +242,6 @@ I18n.register('es', {
   'settings.param.warmth': 'Calidez',
   'settings.param.barCount': 'Barras',
   'settings.param.lineWidth': 'Grosor',
-  'settings.param.radius': 'Radio',
-  'settings.param.count': 'Partículas',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio No Soportado',
@@ -263,18 +263,6 @@ I18n.register('es', {
   'settings.effect.plasma': 'Plasma',
   'settings.effect.lava-lamp': 'L\u00e1mpara de Lava',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'V\u00fametro',
-  'settings.visualizer.equalizer': 'Ecualizador',
-  'settings.visualizer.ripple': 'Ondas',
-  'settings.visualizer.wave-stack': 'Ondas Apiladas',
-  'settings.visualizer.radar': 'Radar',
-  'settings.visualizer.tunnel': 'T\u00fanel',
-  'settings.visualizer.dna-helix': 'H\u00e9lice ADN',
-  'settings.visualizer.spectrum-3d': 'Espectro 3D',
-  'settings.visualizer.fireworks': 'Fuegos Artificiales',
-  'settings.visualizer.galaxy': 'Galaxia',
-
   // New light preset descriptions
   'preset.light.breathing.desc': 'Pulso de respiraci\u00f3n calmante para meditaci\u00f3n y relajaci\u00f3n.',
   'preset.light.sunset.desc': 'Cielo c\u00e1lido de atardecer con nubes flotantes y sol dorado.',
@@ -286,18 +274,6 @@ I18n.register('es', {
   'preset.light.kaleidoscope.desc': 'Fascinantes patrones sim\u00e9tricos de caleidoscopio giratorio.',
   'preset.light.plasma.desc': 'Plasma cl\u00e1sico de demoscene con colores HSL fluidos.',
   'preset.light.lava-lamp.desc': 'L\u00e1mpara de lava retro con gotas flotantes y fusion\u00e1ndose.',
-
-  // New sound preset descriptions
-  'preset.sound.meter.desc': 'V\u00fametro profesional con segmentos verde/amarillo/rojo.',
-  'preset.sound.equalizer.desc': 'Ecualizador LED retro HiFi con bandas segmentadas.',
-  'preset.sound.ripple.desc': 'Anillos de ondas disparados por sonido expandi\u00e9ndose desde el centro.',
-  'preset.sound.wave-stack.desc': 'Ondas de frecuencia multicapa apiladas por banda.',
-  'preset.sound.radar.desc': 'Barrido de radar giratorio con se\u00f1ales de frecuencia.',
-  'preset.sound.tunnel.desc': 'T\u00fanel de anillos conc\u00e9ntricos expansivos impulsado por audio.',
-  'preset.sound.dna-helix.desc': 'Doble h\u00e9lice de ADN modulada por amplitud de audio.',
-  'preset.sound.spectrum-3d.desc': 'Espectro en perspectiva pseudo-3D desplaz\u00e1ndose hacia ti.',
-  'preset.sound.fireworks.desc': 'Fuegos artificiales por sonido \u2014 graves retumban, agudos brillan.',
-  'preset.sound.galaxy.desc': 'Galaxia espiral giratoria con brillo estelar impulsado por audio.',
 
   // New param labels
   'settings.param.cycle': 'Ciclo de Respiraci\u00f3n',
@@ -318,15 +294,6 @@ I18n.register('es', {
   'settings.param.waveScale': 'Escala de Onda',
   'settings.param.blobCount': 'Cantidad de Gotas',
   'settings.param.viscosity': 'Viscosidad',
-  'settings.param.scanSpeed': 'Velocidad de Escaneo',
-  'settings.param.threshold': 'Umbral',
-  'settings.param.rotationSpeed': 'Velocidad de Rotaci\u00f3n',
-  'settings.param.trails': 'Estelas',
-  'settings.param.arms': 'Brazos Espirales',
-  'settings.param.bands': 'Bandas',
-  'settings.param.layers': 'Capas',
-  'settings.param.orientation': 'Orientaci\u00f3n',
-  'settings.param.showPeak': 'Mostrar Pico',
   'settings.param.gridLines': 'Líneas de Cuadrícula',
   'settings.param.waveCount': 'Número de Ondas',
   'settings.param.pulseSpeed': 'Velocidad de Pulso',
@@ -339,27 +306,11 @@ I18n.register('es', {
   'settings.param.ambPreset': 'Preset de Ambiente',
 
   // Select option translations
-  'settings.orientation.vertical': 'Vertical',
-  'settings.orientation.horizontal': 'Horizontal',
   'settings.shape.circle': 'C\u00edrculo',
   'settings.shape.square': 'Cuadrado',
 
   // Toolbar - Mic
   'toolbar.mic': 'Alternar micr\u00f3fono',
-
-  // Sound visualizer names
-  'sound.viz.bars': 'Espectro Clásico',
-  'sound.viz.scope': 'Osciloscopio',
-  'sound.viz.ocean': 'Ondas del Océano',
-  'sound.viz.alchemy': 'Orbe de Energía',
-  'sound.viz.battery': 'Ondas Pulsantes',
-  'sound.viz.ambience': 'Brillo Ambiental',
-  'sound.viz.particle': 'Plano de Puntos',
-  'sound.viz.musical-colors': 'Flujo de Color',
-  'sound.viz.spikes': 'Púas Radiales',
-  'sound.viz.plenoptic': 'Campo de Luz',
-  'sound.viz.waveform-3d': 'Forma de Onda 3D',
-  'sound.viz.spectrum-circle': 'Espectro Circular',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'Barras de espectro clásicas WMP con gradiente azul',

@@ -206,12 +206,6 @@ I18n.register('de', {
   'preset.light.sos.desc': 'SOS-Signal im Morsecode \u2014 drei kurz, drei lang, drei kurz.',
   'preset.light.gradient.desc': 'Flie\u00dfende Farbverlauf-\u00dcberg\u00e4nge.',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': 'Klassischer Spektrumanalysator mit Frequenzbalken.',
-  'preset.sound.waveform.desc': 'Echtzeit-Audio-Wellenformanzeige.',
-  'preset.sound.circle.desc': 'Kreisf\u00f6rmige Frequenzvisualisierung vom Zentrum ausstrahlend.',
-  'preset.sound.particles.desc': 'Audio-gesteuertes Partikelsystem, das auf Ger\u00e4usche reagiert.',
-
   // Product titles
   'light.title': 'Licht',
   'sound.title': 'Sound',
@@ -228,9 +222,17 @@ I18n.register('de', {
 
   // Sound visualizer names
   'settings.visualizer.bars': 'Balken',
-  'settings.visualizer.waveform': 'Wellenform',
-  'settings.visualizer.circle': 'Kreis',
-  'settings.visualizer.particles': 'Partikel',
+  'settings.visualizer.scope': 'Oszilloskop',
+  'settings.visualizer.ocean': 'Ozean',
+  'settings.visualizer.alchemy': 'Alchemie',
+  'settings.visualizer.battery': 'Batterie',
+  'settings.visualizer.ambience': 'Ambiente',
+  'settings.visualizer.particle': 'Partikel',
+  'settings.visualizer.musical-colors': 'Farben',
+  'settings.visualizer.spikes': 'Spitzen',
+  'settings.visualizer.plenoptic': 'Plenoptisch',
+  'settings.visualizer.waveform-3d': '3D-Welle',
+  'settings.visualizer.spectrum-circle': 'Kreis',
 
   // Light/Sound param labels
   'settings.param.colors': 'Farben',
@@ -240,9 +242,6 @@ I18n.register('de', {
   'settings.param.warmth': 'W\u00e4rme',
   'settings.param.barCount': 'Balken',
   'settings.param.lineWidth': 'Linienbreite',
-  'settings.param.radius': 'Radius',
-  'settings.param.count': 'Partikelanzahl',
-
   // Sound errors
   'sound.error.notSupported.title': 'Audio Nicht Unterst\u00fctzt',
   'sound.error.notSupported.desc': 'Ihr Browser unterst\u00fctzt keine Mikrofoneingabe. Bitte verwenden Sie Chrome oder Firefox.',
@@ -263,18 +262,6 @@ I18n.register('de', {
   'settings.effect.plasma': 'Plasma',
   'settings.effect.lava-lamp': 'Lavalampe',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'VU-Meter',
-  'settings.visualizer.equalizer': 'Equalizer',
-  'settings.visualizer.ripple': 'Wellenringe',
-  'settings.visualizer.wave-stack': 'Wellenstapel',
-  'settings.visualizer.radar': 'Radar',
-  'settings.visualizer.tunnel': 'Tunnel',
-  'settings.visualizer.dna-helix': 'DNA-Helix',
-  'settings.visualizer.spectrum-3d': '3D-Spektrum',
-  'settings.visualizer.fireworks': 'Feuerwerk',
-  'settings.visualizer.galaxy': 'Galaxie',
-
   // New light preset descriptions
   'preset.light.breathing.desc': 'Beruhigender Atempuls f\u00fcr Meditation und Entspannung.',
   'preset.light.sunset.desc': 'Warmer Sonnenuntergangshimmel mit treibenden Wolken und goldener Sonne.',
@@ -286,18 +273,6 @@ I18n.register('de', {
   'preset.light.kaleidoscope.desc': 'Faszinierende rotierende Kaleidoskop-Symmetriemuster.',
   'preset.light.plasma.desc': 'Klassisches Demoszene-Plasma mit flie\u00dfenden HSL-Farben.',
   'preset.light.lava-lamp.desc': 'Retro-Lavalampe mit schwebenden und verschmelzenden Tropfen.',
-
-  // New sound preset descriptions
-  'preset.sound.meter.desc': 'Professionelles VU-Meter mit gr\u00fcn/gelb/roten Segmenten.',
-  'preset.sound.equalizer.desc': 'Retro-HiFi-LED-Equalizer mit segmentierten B\u00e4ndern.',
-  'preset.sound.ripple.desc': 'Klangausgel\u00f6ste Wellenringe, die sich vom Zentrum ausbreiten.',
-  'preset.sound.wave-stack.desc': 'Mehrschichtige Frequenzwellen nach Band gestapelt.',
-  'preset.sound.radar.desc': 'Rotierender Radarabtaststrahl mit Frequenzsignal-Blips.',
-  'preset.sound.tunnel.desc': 'Audio-gesteuerter Tunnel aus expandierenden konzentrischen Ringen.',
-  'preset.sound.dna-helix.desc': 'DNA-Doppelhelix moduliert durch Audio-Amplitude.',
-  'preset.sound.spectrum-3d.desc': 'Pseudo-3D-Perspektivspektrum, das auf Sie zuscrollt.',
-  'preset.sound.fireworks.desc': 'Klangausgel\u00f6stes Feuerwerk \u2014 B\u00e4sse donnern, H\u00f6hen funkeln.',
-  'preset.sound.galaxy.desc': 'Rotierende Spiralgalaxie mit audio-gesteuerter Sternhelligkeit.',
 
   // New param labels
   'settings.param.cycle': 'Atemzyklus',
@@ -318,15 +293,6 @@ I18n.register('de', {
   'settings.param.waveScale': 'Wellenma\u00dfstab',
   'settings.param.blobCount': 'Tropfenanzahl',
   'settings.param.viscosity': 'Viskosit\u00e4t',
-  'settings.param.scanSpeed': 'Abtastgeschwindigkeit',
-  'settings.param.threshold': 'Schwelle',
-  'settings.param.rotationSpeed': 'Rotationsgeschwindigkeit',
-  'settings.param.trails': 'Spuren',
-  'settings.param.arms': 'Spiralarme',
-  'settings.param.bands': 'B\u00e4nder',
-  'settings.param.layers': 'Schichten',
-  'settings.param.orientation': 'Ausrichtung',
-  'settings.param.showPeak': 'Spitze Anzeigen',
   'settings.param.gridLines': 'Gitterlinien',
   'settings.param.waveCount': 'Wellenanzahl',
   'settings.param.pulseSpeed': 'Pulsgeschwindigkeit',
@@ -339,27 +305,11 @@ I18n.register('de', {
   'settings.param.ambPreset': 'Ambience Voreinstellung',
 
   // Select option translations
-  'settings.orientation.vertical': 'Vertikal',
-  'settings.orientation.horizontal': 'Horizontal',
   'settings.shape.circle': 'Kreis',
   'settings.shape.square': 'Quadrat',
 
   // Toolbar - Mic
   'toolbar.mic': 'Mikrofon umschalten',
-
-  // Sound visualizer names
-  'sound.viz.bars': 'Klassisches Spektrum',
-  'sound.viz.scope': 'Oszilloskop',
-  'sound.viz.ocean': 'Ozeanwellen',
-  'sound.viz.alchemy': 'Energiekugel',
-  'sound.viz.battery': 'Pulsierende Wellen',
-  'sound.viz.ambience': 'Umgebungsleuchten',
-  'sound.viz.particle': 'Punktebene',
-  'sound.viz.musical-colors': 'Farbfluss',
-  'sound.viz.spikes': 'Radiale Spitzen',
-  'sound.viz.plenoptic': 'Lichtfeld',
-  'sound.viz.waveform-3d': '3D-Wellenform',
-  'sound.viz.spectrum-circle': 'Kreisförmiges Spektrum',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'WMP klassische Spektrumbalken mit blauem Farbverlauf',

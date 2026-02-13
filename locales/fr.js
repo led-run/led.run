@@ -206,12 +206,6 @@ I18n.register('fr', {
   'preset.light.sos.desc': 'Signal SOS en code Morse \u2014 trois courts, trois longs, trois courts.',
   'preset.light.gradient.desc': 'Transitions de couleurs en d\u00e9grad\u00e9 fluide.',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': 'Analyseur de spectre classique avec barres de fr\u00e9quence.',
-  'preset.sound.waveform.desc': 'Affichage de forme d\u2019onde audio en temps r\u00e9el.',
-  'preset.sound.circle.desc': 'Visualisation circulaire des fr\u00e9quences rayonnant du centre.',
-  'preset.sound.particles.desc': 'Syst\u00e8me de particules pilot\u00e9 par l\u2019audio r\u00e9agissant au son.',
-
   // Product titles
   'light.title': 'Lumi\u00e8re',
   'sound.title': 'Son',
@@ -228,9 +222,17 @@ I18n.register('fr', {
 
   // Sound visualizer names
   'settings.visualizer.bars': 'Barres',
-  'settings.visualizer.waveform': 'Forme d\u2019Onde',
-  'settings.visualizer.circle': 'Cercle',
-  'settings.visualizer.particles': 'Particules',
+  'settings.visualizer.scope': 'Oscilloscope',
+  'settings.visualizer.ocean': 'Oc\u00e9an',
+  'settings.visualizer.alchemy': 'Alchimie',
+  'settings.visualizer.battery': 'Batterie',
+  'settings.visualizer.ambience': 'Ambiance',
+  'settings.visualizer.particle': 'Particule',
+  'settings.visualizer.musical-colors': 'Couleurs',
+  'settings.visualizer.spikes': 'Pointes',
+  'settings.visualizer.plenoptic': 'Pl\u00e9noptique',
+  'settings.visualizer.waveform-3d': 'Onde 3D',
+  'settings.visualizer.spectrum-circle': 'Cercle',
 
   // Light/Sound param labels
   'settings.param.colors': 'Couleurs',
@@ -240,8 +242,6 @@ I18n.register('fr', {
   'settings.param.warmth': 'Chaleur',
   'settings.param.barCount': 'Barres',
   'settings.param.lineWidth': 'Largeur',
-  'settings.param.radius': 'Rayon',
-  'settings.param.count': 'Particules',
 
   // Sound errors
   'sound.error.notSupported.title': 'Audio Non Support\u00e9',
@@ -263,18 +263,6 @@ I18n.register('fr', {
   'settings.effect.plasma': 'Plasma',
   'settings.effect.lava-lamp': 'Lampe \u00e0 Lave',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'Vum\u00e8tre',
-  'settings.visualizer.equalizer': '\u00c9galiseur',
-  'settings.visualizer.ripple': 'Ondulations',
-  'settings.visualizer.wave-stack': 'Vagues Empil\u00e9es',
-  'settings.visualizer.radar': 'Radar',
-  'settings.visualizer.tunnel': 'Tunnel',
-  'settings.visualizer.dna-helix': 'H\u00e9lice ADN',
-  'settings.visualizer.spectrum-3d': 'Spectre 3D',
-  'settings.visualizer.fireworks': 'Feux d\u2019Artifice',
-  'settings.visualizer.galaxy': 'Galaxie',
-
   // New light preset descriptions
   'preset.light.breathing.desc': 'Pulsation de respiration calme pour la m\u00e9ditation et la relaxation.',
   'preset.light.sunset.desc': 'Ciel de coucher de soleil chaud avec nuages flottants et soleil dor\u00e9.',
@@ -286,18 +274,6 @@ I18n.register('fr', {
   'preset.light.kaleidoscope.desc': 'Motifs sym\u00e9triques fascinants de kal\u00e9idoscope rotatif.',
   'preset.light.plasma.desc': 'Plasma classique de demoscene avec couleurs HSL fluides.',
   'preset.light.lava-lamp.desc': 'Lampe \u00e0 lave r\u00e9tro avec gouttes flottantes et fusionnantes.',
-
-  // New sound preset descriptions
-  'preset.sound.meter.desc': 'Vum\u00e8tre professionnel avec segments vert/jaune/rouge.',
-  'preset.sound.equalizer.desc': '\u00c9galiseur LED r\u00e9tro HiFi avec bandes segment\u00e9es.',
-  'preset.sound.ripple.desc': 'Anneaux d\u2019ondulations d\u00e9clench\u00e9s par le son s\u2019\u00e9tendant du centre.',
-  'preset.sound.wave-stack.desc': 'Vagues de fr\u00e9quences multicouches empil\u00e9es par bande.',
-  'preset.sound.radar.desc': 'Balayage radar rotatif avec signaux de fr\u00e9quence.',
-  'preset.sound.tunnel.desc': 'Tunnel d\u2019anneaux concentriques expansifs pilot\u00e9 par l\u2019audio.',
-  'preset.sound.dna-helix.desc': 'Double h\u00e9lice d\u2019ADN modul\u00e9e par l\u2019amplitude audio.',
-  'preset.sound.spectrum-3d.desc': 'Spectre en perspective pseudo-3D d\u00e9filant vers vous.',
-  'preset.sound.fireworks.desc': 'Feux d\u2019artifice sonores \u2014 les basses grondent, les aigus scintillent.',
-  'preset.sound.galaxy.desc': 'Galaxie spirale rotative avec luminosit\u00e9 stellaire audio.',
 
   // New param labels
   'settings.param.cycle': 'Cycle de Respiration',
@@ -318,15 +294,6 @@ I18n.register('fr', {
   'settings.param.waveScale': '\u00c9chelle d\u2019Onde',
   'settings.param.blobCount': 'Nombre de Gouttes',
   'settings.param.viscosity': 'Viscosit\u00e9',
-  'settings.param.scanSpeed': 'Vitesse de Balayage',
-  'settings.param.threshold': 'Seuil',
-  'settings.param.rotationSpeed': 'Vitesse de Rotation',
-  'settings.param.trails': 'Tra\u00een\u00e9es',
-  'settings.param.arms': 'Bras Spiraux',
-  'settings.param.bands': 'Bandes',
-  'settings.param.layers': 'Couches',
-  'settings.param.orientation': 'Orientation',
-  'settings.param.showPeak': 'Afficher le Pic',
   'settings.param.gridLines': 'Lignes de Grille',
   'settings.param.waveCount': 'Nombre de Vagues',
   'settings.param.pulseSpeed': 'Vitesse de Pulsation',
@@ -339,27 +306,11 @@ I18n.register('fr', {
   'settings.param.ambPreset': 'Préréglage Ambiance',
 
   // Select option translations
-  'settings.orientation.vertical': 'Vertical',
-  'settings.orientation.horizontal': 'Horizontal',
   'settings.shape.circle': 'Cercle',
   'settings.shape.square': 'Carr\u00e9',
 
   // Toolbar - Mic
   'toolbar.mic': 'Activer/d\u00e9sactiver le micro',
-
-  // Sound visualizer names
-  'sound.viz.bars': 'Spectre Classique',
-  'sound.viz.scope': 'Oscilloscope',
-  'sound.viz.ocean': 'Vagues Océaniques',
-  'sound.viz.alchemy': 'Orbe d\'Énergie',
-  'sound.viz.battery': 'Vagues Pulsantes',
-  'sound.viz.ambience': 'Lueur Ambiante',
-  'sound.viz.particle': 'Plan de Points',
-  'sound.viz.musical-colors': 'Flux de Couleurs',
-  'sound.viz.spikes': 'Pointes Radiales',
-  'sound.viz.plenoptic': 'Champ Lumineux',
-  'sound.viz.waveform-3d': 'Forme d\'Onde 3D',
-  'sound.viz.spectrum-circle': 'Spectre Circulaire',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'Barres de spectre classiques WMP avec dégradé bleu',

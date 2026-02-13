@@ -55,8 +55,6 @@
     // Sound-specific
     barCount:    { type: 'range', label: 'settings.param.barCount', min: 8, max: 256, step: 8 },
     lineWidth:   { type: 'range', label: 'settings.param.lineWidth', min: 1, max: 10, step: 0.5 },
-    radius:      { type: 'range', label: 'settings.param.radius', min: 0.1, max: 0.5, step: 0.05 },
-    count:       { type: 'range', label: 'settings.param.count', min: 50, max: 500, step: 50 },
     // Theme-specific
     flicker:   { type: 'range', label: 'settings.param.flicker', min: 0, max: 10, step: 0.5 },
     scanlines: { type: 'boolean', label: 'settings.param.scanlines' },
@@ -114,16 +112,6 @@
                      options: ['aurora', 'water', 'silky', 'electric', 'neon', 'flame', 'star'] },
     ambPreset:     { type: 'select', label: 'settings.param.ambPreset',
                      options: ['glow', 'water', 'swirl'] },
-    // Sound legacy params (kept for compatibility if needed)
-    scanSpeed:     { type: 'range', label: 'settings.param.scanSpeed', min: 1, max: 10, step: 1 },
-    threshold:     { type: 'range', label: 'settings.param.threshold', min: 1, max: 10, step: 1 },
-    rotationSpeed: { type: 'range', label: 'settings.param.rotationSpeed', min: 1, max: 10, step: 1 },
-    trails:        { type: 'range', label: 'settings.param.trails', min: 1, max: 10, step: 1 },
-    arms:          { type: 'range', label: 'settings.param.arms', min: 2, max: 6, step: 1 },
-    bands:         { type: 'range', label: 'settings.param.bands', min: 8, max: 32, step: 4 },
-    layers:        { type: 'range', label: 'settings.param.layers', min: 3, max: 10, step: 1 },
-    orientation:   { type: 'select', label: 'settings.param.orientation', options: ['vertical', 'horizontal'] },
-    showPeak:      { type: 'boolean', label: 'settings.param.showPeak' }
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder

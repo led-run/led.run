@@ -206,11 +206,6 @@ I18n.register('ko', {
   'preset.light.sos.desc': '모스 부호 SOS 신호 — 짧게 3번, 길게 3번, 짧게 3번.',
   'preset.light.gradient.desc': '흐르는 그라데이션 색상 전환.',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': '주파수 바가 있는 클래식 스펙트럼 분석기.',
-  'preset.sound.waveform.desc': '실시간 오디오 파형 라인 디스플레이.',
-  'preset.sound.circle.desc': '중심에서 방사하는 원형 주파수 시각화.',
-  'preset.sound.particles.desc': '소리에 반응하는 오디오 구동 파티클 시스템.',
 
   // Product titles
   'light.title': '라이트',
@@ -228,9 +223,17 @@ I18n.register('ko', {
 
   // Sound visualizer names
   'settings.visualizer.bars': '바',
-  'settings.visualizer.waveform': '파형',
-  'settings.visualizer.circle': '원형',
-  'settings.visualizer.particles': '파티클',
+  'settings.visualizer.scope': '스코프',
+  'settings.visualizer.ocean': '오션',
+  'settings.visualizer.alchemy': '알케미',
+  'settings.visualizer.battery': '배터리',
+  'settings.visualizer.ambience': '앰비언스',
+  'settings.visualizer.particle': '파티클',
+  'settings.visualizer.musical-colors': '컬러즈',
+  'settings.visualizer.spikes': '스파이크',
+  'settings.visualizer.plenoptic': '플레놉틱',
+  'settings.visualizer.waveform-3d': '3D 웨이브',
+  'settings.visualizer.spectrum-circle': '서클',
 
   // Light/Sound param labels
   'settings.param.colors': '색상',
@@ -240,8 +243,6 @@ I18n.register('ko', {
   'settings.param.warmth': '따뜻함',
   'settings.param.barCount': '바 개수',
   'settings.param.lineWidth': '선 굵기',
-  'settings.param.radius': '반지름',
-  'settings.param.count': '입자 수',
 
   // Sound errors
   'sound.error.notSupported.title': '오디오 미지원',
@@ -263,17 +264,6 @@ I18n.register('ko', {
   'settings.effect.plasma': '플라즈마',
   'settings.effect.lava-lamp': '라바 램프',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'VU 미터',
-  'settings.visualizer.equalizer': '이퀄라이저',
-  'settings.visualizer.ripple': '물결',
-  'settings.visualizer.wave-stack': '웨이브 스택',
-  'settings.visualizer.radar': '레이더',
-  'settings.visualizer.tunnel': '터널',
-  'settings.visualizer.dna-helix': 'DNA 나선',
-  'settings.visualizer.spectrum-3d': '3D 스펙트럼',
-  'settings.visualizer.fireworks': '불꽃놀이',
-  'settings.visualizer.galaxy': '은하',
 
   // New light preset descriptions
   'preset.light.breathing.desc': '명상과 휴식을 위한 차분한 호흡 펄스.',
@@ -287,17 +277,6 @@ I18n.register('ko', {
   'preset.light.plasma.desc': '흐르는 HSL 색상의 클래식 플라즈마.',
   'preset.light.lava-lamp.desc': '떠다니며 합쳐지는 방울의 레트로 라바 램프.',
 
-  // New sound preset descriptions
-  'preset.sound.meter.desc': '녹/황/적 세그먼트의 전문 VU 미터.',
-  'preset.sound.equalizer.desc': '세그먼트 밴드의 레트로 HiFi LED 이퀄라이저.',
-  'preset.sound.ripple.desc': '중심에서 확장하는 소리 트리거 물결 링.',
-  'preset.sound.wave-stack.desc': '밴드별로 쌓인 다층 주파수 웨이브.',
-  'preset.sound.radar.desc': '주파수 신호 블립이 있는 회전 레이더 스위프.',
-  'preset.sound.tunnel.desc': '확장하는 동심원 링의 오디오 구동 터널.',
-  'preset.sound.dna-helix.desc': '오디오 진폭으로 변조되는 DNA 이중 나선.',
-  'preset.sound.spectrum-3d.desc': '눈앞으로 스크롤되는 의사 3D 투시 스펙트럼.',
-  'preset.sound.fireworks.desc': '소리 트리거 불꽃놀이 — 저음은 쿵, 고음은 반짝.',
-  'preset.sound.galaxy.desc': '오디오 구동 별 밝기의 회전하는 나선 은하.',
 
   // New param labels
   'settings.param.cycle': '호흡 주기',
@@ -318,15 +297,6 @@ I18n.register('ko', {
   'settings.param.waveScale': '파형 스케일',
   'settings.param.blobCount': '방울 수',
   'settings.param.viscosity': '점성',
-  'settings.param.scanSpeed': '스캔 속도',
-  'settings.param.threshold': '임계값',
-  'settings.param.rotationSpeed': '회전 속도',
-  'settings.param.trails': '잔상',
-  'settings.param.arms': '나선팔',
-  'settings.param.bands': '밴드',
-  'settings.param.layers': '레이어',
-  'settings.param.orientation': '방향',
-  'settings.param.showPeak': '피크 표시',
   'settings.param.gridLines': '그리드 라인',
   'settings.param.waveCount': '웨이브 수',
   'settings.param.pulseSpeed': '펄스 속도',
@@ -339,27 +309,12 @@ I18n.register('ko', {
   'settings.param.ambPreset': '앰비언스 프리셋',
 
   // Select option translations
-  'settings.orientation.vertical': '세로',
-  'settings.orientation.horizontal': '가로',
   'settings.shape.circle': '원형',
   'settings.shape.square': '사각',
 
   // Toolbar - Mic
   'toolbar.mic': '마이크 전환',
 
-  // Sound visualizer names
-  'sound.viz.bars': '클래식 스펙트럼',
-  'sound.viz.scope': '오실로스코프',
-  'sound.viz.ocean': '오션 웨이브',
-  'sound.viz.alchemy': '에너지 오브',
-  'sound.viz.battery': '펄스 웨이브',
-  'sound.viz.ambience': '앰비언트 글로우',
-  'sound.viz.particle': '도트 플레인',
-  'sound.viz.musical-colors': '컬러 플로우',
-  'sound.viz.spikes': '방사형 스파이크',
-  'sound.viz.plenoptic': '라이트 필드',
-  'sound.viz.waveform-3d': '3D 웨이브폼',
-  'sound.viz.spectrum-circle': '원형 스펙트럼',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'WMP 클래식 블루 그라데이션 스펙트럼 바',

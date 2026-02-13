@@ -208,12 +208,6 @@ I18n.register('zh', {
   'preset.light.sos.desc': '摩尔斯电码 SOS 信号 —— 三短三长三短。',
   'preset.light.gradient.desc': '流动的渐变色彩过渡。',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': '经典频谱分析器，带频率柱状图。',
-  'preset.sound.waveform.desc': '实时音频波形线显示。',
-  'preset.sound.circle.desc': '从中心放射的圆形频率可视化。',
-  'preset.sound.particles.desc': '响应声音的音频驱动粒子系统。',
-
   // Product titles
   'light.title': '灯光',
   'sound.title': '声音',
@@ -230,9 +224,17 @@ I18n.register('zh', {
 
   // Sound visualizer names
   'settings.visualizer.bars': '频谱',
-  'settings.visualizer.waveform': '波形',
-  'settings.visualizer.circle': '圆形',
-  'settings.visualizer.particles': '粒子',
+  'settings.visualizer.scope': '示波器',
+  'settings.visualizer.ocean': '海浪',
+  'settings.visualizer.alchemy': '能量球',
+  'settings.visualizer.battery': '脉冲',
+  'settings.visualizer.ambience': '氛围',
+  'settings.visualizer.particle': '点阵',
+  'settings.visualizer.musical-colors': '彩色',
+  'settings.visualizer.spikes': '放射',
+  'settings.visualizer.plenoptic': '光场',
+  'settings.visualizer.waveform-3d': '3D波形',
+  'settings.visualizer.spectrum-circle': '环形',
 
   // Light/Sound param labels
   'settings.param.colors': '颜色',
@@ -242,9 +244,6 @@ I18n.register('zh', {
   'settings.param.warmth': '暖度',
   'settings.param.barCount': '柱数',
   'settings.param.lineWidth': '线宽',
-  'settings.param.radius': '半径',
-  'settings.param.count': '粒子数',
-
   // Sound errors
   'sound.error.notSupported.title': '不支持音频',
   'sound.error.notSupported.desc': '您的浏览器不支持麦克风输入。请使用 Chrome 或 Firefox。',
@@ -265,18 +264,6 @@ I18n.register('zh', {
   'settings.effect.plasma': '等离子',
   'settings.effect.lava-lamp': '熔岩灯',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'VU 表',
-  'settings.visualizer.equalizer': '均衡器',
-  'settings.visualizer.ripple': '涟漪',
-  'settings.visualizer.wave-stack': '波形堆叠',
-  'settings.visualizer.radar': '雷达',
-  'settings.visualizer.tunnel': '隧道',
-  'settings.visualizer.dna-helix': 'DNA 螺旋',
-  'settings.visualizer.spectrum-3d': '3D 频谱',
-  'settings.visualizer.fireworks': '烟花',
-  'settings.visualizer.galaxy': '星系',
-
   // New light preset descriptions
   'preset.light.breathing.desc': '平静的呼吸脉冲，适合冥想和放松。',
   'preset.light.sunset.desc': '温暖的日落天空，飘过的云朵和金色太阳。',
@@ -288,18 +275,6 @@ I18n.register('zh', {
   'preset.light.kaleidoscope.desc': '迷人的旋转万花筒对称图案。',
   'preset.light.plasma.desc': '经典演示场景等离子体，流动的 HSL 色彩。',
   'preset.light.lava-lamp.desc': '复古熔岩灯，液滴漂浮融合。',
-
-  // New sound preset descriptions
-  'preset.sound.meter.desc': '专业 VU 表，绿/黄/红分段显示。',
-  'preset.sound.equalizer.desc': '复古 HiFi LED 均衡器，分段频带。',
-  'preset.sound.ripple.desc': '声音触发的涟漪环从中心向外扩散。',
-  'preset.sound.wave-stack.desc': '多层频率波形按频带堆叠。',
-  'preset.sound.radar.desc': '旋转雷达扫描线，带频率信号亮点。',
-  'preset.sound.tunnel.desc': '音频驱动的同心环扩张隧道。',
-  'preset.sound.dna-helix.desc': '音频振幅调制的 DNA 双螺旋。',
-  'preset.sound.spectrum-3d.desc': '伪 3D 透视频谱，向你滚动而来。',
-  'preset.sound.fireworks.desc': '声音触发烟花——低音轰鸣，高音闪烁。',
-  'preset.sound.galaxy.desc': '旋转螺旋星系，音频驱动星光亮度。',
 
   // New param labels
   'settings.param.cycle': '呼吸周期',
@@ -320,15 +295,6 @@ I18n.register('zh', {
   'settings.param.waveScale': '波纹尺度',
   'settings.param.blobCount': '液滴数',
   'settings.param.viscosity': '粘度',
-  'settings.param.scanSpeed': '扫描速度',
-  'settings.param.threshold': '阈值',
-  'settings.param.rotationSpeed': '旋转速度',
-  'settings.param.trails': '拖尾',
-  'settings.param.arms': '螺旋臂',
-  'settings.param.bands': '频带',
-  'settings.param.layers': '层数',
-  'settings.param.orientation': '方向',
-  'settings.param.showPeak': '显示峰值',
   'settings.param.gridLines': '网格线',
   'settings.param.waveCount': '波浪层数',
   'settings.param.pulseSpeed': '脉冲速度',
@@ -341,27 +307,11 @@ I18n.register('zh', {
   'settings.param.ambPreset': '氛围光预设',
 
   // Select option translations
-  'settings.orientation.vertical': '垂直',
-  'settings.orientation.horizontal': '水平',
   'settings.shape.circle': '圆形',
   'settings.shape.square': '方形',
 
   // Toolbar - Mic
   'toolbar.mic': '切换麦克风',
-
-  // Sound visualizer names
-  'sound.viz.bars': '经典频谱',
-  'sound.viz.scope': '示波器',
-  'sound.viz.ocean': '海洋波浪',
-  'sound.viz.alchemy': '能量球',
-  'sound.viz.battery': '脉冲波纹',
-  'sound.viz.ambience': '环境光晕',
-  'sound.viz.particle': '点阵平面',
-  'sound.viz.musical-colors': '彩色流动',
-  'sound.viz.spikes': '放射尖刺',
-  'sound.viz.plenoptic': '光场效果',
-  'sound.viz.waveform-3d': '3D波形',
-  'sound.viz.spectrum-circle': '环形频谱',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'WMP 经典蓝色渐变频谱柱',

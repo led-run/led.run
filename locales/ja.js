@@ -206,12 +206,6 @@ I18n.register('ja', {
   'preset.light.sos.desc': 'モールス信号のSOS — 短3回、長3回、短3回。',
   'preset.light.gradient.desc': '流れるようなグラデーション色の遷移。',
 
-  // Landing - Sound presets
-  'preset.sound.bars.desc': '周波数バー付きのクラシックなスペクトラムアナライザー。',
-  'preset.sound.waveform.desc': 'リアルタイムのオーディオ波形ライン表示。',
-  'preset.sound.circle.desc': '中心から放射する円形周波数ビジュアライゼーション。',
-  'preset.sound.particles.desc': '音に反応するオーディオ駆動パーティクルシステム。',
-
   // Product titles
   'light.title': 'ライト',
   'sound.title': 'サウンド',
@@ -228,9 +222,17 @@ I18n.register('ja', {
 
   // Sound visualizer names
   'settings.visualizer.bars': 'バー',
-  'settings.visualizer.waveform': '波形',
-  'settings.visualizer.circle': 'サークル',
-  'settings.visualizer.particles': 'パーティクル',
+  'settings.visualizer.scope': 'スコープ',
+  'settings.visualizer.ocean': 'オーシャン',
+  'settings.visualizer.alchemy': 'アルケミー',
+  'settings.visualizer.battery': 'バッテリー',
+  'settings.visualizer.ambience': 'アンビエンス',
+  'settings.visualizer.particle': 'パーティクル',
+  'settings.visualizer.musical-colors': 'カラーズ',
+  'settings.visualizer.spikes': 'スパイク',
+  'settings.visualizer.plenoptic': 'プレノプティック',
+  'settings.visualizer.waveform-3d': '3Dウェーブ',
+  'settings.visualizer.spectrum-circle': 'サークル',
 
   // Light/Sound param labels
   'settings.param.colors': 'カラー',
@@ -240,8 +242,6 @@ I18n.register('ja', {
   'settings.param.warmth': '暖かさ',
   'settings.param.barCount': 'バー数',
   'settings.param.lineWidth': '線幅',
-  'settings.param.radius': '半径',
-  'settings.param.count': 'パーティクル数',
 
   // Sound errors
   'sound.error.notSupported.title': 'オーディオ非対応',
@@ -263,18 +263,6 @@ I18n.register('ja', {
   'settings.effect.plasma': 'プラズマ',
   'settings.effect.lava-lamp': 'ラバランプ',
 
-  // New sound visualizer names
-  'settings.visualizer.meter': 'VUメーター',
-  'settings.visualizer.equalizer': 'イコライザー',
-  'settings.visualizer.ripple': 'リップル',
-  'settings.visualizer.wave-stack': 'ウェーブスタック',
-  'settings.visualizer.radar': 'レーダー',
-  'settings.visualizer.tunnel': 'トンネル',
-  'settings.visualizer.dna-helix': 'DNA螺旋',
-  'settings.visualizer.spectrum-3d': '3Dスペクトラム',
-  'settings.visualizer.fireworks': '花火',
-  'settings.visualizer.galaxy': '銀河',
-
   // New light preset descriptions
   'preset.light.breathing.desc': '瞑想やリラクゼーションに最適な穏やかな呼吸パルス。',
   'preset.light.sunset.desc': '漂う雲と金色の太陽のある温かい夕焼け空。',
@@ -286,18 +274,6 @@ I18n.register('ja', {
   'preset.light.kaleidoscope.desc': '魅惑的な回転する万華鏡の対称パターン。',
   'preset.light.plasma.desc': '流れるHSLカラーのクラシックなプラズマ。',
   'preset.light.lava-lamp.desc': '浮遊し融合するブロブのレトロなラバランプ。',
-
-  // New sound preset descriptions
-  'preset.sound.meter.desc': '緑/黄/赤セグメントのプロフェッショナルVUメーター。',
-  'preset.sound.equalizer.desc': 'セグメントバンドのレトロHiFi LEDイコライザー。',
-  'preset.sound.ripple.desc': '中心から広がる音声トリガーの波紋リング。',
-  'preset.sound.wave-stack.desc': 'バンド別に積み重ねた多層周波数ウェーブ。',
-  'preset.sound.radar.desc': '周波数信号ブリップ付き回転レーダースイープ。',
-  'preset.sound.tunnel.desc': 'オーディオ駆動の同心リング拡張トンネル。',
-  'preset.sound.dna-helix.desc': 'オーディオ振幅で変調されるDNA二重螺旋。',
-  'preset.sound.spectrum-3d.desc': '手前にスクロールする疑似3D透視スペクトラム。',
-  'preset.sound.fireworks.desc': '音声トリガー花火 — 低音で轟き、高音で煌めく。',
-  'preset.sound.galaxy.desc': 'オーディオ駆動の星の輝きを持つ回転する渦巻銀河。',
 
   // New param labels
   'settings.param.cycle': '呼吸周期',
@@ -318,15 +294,6 @@ I18n.register('ja', {
   'settings.param.waveScale': '波スケール',
   'settings.param.blobCount': 'ブロブ数',
   'settings.param.viscosity': '粘性',
-  'settings.param.scanSpeed': 'スキャン速度',
-  'settings.param.threshold': '閾値',
-  'settings.param.rotationSpeed': '回転速度',
-  'settings.param.trails': 'トレイル',
-  'settings.param.arms': '渦巻腕',
-  'settings.param.bands': 'バンド',
-  'settings.param.layers': 'レイヤー',
-  'settings.param.orientation': '向き',
-  'settings.param.showPeak': 'ピーク表示',
   'settings.param.gridLines': 'グリッド線',
   'settings.param.waveCount': '波の数',
   'settings.param.pulseSpeed': 'パルス速度',
@@ -339,27 +306,10 @@ I18n.register('ja', {
   'settings.param.ambPreset': 'アンビエンスプリセット',
 
   // Select option translations
-  'settings.orientation.vertical': '縦',
-  'settings.orientation.horizontal': '横',
   'settings.shape.circle': '円',
-  'settings.shape.square': '四角',
 
   // Toolbar - Mic
   'toolbar.mic': 'マイク切替',
-
-  // Sound visualizer names
-  'sound.viz.bars': 'クラシックスペクトラム',
-  'sound.viz.scope': 'オシロスコープ',
-  'sound.viz.ocean': 'オーシャンウェーブ',
-  'sound.viz.alchemy': 'エネルギーオーブ',
-  'sound.viz.battery': 'パルスウェーブ',
-  'sound.viz.ambience': 'アンビエントグロー',
-  'sound.viz.particle': 'ドットプレーン',
-  'sound.viz.musical-colors': 'カラーフロー',
-  'sound.viz.spikes': 'ラジアルスパイク',
-  'sound.viz.plenoptic': 'ライトフィールド',
-  'sound.viz.waveform-3d': '3Dウェーブフォーム',
-  'sound.viz.spectrum-circle': 'サーキュラースペクトラム',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'WMPクラシック・ブルーグラデーションスペクトラムバー',
