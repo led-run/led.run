@@ -63,18 +63,18 @@
   // Particle draw size ranges per layer (in CSS pixels)
   // Back layers: large blurry bokeh, front layers: small sharp bokeh
   var LAYER_SIZE_RANGE = [
-    { min: 28, max: 40 },  // Layer 0 (far): large blurry
-    { min: 20, max: 32 },  // Layer 1
-    { min: 14, max: 22 },  // Layer 2
-    { min: 8, max: 16 }    // Layer 3 (near): small sharp
+    { min: 40, max: 64 },  // Layer 0 (far): large blurry
+    { min: 28, max: 48 },  // Layer 1
+    { min: 18, max: 32 },  // Layer 2
+    { min: 10, max: 20 }   // Layer 3 (near): small sharp
   ];
 
   // Opacity range per layer (far = dimmer, near = brighter)
   var LAYER_OPACITY = [
-    { min: 0.15, max: 0.35 },
-    { min: 0.25, max: 0.50 },
-    { min: 0.35, max: 0.65 },
-    { min: 0.50, max: 0.85 }
+    { min: 0.20, max: 0.45 },
+    { min: 0.30, max: 0.60 },
+    { min: 0.40, max: 0.75 },
+    { min: 0.55, max: 0.92 }
   ];
 
   // Hue shift per layer relative to base hue (cool back, warm front)
@@ -102,9 +102,10 @@
 
     // Soft radial gradient fill
     var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
-    grad.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
-    grad.addColorStop(0.15, 'rgba(' + r + ',' + g + ',' + b + ', 0.7)');
-    grad.addColorStop(0.6, 'rgba(' + r + ',' + g + ',' + b + ', 0.25)');
+    grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
+    grad.addColorStop(0.15, 'rgba(' + r + ',' + g + ',' + b + ', 0.8)');
+    grad.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ', 0.35)');
+    grad.addColorStop(0.8, 'rgba(' + r + ',' + g + ',' + b + ', 0.1)');
     grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ', 0)');
 
     ctx.fillStyle = grad;
@@ -156,7 +157,7 @@
       this._lastTime = 0;
       this._avgVolume = 0;
 
-      // Offscreen canvas at 1/2 resolution
+      // Offscreen canvas for additive blending
       this._offscreenCanvas = document.createElement('canvas');
       this._offscreenCtx = this._offscreenCanvas.getContext('2d');
 
@@ -231,10 +232,10 @@
       this._canvas.height = h * dpr;
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      // Offscreen at 1/2 resolution
-      this._offscreenCanvas.width = Math.ceil(w * dpr / 2);
-      this._offscreenCanvas.height = Math.ceil(h * dpr / 2);
-      this._offscreenCtx.setTransform(dpr / 2, 0, 0, dpr / 2, 0, 0);
+      // Offscreen at full resolution
+      this._offscreenCanvas.width = w * dpr;
+      this._offscreenCanvas.height = h * dpr;
+      this._offscreenCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
       this._initParticles();
     },
@@ -253,7 +254,7 @@
       if (depth > 12) depth = 12;
 
       this._layers = [[], [], [], []]; // 4 render layers: back → front
-      var particlesPerSubLayer = 40;
+      var particlesPerSubLayer = 25;
 
       for (var sub = 0; sub < depth; sub++) {
         // Map sub-layer (0..depth-1) to render layer (0..3)
@@ -271,8 +272,8 @@
             vx: (Math.random() - 0.5) * 0.3,
             vy: (Math.random() - 0.5) * 0.3,
             // Drift curve parameters (gentle sin/cos curves)
-            driftAmpX: 0.2 + Math.random() * 0.6,
-            driftAmpY: 0.2 + Math.random() * 0.6,
+            driftAmpX: 0.3 + Math.random() * 0.8,
+            driftAmpY: 0.3 + Math.random() * 0.8,
             driftFreqX: 0.3 + Math.random() * 0.4,
             driftFreqY: 0.3 + Math.random() * 0.4,
             driftPhaseX: Math.random() * Math.PI * 2,
@@ -297,8 +298,8 @@
 
       var w = self._container.clientWidth;
       var h = self._container.clientHeight;
-      var offW = w / 2;
-      var offH = h / 2;
+      var offW = w;
+      var offH = h;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
@@ -376,10 +377,10 @@
           var alpha = p.baseOpacity * (0.7 + normVol * 0.5);
           if (alpha > 1) alpha = 1;
 
-          // Draw bokeh texture (coordinates in full-res space, offscreen is half)
-          var drawX = p.x / 2 - size / 4;
-          var drawY = p.y / 2 - size / 4;
-          var drawSize = size / 2; // Half because offscreen is 1/2 res
+          // Draw bokeh texture at full coordinates
+          var drawSize = size;
+          var drawX = p.x - drawSize / 2;
+          var drawY = p.y - drawSize / 2;
 
           offCtx.globalAlpha = alpha;
           offCtx.drawImage(texture, drawX, drawY, drawSize, drawSize);
