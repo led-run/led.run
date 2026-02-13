@@ -3,13 +3,13 @@
  */
 I18n.register('en', {
   // Meta
-  'meta.title': 'led.run — Instant Digital Signage',
-  'meta.description': 'Transform any browser into a professional digital sign. No apps, no hardware. URL is your canvas.',
+  'meta.title': 'led.run — Display Toolkit',
+  'meta.description': 'Turn any screen into a text sign, light effect, or sound visualizer. 50+ display modes. No apps, no accounts — just a URL.',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': 'Digital Signage,<br>Reimagined.',
-  'landing.hero.subtitle': 'Transform any screen into a professional display in seconds. No apps, no accounts, just a URL.',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': 'Display Toolkit,<br>Unlimited.',
+  'landing.hero.subtitle': 'Text signs, light effects, and sound visualizers — turn any screen into a display in seconds. No apps, no accounts, just a URL.',
   'landing.input.go': 'Go',
   'landing.input.random': 'Random style',
 
