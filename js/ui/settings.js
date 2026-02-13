@@ -169,7 +169,7 @@
       resize: function() { SoundManager.resize(); },
       knownParamOverrides: {
         shape: { type: 'select', label: 'settings.param.shape', options: ['circle', 'square'] },
-        depth: { type: 'range', label: 'settings.param.depth', min: 3, max: 15, step: 1 }
+        depth: { type: 'range', label: 'settings.param.depth', min: 4, max: 16, step: 1 }
       }
     }
   };
