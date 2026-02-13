@@ -307,7 +307,7 @@
 
         // HSL gradient fill across band
         var grad = ctx.createLinearGradient(0, yCenter - amplitude, 0, yCenter + amplitude + bandWidth);
-        var alpha = 0.2 + volume * 0.35;
+        var alpha = 0.3 + volume * 0.45;
         var hShift = Math.sin(time * 0.5 + i) * 20;
         grad.addColorStop(0, hslToRgba((hueBase + hShift) / 360, 0.8, 0.55, alpha * 0.6));
         grad.addColorStop(0.4, hslToRgba((hueBase + 40 + hShift) / 360, 0.85, 0.5, alpha));
@@ -330,7 +330,7 @@
     // ── Water Fountain ────────────────────────────────────────────────
     // Parabolic arc, 3-position trails, splash particles at peak.
     _renderFountain: function(ctx, w, h, volume, freq, dt) {
-      var spawnRate = Math.floor(2 + volume * 6);
+      var spawnRate = Math.floor(3 + volume * 8);
       var gravity = 320;
 
       // Spawn main fountain particles
@@ -638,7 +638,7 @@
       ctx.setLineDash([]);
 
       // Spawn highway particles
-      if (Math.random() < 0.3 + volume * 0.3) {
+      if (Math.random() < 0.45 + volume * 0.45) {
         var lane = Math.floor(Math.random() * laneCount);
         var color = colors[lane % colors.length];
         var p = new Particle(
@@ -831,7 +831,7 @@
       // Base glow
       if (volume > 0.05) {
         var baseGrad = ctx.createRadialGradient(cx, h, 0, cx, h, h * 0.35);
-        baseGrad.addColorStop(0, rgba(255, 200, 50, volume * 0.25));
+        baseGrad.addColorStop(0, rgba(255, 200, 50, volume * 0.35));
         baseGrad.addColorStop(0.4, rgba(255, 100, 20, volume * 0.1));
         baseGrad.addColorStop(1, rgba(255, 50, 0, 0));
         ctx.fillStyle = baseGrad;

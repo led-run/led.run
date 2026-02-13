@@ -208,7 +208,7 @@
       var refRingCount = 4;
       for (var ri = 1; ri <= refRingCount; ri++) {
         var refRadius = (ri / refRingCount) * maxRadius;
-        ctx.strokeStyle = 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.05)';
+        ctx.strokeStyle = 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0.12)';
         ctx.lineWidth = 1;
         ctx.beginPath();
         ctx.arc(centerX, centerY, refRadius, 0, Math.PI * 2);
@@ -267,7 +267,7 @@
           var peakStop = (radius - gradInner) / (gradOuter - gradInner);
           if (peakStop < 0) peakStop = 0;
           if (peakStop > 1) peakStop = 1;
-          grad.addColorStop(peakStop, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + (opacity * 0.4) + ')');
+          grad.addColorStop(peakStop, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + (opacity * 0.7) + ')');
           grad.addColorStop(1, 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',0)');
 
           ctx.fillStyle = grad;
@@ -302,7 +302,7 @@
       // Normalize angle position in the conic gradient (0 to 1 range maps to 0 to 2*PI)
       // The sweep is a small bright arc that fades
       var sweepFraction = sweepAngle / (Math.PI * 2);
-      var scanOpacity = 0.08 + normalizedVol * 0.07;
+      var scanOpacity = 0.16 + normalizedVol * 0.14;
 
       scanGrad.addColorStop(0, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
       scanGrad.addColorStop(1 - sweepFraction, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
@@ -331,7 +331,7 @@
       // Breathing in idle
       var breathe = Math.sin(elapsed * 1.5) * 0.3 + 0.7;
       if (!isRunning || normalizedVol < 0.05) {
-        corePulse = coreBaseRadius * (0.8 + breathe * 0.4);
+        corePulse = coreBaseRadius * (0.6 + breathe * 0.8);
       }
 
       // Outer glow layer

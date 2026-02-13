@@ -253,8 +253,8 @@
       var cy = h / 2;
       var fadeRadius = Math.max(w, h) * 0.8;
       var trailGrad = trailCtx.createRadialGradient(cx, cy, 0, cx, cy, fadeRadius);
-      trailGrad.addColorStop(0, 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.02)');
-      trailGrad.addColorStop(1, 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.08)');
+      trailGrad.addColorStop(0, 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.015)');
+      trailGrad.addColorStop(1, 'rgba(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ',0.06)');
       trailCtx.fillStyle = trailGrad;
       trailCtx.fillRect(0, 0, w, h);
 
@@ -290,7 +290,7 @@
 
       // === Background glow ===
       var bgGlowRadius = Math.min(w, h) * 0.5;
-      var bgGlowAlpha = 0.05 + normalizedVol * 0.08;
+      var bgGlowAlpha = 0.08 + normalizedVol * 0.15;
       var bgGlow = ctx.createRadialGradient(centerX, centerY, 0, centerX, centerY, bgGlowRadius);
       bgGlow.addColorStop(0, 'rgba(' + orbColor.r + ',' + orbColor.g + ',' + orbColor.b + ',' + bgGlowAlpha + ')');
       bgGlow.addColorStop(1, 'rgba(' + orbColor.r + ',' + orbColor.g + ',' + orbColor.b + ',0)');
@@ -298,7 +298,7 @@
       ctx.fillRect(0, 0, w, h);
 
       // === Central energy orb ===
-      var breathe = isIdle ? Math.sin(self._time * 1.2) * 8 : 0;
+      var breathe = isIdle ? Math.sin(self._time * 1.2) * 16 : 0;
       var orbRadius = (isIdle ? 25 : 30) + normalizedVol * 100 + breathe;
       if (orbRadius < 10) orbRadius = 10;
 
@@ -318,7 +318,7 @@
       // Pulsating glow
       var glowPulse = Math.sin(self._time * 3) * 5;
       ctx.shadowColor = 'rgb(' + r + ',' + g + ',' + b + ')';
-      ctx.shadowBlur = 20 + normalizedVol * 20 + glowPulse;
+      ctx.shadowBlur = 30 + normalizedVol * 30 + glowPulse;
       ctx.fillStyle = orbGrad;
       ctx.beginPath();
       ctx.arc(centerX, centerY, orbRadius, 0, Math.PI * 2);
@@ -330,7 +330,7 @@
       for (var ri = 0; ri < ringCount; ri++) {
         var phase = (self._time * 2 + ri * (Math.PI * 2 / ringCount)) % (Math.PI * 2);
         var ringRadius = orbRadius + 20 + Math.sin(phase) * 30;
-        var ringAlpha = (0.3 + Math.sin(phase) * 0.2) * normalizedVol;
+        var ringAlpha = (0.45 + Math.sin(phase) * 0.3) * normalizedVol;
 
         ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ',' + ringAlpha + ')';
         ctx.lineWidth = 2;

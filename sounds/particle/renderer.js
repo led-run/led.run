@@ -41,7 +41,7 @@
       this._prevTime = performance.now();
       this._ripplePhase = 0;
       this._bassEnergy = 0;
-      this._lineAlpha = 0.08;
+      this._lineAlpha = 0.15;
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -186,7 +186,7 @@
       self._ripplePhase += dt * (1.0 + self._bassEnergy * 6.0);
 
       // smooth grid-line alpha: 0.08 quiet → 0.3 loud
-      var targetLineAlpha = 0.08 + self._bassEnergy * 0.22;
+      var targetLineAlpha = 0.15 + self._bassEnergy * 0.22;
       self._lineAlpha += (targetLineAlpha - self._lineAlpha) * 0.1;
 
       // ----- map frequency data to grid Z displacement -----
@@ -252,7 +252,7 @@
       // perspective (vanishing point at 30% top, rows go top-to-bottom).
       // We draw row 0 first (farthest) → row N last (nearest).
 
-      var bloomThreshold = 40; // Z > this gets bloom duplicate
+      var bloomThreshold = 25; // Z > this gets bloom duplicate
       var cr = dotRgb.r;
       var cg = dotRgb.g;
       var cb = dotRgb.b;
@@ -339,7 +339,7 @@
           var brightness = 0.3 + 0.7 * normalizedZ;
 
           // Dot size: grows with displacement
-          var dotSize = 1.5 + normalizedZ * 3;
+          var dotSize = 1.5 + normalizedZ * 4.5;
 
           ctx.fillStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + brightness.toFixed(4) + ')';
           ctx.beginPath();
