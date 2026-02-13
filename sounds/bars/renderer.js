@@ -27,36 +27,6 @@
     };
   }
 
-  // Attempt roundRect; fallback to plain rect for older browsers
-  function roundRect(ctx, x, y, w, h, radii) {
-    if (w <= 0 || h <= 0) return;
-    if (ctx.roundRect) {
-      ctx.beginPath();
-      ctx.roundRect(x, y, w, h, radii);
-    } else {
-      var tl = Math.min(radii[0] || 0, w / 2, h / 2);
-      var tr = Math.min(radii[1] || 0, w / 2, h / 2);
-      var br = Math.min(radii[2] || 0, w / 2, h / 2);
-      var bl = Math.min(radii[3] || 0, w / 2, h / 2);
-      ctx.beginPath();
-      ctx.moveTo(x + tl, y);
-      ctx.lineTo(x + w - tr, y);
-      if (tr > 0) ctx.arcTo(x + w, y, x + w, y + tr, tr);
-      else ctx.lineTo(x + w, y);
-      ctx.lineTo(x + w, y + h - br);
-      if (br > 0) ctx.arcTo(x + w, y + h, x + w - br, y + h, br);
-      else ctx.lineTo(x + w, y + h);
-      ctx.lineTo(x + bl, y + h);
-      if (bl > 0) ctx.arcTo(x, y + h, x, y + h - bl, bl);
-      else ctx.lineTo(x, y + h);
-      ctx.lineTo(x, y + tl);
-      if (tl > 0) ctx.arcTo(x, y, x + tl, y, tl);
-      else ctx.lineTo(x, y);
-      ctx.closePath();
-    }
-  }
-
-  // Compute per-bar color based on colorMode
   function getBarColor(index, barCount, baseColor, colorMode) {
     if (colorMode === 'rainbow') {
       return hslToRgb((index / barCount) * 360, 0.9, 0.55);
@@ -68,25 +38,25 @@
     return baseColor;
   }
 
-  // Pre-compute color variant strings from an RGB base color
   function buildColorSet(color) {
-    var deepR = Math.floor(color.r * 0.3);
-    var deepG = Math.floor(color.g * 0.3);
-    var deepB = Math.floor(color.b * 0.3);
-    var lightR = Math.min(255, color.r + Math.round((255 - color.r) * 0.6));
-    var lightG = Math.min(255, color.g + Math.round((255 - color.g) * 0.6));
-    var lightB = Math.min(255, color.b + Math.round((255 - color.b) * 0.6));
-    var hotR = Math.min(255, color.r + Math.round((255 - color.r) * 0.85));
-    var hotG = Math.min(255, color.g + Math.round((255 - color.g) * 0.85));
-    var hotB = Math.min(255, color.b + Math.round((255 - color.b) * 0.85));
+    var r = color.r, g = color.g, b = color.b;
+    var lightR = Math.min(255, r + ((255 - r) * 0.6 + 0.5) | 0);
+    var lightG = Math.min(255, g + ((255 - g) * 0.6 + 0.5) | 0);
+    var lightB = Math.min(255, b + ((255 - b) * 0.6 + 0.5) | 0);
 
     return {
-      deep:  'rgb(' + deepR + ',' + deepG + ',' + deepB + ')',
-      mid:   'rgb(' + color.r + ',' + color.g + ',' + color.b + ')',
+      deep:  'rgb(' + ((r * 0.3) | 0) + ',' + ((g * 0.3) | 0) + ',' + ((b * 0.3) | 0) + ')',
+      mid:   'rgb(' + r + ',' + g + ',' + b + ')',
       light: 'rgb(' + lightR + ',' + lightG + ',' + lightB + ')',
-      hot:   'rgb(' + hotR + ',' + hotG + ',' + hotB + ')',
-      peakGlow: 'rgba(' + lightR + ',' + lightG + ',' + lightB + ',0.6)',
-      reflR: color.r, reflG: color.g, reflB: color.b
+      hot:   'rgb(' + Math.min(255, r + ((255 - r) * 0.85 + 0.5) | 0) + ',' +
+                      Math.min(255, g + ((255 - g) * 0.85 + 0.5) | 0) + ',' +
+                      Math.min(255, b + ((255 - b) * 0.85 + 0.5) | 0) + ')',
+      // Pre-baked glow color (semi-transparent mid)
+      glow:  'rgba(' + r + ',' + g + ',' + b + ',0.15)',
+      // Pre-baked peak glow
+      peakGlow: 'rgba(' + lightR + ',' + lightG + ',' + lightB + ',0.35)',
+      // Raw for inline rgba
+      r: r, g: g, b: b
     };
   }
 
@@ -112,17 +82,16 @@
     _logBins: null,
     _peaks: null,
     _peakTimestamps: null,
-    // Cache fields
+    _barHeights: null,      // cached bar pixel heights per frame
     _cachedWidth: 0,
     _cachedHeight: 0,
     _cachedColor: null,
     _cachedBarCount: 0,
     _cachedColorMode: null,
-    // Cached draw data — rebuilt only when config changes
-    _barGrad: null,        // single mode: shared CanvasGradient
-    _barGrads: null,       // multi mode: per-bar CanvasGradient[]
-    _colors: null,         // per-bar colorSet[] (or single colorSet at [0])
-    _reflGrads: null,      // per-bar reflection CanvasGradient[] (or single at [0])
+    _barGrad: null,
+    _barGrads: null,
+    _colors: null,
+    _reflGrads: null,
 
     init: function(container, config, audioEngine) {
       this._container = container;
@@ -132,6 +101,7 @@
       this._logBins = null;
       this._peaks = null;
       this._peakTimestamps = null;
+      this._barHeights = null;
       this._cachedWidth = 0;
       this._cachedHeight = 0;
       this._cachedColor = null;
@@ -176,6 +146,7 @@
       this._logBins = null;
       this._peaks = null;
       this._peakTimestamps = null;
+      this._barHeights = null;
       this._barGrad = null;
       this._barGrads = null;
       this._colors = null;
@@ -191,7 +162,7 @@
       this._canvas.width = w * dpr;
       this._canvas.height = h * dpr;
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      this._cachedWidth = 0; // force rebuild
+      this._cachedWidth = 0;
     },
 
     _rebuildCache: function(w, h, barColor, barCount, colorMode) {
@@ -201,7 +172,6 @@
       var isSingle = colorMode === 'single';
 
       if (isSingle) {
-        // Single mode: one shared gradient + one color set + one reflection
         var cs = buildColorSet(barColor);
         var grad = ctx.createLinearGradient(0, 0, 0, baselineY);
         grad.addColorStop(0, cs.hot);
@@ -213,12 +183,11 @@
         this._colors = [cs];
 
         var rg = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflZone);
-        rg.addColorStop(0, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.32)');
-        rg.addColorStop(0.3, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.14)');
-        rg.addColorStop(1, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0)');
+        rg.addColorStop(0, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0.32)');
+        rg.addColorStop(0.3, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0.14)');
+        rg.addColorStop(1, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0)');
         this._reflGrads = [rg];
       } else {
-        // Multi mode: per-bar gradients, colors, reflections — all pre-cached
         this._barGrad = null;
         var grads = new Array(barCount);
         var colors = new Array(barCount);
@@ -234,9 +203,9 @@
           grad.addColorStop(1, cs.deep);
           grads[i] = grad;
           var rg = ctx.createLinearGradient(0, baselineY, 0, baselineY + reflZone);
-          rg.addColorStop(0, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.32)');
-          rg.addColorStop(0.3, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0.14)');
-          rg.addColorStop(1, 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',0)');
+          rg.addColorStop(0, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0.32)');
+          rg.addColorStop(0.3, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0.14)');
+          rg.addColorStop(1, 'rgba(' + cs.r + ',' + cs.g + ',' + cs.b + ',0)');
           refls[i] = rg;
         }
         this._barGrads = grads;
@@ -257,17 +226,13 @@
       }
 
       this._logBins = [];
-      var minFreq = 1;
-      var maxFreq = binCount;
-      var logMin = Math.log(minFreq);
-      var logMax = Math.log(maxFreq);
+      var logMin = 0; // log(1)
+      var logMax = Math.log(binCount);
       var logStep = (logMax - logMin) / barCount;
 
       for (var i = 0; i < barCount; i++) {
-        var startLog = logMin + i * logStep;
-        var endLog = logMin + (i + 1) * logStep;
-        var start = Math.floor(Math.exp(startLog));
-        var end = Math.ceil(Math.exp(endLog));
+        var start = Math.floor(Math.exp(logMin + i * logStep));
+        var end = Math.ceil(Math.exp(logMin + (i + 1) * logStep));
         if (start < 1) start = 1;
         if (end > binCount) end = binCount;
         if (end <= start) end = start + 1;
@@ -295,7 +260,6 @@
       var now = performance.now();
       var isSingle = colorMode === 'single';
 
-      // Rebuild cache only when config changes
       if (self._cachedWidth !== w ||
           self._cachedHeight !== h ||
           self._cachedColor === null ||
@@ -308,23 +272,26 @@
       }
 
       var baselineY = h * 0.82;
-      var sensRatio = sensitivity / 5;
+      var sensRatio = sensitivity * 0.2; // /5 → *0.2
+      var barWidth = w / barCount;
+      var gap = Math.max(1, barWidth * 0.12);
+      var barW = barWidth - gap;
+      var halfGap = gap * 0.5;
+      var useRoundRect = barW >= 4; // skip roundRect for tiny bars
+      var cornerR, cornerRBot;
+      if (useRoundRect) {
+        cornerR = Math.max(1.5, barW * 0.15);
+        cornerRBot = cornerR * 0.3;
+      }
 
       // Clear
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
 
       // Baseline separator
-      var sepCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
-      ctx.fillStyle = 'rgba(' + sepCs.reflR + ',' + sepCs.reflG + ',' + sepCs.reflB + ',0.06)';
+      var cs0 = isSingle ? self._colors[0] : self._colors[barCount >> 1];
+      ctx.fillStyle = 'rgba(' + cs0.r + ',' + cs0.g + ',' + cs0.b + ',0.06)';
       ctx.fillRect(0, baselineY - 0.5, w, 1);
-
-      var barWidth = w / barCount;
-      var gap = Math.max(1, barWidth * 0.12);
-      var barW = barWidth - gap;
-      var cornerR = Math.max(1.5, barW * 0.15);
-      var halfGap = gap / 2;
-      var cornerRBot = cornerR * 0.3;
 
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
@@ -342,28 +309,43 @@
       }
 
       if (!freqData || freqData.length === 0) {
-        // --- Idle state (no shadow needed) ---
+        // --- Idle state ---
         var time = now * 0.001;
         var breathe = 0.5 + Math.sin(time * 1.5) * 0.3;
+        var baseAlpha = 0.12 + breathe * 0.06;
 
-        for (var i = 0; i < barCount; i++) {
-          var x = i * barWidth + halfGap;
-          var idlePulse = Math.sin(time * 1.2 + i * 0.15) * 0.3 + 0.5;
-          var idleH = 3 + idlePulse * 3;
-          var idleAlpha = 0.12 + breathe * 0.06;
+        // Single mode: set fillStyle outside loop
+        if (isSingle) {
+          var scs = self._colors[0];
+          for (var i = 0; i < barCount; i++) {
+            var x = i * barWidth + halfGap;
+            var idlePulse = Math.sin(time * 1.2 + i * 0.15) * 0.3 + 0.5;
+            var idleH = 3 + idlePulse * 3;
 
-          var cs = isSingle ? self._colors[0] : self._colors[i];
-          ctx.fillStyle = 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',' + idleAlpha.toFixed(3) + ')';
-          roundRect(ctx, x, baselineY - idleH, barW, idleH, [cornerR, cornerR, 0, 0]);
-          ctx.fill();
+            ctx.globalAlpha = baseAlpha;
+            ctx.fillStyle = scs.mid;
+            ctx.fillRect(x, baselineY - idleH, barW, idleH);
 
-          // Peak indicators at baseline
-          var peakAlpha = 0.15 + idlePulse * 0.08;
-          ctx.fillStyle = 'rgba(' + cs.reflR + ',' + cs.reflG + ',' + cs.reflB + ',' + peakAlpha.toFixed(3) + ')';
-          ctx.fillRect(x, baselineY - idleH - 3, barW, 2);
+            ctx.globalAlpha = 0.15 + idlePulse * 0.08;
+            ctx.fillRect(x, baselineY - idleH - 3, barW, 2);
+          }
+        } else {
+          for (var i = 0; i < barCount; i++) {
+            var x = i * barWidth + halfGap;
+            var idlePulse = Math.sin(time * 1.2 + i * 0.15) * 0.3 + 0.5;
+            var idleH = 3 + idlePulse * 3;
+            var cs = self._colors[i];
+
+            ctx.globalAlpha = baseAlpha;
+            ctx.fillStyle = cs.mid;
+            ctx.fillRect(x, baselineY - idleH, barW, idleH);
+
+            ctx.globalAlpha = 0.15 + idlePulse * 0.08;
+            ctx.fillRect(x, baselineY - idleH - 3, barW, 2);
+          }
         }
+        ctx.globalAlpha = 1;
 
-        // Decay peaks
         var peaks = self._peaks;
         for (var p = 0; p < barCount; p++) {
           peaks[p] *= 0.95;
@@ -380,112 +362,113 @@
       if (!self._smoothedData || self._smoothedData.length !== barCount) {
         self._smoothedData = new Float32Array(barCount);
       }
+      if (!self._barHeights || self._barHeights.length !== barCount) {
+        self._barHeights = new Float32Array(barCount);
+      }
 
-      var peakFallPerFrame = 2;
-      var peakHoldMs = 600;
       var maxBarH = baselineY * 0.95;
       var invMaxBarH = 1 / maxBarH;
       var smoothedData = self._smoothedData;
       var peaks = self._peaks;
       var peakTs = self._peakTimestamps;
+      var barHeights = self._barHeights;
+      var peakFall = 2 * invMaxBarH; // pre-compute
+      var peakHoldMs = 600;
+      var oneMinusSmoothing = 1 - smoothing;
+      var inv255 = 1 / 255;
 
-      // --- Pass 1: Draw bars with glow ---
-      // Set shadowBlur ONCE before the loop, not per-bar
-      var glowCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
-      ctx.shadowColor = glowCs.mid;
-      ctx.shadowBlur = 18;
+      // ====== Pass 1: Glow underlays + bar bodies + glass highlights + peak tracking ======
+      // No shadowBlur at all — glow is a cheap wider semi-transparent fillRect
+
+      var singleGrad = self._barGrad;
+      var singleCs = isSingle ? self._colors[0] : null;
+      var glowExpand = Math.max(2, barW * 0.2);
 
       for (var i = 0; i < barCount; i++) {
         var bin = logBins[i];
         var sum = 0;
-        var cnt = bin.end - bin.start;
         for (var j = bin.start; j < bin.end; j++) {
           sum += freqData[j];
         }
 
-        smoothedData[i] = smoothedData[i] * smoothing + (sum / cnt) * (1 - smoothing);
+        var sd = smoothedData[i] * smoothing + (sum / (bin.end - bin.start)) * oneMinusSmoothing;
+        smoothedData[i] = sd;
 
-        var normalized = (smoothedData[i] / 255) * sensRatio;
+        var normalized = sd * inv255 * sensRatio;
         if (normalized > 1) normalized = 1;
 
         var barH = normalized * maxBarH;
         if (barH < 1) barH = 1;
+        barHeights[i] = barH;
 
         var x = i * barWidth + halfGap;
         var barTop = baselineY - barH;
 
-        ctx.fillStyle = isSingle ? self._barGrad : self._barGrads[i];
-        roundRect(ctx, x, barTop, barW, barH, [cornerR, cornerR, cornerRBot, cornerRBot]);
-        ctx.fill();
+        // Fake glow: wider semi-transparent rect behind bar (much cheaper than shadowBlur)
+        if (barH > 2) {
+          ctx.fillStyle = isSingle ? singleCs.glow : self._colors[i].glow;
+          ctx.fillRect(x - glowExpand, barTop - glowExpand, barW + glowExpand * 2, barH + glowExpand);
+        }
 
-        // Update peaks (inline, no function call overhead)
+        // Bar body
+        if (useRoundRect) {
+          ctx.fillStyle = isSingle ? singleGrad : self._barGrads[i];
+          ctx.beginPath();
+          ctx.roundRect(x, barTop, barW, barH, [cornerR, cornerR, cornerRBot, cornerRBot]);
+          ctx.fill();
+        } else {
+          ctx.fillStyle = isSingle ? singleGrad : self._barGrads[i];
+          ctx.fillRect(x, barTop, barW, barH);
+        }
+
+        // Glass highlight at top edge
+        if (barH > 4) {
+          ctx.fillStyle = isSingle ? singleCs.light : self._colors[i].light;
+          ctx.globalAlpha = 0.3;
+          ctx.fillRect(x + 1, barTop, barW - 2, 1);
+          ctx.globalAlpha = 1;
+        }
+
+        // Peak tracking (inline)
         var nh = barH * invMaxBarH;
         if (nh >= peaks[i]) {
           peaks[i] = nh;
           peakTs[i] = now;
         } else if (now - peakTs[i] > peakHoldMs) {
-          peaks[i] -= peakFallPerFrame * invMaxBarH;
+          peaks[i] -= peakFall;
           if (peaks[i] < 0) peaks[i] = 0;
         }
       }
 
-      ctx.shadowBlur = 0;
-
-      // --- Pass 2: Glass highlight (batch with single globalAlpha) ---
-      ctx.globalAlpha = 0.3;
-      for (var i = 0; i < barCount; i++) {
-        var normalized = (smoothedData[i] / 255) * sensRatio;
-        if (normalized > 1) normalized = 1;
-        var barH = normalized * maxBarH;
-        if (barH <= 4) continue;
-
-        var x = i * barWidth + halfGap;
-        var barTop = baselineY - barH;
-        ctx.fillStyle = isSingle ? self._colors[0].light : self._colors[i].light;
-        ctx.fillRect(x + 1, barTop, barW - 2, 1);
-      }
-      ctx.globalAlpha = 1;
-
-      // --- Pass 3: Peak indicators (single shadow setup) ---
+      // ====== Pass 2: Peak dots + reflections (no shadow) ======
       var peakDotH = Math.max(2, barW * 0.12);
       var peakBaseY = baselineY - peakDotH - 2;
-
-      // Set peak glow once
-      var peakGlowCs = isSingle ? self._colors[0] : self._colors[barCount >> 1];
-      ctx.shadowColor = peakGlowCs.peakGlow;
-      ctx.shadowBlur = 6;
-
-      for (var i = 0; i < barCount; i++) {
-        var peakBarH = peaks[i] * maxBarH;
-        var peakY = baselineY - peakBarH - peakDotH - 2;
-        if (peakY > peakBaseY) peakY = peakBaseY;
-
-        var x = i * barWidth + halfGap;
-        ctx.fillStyle = isSingle ? self._colors[0].light : self._colors[i].light;
-        ctx.fillRect(x, peakY, barW, peakDotH);
-      }
-
-      ctx.shadowBlur = 0;
-
-      // --- Pass 4: Reflections (no shadow) ---
       var reflZone = h - baselineY;
       var reflLimit = reflZone * 0.85;
 
       for (var i = 0; i < barCount; i++) {
-        var normalized = (smoothedData[i] / 255) * sensRatio;
-        if (normalized > 1) normalized = 1;
+        var x = i * barWidth + halfGap;
 
-        var barH = normalized * maxBarH;
-        if (barH < 1) continue;
+        // Peak glow backdrop (wider semi-transparent rect)
+        var peakBarH = peaks[i] * maxBarH;
+        var peakY = baselineY - peakBarH - peakDotH - 2;
+        if (peakY > peakBaseY) peakY = peakBaseY;
 
-        var mirrorH = barH * 0.45;
+        var cs = isSingle ? singleCs : self._colors[i];
+        ctx.fillStyle = cs.peakGlow;
+        ctx.fillRect(x - 1, peakY - 1, barW + 2, peakDotH + 2);
+        ctx.fillStyle = cs.light;
+        ctx.fillRect(x, peakY, barW, peakDotH);
+
+        // Reflection (simple fillRect, no roundRect needed)
+        var bh = barHeights[i];
+        if (bh < 2) continue;
+        var mirrorH = bh * 0.45;
         if (mirrorH > reflLimit) mirrorH = reflLimit;
         if (mirrorH < 1) continue;
 
-        var x = i * barWidth + halfGap;
         ctx.fillStyle = isSingle ? self._reflGrads[0] : self._reflGrads[i];
-        roundRect(ctx, x, baselineY + 1, barW, mirrorH, [0, 0, cornerRBot, cornerRBot]);
-        ctx.fill();
+        ctx.fillRect(x, baselineY + 1, barW, mirrorH);
       }
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
