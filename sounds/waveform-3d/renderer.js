@@ -186,7 +186,7 @@
       if (l < 0.05) l = 0.05;
 
       // Desaturate back layers progressively
-      var s = baseHsl.s * (0.4 + progress * 0.6);
+      var s = baseHsl.s * (0.55 + progress * 0.45);
 
       var rgb = hslToRgb(baseHsl.h, s, l);
       return rgb;
@@ -313,7 +313,7 @@
         var frac = markerPositions[m];
 
         ctx.beginPath();
-        ctx.strokeStyle = 'rgba(' + waveColor.r + ',' + waveColor.g + ',' + waveColor.b + ',0.06)';
+        ctx.strokeStyle = 'rgba(' + waveColor.r + ',' + waveColor.g + ',' + waveColor.b + ',0.12)';
         ctx.lineWidth = 1;
 
         // Draw line from back layer to front layer
@@ -340,7 +340,7 @@
       for (var layer = 0; layer < totalLayers; layer++) {
         var progress = layer / (totalLayers - 1);
         var persp = self._perspective(progress, w, h);
-        var layerAlpha = 0.03 + progress * 0.04;
+        var layerAlpha = 0.08 + progress * 0.06;
 
         ctx.strokeStyle = 'rgba(' + waveColor.r + ',' + waveColor.g + ',' + waveColor.b + ',' + layerAlpha.toFixed(3) + ')';
         ctx.lineWidth = 1;
@@ -437,7 +437,7 @@
 
           // Create gradient from waveform baseline downward
           var fillGrad = ctx.createLinearGradient(0, persp.baseY - amp, 0, persp.baseY + amp * 0.5);
-          fillGrad.addColorStop(0, 'rgba(' + layerRgb.r + ',' + layerRgb.g + ',' + layerRgb.b + ',0.15)');
+          fillGrad.addColorStop(0, 'rgba(' + layerRgb.r + ',' + layerRgb.g + ',' + layerRgb.b + ',0.25)');
           fillGrad.addColorStop(1, 'rgba(' + layerRgb.r + ',' + layerRgb.g + ',' + layerRgb.b + ',0)');
 
           ctx.fillStyle = fillGrad;

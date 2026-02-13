@@ -147,7 +147,7 @@
       var grad = ctx.createRadialGradient(cx, cy, r * 0.3, cx, cy, r);
       grad.addColorStop(0, 'rgba(0,0,0,0)');
       grad.addColorStop(0.7, 'rgba(0,0,0,0)');
-      grad.addColorStop(1, 'rgba(0,0,0,0.15)');
+      grad.addColorStop(1, 'rgba(0,0,0,0.2)');
       this._vignetteCache = grad;
       this._cachedWidth = w;
       this._cachedHeight = h;
@@ -162,7 +162,7 @@
       var dotRadius = 1;
 
       // Regular intersection dots
-      ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.18)';
+      ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.3)';
       for (var col = 0; col <= vDivisions; col++) {
         for (var row = 0; row <= hDivisions; row++) {
           var x = col * vSpacing;
@@ -177,7 +177,7 @@
       var subDiv = 5;
       var subVSpacing = vSpacing / subDiv;
       var subHSpacing = hSpacing / subDiv;
-      ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.06)';
+      ctx.fillStyle = 'rgba(' + color.r + ',' + color.g + ',' + color.b + ',0.1)';
       for (var col = 0; col <= vDivisions * subDiv; col++) {
         for (var row = 0; row <= hDivisions * subDiv; row++) {
           // Skip main grid points (already drawn brighter)
@@ -214,7 +214,7 @@
 
     _drawScanlines: function(ctx, w, h) {
       // Horizontal scanlines — every other pixel row at 3% opacity
-      ctx.fillStyle = 'rgba(0,0,0,0.03)';
+      ctx.fillStyle = 'rgba(0,0,0,0.06)';
       for (var y = 0; y < h; y += 2) {
         ctx.fillRect(0, y, w, 1);
       }

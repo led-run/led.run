@@ -97,7 +97,7 @@
           x: Math.random() * w,
           y: Math.random() * h * 0.4, // Top 40% only
           radius: 0.5 + Math.random() * 1.5,
-          twinkleSpeed: 1.5 + Math.random() * 3, // Varied twinkle rates
+          twinkleSpeed: 0.8 + Math.random() * 1.5, // Slower, gentler twinkle
           twinkleOffset: Math.random() * Math.PI * 2,
           baseAlpha: 0.4 + Math.random() * 0.5
         });
@@ -219,7 +219,7 @@
       var reflectH = h * 0.3;
       for (var ry = 0; ry < 8; ry++) {
         var reflY = reflectY + ry * (reflectH / 8);
-        var reflAlpha = 0.06 * (1 - ry / 8) * softPulse;
+        var reflAlpha = 0.12 * (1 - ry / 8) * softPulse;
         var shimmerX = moonX + Math.sin(time * 1.2 + ry * 0.7) * 8;
         ctx.fillStyle = 'rgba(200,220,255,' + reflAlpha.toFixed(3) + ')';
         ctx.fillRect(shimmerX - 2, reflY, 4, reflectH / 8 - 2);
@@ -283,9 +283,9 @@
         if (layer < waveCount - 2) {
           layerAlpha *= 0.7 + depth * 0.3;
         }
-        var layerR = Math.floor(waveColor.r * (0.2 + depth * 0.8));
-        var layerG = Math.floor(waveColor.g * (0.2 + depth * 0.8));
-        var layerB = Math.floor(waveColor.b * (0.2 + depth * 0.8));
+        var layerR = Math.floor(waveColor.r * (0.35 + depth * 0.65));
+        var layerG = Math.floor(waveColor.g * (0.35 + depth * 0.65));
+        var layerB = Math.floor(waveColor.b * (0.35 + depth * 0.65));
 
         // Compute all wave points for this layer
         var points = [];
@@ -345,8 +345,8 @@
               // This is a crest (local minimum in Y)
               var peakX = points[i].x;
               var peakY = points[i].y;
-              var highlightLen = segW * 1.5;
-              var highlightAlpha = 0.3 + depth * 0.3;
+              var highlightLen = segW * 2;
+              var highlightAlpha = 0.45 + depth * 0.35;
               ctx.strokeStyle = 'rgba(255,255,255,' + highlightAlpha.toFixed(3) + ')';
               ctx.lineWidth = 1;
               ctx.beginPath();
