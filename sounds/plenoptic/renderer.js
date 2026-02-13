@@ -1,6 +1,8 @@
 ;(function(global) {
   'use strict';
 
+  // --- Color utilities ---
+
   function hexToRgb(hex) {
     var r = parseInt(hex.slice(0, 2), 16);
     var g = parseInt(hex.slice(2, 4), 16);
@@ -8,11 +10,125 @@
     return { r: r, g: g, b: b };
   }
 
+  function rgbToHsl(r, g, b) {
+    r /= 255; g /= 255; b /= 255;
+    var max = Math.max(r, g, b), min = Math.min(r, g, b);
+    var h, s, l = (max + min) / 2;
+    if (max === min) {
+      h = s = 0;
+    } else {
+      var d = max - min;
+      s = l > 0.5 ? d / (2 - max - min) : d / (max + min);
+      switch (max) {
+        case r: h = ((g - b) / d + (g < b ? 6 : 0)) / 6; break;
+        case g: h = ((b - r) / d + 2) / 6; break;
+        case b: h = ((r - g) / d + 4) / 6; break;
+      }
+    }
+    return { h: h * 360, s: s, l: l };
+  }
+
+  function hslToRgb(h, s, l) {
+    h = ((h % 360) + 360) % 360;
+    h /= 360;
+    var r, g, b;
+    if (s === 0) {
+      r = g = b = l;
+    } else {
+      var hue2rgb = function(p, q, t) {
+        if (t < 0) t += 1;
+        if (t > 1) t -= 1;
+        if (t < 1/6) return p + (q - p) * 6 * t;
+        if (t < 1/2) return q;
+        if (t < 2/3) return p + (q - p) * (2/3 - t) * 6;
+        return p;
+      };
+      var q = l < 0.5 ? l * (1 + s) : l + s - l * s;
+      var p = 2 * l - q;
+      r = hue2rgb(p, q, h + 1/3);
+      g = hue2rgb(p, q, h);
+      b = hue2rgb(p, q, h - 1/3);
+    }
+    return {
+      r: Math.round(r * 255),
+      g: Math.round(g * 255),
+      b: Math.round(b * 255)
+    };
+  }
+
+  // --- Bokeh texture sizes per depth layer index ---
+  // Layer 0 (farthest) = largest/blurriest, Layer 3 (nearest) = smallest/sharpest
+  var BOKEH_SIZES = [128, 80, 48, 32];
+
+  // Particle draw size ranges per layer (in CSS pixels)
+  // Back layers: large blurry bokeh, front layers: small sharp bokeh
+  var LAYER_SIZE_RANGE = [
+    { min: 28, max: 40 },  // Layer 0 (far): large blurry
+    { min: 20, max: 32 },  // Layer 1
+    { min: 14, max: 22 },  // Layer 2
+    { min: 8, max: 16 }    // Layer 3 (near): small sharp
+  ];
+
+  // Opacity range per layer (far = dimmer, near = brighter)
+  var LAYER_OPACITY = [
+    { min: 0.15, max: 0.35 },
+    { min: 0.25, max: 0.50 },
+    { min: 0.35, max: 0.65 },
+    { min: 0.50, max: 0.85 }
+  ];
+
+  // Hue shift per layer relative to base hue (cool back, warm front)
+  // Layer 0: +120 (cool/blue), Layer 3: -30 (warm/orange-pink)
+  var LAYER_HUE_SHIFT = [120, 60, 0, -30];
+
+  /**
+   * Create a pre-rendered bokeh texture as an offscreen canvas.
+   * Draws a soft radial gradient circle with a subtle ring outline.
+   *
+   * @param {number} size - Canvas size in pixels (square)
+   * @param {number} r - Red channel 0-255
+   * @param {number} g - Green channel 0-255
+   * @param {number} b - Blue channel 0-255
+   * @returns {HTMLCanvasElement}
+   */
+  function createBokehTexture(size, r, g, b) {
+    var canvas = document.createElement('canvas');
+    canvas.width = size;
+    canvas.height = size;
+    var ctx = canvas.getContext('2d');
+    var cx = size / 2;
+    var cy = size / 2;
+    var radius = size / 2 - 1;
+
+    // Soft radial gradient fill
+    var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
+    grad.addColorStop(0, 'rgba(255, 255, 255, 0.9)');
+    grad.addColorStop(0.15, 'rgba(' + r + ',' + g + ',' + b + ', 0.7)');
+    grad.addColorStop(0.6, 'rgba(' + r + ',' + g + ',' + b + ', 0.25)');
+    grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ', 0)');
+
+    ctx.fillStyle = grad;
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius, 0, Math.PI * 2);
+    ctx.fill();
+
+    // Subtle ring outline (bokeh edge highlight)
+    ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.25)';
+    ctx.lineWidth = Math.max(1, size / 24);
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.85, 0, Math.PI * 2);
+    ctx.stroke();
+
+    return canvas;
+  }
+
+  // --- Visualizer ---
+
   var PlenopticVisualizer = {
     id: 'plenoptic',
 
     defaults: {
-      color: 'ffffff',      // White
+      color: 'ffffff',
       bg: '000000',
       sensitivity: 5,
       depth: 8              // Depth layers 4-12
@@ -26,21 +142,25 @@
     _audioEngine: null,
     _animFrameId: null,
     _config: null,
-    _particles: null,
-    _time: 0,
+    _layers: null,          // Array of 4 arrays (back-to-front), each holding particles
+    _bokehTextures: null,   // Array of 4 offscreen canvas textures
+    _lastTime: 0,
+    _avgVolume: 0,
 
     init: function(container, config, audioEngine) {
       this._container = container;
       this._config = config;
       this._audioEngine = audioEngine;
-      this._particles = [];
-      this._time = 0;
+      this._layers = null;
+      this._bokehTextures = null;
+      this._lastTime = 0;
+      this._avgVolume = 0;
 
       // Offscreen canvas at 1/2 resolution
       this._offscreenCanvas = document.createElement('canvas');
       this._offscreenCtx = this._offscreenCanvas.getContext('2d');
 
-      // Main canvas
+      // Main display canvas
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
       this._canvas.style.width = '100%';
@@ -48,11 +168,13 @@
       container.appendChild(this._canvas);
       this._ctx = this._canvas.getContext('2d');
 
+      this._buildBokehTextures();
       this._resizeHandler();
+
       this._boundResize = this._resizeHandler.bind(this);
       window.addEventListener('resize', this._boundResize);
 
-      this._initParticles();
+      this._lastTime = performance.now();
       this._draw();
     },
 
@@ -74,8 +196,29 @@
       this._offscreenCtx = null;
       this._container = null;
       this._audioEngine = null;
-      this._particles = null;
+      this._layers = null;
+      this._bokehTextures = null;
       this._config = null;
+    },
+
+    /**
+     * Build 4 pre-rendered bokeh textures, one per depth layer.
+     * Each layer gets a color derived from the base color param via HSL hue shift.
+     */
+    _buildBokehTextures: function() {
+      var cfg = this._config;
+      var baseRgb = hexToRgb(cfg.color || this.defaults.color);
+      var hsl = rgbToHsl(baseRgb.r, baseRgb.g, baseRgb.b);
+
+      this._bokehTextures = [];
+      for (var i = 0; i < 4; i++) {
+        var layerHue = hsl.h + LAYER_HUE_SHIFT[i];
+        // Boost saturation for color variation; keep lightness moderate
+        var layerS = Math.min(1, hsl.s * 0.6 + 0.4);
+        var layerL = 0.45 + i * 0.05; // Slightly brighter toward front
+        var rgb = hslToRgb(layerHue, layerS, layerL);
+        this._bokehTextures.push(createBokehTexture(BOKEH_SIZES[i], rgb.r, rgb.g, rgb.b));
+      }
     },
 
     _resizeHandler: function() {
@@ -88,13 +231,19 @@
       this._canvas.height = h * dpr;
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      this._offscreenCanvas.width = (w / 2) * dpr;
-      this._offscreenCanvas.height = (h / 2) * dpr;
-      this._offscreenCtx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      // Offscreen at 1/2 resolution
+      this._offscreenCanvas.width = Math.ceil(w * dpr / 2);
+      this._offscreenCanvas.height = Math.ceil(h * dpr / 2);
+      this._offscreenCtx.setTransform(dpr / 2, 0, 0, dpr / 2, 0, 0);
 
       this._initParticles();
     },
 
+    /**
+     * Distribute ~40 particles per depth "sub-layer" into 4 rendering layers.
+     * The depth param (4-12) controls total sub-layers; particles are assigned
+     * to one of 4 rendering layers (bucket) for draw-order grouping.
+     */
     _initParticles: function() {
       var w = this._container.clientWidth;
       var h = this._container.clientHeight;
@@ -103,20 +252,35 @@
       if (depth < 4) depth = 4;
       if (depth > 12) depth = 12;
 
-      this._particles = [];
+      this._layers = [[], [], [], []]; // 4 render layers: back → front
+      var particlesPerSubLayer = 40;
 
-      // Create particles across depth layers
-      var particlesPerLayer = 40;
-      for (var layer = 0; layer < depth; layer++) {
-        for (var i = 0; i < particlesPerLayer; i++) {
-          this._particles.push({
+      for (var sub = 0; sub < depth; sub++) {
+        // Map sub-layer (0..depth-1) to render layer (0..3)
+        var layerIdx = Math.min(3, Math.floor(sub / depth * 4));
+        var sizeRange = LAYER_SIZE_RANGE[layerIdx];
+        var opRange = LAYER_OPACITY[layerIdx];
+
+        for (var i = 0; i < particlesPerSubLayer; i++) {
+          var baseSize = sizeRange.min + Math.random() * (sizeRange.max - sizeRange.min);
+          var baseOpacity = opRange.min + Math.random() * (opRange.max - opRange.min);
+
+          this._layers[layerIdx].push({
             x: Math.random() * w,
             y: Math.random() * h,
-            vx: (Math.random() - 0.5) * 0.5,
-            vy: (Math.random() - 0.5) * 0.5,
-            depth: layer / depth, // 0 (far) to 1 (near)
-            baseSize: 1 + Math.random() * 2,
-            pulsePhase: Math.random() * Math.PI * 2
+            vx: (Math.random() - 0.5) * 0.3,
+            vy: (Math.random() - 0.5) * 0.3,
+            // Drift curve parameters (gentle sin/cos curves)
+            driftAmpX: 0.2 + Math.random() * 0.6,
+            driftAmpY: 0.2 + Math.random() * 0.6,
+            driftFreqX: 0.3 + Math.random() * 0.4,
+            driftFreqY: 0.3 + Math.random() * 0.4,
+            driftPhaseX: Math.random() * Math.PI * 2,
+            driftPhaseY: Math.random() * Math.PI * 2,
+            baseSize: baseSize,
+            baseOpacity: baseOpacity,
+            pulsePhase: Math.random() * Math.PI * 2,
+            pulseSpeed: 0.8 + Math.random() * 0.8 // Individual pulse rate
           });
         }
       }
@@ -126,30 +290,28 @@
       var self = this;
       if (!self._ctx || !self._canvas) return;
 
+      var now = performance.now();
+      var dt = (now - self._lastTime) / 1000; // seconds
+      if (dt > 0.1) dt = 0.1; // Cap delta to avoid jumps after tab switch
+      self._lastTime = now;
+
       var w = self._container.clientWidth;
       var h = self._container.clientHeight;
       var offW = w / 2;
       var offH = h / 2;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
-      var particleColor = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
-      var depth = parseInt(cfg.depth, 10) || self.defaults.depth;
-      if (depth < 4) depth = 4;
-      if (depth > 12) depth = 12;
       var ctx = self._ctx;
       var offCtx = self._offscreenCtx;
 
-      self._time += 0.016;
-
+      // --- Audio analysis ---
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
-
       if (isRunning) {
         freqData = self._audioEngine.getFrequencyData();
       }
 
-      // Calculate volume for particle generation
       var volume = 0;
       if (freqData && freqData.length > 0) {
         var sum = 0;
@@ -158,60 +320,77 @@
         }
         volume = sum / freqData.length / 255;
       } else {
-        volume = 0.05; // Idle minimum
+        volume = 0.08; // Idle minimum — dreamy float
       }
 
-      var normalizedVol = volume * (sensitivity / 5);
-      if (normalizedVol > 1) normalizedVol = 1;
+      // Smooth volume for stable visuals
+      self._avgVolume = self._avgVolume * 0.82 + volume * 0.18;
+      var normVol = self._avgVolume * (sensitivity / 5);
+      if (normVol > 1) normVol = 1;
 
-      // Clear offscreen canvas
+      // --- Clear offscreen ---
+      offCtx.globalCompositeOperation = 'source-over';
       offCtx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       offCtx.fillRect(0, 0, offW, offH);
 
-      // Sort particles by depth (far to near)
-      var sortedParticles = self._particles.slice().sort(function(a, b) {
-        return a.depth - b.depth;
-      });
+      // Switch to additive blending for all bokeh draws
+      offCtx.globalCompositeOperation = 'screen';
 
-      // Update and draw particles on offscreen canvas
-      for (var i = 0; i < sortedParticles.length; i++) {
-        var p = sortedParticles[i];
+      // --- Update and draw particles layer by layer (back → front) ---
+      var layers = self._layers;
+      if (!layers) { self._animFrameId = requestAnimationFrame(function() { self._draw(); }); return; }
 
-        // Update position
-        p.x += p.vx * (0.5 + normalizedVol * 0.5);
-        p.y += p.vy * (0.5 + normalizedVol * 0.5);
+      for (var li = 0; li < 4; li++) {
+        var layer = layers[li];
+        var texture = self._bokehTextures[li];
+        if (!texture) continue;
 
-        // Wrap around
-        if (p.x < 0) p.x = w;
-        if (p.x > w) p.x = 0;
-        if (p.y < 0) p.y = h;
-        if (p.y > h) p.y = 0;
+        // Layer speed multiplier (back layers drift slower, front faster)
+        var layerSpeedMul = 0.4 + li * 0.25; // 0.4, 0.65, 0.9, 1.15
 
-        // Size based on depth (near = larger)
-        var size = p.baseSize * (0.3 + p.depth * 0.7) * (1 + normalizedVol * 0.3);
+        for (var pi = 0; pi < layer.length; pi++) {
+          var p = layer[pi];
 
-        // Opacity based on depth
-        var opacity = 0.2 + p.depth * 0.6;
+          // Slow drift animation: gentle sine/cosine curves on velocity
+          var driftX = Math.sin(now * 0.001 * p.driftFreqX + p.driftPhaseX) * p.driftAmpX;
+          var driftY = Math.cos(now * 0.001 * p.driftFreqY + p.driftPhaseY) * p.driftAmpY;
 
-        // Pulsing
-        var pulse = 1 + Math.sin(self._time * 2 + p.pulsePhase) * 0.2;
-        size *= pulse;
+          // Speed reacts to audio volume
+          var speedFactor = layerSpeedMul * (0.6 + normVol * 0.8);
 
-        // Blur radius based on depth (far = more blur, near = less blur)
-        var blurRadius = (1 - p.depth) * 3;
+          p.x += (p.vx + driftX) * speedFactor * dt * 60;
+          p.y += (p.vy + driftY) * speedFactor * dt * 60;
 
-        // Draw to offscreen with blur
-        offCtx.shadowColor = 'rgba(' + particleColor.r + ',' + particleColor.g + ',' + particleColor.b + ',' + opacity + ')';
-        offCtx.shadowBlur = blurRadius;
-        offCtx.fillStyle = 'rgba(' + particleColor.r + ',' + particleColor.g + ',' + particleColor.b + ',' + opacity + ')';
-        offCtx.beginPath();
-        offCtx.arc(p.x / 2, p.y / 2, size, 0, Math.PI * 2);
-        offCtx.fill();
+          // Wrap around with padding so large bokeh don't pop at edges
+          var pad = p.baseSize;
+          if (p.x < -pad) p.x = w + pad;
+          if (p.x > w + pad) p.x = -pad;
+          if (p.y < -pad) p.y = h + pad;
+          if (p.y > h + pad) p.y = -pad;
+
+          // Pulsing size modulation
+          var pulse = 1 + Math.sin(now * 0.001 * p.pulseSpeed + p.pulsePhase) * 0.18;
+          var size = p.baseSize * pulse * (0.85 + normVol * 0.3);
+
+          // Opacity: base + audio reactivity
+          var alpha = p.baseOpacity * (0.7 + normVol * 0.5);
+          if (alpha > 1) alpha = 1;
+
+          // Draw bokeh texture (coordinates in full-res space, offscreen is half)
+          var drawX = p.x / 2 - size / 4;
+          var drawY = p.y / 2 - size / 4;
+          var drawSize = size / 2; // Half because offscreen is 1/2 res
+
+          offCtx.globalAlpha = alpha;
+          offCtx.drawImage(texture, drawX, drawY, drawSize, drawSize);
+        }
       }
 
-      offCtx.shadowBlur = 0;
+      // Reset composite and alpha
+      offCtx.globalAlpha = 1;
+      offCtx.globalCompositeOperation = 'source-over';
 
-      // Scale up to main canvas
+      // --- Scale offscreen to main canvas ---
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
       ctx.drawImage(self._offscreenCanvas, 0, 0, w, h);

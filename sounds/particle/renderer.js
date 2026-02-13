@@ -12,7 +12,7 @@
     id: 'particle',
 
     defaults: {
-      color: 'ffffff',      // White dots
+      color: 'ffffff',
       bg: '000000',
       sensitivity: 5,
       gridSize: 20
@@ -24,15 +24,24 @@
     _audioEngine: null,
     _animFrameId: null,
     _config: null,
-    _grid: null,
-    _smoothedData: null,
+    _gridCols: 0,
+    _gridRows: 0,
+    _smoothedZ: null,       // Float32Array[rows * cols] — smoothed Z displacement per point
+    _prevTime: 0,           // performance.now() of last frame
+    _ripplePhase: 0,        // accumulated ripple phase (driven by bass energy)
+    _bassEnergy: 0,         // smoothed bass energy 0-1
+    _lineAlpha: 0.08,       // smoothed grid line alpha
+
+    // ---- lifecycle --------------------------------------------------------
 
     init: function(container, config, audioEngine) {
       this._container = container;
       this._config = config;
       this._audioEngine = audioEngine;
-      this._grid = null;
-      this._smoothedData = null;
+      this._prevTime = performance.now();
+      this._ripplePhase = 0;
+      this._bassEnergy = 0;
+      this._lineAlpha = 0.08;
 
       this._canvas = document.createElement('canvas');
       this._canvas.style.display = 'block';
@@ -45,7 +54,7 @@
       this._boundResize = this._resizeHandler.bind(this);
       window.addEventListener('resize', this._boundResize);
 
-      this._initGrid();
+      this._buildGrid();
       this._draw();
     },
 
@@ -65,8 +74,7 @@
       this._ctx = null;
       this._container = null;
       this._audioEngine = null;
-      this._grid = null;
-      this._smoothedData = null;
+      this._smoothedZ = null;
       this._config = null;
     },
 
@@ -78,134 +86,267 @@
       this._canvas.width = w * dpr;
       this._canvas.height = h * dpr;
       this._ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-      this._initGrid();
+      this._buildGrid();
     },
 
-    _initGrid: function() {
+    // ---- grid setup (pre-sorted by row) -----------------------------------
+
+    _buildGrid: function() {
       var cfg = this._config;
       var gridSize = parseInt(cfg.gridSize, 10) || this.defaults.gridSize;
       if (gridSize < 10) gridSize = 10;
       if (gridSize > 40) gridSize = 40;
 
-      var total = gridSize * gridSize;
-      this._grid = [];
-      for (var i = 0; i < total; i++) {
-        var row = Math.floor(i / gridSize);
-        var col = i % gridSize;
-        this._grid.push({
-          row: row,
-          col: col,
-          baseZ: 0,
-          z: 0
-        });
-      }
+      this._gridCols = gridSize;
+      this._gridRows = gridSize;
 
-      if (!this._smoothedData || this._smoothedData.length !== total) {
-        this._smoothedData = new Float32Array(total);
+      var total = this._gridRows * this._gridCols;
+      if (!this._smoothedZ || this._smoothedZ.length !== total) {
+        this._smoothedZ = new Float32Array(total);
       }
     },
+
+    // ---- projection helpers -----------------------------------------------
+
+    /**
+     * Project a 3D grid point (col, row, z) into 2D screen coordinates.
+     * Returns { x, y, scale }.
+     *
+     * The grid lives in a virtual 3D space:
+     *   - x: evenly spaced across width
+     *   - y: evenly spaced across height
+     *   - z: audio displacement (positive = towards viewer)
+     *
+     * Vanishing point is at 30% from top (steep downward perspective).
+     */
+    _project: function(col, row, z, w, h, cols, rows, focalLength) {
+      var gridX = (col + 1) / (cols + 1) * w;
+      var gridY = (row + 1) / (rows + 1) * h;
+
+      var vanishX = w * 0.5;
+      var vanishY = h * 0.3;
+
+      var s = focalLength / (focalLength + z);
+      return {
+        x: vanishX + (gridX - vanishX) * s,
+        y: vanishY + (gridY - vanishY) * s,
+        scale: s
+      };
+    },
+
+    // ---- main draw loop ---------------------------------------------------
 
     _draw: function() {
       var self = this;
       if (!self._ctx || !self._canvas) return;
 
+      var now = performance.now();
+      var dt = Math.min((now - self._prevTime) * 0.001, 0.1); // seconds, capped
+      self._prevTime = now;
+
       var w = self._container.clientWidth;
       var h = self._container.clientHeight;
       var cfg = self._config;
-      var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
-      var dotColor = hexToRgb(cfg.color || self.defaults.color);
+      var bgRgb = hexToRgb(cfg.bg || self.defaults.bg);
+      var dotRgb = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
-      var gridSize = parseInt(cfg.gridSize, 10) || self.defaults.gridSize;
-      if (gridSize < 10) gridSize = 10;
-      if (gridSize > 40) gridSize = 40;
-      var ctx = self._ctx;
+      var sensFactor = sensitivity / 5;
 
-      // Clear with background
-      ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      var cols = self._gridCols;
+      var rows = self._gridRows;
+      var total = rows * cols;
+      var ctx = self._ctx;
+      var focalLength = 300;
+
+      // ----- clear -----
+      ctx.fillStyle = 'rgb(' + bgRgb.r + ',' + bgRgb.g + ',' + bgRgb.b + ')';
       ctx.fillRect(0, 0, w, h);
 
+      // ----- audio data -----
       var freqData = null;
       var isRunning = self._audioEngine && self._audioEngine.isRunning();
-
       if (isRunning) {
         freqData = self._audioEngine.getFrequencyData();
       }
 
-      var total = gridSize * gridSize;
+      // ----- compute bass energy (average of first 1/8 bins) -----
+      var rawBass = 0;
+      if (freqData && freqData.length > 0) {
+        var bassEnd = Math.max(1, Math.floor(freqData.length / 8));
+        var bassSum = 0;
+        for (var b = 0; b < bassEnd; b++) {
+          bassSum += freqData[b];
+        }
+        rawBass = (bassSum / bassEnd) / 255; // 0-1
+      }
+      // smooth bass
+      self._bassEnergy += (rawBass - self._bassEnergy) * 0.15;
 
-      // Map frequency data to grid points
+      // advance ripple phase (faster when bass is louder)
+      self._ripplePhase += dt * (1.0 + self._bassEnergy * 6.0);
+
+      // smooth grid-line alpha: 0.08 quiet → 0.3 loud
+      var targetLineAlpha = 0.08 + self._bassEnergy * 0.22;
+      self._lineAlpha += (targetLineAlpha - self._lineAlpha) * 0.1;
+
+      // ----- map frequency data to grid Z displacement -----
+      var halfCol = (cols - 1) * 0.5;
+      var halfRow = (rows - 1) * 0.5;
+      var maxDist = Math.sqrt(halfCol * halfCol + halfRow * halfRow);
+
       if (freqData && freqData.length > 0) {
         var binCount = freqData.length;
-        var binStep = Math.max(1, Math.floor(binCount / total));
 
-        for (var i = 0; i < total; i++) {
-          var binIndex = Math.min(i * binStep, binCount - 1);
-          var value = freqData[binIndex];
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var idx = r * cols + c;
 
-          // Apply smoothing
-          self._smoothedData[i] = self._smoothedData[i] * 0.85 + value * 0.15;
+            // columns map to frequency bands (log-ish distribution)
+            var freqT = c / (cols - 1);  // 0-1 across columns
+            var binIndex = Math.floor(freqT * (binCount - 1));
+            var rawVal = freqData[binIndex] / 255;  // 0-1
 
-          // Normalize and apply sensitivity
-          var normalized = (self._smoothedData[i] / 255) * (sensitivity / 5);
-          if (normalized > 1) normalized = 1;
+            // wave propagation: ripple from center
+            var dx = c - halfCol;
+            var dy = r - halfRow;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var normalizedDist = dist / maxDist; // 0-1
 
-          // Z displacement (positive = towards viewer)
-          self._grid[i].z = normalized * 200;
+            // ripple modulation: phase offset by distance
+            var ripple = Math.sin(self._ripplePhase * 2.0 - normalizedDist * 8.0);
+            ripple = ripple * 0.5 + 0.5; // 0-1
+
+            // combine audio value with ripple
+            var combined = rawVal * (0.6 + 0.4 * ripple) * sensFactor;
+            if (combined > 1) combined = 1;
+
+            // target Z: 0 to 200 pixels displacement
+            var targetZ = combined * 200;
+
+            // smooth transition (per-point smoothing for fluid motion)
+            self._smoothedZ[idx] += (targetZ - self._smoothedZ[idx]) * 0.18;
+          }
         }
       } else {
-        // Idle state: gentle wave motion
-        var time = Date.now() * 0.001;
-        for (var i = 0; i < total; i++) {
-          var row = self._grid[i].row;
-          var col = self._grid[i].col;
-          var wave = Math.sin(time + row * 0.3) * Math.cos(time * 1.2 + col * 0.3);
-          self._grid[i].z = wave * 10;
+        // ----- idle state: gentle sine wave traveling across grid -----
+        var idleTime = now * 0.001;
+
+        for (var r = 0; r < rows; r++) {
+          for (var c = 0; c < cols; c++) {
+            var idx = r * cols + c;
+            var dx = c - halfCol;
+            var dy = r - halfRow;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            var normalizedDist = dist / maxDist;
+
+            var wave = Math.sin(idleTime * 0.8 - normalizedDist * 5.0);
+            var targetZ = wave * 12 + 12; // oscillate 0-24
+
+            self._smoothedZ[idx] += (targetZ - self._smoothedZ[idx]) * 0.08;
+          }
         }
       }
 
-      // 3D projection parameters
-      var focalLength = 300;
-      var vanishX = w / 2;
-      var vanishY = h * 0.3; // Vanishing point at top-center for downward perspective
-      var gridSpacingX = w / (gridSize + 1);
-      var gridSpacingY = h / (gridSize + 1);
+      // ----- draw grid: back-to-front (row 0 = farthest) -----
+      // Pre-sort is unnecessary: row order IS depth order for this
+      // perspective (vanishing point at 30% top, rows go top-to-bottom).
+      // We draw row 0 first (farthest) → row N last (nearest).
 
-      // Sort dots by z-depth (back to front)
-      var sortedGrid = self._grid.slice().sort(function(a, b) {
-        return a.z - b.z;
-      });
+      var bloomThreshold = 40; // Z > this gets bloom duplicate
+      var cr = dotRgb.r;
+      var cg = dotRgb.g;
+      var cb = dotRgb.b;
+      var lineAlpha = self._lineAlpha;
 
-      // Enable glow
-      ctx.shadowColor = 'rgb(' + dotColor.r + ',' + dotColor.g + ',' + dotColor.b + ')';
-      ctx.shadowBlur = 8;
+      // ----- pass 1: grid lines (connections) -----
+      ctx.lineWidth = 1;
 
-      // Draw dots
-      for (var i = 0; i < sortedGrid.length; i++) {
-        var dot = sortedGrid[i];
-        var row = dot.row;
-        var col = dot.col;
-        var z = dot.z;
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var idx = r * cols + c;
+          var z = self._smoothedZ[idx];
+          var p = self._project(c, r, z, w, h, cols, rows, focalLength);
 
-        // 2D grid position
-        var x2d = (col + 1) * gridSpacingX;
-        var y2d = (row + 1) * gridSpacingY;
+          // horizontal connection (to right neighbor)
+          if (c < cols - 1) {
+            var idxR = idx + 1;
+            var zR = self._smoothedZ[idxR];
+            var pR = self._project(c + 1, r, zR, w, h, cols, rows, focalLength);
 
-        // 3D perspective projection
-        var scale = focalLength / (focalLength + z);
-        var x3d = vanishX + (x2d - vanishX) * scale;
-        var y3d = vanishY + (y2d - vanishY) * scale;
+            // line brightness: average displacement of two endpoints
+            var avgZ = (z + zR) * 0.5;
+            var normalizedAvgZ = Math.min(avgZ / 200, 1);
+            var connAlpha = lineAlpha * (0.3 + 0.7 * normalizedAvgZ);
 
-        // Size and brightness based on depth
-        var dotSize = 2 + (z / 200) * 3; // Larger when closer
-        var brightness = 0.3 + (z / 200) * 0.7; // Brighter when closer
+            ctx.strokeStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + connAlpha.toFixed(4) + ')';
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(pR.x, pR.y);
+            ctx.stroke();
+          }
 
-        ctx.fillStyle = 'rgba(' + dotColor.r + ',' + dotColor.g + ',' + dotColor.b + ',' + brightness + ')';
-        ctx.beginPath();
-        ctx.arc(x3d, y3d, dotSize, 0, Math.PI * 2);
-        ctx.fill();
+          // vertical connection (to row below)
+          if (r < rows - 1) {
+            var idxD = idx + cols;
+            var zD = self._smoothedZ[idxD];
+            var pD = self._project(c, r + 1, zD, w, h, cols, rows, focalLength);
+
+            var avgZ2 = (z + zD) * 0.5;
+            var normalizedAvgZ2 = Math.min(avgZ2 / 200, 1);
+            var connAlpha2 = lineAlpha * (0.3 + 0.7 * normalizedAvgZ2);
+
+            ctx.strokeStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + connAlpha2.toFixed(4) + ')';
+            ctx.beginPath();
+            ctx.moveTo(p.x, p.y);
+            ctx.lineTo(pD.x, pD.y);
+            ctx.stroke();
+          }
+        }
       }
 
-      ctx.shadowBlur = 0;
+      // ----- pass 2: bloom duplicates (behind active dots) -----
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var idx = r * cols + c;
+          var z = self._smoothedZ[idx];
+          if (z <= bloomThreshold) continue;
+
+          var p = self._project(c, r, z, w, h, cols, rows, focalLength);
+          var normalizedZ = Math.min(z / 200, 1);
+
+          // bloom: larger, lower-alpha duplicate
+          var bloomSize = 3 + normalizedZ * 6;
+          var bloomAlpha = normalizedZ * 0.15;
+
+          ctx.fillStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + bloomAlpha.toFixed(4) + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, bloomSize, 0, 6.2832);
+          ctx.fill();
+        }
+      }
+
+      // ----- pass 3: dots (back-to-front by row) -----
+      for (var r = 0; r < rows; r++) {
+        for (var c = 0; c < cols; c++) {
+          var idx = r * cols + c;
+          var z = self._smoothedZ[idx];
+          var p = self._project(c, r, z, w, h, cols, rows, focalLength);
+
+          var normalizedZ = Math.min(z / 200, 1);
+          if (normalizedZ < 0) normalizedZ = 0;
+
+          // Lambert-like lighting: brighter when displaced more
+          var brightness = 0.3 + 0.7 * normalizedZ;
+
+          // Dot size: grows with displacement
+          var dotSize = 1.5 + normalizedZ * 3;
+
+          ctx.fillStyle = 'rgba(' + cr + ',' + cg + ',' + cb + ',' + brightness.toFixed(4) + ')';
+          ctx.beginPath();
+          ctx.arc(p.x, p.y, dotSize, 0, 6.2832);
+          ctx.fill();
+        }
+      }
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }
