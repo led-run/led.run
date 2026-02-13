@@ -205,20 +205,18 @@ js/app.js                 App entry + multi-product orchestrator
 
 | ID | Effect | Custom Params |
 |----|--------|---------------|
-| `bars` | Classic frequency spectrum bars | `color`, `sensitivity`, `barCount` |
-| `waveform` | Real-time waveform line | `color`, `sensitivity`, `lineWidth` |
-| `circle` | Circular frequency visualization | `color`, `sensitivity`, `radius` |
-| `particles` | Audio-driven particle system | `color`, `sensitivity`, `count` |
-| `meter` | Professional VU meter (green/yellow/red) | `orientation`, `showPeak` |
-| `equalizer` | Multi-band segmented LED equalizer | `bands` |
-| `ripple` | Sound-triggered concentric ripple rings | `threshold` |
-| `wave-stack` | Multi-layer frequency waves stacked | `layers` |
-| `radar` | Radar sweep with frequency signal blips | `scanSpeed` |
-| `tunnel` | Concentric rings expanding from center | `shape` |
-| `dna-helix` | DNA double helix modulated by audio | `rotationSpeed` |
-| `spectrum-3d` | Pseudo-3D perspective spectrum | `depth` |
-| `fireworks` | Sound-triggered firework explosions | `trails` |
-| `galaxy` | Rotating spiral arm particle galaxy | `arms` |
+| `bars` | Classic spectrum bars (WMP style) | `smoothing`, `barCount` |
+| `scope` | Dual-channel oscilloscope | `lineWidth`, `gridLines` |
+| `ocean` | Multi-layer ocean waves | `waveCount` |
+| `alchemy` | Energy orb with particle vortex | `complexity` |
+| `battery` | Pulsing concentric rings | `pulseSpeed` |
+| `ambience` | Ambient glow with breathing | `glowRadius` |
+| `particle` | Dot grid plane with 3D perspective | `gridSize` |
+| `musical-colors` | Colorful flowing bars | `colorShift` |
+| `spikes` | 360° radial spikes | `spikeCount` |
+| `plenoptic` | Light field with depth blur | `depth` |
+| `waveform-3d` | 3D perspective waveform | `depth` |
+| `spectrum-circle` | Circular spectrum | `innerRadius` |
 
 ## Script Load Order
 
