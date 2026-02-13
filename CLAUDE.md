@@ -13,8 +13,8 @@
 | Product | Purpose | Manager | Directory | URL |
 |---------|---------|---------|-----------|-----|
 | **Text** | LED-style text display (20 themes) | `TextManager` | `texts/` | `led.run/HELLO` or `led.run/text/HELLO` |
-| **Light** | Pure color/pattern light effects (8 effects) | `LightManager` | `lights/` | `led.run/light?t=disco` |
-| **Sound** | Real-time audio visualization (4 visualizers) | `SoundManager` | `sounds/` | `led.run/sound?t=bars` |
+| **Light** | Pure color/pattern light effects (18 effects) | `LightManager` | `lights/` | `led.run/light?t=disco` |
+| **Sound** | Real-time audio visualization (12 visualizers) | `SoundManager` | `sounds/` | `led.run/sound?t=bars` |
 
 ## URL Protocol
 
@@ -121,6 +121,9 @@ Pipeline: `getUserMedia({ audio }) → AudioContext → MediaStreamSource → An
 ## File Structure
 
 ```
+robots.txt                SEO crawler directives
+sitemap.xml               SEO sitemap (7 landing pages, 7 docs pages, 3 product pages)
+_redirects                Cloudflare Pages rewrite rules (robots/sitemap before SPA catch-all)
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles + language switcher + product tabs
 css/docs.css              Documentation page styles + language switcher
@@ -300,6 +303,8 @@ Themes can also fully override position, shape, and animations via standard CSS 
 
 ## Key Design Decisions
 
+- **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
