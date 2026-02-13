@@ -205,7 +205,7 @@ js/app.js                 App entry + multi-product orchestrator
 
 | ID | Effect | Custom Params |
 |----|--------|---------------|
-| `bars` | Premium WMP spectrum with peak indicators, reflections, rounded bars | `smoothing`, `barCount` |
+| `bars` | Premium green spectrum with persistent peaks, reflections, color modes | `smoothing`, `barCount`, `colorMode` |
 | `scope` | CRT phosphor oscilloscope with trail persistence, dotted grid, beam dot | `lineWidth`, `gridLines` |
 | `ocean` | Moonlit ocean dreamscape with stars, moon, foam particles (default 7 waves) | `waveCount` |
 | `alchemy` | Organic energy vortex with energy waves, HSL spiral color, radial trail fade | `complexity` |

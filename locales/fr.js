@@ -241,6 +241,7 @@ I18n.register('fr', {
   'settings.param.smoothing': 'Lissage',
   'settings.param.warmth': 'Chaleur',
   'settings.param.barCount': 'Barres',
+  'settings.param.colorMode': 'Mode Couleur',
   'settings.param.lineWidth': 'Largeur',
 
   // Sound errors
@@ -305,6 +306,11 @@ I18n.register('fr', {
   'settings.param.mcPreset': 'Préréglage Musical Colors',
   'settings.param.ambPreset': 'Préréglage Ambiance',
 
+  // Color mode options
+  'settings.colorMode.single': 'Couleur Unique',
+  'settings.colorMode.rainbow': 'Arc-en-ciel',
+  'settings.colorMode.gradient': 'D\u00e9grad\u00e9',
+
   // Select option translations
   'settings.shape.circle': 'Cercle',
   'settings.shape.square': 'Carr\u00e9',
@@ -313,7 +319,7 @@ I18n.register('fr', {
   'toolbar.mic': 'Activer/d\u00e9sactiver le micro',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'Barres de spectre classiques WMP avec dégradé bleu',
+  'landing.sound.preset.bars': 'Barres de spectre premium avec d\u00e9grad\u00e9 LED vert',
   'landing.sound.preset.scope': 'Oscilloscope double canal avec grille',
   'landing.sound.preset.ocean': 'Vagues océaniques en couches pilotées par la fréquence',
   'landing.sound.preset.alchemy': 'Orbe d\'énergie avec vortex de particules',

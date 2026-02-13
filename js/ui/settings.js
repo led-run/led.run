@@ -54,6 +54,8 @@
     warmth:      { type: 'range', label: 'settings.param.warmth', min: 1, max: 10, step: 1 },
     // Sound-specific
     barCount:    { type: 'range', label: 'settings.param.barCount', min: 8, max: 256, step: 8 },
+    colorMode:   { type: 'select', label: 'settings.param.colorMode',
+                   options: ['single', 'rainbow', 'gradient'] },
     lineWidth:   { type: 'range', label: 'settings.param.lineWidth', min: 1, max: 10, step: 0.5 },
     // Theme-specific
     flicker:   { type: 'range', label: 'settings.param.flicker', min: 0, max: 10, step: 0.5 },

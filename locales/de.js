@@ -241,6 +241,7 @@ I18n.register('de', {
   'settings.param.smoothing': 'Gl\u00e4ttung',
   'settings.param.warmth': 'W\u00e4rme',
   'settings.param.barCount': 'Balken',
+  'settings.param.colorMode': 'Farbmodus',
   'settings.param.lineWidth': 'Linienbreite',
   // Sound errors
   'sound.error.notSupported.title': 'Audio Nicht Unterst\u00fctzt',
@@ -304,6 +305,11 @@ I18n.register('de', {
   'settings.param.mcPreset': 'Musical Colors Voreinstellung',
   'settings.param.ambPreset': 'Ambience Voreinstellung',
 
+  // Color mode options
+  'settings.colorMode.single': 'Einzelfarbe',
+  'settings.colorMode.rainbow': 'Regenbogen',
+  'settings.colorMode.gradient': 'Farbverlauf',
+
   // Select option translations
   'settings.shape.circle': 'Kreis',
   'settings.shape.square': 'Quadrat',
@@ -312,7 +318,7 @@ I18n.register('de', {
   'toolbar.mic': 'Mikrofon umschalten',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'WMP klassische Spektrumbalken mit blauem Farbverlauf',
+  'landing.sound.preset.bars': 'Premium-Spektrumbalken mit gr\u00fcnem LED-Farbverlauf',
   'landing.sound.preset.scope': 'Zweikanal-Oszilloskop mit Gitter',
   'landing.sound.preset.ocean': 'Mehrschichtige Ozeanwellen frequenzgetrieben',
   'landing.sound.preset.alchemy': 'Energiekugel mit Partikelvortex',

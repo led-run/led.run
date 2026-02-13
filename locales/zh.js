@@ -243,6 +243,7 @@ I18n.register('zh', {
   'settings.param.smoothing': '平滑度',
   'settings.param.warmth': '暖度',
   'settings.param.barCount': '柱数',
+  'settings.param.colorMode': '配色模式',
   'settings.param.lineWidth': '线宽',
   // Sound errors
   'sound.error.notSupported.title': '不支持音频',
@@ -306,6 +307,11 @@ I18n.register('zh', {
   'settings.param.mcPreset': 'Musical Colors 预设',
   'settings.param.ambPreset': '氛围光预设',
 
+  // Color mode options
+  'settings.colorMode.single': '单色',
+  'settings.colorMode.rainbow': '彩虹',
+  'settings.colorMode.gradient': '渐变',
+
   // Select option translations
   'settings.shape.circle': '圆形',
   'settings.shape.square': '方形',
@@ -314,7 +320,7 @@ I18n.register('zh', {
   'toolbar.mic': '切换麦克风',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'WMP 经典蓝色渐变频谱柱',
+  'landing.sound.preset.bars': '高级频谱柱，绿色 LED 渐变',
   'landing.sound.preset.scope': '双通道示波器，带网格线',
   'landing.sound.preset.ocean': '多层海洋波浪，频率驱动',
   'landing.sound.preset.alchemy': '能量球与粒子旋涡',

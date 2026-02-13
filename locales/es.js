@@ -241,6 +241,7 @@ I18n.register('es', {
   'settings.param.smoothing': 'Suavizado',
   'settings.param.warmth': 'Calidez',
   'settings.param.barCount': 'Barras',
+  'settings.param.colorMode': 'Modo de Color',
   'settings.param.lineWidth': 'Grosor',
 
   // Sound errors
@@ -305,6 +306,11 @@ I18n.register('es', {
   'settings.param.mcPreset': 'Preset de Musical Colors',
   'settings.param.ambPreset': 'Preset de Ambiente',
 
+  // Color mode options
+  'settings.colorMode.single': 'Color \u00danico',
+  'settings.colorMode.rainbow': 'Arco\u00edris',
+  'settings.colorMode.gradient': 'Degradado',
+
   // Select option translations
   'settings.shape.circle': 'C\u00edrculo',
   'settings.shape.square': 'Cuadrado',
@@ -313,7 +319,7 @@ I18n.register('es', {
   'toolbar.mic': 'Alternar micr\u00f3fono',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'Barras de espectro clásicas WMP con gradiente azul',
+  'landing.sound.preset.bars': 'Barras de espectro premium con gradiente LED verde',
   'landing.sound.preset.scope': 'Osciloscopio de doble canal con cuadrícula',
   'landing.sound.preset.ocean': 'Ondas oceánicas en capas impulsadas por frecuencia',
   'landing.sound.preset.alchemy': 'Orbe de energía con vórtice de partículas',

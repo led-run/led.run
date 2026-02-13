@@ -245,6 +245,7 @@ I18n.register('en', {
   'settings.param.smoothing': 'Smoothing',
   'settings.param.warmth': 'Warmth',
   'settings.param.barCount': 'Bar Count',
+  'settings.param.colorMode': 'Color Mode',
   'settings.param.lineWidth': 'Line Width',
 
   // Sound errors
@@ -311,6 +312,11 @@ I18n.register('en', {
   'settings.param.mcPreset': 'Musical Colors Preset',
   'settings.param.ambPreset': 'Ambience Preset',
 
+  // Color mode options
+  'settings.colorMode.single': 'Single Color',
+  'settings.colorMode.rainbow': 'Rainbow',
+  'settings.colorMode.gradient': 'Gradient',
+
   // Select option translations
   'settings.shape.circle': 'Circle',
   'settings.shape.square': 'Square',
@@ -319,7 +325,7 @@ I18n.register('en', {
   'toolbar.mic': 'Toggle microphone',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'WMP classic spectrum bars with blue gradient',
+  'landing.sound.preset.bars': 'Premium spectrum bars with green LED gradient',
   'landing.sound.preset.scope': 'Dual-channel oscilloscope with grid',
   'landing.sound.preset.ocean': 'Layered ocean waves driven by frequency',
   'landing.sound.preset.alchemy': 'Energy orb with particle vortex',

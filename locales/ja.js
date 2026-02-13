@@ -241,6 +241,7 @@ I18n.register('ja', {
   'settings.param.smoothing': 'スムージング',
   'settings.param.warmth': '暖かさ',
   'settings.param.barCount': 'バー数',
+  'settings.param.colorMode': 'カラーモード',
   'settings.param.lineWidth': '線幅',
 
   // Sound errors
@@ -305,6 +306,11 @@ I18n.register('ja', {
   'settings.param.mcPreset': 'Musical Colors プリセット',
   'settings.param.ambPreset': 'アンビエンスプリセット',
 
+  // Color mode options
+  'settings.colorMode.single': '単色',
+  'settings.colorMode.rainbow': 'レインボー',
+  'settings.colorMode.gradient': 'グラデーション',
+
   // Select option translations
   'settings.shape.circle': '円',
 
@@ -312,7 +318,7 @@ I18n.register('ja', {
   'toolbar.mic': 'マイク切替',
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'WMPクラシック・ブルーグラデーションスペクトラムバー',
+  'landing.sound.preset.bars': 'プレミアムスペクトラムバー、グリーンLEDグラデーション',
   'landing.sound.preset.scope': 'グリッド付きデュアルチャンネルオシロスコープ',
   'landing.sound.preset.ocean': '周波数駆動の多層オーシャンウェーブ',
   'landing.sound.preset.alchemy': 'パーティクル渦巻きを伴うエネルギーオーブ',

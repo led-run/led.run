@@ -242,6 +242,7 @@ I18n.register('ko', {
   'settings.param.smoothing': '스무딩',
   'settings.param.warmth': '따뜻함',
   'settings.param.barCount': '바 개수',
+  'settings.param.colorMode': '색상 모드',
   'settings.param.lineWidth': '선 굵기',
 
   // Sound errors
@@ -308,6 +309,11 @@ I18n.register('ko', {
   'settings.param.mcPreset': 'Musical Colors 프리셋',
   'settings.param.ambPreset': '앰비언스 프리셋',
 
+  // Color mode options
+  'settings.colorMode.single': '단색',
+  'settings.colorMode.rainbow': '무지개',
+  'settings.colorMode.gradient': '그라데이션',
+
   // Select option translations
   'settings.shape.circle': '원형',
   'settings.shape.square': '사각',
@@ -317,7 +323,7 @@ I18n.register('ko', {
 
 
   // Landing sound preset descriptions
-  'landing.sound.preset.bars': 'WMP 클래식 블루 그라데이션 스펙트럼 바',
+  'landing.sound.preset.bars': '프리미엄 스펙트럼 바, 그린 LED 그라데이션',
   'landing.sound.preset.scope': '그리드가 있는 듀얼 채널 오실로스코프',
   'landing.sound.preset.ocean': '주파수 기반 다층 오션 웨이브',
   'landing.sound.preset.alchemy': '파티클 소용돌이가 있는 에너지 오브',
