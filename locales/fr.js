@@ -3,13 +3,13 @@
  */
 I18n.register('fr', {
   // Meta
-  'meta.title': 'led.run \u2014 Affichage Num\u00e9rique Instantan\u00e9',
-  'meta.description': 'Transformez n\u2019importe quel navigateur en panneau num\u00e9rique professionnel. Sans app, sans mat\u00e9riel. L\u2019URL est votre toile.',
+  'meta.title': 'led.run — Boîte à Outils d\'Affichage',
+  'meta.description': 'Transformez n\'importe quel écran en panneau texte, effet lumineux ou visualiseur sonore. 50+ modes d\'affichage. Sans app, sans compte — juste une URL.',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': 'Affichage Num\u00e9rique,<br>R\u00e9invent\u00e9.',
-  'landing.hero.subtitle': 'Transformez n\u2019importe quel \u00e9cran en affichage professionnel en quelques secondes. Sans app, sans compte, juste une URL.',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': 'Boîte à Outils<br>d\'Affichage.',
+  'landing.hero.subtitle': 'Panneaux texte, effets lumineux et visualiseurs sonores — transformez n\'importe quel écran en affichage en quelques secondes. Sans app, sans compte, juste une URL.',
   'landing.input.go': 'Go',
   'landing.input.random': 'Style al\u00e9atoire',
   'landing.mode.simple': 'Mode Simple',

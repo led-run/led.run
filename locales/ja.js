@@ -3,13 +3,13 @@
  */
 I18n.register('ja', {
   // Meta
-  'meta.title': 'led.run \u2014 \u30a4\u30f3\u30b9\u30bf\u30f3\u30c8\u30c7\u30b8\u30bf\u30eb\u30b5\u30a4\u30cd\u30fc\u30b8',
-  'meta.description': '\u3042\u3089\u3086\u308b\u30d6\u30e9\u30a6\u30b6\u3092\u30d7\u30ed\u4ed5\u69d8\u306e\u30c7\u30b8\u30bf\u30eb\u30b5\u30a4\u30f3\u306b\u3002\u30a2\u30d7\u30ea\u4e0d\u8981\u3001\u30cf\u30fc\u30c9\u4e0d\u8981\u3001URL\u304c\u30ad\u30e3\u30f3\u30d0\u30b9\u3002',
+  'meta.title': 'led.run — ディスプレイツールキット',
+  'meta.description': 'あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザーに。50以上の表示モード。アプリ不要、アカウント不要 — URLだけ。',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': '\u30c7\u30b8\u30bf\u30eb\u30b5\u30a4\u30f3\u3092\u3001<br>\u518d\u5b9a\u7fa9\u3002',
-  'landing.hero.subtitle': '\u6570\u79d2\u3067\u3042\u3089\u3086\u308b\u753b\u9762\u3092\u30d7\u30ed\u306e\u30c7\u30a3\u30b9\u30d7\u30ec\u30a4\u306b\u3002\u30a2\u30d7\u30ea\u4e0d\u8981\u3001\u30a2\u30ab\u30a6\u30f3\u30c8\u4e0d\u8981\u3001URL\u3060\u3051\u3002',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': 'ディスプレイツールキット、<br>無限大。',
+  'landing.hero.subtitle': 'テキストサイン、ライトエフェクト、サウンドビジュアライザー — 数秒であらゆる画面をディスプレイに。アプリ不要、アカウント不要、URLだけ。',
   'landing.input.go': '\u958b\u59cb',
   'landing.input.random': '\u30e9\u30f3\u30c0\u30e0\u30b9\u30bf\u30a4\u30eb',
   'landing.mode.simple': '\u30b7\u30f3\u30d7\u30eb\u69cb\u7bc9',

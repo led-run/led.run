@@ -3,13 +3,13 @@
  */
 I18n.register('ko', {
   // Meta
-  'meta.title': 'led.run \u2014 \uc778\uc2a4\ud134\ud2b8 \ub514\uc9c0\ud138 \uc0ac\uc774\ub2c8\uc9c0',
-  'meta.description': '\ubaa8\ub4e0 \ube0c\ub77c\uc6b0\uc800\ub97c \ud504\ub85c\ud398\uc154\ub110 \ub514\uc9c0\ud138 \uc0ac\uc778\uc73c\ub85c. \uc571 \ud544\uc694 \uc5c6\uc74c, \ud558\ub4dc\uc6e8\uc5b4 \ud544\uc694 \uc5c6\uc74c, URL\uc774 \uce94\ubc84\uc2a4.',
+  'meta.title': 'led.run — 디스플레이 툴킷',
+  'meta.description': '모든 화면을 텍스트 사인, 라이트 효과, 사운드 비주얼라이저로. 50개 이상의 디스플레이 모드. 앱 필요 없음, 계정 필요 없음 — URL만 있으면 됩니다.',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': '\ub514\uc9c0\ud138 \uc0ac\uc774\ub2c8\uc9c0,<br>\uc0c8\ub85c\uc6b4 \uc815\uc758.',
-  'landing.hero.subtitle': '\ubaa8\ub4e0 \ud654\uba74\uc744 \uba87 \ucd08 \ub9cc\uc5d0 \ud504\ub85c\ud398\uc154\ub110 \ub514\uc2a4\ud50c\ub808\uc774\ub85c. \uc571 \ud544\uc694 \uc5c6\uc74c, \uacc4\uc815 \ud544\uc694 \uc5c6\uc74c, URL\ub9cc \uc788\uc73c\uba74 \ub429\ub2c8\ub2e4.',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': '디스플레이 툴킷,<br>무한한 가능성.',
+  'landing.hero.subtitle': '텍스트 사인, 라이트 효과, 사운드 비주얼라이저 — 몇 초 만에 모든 화면을 디스플레이로. 앱 필요 없음, 계정 필요 없음, URL만 있으면 됩니다.',
   'landing.input.go': '\uc2dc\uc791',
   'landing.input.random': '\ub79c\ub364 \uc2a4\ud0c0\uc77c',
   'landing.mode.simple': '\uac04\ub2e8 \uad6c\uc131',

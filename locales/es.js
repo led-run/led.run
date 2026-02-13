@@ -3,13 +3,13 @@
  */
 I18n.register('es', {
   // Meta
-  'meta.title': 'led.run \u2014 Se\u00f1alizaci\u00f3n Digital Instant\u00e1nea',
-  'meta.description': 'Convierte cualquier navegador en un letrero digital profesional. Sin apps, sin hardware. La URL es tu lienzo.',
+  'meta.title': 'led.run — Kit de Visualización',
+  'meta.description': 'Convierte cualquier pantalla en un letrero de texto, efecto de luz o visualizador de sonido. 50+ modos de visualización. Sin apps, sin cuentas — solo una URL.',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': 'Se\u00f1alizaci\u00f3n Digital,<br>Reinventada.',
-  'landing.hero.subtitle': 'Transforma cualquier pantalla en un display profesional en segundos. Sin apps, sin cuentas, solo una URL.',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': 'Kit de Visualización,<br>Sin Límites.',
+  'landing.hero.subtitle': 'Letreros de texto, efectos de luz y visualizadores de sonido — transforma cualquier pantalla en un display en segundos. Sin apps, sin cuentas, solo una URL.',
   'landing.input.go': 'Ir',
   'landing.input.random': 'Estilo aleatorio',
   'landing.mode.simple': 'Modo Simple',

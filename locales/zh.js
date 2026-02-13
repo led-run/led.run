@@ -3,13 +3,13 @@
  */
 I18n.register('zh', {
   // Meta
-  'meta.title': 'led.run \u2014 \u5373\u65f6\u6570\u5b57\u6807\u724c',
-  'meta.description': '\u5c06\u4efb\u4f55\u6d4f\u89c8\u5668\u53d8\u4e3a\u4e13\u4e1a\u6570\u5b57\u6807\u724c\u3002\u65e0\u9700\u5e94\u7528\uff0c\u65e0\u9700\u786c\u4ef6\uff0cURL \u5c31\u662f\u4f60\u7684\u753b\u5e03\u3002',
+  'meta.title': 'led.run — 显示工具集',
+  'meta.description': '将任何屏幕变为文字标牌、灯光效果或声音可视化器。50+ 显示模式。无需应用，无需账号 — 只需一个 URL。',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': '\u6570\u5b57\u6807\u724c\uff0c<br>\u91cd\u65b0\u5b9a\u4e49\u3002',
-  'landing.hero.subtitle': '\u51e0\u79d2\u5185\u5c06\u4efb\u4f55\u5c4f\u5e55\u53d8\u4e3a\u4e13\u4e1a\u663e\u793a\u5c4f\u3002\u65e0\u9700\u5e94\u7528\uff0c\u65e0\u9700\u8d26\u53f7\uff0c\u53ea\u9700\u4e00\u4e2a URL\u3002',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': '显示工具集，<br>无限可能。',
+  'landing.hero.subtitle': '文字标牌、灯光效果、声音可视化 — 几秒内将任何屏幕变为显示器。无需应用，无需账号，只需一个 URL。',
   'landing.input.go': '\u542f\u52a8',
   'landing.input.random': '\u968f\u673a\u98ce\u683c',
 

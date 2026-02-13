@@ -3,13 +3,13 @@
  */
 I18n.register('de', {
   // Meta
-  'meta.title': 'led.run \u2014 Sofortige Digitale Beschilderung',
-  'meta.description': 'Verwandeln Sie jeden Browser in ein professionelles digitales Schild. Keine Apps, keine Hardware. Die URL ist Ihre Leinwand.',
+  'meta.title': 'led.run — Display-Toolkit',
+  'meta.description': 'Verwandeln Sie jeden Bildschirm in ein Textschild, einen Lichteffekt oder einen Sound-Visualizer. 50+ Anzeigemodi. Keine Apps, kein Konto — nur eine URL.',
 
   // Landing - Hero
-  'landing.hero.brand': 'led.run v1.0',
-  'landing.hero.title': 'Digitale Beschilderung,<br>Neu Definiert.',
-  'landing.hero.subtitle': 'Verwandeln Sie jeden Bildschirm in Sekunden in ein professionelles Display. Keine Apps, kein Konto, nur eine URL.',
+  'landing.hero.brand': 'led.run v2.0',
+  'landing.hero.title': 'Display-Toolkit,<br>Grenzenlos.',
+  'landing.hero.subtitle': 'Textschilder, Lichteffekte und Sound-Visualizer — verwandeln Sie jeden Bildschirm in Sekunden in ein Display. Keine Apps, kein Konto, nur eine URL.',
   'landing.input.go': 'Los',
   'landing.input.random': 'Zuf\u00e4lliger Stil',
   'landing.mode.simple': 'Einfacher Modus',
