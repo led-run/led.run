@@ -79,8 +79,8 @@
         y: Math.random() * h,
         vx: (Math.random() - 0.5) * 0.3,
         vy: (Math.random() - 0.5) * 0.3,
-        size: 0.8 + Math.random() * 1.5,
-        alpha: 0.1 + Math.random() * 0.25,
+        size: 1.5 + Math.random() * 2.5,
+        alpha: 0.2 + Math.random() * 0.3,
         phase: Math.random() * Math.PI * 2
       });
     }
@@ -230,7 +230,7 @@
     },
 
     _initAmbientDots: function(w, h) {
-      this._ambientDots = createAmbientDots(25, w, h);
+      this._ambientDots = createAmbientDots(40, w, h);
     },
 
     _initPresetState: function(w, h) {
@@ -269,8 +269,8 @@
           phaseX: (Math.PI * 2 / count) * i,
           phaseY: (Math.PI * 2 / count) * i + Math.PI * 0.3,
           // Radius as fraction of canvas min dimension
-          radiusFrac: 0.2 + (i % 2) * 0.15, // alternates between 0.2 and 0.35
-          alpha: 0.15 + (i % 3) * 0.05      // 0.15, 0.20, 0.25, 0.15
+          radiusFrac: 0.25 + (i % 2) * 0.2, // alternates between 0.25 and 0.45
+          alpha: 0.3 + (i % 3) * 0.1        // 0.3, 0.4, 0.5, 0.3
         });
       }
     },
@@ -285,10 +285,10 @@
         this._bands.push({
           phase: (Math.PI * 2 / count) * i,
           speed: 0.3 + Math.random() * 0.4,
-          widthFrac: 0.08 + Math.random() * 0.12,  // 8-20% of canvas width
+          widthFrac: 0.15 + Math.random() * 0.2,   // 15-35% of canvas width
           hueOffset: -60 + (120 / (count - 1)) * i, // spread from green to purple
           amplitude: 0.05 + Math.random() * 0.1,
-          alpha: 0.12 + Math.random() * 0.1
+          alpha: 0.25 + Math.random() * 0.15
         });
       }
     },
@@ -381,7 +381,7 @@
         var orb = this._orbs[i];
 
         // Lissajous pattern position
-        var breathScale = 0.8 + vol.normalized * 0.4;
+        var breathScale = 0.7 + vol.normalized * 0.6;
         var driftX = Math.sin(time * orb.freqX + orb.phaseX) * cx * 0.5 * glowRadius * breathScale;
         var driftY = Math.cos(time * orb.freqY + orb.phaseY) * cy * 0.5 * glowRadius * breathScale;
 
@@ -393,8 +393,8 @@
         var pulseRadius = baseRadius * (1 + vol.normalized * 0.3 + Math.sin(time * 1.2 + i) * 0.05);
 
         // Alpha intensifies slightly with volume
-        var orbAlpha = orb.alpha + vol.normalized * 0.1;
-        if (orbAlpha > 0.4) orbAlpha = 0.4;
+        var orbAlpha = orb.alpha + vol.normalized * 0.25;
+        if (orbAlpha > 0.7) orbAlpha = 0.7;
 
         // Radial gradient orb
         var grad = offCtx.createRadialGradient(orbX, orbY, 0, orbX, orbY, pulseRadius);
@@ -423,7 +423,7 @@
       offCtx.fillRect(0, 0, w, h);
 
       // Spawn new ripple every 0.3s when volume > 0.2
-      var spawnThreshold = 0.2;
+      var spawnThreshold = 0.12;
       var spawnInterval = 0.3;
 
       if (vol.normalized > spawnThreshold && (time - this._lastRippleTime) > spawnInterval && this._ripples.length < 8) {
@@ -436,7 +436,7 @@
           maxRadius: maxRadius,
           life: 1,
           color: rippleColor,
-          lineWidth: 3 + vol.normalized * 4,
+          lineWidth: 4 + vol.normalized * 8,
           speed: 150 + vol.normalized * 200 // px/s expansion
         });
         this._lastRippleTime = time;
@@ -478,7 +478,7 @@
         }
 
         // Diminishing alpha and lineWidth
-        var alpha = rip.life * 0.7;
+        var alpha = rip.life * 0.9;
         var lw = rip.lineWidth * rip.life;
         if (lw < 0.5) lw = 0.5;
 
@@ -491,7 +491,7 @@
 
         // Secondary faint ring slightly behind for thickness
         if (rip.radius > 15) {
-          offCtx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + (alpha * 0.3).toFixed(3) + ')';
+          offCtx.strokeStyle = 'rgba(' + c.r + ',' + c.g + ',' + c.b + ',' + (alpha * 0.45).toFixed(3) + ')';
           offCtx.lineWidth = lw * 2.5;
           offCtx.beginPath();
           offCtx.arc(cx, cy, rip.radius - lw * 1.5, 0, Math.PI * 2);
@@ -593,8 +593,8 @@
         offCtx.closePath();
 
         // Vertical gradient fill for each band (bright center, fading edges)
-        var bandAlpha = band.alpha + effectiveVol * 0.15;
-        if (bandAlpha > 0.4) bandAlpha = 0.4;
+        var bandAlpha = band.alpha + effectiveVol * 0.3;
+        if (bandAlpha > 0.7) bandAlpha = 0.7;
 
         var grad = offCtx.createLinearGradient(0, 0, 0, h);
         grad.addColorStop(0, 'rgba(' + bandColor.r + ',' + bandColor.g + ',' + bandColor.b + ',' + (bandAlpha * 0.3).toFixed(3) + ')');
