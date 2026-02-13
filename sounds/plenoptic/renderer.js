@@ -82,16 +82,15 @@
   var LAYER_HUE_SHIFT = [120, 60, 0, -30];
 
   /**
-   * Create a pre-rendered bokeh texture as an offscreen canvas.
-   * Draws a soft radial gradient circle with a subtle ring outline.
+   * Create a pre-rendered bokeh texture with "onion bokeh" multi-ring character.
    *
    * @param {number} size - Canvas size in pixels (square)
    * @param {number} r - Red channel 0-255
    * @param {number} g - Green channel 0-255
    * @param {number} b - Blue channel 0-255
-   * @returns {HTMLCanvasElement}
+   * @param {number} layerIdx - 0 (far/soft) to 3 (near/sharp)
    */
-  function createBokehTexture(size, r, g, b) {
+  function createBokehTexture(size, r, g, b, layerIdx) {
     var canvas = document.createElement('canvas');
     canvas.width = size;
     canvas.height = size;
@@ -100,12 +99,15 @@
     var cy = size / 2;
     var radius = size / 2 - 1;
 
+    // Sharpness ramps with layer: far layers softer, near layers crisper
+    var sharpness = 0.4 + layerIdx * 0.2; // 0.4, 0.6, 0.8, 1.0
+
     // Soft radial gradient fill
     var grad = ctx.createRadialGradient(cx, cy, 0, cx, cy, radius);
     grad.addColorStop(0, 'rgba(255, 255, 255, 0.95)');
-    grad.addColorStop(0.15, 'rgba(' + r + ',' + g + ',' + b + ', 0.8)');
-    grad.addColorStop(0.5, 'rgba(' + r + ',' + g + ',' + b + ', 0.35)');
-    grad.addColorStop(0.8, 'rgba(' + r + ',' + g + ',' + b + ', 0.1)');
+    grad.addColorStop(0.12, 'rgba(' + r + ',' + g + ',' + b + ', 0.85)');
+    grad.addColorStop(0.4, 'rgba(' + r + ',' + g + ',' + b + ',' + (0.25 + sharpness * 0.15).toFixed(2) + ')');
+    grad.addColorStop(0.75, 'rgba(' + r + ',' + g + ',' + b + ',' + (0.06 + sharpness * 0.06).toFixed(2) + ')');
     grad.addColorStop(1, 'rgba(' + r + ',' + g + ',' + b + ', 0)');
 
     ctx.fillStyle = grad;
@@ -113,11 +115,34 @@
     ctx.arc(cx, cy, radius, 0, Math.PI * 2);
     ctx.fill();
 
-    // Subtle ring outline (bokeh edge highlight)
-    ctx.strokeStyle = 'rgba(' + r + ',' + g + ',' + b + ', 0.25)';
-    ctx.lineWidth = Math.max(1, size / 24);
+    // Onion bokeh: concentric inner rings (simulate lens element reflections)
+    var ringColor = 'rgba(' + r + ',' + g + ',' + b + ',';
+    ctx.lineWidth = Math.max(1, size / 32);
+
+    // Inner ring at 50% radius
+    ctx.strokeStyle = ringColor + '0.10)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.50, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Inner ring at 70% radius
+    ctx.strokeStyle = ringColor + '0.12)';
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.70, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Primary edge ring — stronger highlight
+    ctx.strokeStyle = ringColor + (0.30 + sharpness * 0.15).toFixed(2) + ')';
+    ctx.lineWidth = Math.max(1.5, size / 20);
     ctx.beginPath();
     ctx.arc(cx, cy, radius * 0.85, 0, Math.PI * 2);
+    ctx.stroke();
+
+    // Double-edge: secondary ring at 92% radius
+    ctx.strokeStyle = ringColor + (0.15 + sharpness * 0.10).toFixed(2) + ')';
+    ctx.lineWidth = Math.max(1, size / 28);
+    ctx.beginPath();
+    ctx.arc(cx, cy, radius * 0.92, 0, Math.PI * 2);
     ctx.stroke();
 
     return canvas;
@@ -145,6 +170,7 @@
     _config: null,
     _layers: null,          // Array of 4 arrays (back-to-front), each holding particles
     _bokehTextures: null,   // Array of 4 offscreen canvas textures
+    _sparkles: null,        // Array of foreground sparkle particles
     _lastTime: 0,
     _avgVolume: 0,
 
@@ -154,6 +180,7 @@
       this._audioEngine = audioEngine;
       this._layers = null;
       this._bokehTextures = null;
+      this._sparkles = null;
       this._lastTime = 0;
       this._avgVolume = 0;
 
@@ -199,6 +226,7 @@
       this._audioEngine = null;
       this._layers = null;
       this._bokehTextures = null;
+      this._sparkles = null;
       this._config = null;
     },
 
@@ -218,7 +246,7 @@
         var layerS = Math.min(1, hsl.s * 0.6 + 0.4);
         var layerL = 0.45 + i * 0.05; // Slightly brighter toward front
         var rgb = hslToRgb(layerHue, layerS, layerL);
-        this._bokehTextures.push(createBokehTexture(BOKEH_SIZES[i], rgb.r, rgb.g, rgb.b));
+        this._bokehTextures.push(createBokehTexture(BOKEH_SIZES[i], rgb.r, rgb.g, rgb.b, i));
       }
     },
 
@@ -285,6 +313,18 @@
           });
         }
       }
+
+      // Foreground sparkle particles (tiny bright points)
+      this._sparkles = [];
+      for (var si = 0; si < 20; si++) {
+        this._sparkles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          phase: Math.random() * Math.PI * 2,
+          speed: 1.5 + Math.random() * 2.5,
+          size: 1 + Math.random() * 1.5
+        });
+      }
     },
 
     _draw: function() {
@@ -302,6 +342,7 @@
       var offH = h;
       var cfg = self._config;
       var bgColor = hexToRgb(cfg.bg || self.defaults.bg);
+      var baseColor = hexToRgb(cfg.color || self.defaults.color);
       var sensitivity = parseFloat(cfg.sensitivity) || self.defaults.sensitivity;
       var ctx = self._ctx;
       var offCtx = self._offscreenCtx;
@@ -329,9 +370,26 @@
       var normVol = self._avgVolume * (sensitivity / 5);
       if (normVol > 1) normVol = 1;
 
-      // --- Clear offscreen ---
+      // --- Clear offscreen with background ---
       offCtx.globalCompositeOperation = 'source-over';
       offCtx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
+      offCtx.fillRect(0, 0, offW, offH);
+
+      // --- Atmospheric depth background ---
+      // Center radial glow (warm ambient light)
+      var glowAlpha = 0.04 + normVol * 0.06;
+      var glowGrad = offCtx.createRadialGradient(offW * 0.5, offH * 0.5, 0, offW * 0.5, offH * 0.5, Math.max(offW, offH) * 0.6);
+      glowGrad.addColorStop(0, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',' + glowAlpha.toFixed(3) + ')');
+      glowGrad.addColorStop(1, 'rgba(' + baseColor.r + ',' + baseColor.g + ',' + baseColor.b + ',0)');
+      offCtx.fillStyle = glowGrad;
+      offCtx.fillRect(0, 0, offW, offH);
+
+      // Edge vignette (darkening)
+      var vigAlpha = 0.25 + normVol * 0.10;
+      var vigGrad = offCtx.createRadialGradient(offW * 0.5, offH * 0.5, Math.min(offW, offH) * 0.3, offW * 0.5, offH * 0.5, Math.max(offW, offH) * 0.75);
+      vigGrad.addColorStop(0, 'rgba(0,0,0,0)');
+      vigGrad.addColorStop(1, 'rgba(0,0,0,' + vigAlpha.toFixed(3) + ')');
+      offCtx.fillStyle = vigGrad;
       offCtx.fillRect(0, 0, offW, offH);
 
       // Switch to additive blending for all bokeh draws
@@ -369,12 +427,12 @@
           if (p.y < -pad) p.y = h + pad;
           if (p.y > h + pad) p.y = -pad;
 
-          // Pulsing size modulation
-          var pulse = 1 + Math.sin(now * 0.001 * p.pulseSpeed + p.pulsePhase) * 0.18;
-          var size = p.baseSize * pulse * (0.85 + normVol * 0.3);
+          // Enhanced pulsing size modulation
+          var pulse = 1 + Math.sin(now * 0.001 * p.pulseSpeed + p.pulsePhase) * 0.25;
+          var size = p.baseSize * pulse * (0.8 + normVol * 0.5);
 
-          // Opacity: base + audio reactivity
-          var alpha = p.baseOpacity * (0.7 + normVol * 0.5);
+          // Opacity: wider dynamic range
+          var alpha = p.baseOpacity * (0.6 + normVol * 0.6);
           if (alpha > 1) alpha = 1;
 
           // Draw bokeh texture at full coordinates
@@ -391,10 +449,37 @@
       offCtx.globalAlpha = 1;
       offCtx.globalCompositeOperation = 'source-over';
 
-      // --- Scale offscreen to main canvas ---
+      // --- Composite offscreen to main canvas ---
       ctx.fillStyle = 'rgb(' + bgColor.r + ',' + bgColor.g + ',' + bgColor.b + ')';
       ctx.fillRect(0, 0, w, h);
       ctx.drawImage(self._offscreenCanvas, 0, 0, w, h);
+
+      // --- Depth fog overlay (top-to-bottom atmospheric tint) ---
+      var fogAlpha = 0.03 + normVol * 0.03;
+      var fogGrad = ctx.createLinearGradient(0, 0, 0, h * 0.4);
+      fogGrad.addColorStop(0, 'rgba(20, 30, 60,' + fogAlpha.toFixed(3) + ')');
+      fogGrad.addColorStop(1, 'rgba(20, 30, 60, 0)');
+      ctx.fillStyle = fogGrad;
+      ctx.fillRect(0, 0, w, h * 0.4);
+
+      // --- Foreground sparkle layer (on main canvas for crisp full-res points) ---
+      var sparkles = self._sparkles;
+      if (sparkles) {
+        for (var si = 0; si < sparkles.length; si++) {
+          var sp = sparkles[si];
+          var twinkle = Math.sin(now * 0.001 * sp.speed + sp.phase);
+          // Twinkle threshold: more sparkles visible at higher volume
+          var threshold = 0.4 - normVol * 0.5; // -0.1 (loud) to 0.4 (quiet)
+          if (twinkle < threshold) continue;
+
+          var sparkAlpha = (twinkle - threshold) / (1 - threshold); // normalize to 0-1
+          sparkAlpha *= (0.5 + normVol * 0.5);
+          if (sparkAlpha > 1) sparkAlpha = 1;
+
+          ctx.fillStyle = 'rgba(255,255,255,' + sparkAlpha.toFixed(3) + ')';
+          ctx.fillRect(sp.x - sp.size * 0.5, sp.y - sp.size * 0.5, sp.size, sp.size);
+        }
+      }
 
       self._animFrameId = requestAnimationFrame(function() { self._draw(); });
     }
