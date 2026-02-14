@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ドキュメント — led.run ディスプレイツールキット</title>
-  <meta name="description" content="led.run 完全ガイド — 20のテキストテーマ、18のライトエフェクト、12のサウンドビジュアライザー、URLプロトコル、パラメータ。">
+  <meta name="description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、URLプロトコル、パラメータ。">
   <link rel="canonical" href="https://led.run/docs/ja/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/ja/">
   <meta property="og:title" content="ドキュメント — led.run ディスプレイツールキット">
-  <meta property="og:description" content="led.run 完全ガイド — 20のテキストテーマ、18のライトエフェクト、12のサウンドビジュアライザー、URLプロトコル、パラメータ。">
+  <meta property="og:description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、URLプロトコル、パラメータ。">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="ja_JP">
 
@@ -44,7 +44,7 @@
         <a href="/docs/fr/">FR</a>
         <a href="/docs/de/">DE</a>
       </div>
-      <button class="docs-menu-btn" aria-label="ナビゲーションの切り替え">&#9776;</button>
+      <button class="docs-menu-btn" aria-label="Toggle navigation">&#9776;</button>
     </header>
 
     <!-- Mobile overlay -->
@@ -59,41 +59,32 @@
           <li class="docs-nav-section">
             <div class="docs-nav-heading">はじめに</div>
             <a href="#how-it-works">仕組み</a>
-            <a href="#url-protocol">URL プロトコル</a>
+            <a href="#url-protocol">URLプロトコル</a>
+            <a href="#products">プロダクト</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">テキスト</div>
+            <a href="#text-overview">概要</a>
             <a href="#display-modes">表示モード</a>
+            <a href="#text-parameters">パラメータ</a>
+            <a href="#themes">テーマ (20)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">ライト</div>
+            <a href="#light-overview">概要</a>
+            <a href="#light-parameters">パラメータ</a>
+            <a href="#effects">エフェクト (18)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">サウンド</div>
+            <a href="#sound-overview">概要</a>
+            <a href="#sound-parameters">パラメータ</a>
+            <a href="#visualizers">ビジュアライザー (12)</a>
           </li>
           <li class="docs-nav-section">
             <div class="docs-nav-heading">リファレンス</div>
-            <a href="#parameters">グローバルパラメータ</a>
             <a href="#color-format">カラー形式</a>
             <a href="#scale">スケール &amp; カードテーマ</a>
-          </li>
-          <li class="docs-nav-section">
-            <div class="docs-nav-heading">テーマ</div>
-            <a href="#themes">概要</a>
-            <a href="#theme-default">Default</a>
-            <a href="#theme-neon">Neon</a>
-            <a href="#theme-retro">Retro</a>
-            <a href="#theme-glitch">Glitch</a>
-            <a href="#theme-typewriter">Typewriter</a>
-            <a href="#theme-gradient">Gradient</a>
-            <a href="#theme-hologram">Hologram</a>
-            <a href="#theme-broadcast">Broadcast</a>
-            <a href="#theme-marquee">Marquee</a>
-            <a href="#theme-pulse">Pulse</a>
-            <a href="#theme-aurora">Aurora</a>
-            <a href="#theme-firework">Firework</a>
-            <a href="#theme-wood">Wood</a>
-            <a href="#theme-cyber">Cyber</a>
-            <a href="#theme-tokyo">Tokyo</a>
-            <a href="#theme-blueprint">Blueprint</a>
-            <a href="#theme-monolith">Monolith</a>
-            <a href="#theme-street-sign">Street Sign</a>
-            <a href="#theme-do-not-disturb">Do Not Disturb</a>
-            <a href="#theme-dot-matrix">Dot Matrix</a>
-          </li>
-          <li class="docs-nav-section">
-            <div class="docs-nav-heading">使い方</div>
             <a href="#interactions">操作方法</a>
             <a href="#toolbar">ツールバー</a>
             <a href="#casting">キャスト</a>
@@ -105,12 +96,13 @@
       <main class="docs-content">
 
         <h1>led.run ドキュメント</h1>
-        <p>あらゆる画面をプロフェッショナルなデジタルサインに変換。アプリもアカウントも不要 &mdash; URL だけで完結します。</p>
+        <p>あらゆる画面をテキストサイン、ライトエフェクト、またはサウンドビジュアライザーに変換。アプリ不要、アカウント不要 &mdash; URLだけで完結。</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">仕組み</h2>
-        <p>led.run は URL をデジタルサインに変換します。<strong>パス</strong>がテキスト、<strong>クエリ文字列</strong>が設定です。ブラウザで URL を開くだけで、サインが表示されます。</p>
+        <p>led.run はURLでディスプレイを作成します。<strong>パス</strong>と<strong>クエリ文字列</strong>ですべてを設定できます。ブラウザでURLを開くだけでディスプレイの準備完了 &mdash; サーバー処理もアカウントも不要です。</p>
 
+        <h3>テキストサイン</h3>
         <div class="url-diagram">
           <div class="url-diagram-header">
             <span class="url-dot"></span>
@@ -122,47 +114,125 @@
               <span class="url-part-base">led.run/</span><span class="url-part-text">HELLO</span><span class="url-part-params">?theme=neon&amp;color=ff00ff</span>
             </div>
             <div class="url-diagram-labels">
-              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> テキスト（URL パス）</span>
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> テキスト（URLパス）</span>
               <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 設定（クエリパラメータ）</span>
             </div>
           </div>
         </div>
 
-        <p>フローはシンプルです：URL がテキストとパラメータに解析され、テーマレンダラーが画面を引き継ぎ、サインが表示されます。すべてクライアントサイドで処理され、サーバー処理は不要です。</p>
+        <h3>ライトエフェクト</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">light</span><span class="url-part-params">?t=disco&amp;speed=3</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> プロダクトプレフィックス</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> エフェクト &amp; 設定</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>サウンドビジュアライザー</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">sound</span><span class="url-part-params">?t=bars&amp;sensitivity=5</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> プロダクトプレフィックス</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> ビジュアライザー &amp; 設定</span>
+            </div>
+          </div>
+        </div>
 
         <!-- URL Protocol -->
-        <h2 id="url-protocol">URL プロトコル</h2>
+        <h2 id="url-protocol">URLプロトコル</h2>
+        <p>3つのプロダクト、3つのURLパターン：</p>
 
-        <pre><code>https://led.run/[text]?[params]</code></pre>
+        <pre><code>Text:   led.run/HELLO?t=neon              パス = テキスト内容
+        led.run/text/HELLO?t=neon         明示的な /text/ プレフィックス
+Light:  led.run/light?t=disco             プロダクトプレフィックス + パラメータ
+Sound:  led.run/sound?t=bars              プロダクトプレフィックス + パラメータ</code></pre>
 
         <ul>
-          <li><strong>Text</strong> &mdash; <code>/</code> 以降の URL パスです。スペースは <code>+</code> または <code>%20</code> でエンコードできます。</li>
-          <li><strong>Params</strong> &mdash; 標準的なクエリ文字列です。すべてのパラメータはオプションの「プリファレンスヒント」であり、テーマがそれらを使用するかどうかを決定します。</li>
+          <li><strong>Text</strong> &mdash; <code>/</code> 以降のURLパスが表示テキストになります。スペースは <code>+</code> または <code>%20</code> で指定できます。</li>
+          <li><strong>Light &amp; Sound</strong> &mdash; 予約済みパスプレフィックスを使用します。すべての設定はクエリパラメータで行います。</li>
+          <li>すべてのパラメータは任意の「プリファレンスヒント」です &mdash; テーマ／エフェクト／ビジュアライザーが使用するかどうかを決定します。</li>
         </ul>
 
-        <h3>例</h3>
+        <div class="docs-note">
+          <strong>予約済みプレフィックス：</strong> <code>text</code>、<code>light</code>、<code>sound</code> は予約されています。「light」という文字をテキストとして表示するには、<code>led.run/text/light</code> を使用してください。
+        </div>
+
+        <!-- Products -->
+        <h2 id="products">プロダクト</h2>
+        <p>led.run は3つのディスプレイプロダクトを提供し、それぞれ独自の表示モードを備えています：</p>
+
+        <div class="theme-grid" style="margin-bottom:2rem">
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Text</span>
+              <span class="theme-card-id">20テーマ</span>
+            </div>
+            <div class="theme-card-desc">自動フィットサイジング、サインモードとフローモード、ネオンからドットマトリックスまで20種のビジュアルテーマを備えたLEDスタイルのテキストサイン。</div>
+            <a class="theme-card-link" href="#text-overview">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Light</span>
+              <span class="theme-card-id">18エフェクト</span>
+            </div>
+            <div class="theme-card-desc">フルスクリーンのライトエフェクト &mdash; フラッシュライト、ストロボ、ディスコ、キャンドル、オーロラ、稲妻、ラバランプなど。</div>
+            <a class="theme-card-link" href="#light-overview">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sound</span>
+              <span class="theme-card-id">12ビジュアライザー</span>
+            </div>
+            <div class="theme-card-desc">マイクで駆動するリアルタイムオーディオビジュアライゼーション &mdash; スペクトラムバー、海の波、3Dウェーブフォームなど。</div>
+            <a class="theme-card-link" href="#sound-overview">詳細 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- ==================== TEXT ==================== -->
+
+        <h2 id="text-overview">テキスト &mdash; 概要</h2>
+        <p>テキストプロダクトは任意のURLパスをフルスクリーンディスプレイに変換します。20種の内蔵テーマを搭載し、それぞれ特定の雰囲気と用途に合わせて設計されています。テーマは2つの表示モードに対応：静止サインとスクロールフロー。</p>
+
         <pre><code>led.run/HELLO                          シンプルなサイン
-led.run/DO+NOT+DISTURB?t=do-not-disturb   テーマの選択
+led.run/DO+NOT+DISTURB?t=do-not-disturb   テーマ選択
 led.run/OPEN?t=neon&amp;c=ff2d78&amp;bg=0a0008   カスタムカラー
 led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code></pre>
 
         <!-- Display Modes -->
         <h2 id="display-modes">表示モード</h2>
-        <p>テーマは2つの表示モードに対応しています：</p>
+        <p>テキストテーマは2つの表示モードに対応しています：</p>
 
-        <h3>Sign モード</h3>
-        <p>静的なフルスクリーン表示。テキストは利用可能なスペースに合わせて自動フィットされます。「OPEN」「ON AIR」「DO NOT DISTURB」などの短いメッセージに最適です。</p>
+        <h3>サインモード</h3>
+        <p>静止フルスクリーン表示。テキストは利用可能なスペースに自動フィットされます。「OPEN」「ON AIR」「DO NOT DISTURB」のような短いメッセージに最適です。</p>
 
-        <h3>Flow モード</h3>
-        <p>スクロールマーキー。テキストが画面を横切って連続スクロールします。長いメッセージ、アナウンス、ティッカーに最適です。</p>
+        <h3>フローモード</h3>
+        <p>スクロールマーキー。テキストが画面を連続的にスクロールします。長いメッセージ、お知らせ、ティッカーに最適です。</p>
 
         <div class="docs-note">
-          <strong>自動検出：</strong> <code>mode</code> パラメータが設定されていない場合、ほとんどのテーマは短いテキスト（10文字以下）では <strong>sign</strong> モード、長いテキストでは <strong>flow</strong> モードをデフォルトとします。
+          <strong>自動検出：</strong> <code>mode</code> パラメータが設定されていない場合、ほとんどのテーマは短いテキスト（10文字以下）では <strong>sign</strong> モード、長いテキストでは <strong>flow</strong> モードがデフォルトになります。
         </div>
 
-        <!-- Global Parameters -->
-        <h2 id="parameters">グローバルパラメータ</h2>
-        <p>これらのパラメータはすべてのテーマで認識されます。各テーマは独自のデフォルト値を提供します。</p>
+        <!-- Text Parameters -->
+        <h2 id="text-parameters">テキストパラメータ</h2>
+        <p>これらのパラメータはテキストテーマで認識されます。各テーマは独自のデフォルト値を提供します。</p>
 
         <div class="docs-table-wrap">
           <table class="docs-table">
@@ -181,35 +251,35 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
                 <td>t</td>
                 <td>string</td>
                 <td>default</td>
-                <td>テーマ ID（<a href="#themes">テーマ一覧</a>を参照）</td>
+                <td>テーマID（<a href="#themes">テーマ</a>を参照）</td>
               </tr>
               <tr>
                 <td>mode</td>
                 <td>&mdash;</td>
                 <td>string</td>
                 <td>auto</td>
-                <td><code>sign</code>（静的）または <code>flow</code>（スクロール）</td>
+                <td><code>sign</code>（静止）または <code>flow</code>（スクロール）</td>
               </tr>
               <tr>
                 <td>color</td>
                 <td>c</td>
                 <td>hex</td>
-                <td>テーマ依存</td>
-                <td>テキストカラー（<a href="#color-format">カラー形式</a>）</td>
+                <td>テーマ毎</td>
+                <td>テキスト色（<a href="#color-format">カラー形式</a>）</td>
               </tr>
               <tr>
                 <td>bg</td>
                 <td>&mdash;</td>
                 <td>hex</td>
-                <td>テーマ依存</td>
+                <td>テーマ毎</td>
                 <td>背景色</td>
               </tr>
               <tr>
                 <td>speed</td>
                 <td>&mdash;</td>
                 <td>number</td>
-                <td>テーマ依存</td>
-                <td>スクロール速度（px/秒、flow モード）</td>
+                <td>テーマ毎</td>
+                <td>スクロール速度 px/s（フローモード）</td>
               </tr>
               <tr>
                 <td>direction</td>
@@ -222,7 +292,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
                 <td>font</td>
                 <td>&mdash;</td>
                 <td>string</td>
-                <td>テーマ依存</td>
+                <td>テーマ毎</td>
                 <td>フォントファミリー名</td>
               </tr>
               <tr>
@@ -236,58 +306,40 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
                 <td>fill</td>
                 <td>&mdash;</td>
                 <td>hex</td>
-                <td>テーマ依存</td>
-                <td>カード表面の背景色（カードテーマ、scale &lt; 1 の場合）</td>
+                <td>テーマ毎</td>
+                <td>カード面の背景色（カードテーマ、scale &lt; 1 の場合）</td>
               </tr>
               <tr>
                 <td>wakelock</td>
                 <td>w</td>
                 <td>boolean</td>
                 <td>true</td>
-                <td>画面を常にオンに保持（スリープ防止）</td>
+                <td>画面をオンに保持（スリープ防止）</td>
               </tr>
               <tr>
                 <td>cursor</td>
                 <td>cur</td>
                 <td>number</td>
                 <td>&mdash;</td>
-                <td>カーソル自動非表示の遅延時間（ミリ秒）</td>
+                <td>カーソル自動非表示の遅延（ミリ秒）</td>
               </tr>
               <tr>
                 <td>lang</td>
                 <td>l</td>
                 <td>string</td>
                 <td>auto</td>
-                <td>UI 言語：<code>en</code>、<code>zh</code>、<code>ja</code>、<code>ko</code>、<code>es</code>、<code>fr</code>、<code>de</code></td>
+                <td>UI言語：<code>en</code>、<code>zh</code>、<code>ja</code>、<code>ko</code>、<code>es</code>、<code>fr</code>、<code>de</code></td>
               </tr>
             </tbody>
           </table>
         </div>
 
-        <!-- Color Format -->
-        <h2 id="color-format">カラー形式</h2>
-        <p>カラーは <code>#</code> プレフィックス<strong>なし</strong>の16進数値で指定します：</p>
-        <ul>
-          <li><strong>6桁</strong> <code>RRGGBB</code> &mdash; 例：<code>ff0000</code> で赤</li>
-          <li><strong>8桁</strong> <code>AARRGGBB</code> &mdash; 例：<code>80ff0000</code> で50%透過の赤</li>
-        </ul>
-        <pre><code>led.run/HELLO?color=00ff41          緑色のテキスト
-led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキスト</code></pre>
-
-        <!-- Scale -->
-        <h2 id="scale">スケール &amp; カードテーマ</h2>
-        <p><code>scale</code> パラメータ（0.1&ndash;1）は表示サイズを制御します。動作はテーマの種類によって異なります：</p>
-        <h3>カードテーマ</h3>
-        <p>カードテーマ（broadcast、street-sign、wood、do-not-disturb、marquee、dot-matrix）は、内部ラッパーに CSS <code>transform: scale()</code> を使用します。<code>scale &lt; 1</code> の場合、カードは透過背景の中央にフロートします。<code>fill</code> パラメータでカード表面の色を、<code>bg</code> でページの背景色を設定します。</p>
-        <h3>拡張テーマ</h3>
-        <p>その他すべてのテーマは、<code>scale</code> をフォントサイズの倍率として適用します：自動フィットの結果にスケール値を乗算します。背景エフェクトはフルスクリーンのまま維持されます。</p>
-
         <!-- Themes -->
         <h2 id="themes">テーマ</h2>
-        <p>led.run には20の組み込みテーマが含まれています。各テーマは特定の雰囲気やユースケースに合わせてデザインされています。</p>
+        <p>led.run には20種の内蔵テーマがあります。各テーマは特定の雰囲気と用途に合わせて設計されています。</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
-          <input type="text" id="theme-search" placeholder="テーマを検索（例：'neon'、'matrix'）..."
+          <input type="text" id="theme-search" placeholder="テーマを検索（例：'neon'、'matrix'）..." 
                  style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
         </div>
 
@@ -297,7 +349,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Default</span>
               <span class="theme-card-id">default</span>
             </div>
-            <div class="theme-card-desc">クラシックな緑色 LED サインディスプレイ</div>
+            <div class="theme-card-desc">クラシックなグリーンLEDサインディスプレイ</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
@@ -309,7 +361,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Neon</span>
               <span class="theme-card-id">neon</span>
             </div>
-            <div class="theme-card-desc">フリッカーエフェクト付きのネオンサイン</div>
+            <div class="theme-card-desc">フリッカーエフェクト付きの光るネオンサイン</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff00ff" title="color: ff00ff"></span>
               <span class="theme-color-chip" style="background:#0a0014" title="bg: 0a0014"></span>
@@ -321,7 +373,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Retro</span>
               <span class="theme-card-id">retro</span>
             </div>
-            <div class="theme-card-desc">CRT スキャンラインとビネットエフェクト</div>
+            <div class="theme-card-desc">CRT走査線とビネットエフェクト</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#33ff33" title="color: 33ff33"></span>
               <span class="theme-color-chip" style="background:#0d0d0d" title="bg: 0d0d0d"></span>
@@ -333,7 +385,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Glitch</span>
               <span class="theme-card-id">glitch</span>
             </div>
-            <div class="theme-card-desc">RGB スプリット、ジッター、テキスト歪み</div>
+            <div class="theme-card-desc">RGBスプリット、ジッター、テキスト歪み</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ffff" title="color: 00ffff"></span>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
@@ -345,7 +397,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Typewriter</span>
               <span class="theme-card-id">typewriter</span>
             </div>
-            <div class="theme-card-desc">カーソル付き一文字ずつのタイピング</div>
+            <div class="theme-card-desc">カーソル付きの一文字ずつタイピング</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#1a1a1a" title="color: 1a1a1a"></span>
               <span class="theme-color-chip" style="background:#f5f5f0" title="bg: f5f5f0"></span>
@@ -357,7 +409,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Gradient</span>
               <span class="theme-card-id">gradient</span>
             </div>
-            <div class="theme-card-desc">フローアニメーション付きレインボーグラデーションテキスト</div>
+            <div class="theme-card-desc">流れるアニメーション付きレインボーグラデーションテキスト</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
@@ -369,7 +421,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Hologram</span>
               <span class="theme-card-id">hologram</span>
             </div>
-            <div class="theme-card-desc">色収差とスキャンラインスイープ</div>
+            <div class="theme-card-desc">色収差と走査線スイープ</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00d4ff" title="color: 00d4ff"></span>
               <span class="theme-color-chip" style="background:#020a14" title="bg: 020a14"></span>
@@ -381,7 +433,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Broadcast</span>
               <span class="theme-card-id">broadcast</span>
             </div>
-            <div class="theme-card-desc">録画ドット付きスタジオ「ON AIR」インジケータ</div>
+            <div class="theme-card-desc">録画ドット付きスタジオ「ON AIR」インジケーター</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
@@ -394,7 +446,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Marquee</span>
               <span class="theme-card-id">marquee</span>
             </div>
-            <div class="theme-card-desc">ブロードウェイ風チェイスライト電球（Canvas）</div>
+            <div class="theme-card-desc">ブロードウェイ追いかけ電球（Canvas）</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffd700" title="color: ffd700"></span>
               <span class="theme-color-chip" style="background:#120800" title="bg: 120800"></span>
@@ -407,7 +459,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Pulse</span>
               <span class="theme-card-id">pulse</span>
             </div>
-            <div class="theme-card-desc">ラジアルグロー付きブリージングムードアンビエント</div>
+            <div class="theme-card-desc">放射状グロー付きブリージングムードアンビエント</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff6b9d" title="color: ff6b9d"></span>
               <span class="theme-color-chip" style="background:#050110" title="bg: 050110"></span>
@@ -419,7 +471,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Aurora</span>
               <span class="theme-card-id">aurora</span>
             </div>
-            <div class="theme-card-desc">オーロラの波動バンド（Canvas）</div>
+            <div class="theme-card-desc">オーロラの波帯（Canvas）</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#e0ffef" title="color: e0ffef"></span>
               <span class="theme-color-chip" style="background:#020810" title="bg: 020810"></span>
@@ -443,7 +495,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Wood</span>
               <span class="theme-card-id">wood</span>
             </div>
-            <div class="theme-card-desc">ペイントテキスト付きの温かみのある木製カフェサイン</div>
+            <div class="theme-card-desc">ペイントテキスト付き温かみのある木製カフェサイン</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#f5e6c8" title="color: f5e6c8"></span>
               <span class="theme-color-chip" style="background:#3b2314" title="bg: 3b2314"></span>
@@ -455,7 +507,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Cyber</span>
               <span class="theme-card-id">cyber</span>
             </div>
-            <div class="theme-card-desc">HUD オーバーレイ付き Matrix ターミナルデコードエフェクト</div>
+            <div class="theme-card-desc">HUDオーバーレイ付きマトリックスターミナルデコードエフェクト</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff00" title="color: 00ff00"></span>
               <span class="theme-color-chip" style="background:#050a05" title="bg: 050a05"></span>
@@ -467,7 +519,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Tokyo</span>
               <span class="theme-card-id">tokyo</span>
             </div>
-            <div class="theme-card-desc">日本語装飾付きサイバーパンク雨濡れネオン</div>
+            <div class="theme-card-desc">日本語デコレーション付きサイバーパンク雨濡れネオン</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff0055" title="color: ff0055"></span>
               <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
@@ -479,7 +531,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Blueprint</span>
               <span class="theme-card-id">blueprint</span>
             </div>
-            <div class="theme-card-desc">建築図面風ドローイングスタイル</div>
+            <div class="theme-card-desc">建築設計図の描画スタイル</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#1a3a6c" title="bg: 1a3a6c"></span>
@@ -527,7 +579,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
               <span class="theme-card-name">Dot Matrix</span>
               <span class="theme-card-id">dot-matrix</span>
             </div>
-            <div class="theme-card-desc">スキューモーフィック LED ドットマトリクスボード（Canvas）</div>
+            <div class="theme-card-desc">スキューモーフィックLEDドットマトリックスボード（Canvas）</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffff00" title="color: ffff00"></span>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
@@ -544,7 +596,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Default</span>
             <span class="theme-detail-id">default</span>
           </div>
-          <p class="theme-detail-desc">クラシックな緑色 LED サイン。クリーンでミニマル、一目で認識可能。sign モードと flow モードの両方に対応。</p>
+          <p class="theme-detail-desc">クラシックなグリーンLEDサイン。クリーンでミニマル、一目で認識できます。サインモードとフローモードの両方に対応。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code>
@@ -561,7 +613,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Neon</span>
             <span class="theme-detail-id">neon</span>
           </div>
-          <p class="theme-detail-desc">リアルなグロー、反射、設定可能なフリッカー強度を持つネオン管サイン。</p>
+          <p class="theme-detail-desc">リアルなグロー、反射、設定可能なフリッカー強度を備えた光るネオンチューブサイン。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ff00ff"></span> <code>ff00ff</code>
@@ -570,9 +622,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>flicker</td><td>number</td><td>1</td><td>フリッカー強度（0 = オフ、大きいほどフリッカーが強い）</td></tr>
+                <tr><td>flicker</td><td>number</td><td>1</td><td>フリッカー強度（0 = オフ、値が大きいほどフリッカーが増加）</td></tr>
               </tbody>
             </table>
           </div>
@@ -585,7 +637,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Retro</span>
             <span class="theme-detail-id">retro</span>
           </div>
-          <p class="theme-detail-desc">スキャンラインオーバーレイ、蛍光グロー、画面湾曲ビネットを持つ CRT モニター風の美学。</p>
+          <p class="theme-detail-desc">走査線オーバーレイ、蛍光体グロー、画面湾曲ビネット付きCRTモニター風。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code>
@@ -594,9 +646,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>scanlines</td><td>boolean</td><td>true</td><td>CRT スキャンラインオーバーレイを表示</td></tr>
+                <tr><td>scanlines</td><td>boolean</td><td>true</td><td>CRT走査線オーバーレイを表示</td></tr>
               </tbody>
             </table>
           </div>
@@ -609,7 +661,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Glitch</span>
             <span class="theme-detail-id">glitch</span>
           </div>
-          <p class="theme-detail-desc">RGB チャンネルスプリット、ランダムジッター、テキスト破損を伴うアグレッシブなデジタル歪み。</p>
+          <p class="theme-detail-desc">RGBチャンネルスプリット、ランダムジッター、テキスト破損を伴う激しいデジタルディストーション。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#00ffff"></span> <code>00ffff</code>
@@ -618,9 +670,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>intensity</td><td>number</td><td>1</td><td>歪み強度（0&ndash;1+）</td></tr>
+                <tr><td>intensity</td><td>number</td><td>1</td><td>ディストーション強度（0&ndash;1+）</td></tr>
               </tbody>
             </table>
           </div>
@@ -633,7 +685,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Typewriter</span>
             <span class="theme-detail-id">typewriter</span>
           </div>
-          <p class="theme-detail-desc">点滅カーソル付きの一文字ずつのタイピングアニメーション。タイピングシーケンスは自動ループ。</p>
+          <p class="theme-detail-desc">点滅カーソル付きの一文字ずつタイピングアニメーション。タイピングシーケンスを自動ループ。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
@@ -642,9 +694,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>typingSpeed</td><td>number</td><td>120</td><td>1文字あたりのミリ秒数</td></tr>
+                <tr><td>typingSpeed</td><td>number</td><td>120</td><td>1文字あたりのミリ秒</td></tr>
               </tbody>
             </table>
           </div>
@@ -657,7 +709,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Gradient</span>
             <span class="theme-detail-id">gradient</span>
           </div>
-          <p class="theme-detail-desc">スムーズなフローアニメーション付きレインボーグラデーションテキスト。カスタム <code>color</code> を設定すると、そのカラーから色相ベースのグラデーションが生成されます。</p>
+          <p class="theme-detail-desc">滑らかな流れるアニメーション付きレインボーグラデーションテキスト。カスタム <code>color</code> を設定すると、その色を基にした色相ベースのグラデーションが生成されます。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow
@@ -674,7 +726,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Hologram</span>
             <span class="theme-detail-id">hologram</span>
           </div>
-          <p class="theme-detail-desc">色収差、スキャンラインスイープ、半透明フリッカーを持つ SF ホログラフィックプロジェクション。</p>
+          <p class="theme-detail-desc">色収差、走査線スイープ、半透明フリッカー付きSFホログラフィック投影。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#00d4ff"></span> <code>00d4ff</code>
@@ -691,7 +743,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Broadcast</span>
             <span class="theme-detail-id">broadcast</span>
           </div>
-          <p class="theme-detail-desc">スキューモーフィックなディテール、ライブクロック、VU メーター付きのハイエンドスタジオ「ON AIR」インジケータ。カードテーマ &mdash; <code>scale</code> と <code>fill</code> に対応。</p>
+          <p class="theme-detail-desc">スキューモーフィックディテール、ライブ時計、VUメーター付きのハイエンドスタジオ「ON AIR」インジケーター。カードテーマ &mdash; <code>scale</code> と <code>fill</code> に対応。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
@@ -700,10 +752,10 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>dot</td><td>hex</td><td>ff0000</td><td>録画インジケータドットの色</td></tr>
-                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>カード表面の背景色</td></tr>
+                <tr><td>dot</td><td>hex</td><td>ff0000</td><td>録画インジケータードットの色</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>カード面の背景色</td></tr>
               </tbody>
             </table>
           </div>
@@ -716,7 +768,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Marquee</span>
             <span class="theme-detail-id">marquee</span>
           </div>
-          <p class="theme-detail-desc">ボーダー周囲にアニメーションするチェイスライト電球を持つブロードウェイ風シアターマーキー、Canvas でレンダリング。カードテーマ。</p>
+          <p class="theme-detail-desc">ボーダー周りにアニメーション追いかけ電球付きのブロードウェイスタイルシアターマーキー、Canvasでレンダリング。カードテーマ。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffd700"></span> <code>ffd700</code>
@@ -725,11 +777,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>chase</td><td>number</td><td>3</td><td>電球チェイス速度（1&ndash;10）</td></tr>
+                <tr><td>chase</td><td>number</td><td>3</td><td>電球追いかけ速度（1&ndash;10）</td></tr>
                 <tr><td>bulbColor</td><td>hex</td><td>ffaa00</td><td>電球の色</td></tr>
-                <tr><td>fill</td><td>hex</td><td>120800</td><td>カード表面の背景色</td></tr>
+                <tr><td>fill</td><td>hex</td><td>120800</td><td>カード面の背景色</td></tr>
               </tbody>
             </table>
           </div>
@@ -742,7 +794,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Pulse</span>
             <span class="theme-detail-id">pulse</span>
           </div>
-          <p class="theme-detail-desc">有機的な流体ブロブモーションとブリージングアンビエントグローを持つウルトラモダンなグラスモーフィズム。</p>
+          <p class="theme-detail-desc">有機的な流動ブロブモーションとブリージングアンビエントグロー付きの超モダンなグラスモーフィズム。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ff6b9d"></span> <code>ff6b9d</code>
@@ -751,9 +803,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>rhythm</td><td>number</td><td>4</td><td>パルスサイクル時間（秒）（2&ndash;10）</td></tr>
+                <tr><td>rhythm</td><td>number</td><td>4</td><td>パルスサイクルの持続時間（秒）（2&ndash;10）</td></tr>
               </tbody>
             </table>
           </div>
@@ -766,7 +818,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Aurora</span>
             <span class="theme-detail-id">aurora</span>
           </div>
-          <p class="theme-detail-desc">星空と山のシルエットを持つオーロラの波動バンド、Canvas でレンダリング。</p>
+          <p class="theme-detail-desc">星空と山のシルエット付きオーロラ波帯、Canvasでレンダリング。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#e0ffef"></span> <code>e0ffef</code>
@@ -775,9 +827,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>intensity</td><td>number</td><td>5</td><td>オーロラバンド数と不透明度（1&ndash;10）</td></tr>
+                <tr><td>intensity</td><td>number</td><td>5</td><td>オーロラ帯の数と不透明度（1&ndash;10）</td></tr>
               </tbody>
             </table>
           </div>
@@ -790,7 +842,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Firework</span>
             <span class="theme-detail-id">firework</span>
           </div>
-          <p class="theme-detail-desc">花火の打ち上げ、爆発、物理シミュレーション、都市スカイラインを持つ Canvas パーティクルシステム。</p>
+          <p class="theme-detail-desc">花火の打ち上げ、爆発、物理シミュレーション、都市スカイライン付きCanvasパーティクルシステム。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
@@ -799,7 +851,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
                 <tr><td>rate</td><td>number</td><td>5</td><td>花火の打ち上げ頻度（1&ndash;10）</td></tr>
               </tbody>
@@ -814,7 +866,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Wood</span>
             <span class="theme-detail-id">wood</span>
           </div>
-          <p class="theme-detail-desc">ペイントテキスト、装飾オーナメント、スポットライト照明を持つ温かみのある木製カフェサイン。カードテーマ。</p>
+          <p class="theme-detail-desc">ペイントテキスト、装飾オーナメント、スポットライト照明付きの温かみのある木製カフェサイン。カードテーマ。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
@@ -823,11 +875,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
                 <tr><td>grain</td><td>string</td><td>dark</td><td>木目スタイル</td></tr>
-                <tr><td>warm</td><td>number</td><td>5</td><td>暖かさ / スポットライト強度</td></tr>
-                <tr><td>fill</td><td>hex</td><td>1a0f0a</td><td>カード表面の背景色</td></tr>
+                <tr><td>warm</td><td>number</td><td>5</td><td>温かみ / スポットライト強度</td></tr>
+                <tr><td>fill</td><td>hex</td><td>1a0f0a</td><td>カード面の背景色</td></tr>
               </tbody>
             </table>
           </div>
@@ -840,7 +892,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Cyber</span>
             <span class="theme-detail-id">cyber</span>
           </div>
-          <p class="theme-detail-desc">テキストデコードアニメーション、スキャンライン、HUD データ装飾を持つハイテクターミナル。</p>
+          <p class="theme-detail-desc">テキストデコードアニメーション、スキャニングライン、HUDデータデコレーション付きハイテクターミナル。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#00ff00"></span> <code>00ff00</code>
@@ -849,9 +901,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>glitch</td><td>number</td><td>1</td><td>グリッチエフェクトの切り替え（0 = オフ、1+ = オン）</td></tr>
+                <tr><td>glitch</td><td>number</td><td>1</td><td>グリッチエフェクトのトグル（0 = オフ、1+ = オン）</td></tr>
               </tbody>
             </table>
           </div>
@@ -864,7 +916,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Tokyo</span>
             <span class="theme-detail-id">tokyo</span>
           </div>
-          <p class="theme-detail-desc">Canvas 雨、多層ネオングロー、日本語装飾、レンズフレアを持つシネマティックな夜の街の雰囲気。</p>
+          <p class="theme-detail-desc">Canvas雨、レイヤードネオングロー、日本語デコレーション、レンズフレア付きシネマティックな夜の街の雰囲気。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ff0055"></span> <code>ff0055</code>
@@ -881,7 +933,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Blueprint</span>
             <span class="theme-detail-id">blueprint</span>
           </div>
-          <p class="theme-detail-desc">寸法線、グリッドラベル、工学表記を持つ建築製図風の美学。</p>
+          <p class="theme-detail-desc">測定線、グリッドラベル、エンジニアリング表記付き建築製図風。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
@@ -898,7 +950,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Monolith</span>
             <span class="theme-detail-id">monolith</span>
           </div>
-          <p class="theme-detail-desc">ペーパーグレインテクスチャ、大型背景テキスト、リビールアニメーションを持つブルータリスト/インダストリアル高コントラストディスプレイ。</p>
+          <p class="theme-detail-desc">紙粒テクスチャ、巨大な背景テキスト、リビールアニメーション付きブルータリスト／インダストリアル高コントラストディスプレイ。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#000000"></span> <code>000000</code>
@@ -915,7 +967,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Street Sign</span>
             <span class="theme-detail-id">street-sign</span>
           </div>
-          <p class="theme-detail-desc">リベット、反射コーティング、ルートサブタイトル、出口タグ、インダストリアル SVG 矢印を持つ高速道路案内標識。カードテーマ。</p>
+          <p class="theme-detail-desc">リベット、反射コーティング、路線サブタイトル、出口タグ、工業的SVG矢印付き高速道路案内標識。カードテーマ。</p>
           <div class="theme-detail-colors">
             <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#003884"></span> <code>003884</code> (fill)
@@ -924,13 +976,13 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>sub</td><td>string</td><td>&mdash;</td><td>サブタイトルテキスト（例：ルート名）</td></tr>
+                <tr><td>sub</td><td>string</td><td>&mdash;</td><td>サブタイトルテキスト（例：路線名）</td></tr>
                 <tr><td>exit</td><td>string</td><td>&mdash;</td><td>出口番号タグ</td></tr>
                 <tr><td>arrow</td><td>string</td><td>&mdash;</td><td>矢印方向：<code>up</code>、<code>left</code>、<code>right</code>、<code>uturn</code>、<code>sl-left</code>、<code>sl-right</code></td></tr>
                 <tr><td>glare</td><td>number</td><td>0.1</td><td>反射コーティングの不透明度（0&ndash;1）</td></tr>
-                <tr><td>fill</td><td>hex</td><td>003884</td><td>標識表面の背景色</td></tr>
+                <tr><td>fill</td><td>hex</td><td>003884</td><td>標識面の背景色</td></tr>
               </tbody>
             </table>
           </div>
@@ -943,23 +995,23 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Do Not Disturb</span>
             <span class="theme-detail-id">do-not-disturb</span>
           </div>
-          <p class="theme-detail-desc">ガラスパネル、暖かいアンバーグロー、インジケータライトを持つスキューモーフィック「ON AIR」スタイルライトボックス。カードテーマ。</p>
+          <p class="theme-detail-desc">Skeuomorphic "ON AIR" style light box with glass panel, warm amber glow, and indicator lights. Card theme.</p>
           <div class="theme-detail-colors">
-            <span>デフォルトカラー：</span>
+            <span>Default colors:</span>
             <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
             <span>on</span>
             <span class="color-swatch" style="background:#990000"></span> <code>990000</code> (fill)
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>fill</td><td>hex</td><td>990000</td><td>ガラスパネルの背景色</td></tr>
-                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>テキストグロー / アウトラインカラー</td></tr>
+                <tr><td>fill</td><td>hex</td><td>990000</td><td>Glass panel background color</td></tr>
+                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>Text glow / outline color</td></tr>
               </tbody>
             </table>
           </div>
-          <a class="theme-detail-try" href="/DO+NOT+DISTURB?t=do-not-disturb">試す &rarr;</a>
+          <a class="theme-detail-try" href="/DO+NOT+DISTURB?t=do-not-disturb">Try it &rarr;</a>
         </div>
 
         <!-- Dot Matrix -->
@@ -968,94 +1020,993 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
             <span class="theme-detail-name">Dot Matrix</span>
             <span class="theme-detail-id">dot-matrix</span>
           </div>
-          <p class="theme-detail-desc">多層 Canvas レンダリング、設定可能なドット形状、ベゼルフレーム、フリッカーを持つリアルな LED ドットマトリクスディスプレイボード。カードテーマ。</p>
+          <p class="theme-detail-desc">Realistic LED dot-matrix display board with multi-layer Canvas rendering, configurable dot shape, bezel frame, and flicker. Card theme.</p>
           <div class="theme-detail-colors">
-            <span>デフォルトカラー：</span>
+            <span>Default colors:</span>
             <span class="color-swatch" style="background:#ffff00"></span> <code>ffff00</code>
             <span>on</span>
             <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
           </div>
           <div class="docs-table-wrap">
             <table class="docs-table">
-              <thead><tr><th>パラメータ</th><th>型</th><th>デフォルト</th><th>説明</th></tr></thead>
+              <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>res</td><td>number</td><td>20</td><td>垂直解像度（ドット行数）</td></tr>
-                <tr><td>gap</td><td>number</td><td>0.2</td><td>ドット間のギャップ（0&ndash;1）</td></tr>
-                <tr><td>glow</td><td>number</td><td>0.5</td><td>LED グロー強度</td></tr>
-                <tr><td>shape</td><td>string</td><td>square</td><td>ドット形状：<code>square</code> または <code>round</code></td></tr>
-                <tr><td>bezel</td><td>boolean</td><td>true</td><td>フレームベゼルを表示</td></tr>
-                <tr><td>weight</td><td>string</td><td>bold</td><td>ドットレンダリングのフォントウェイト</td></tr>
-                <tr><td>flicker</td><td>number</td><td>0.05</td><td>ランダムドットフリッカー量</td></tr>
-                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>ボード表面の色</td></tr>
-                <tr><td>wrap</td><td>boolean</td><td>false</td><td>コンテンツに合わせて高さを調整</td></tr>
+                <tr><td>res</td><td>number</td><td>20</td><td>Vertical resolution (number of dot rows)</td></tr>
+                <tr><td>gap</td><td>number</td><td>0.2</td><td>Gap between dots (0&ndash;1)</td></tr>
+                <tr><td>glow</td><td>number</td><td>0.5</td><td>LED glow intensity</td></tr>
+                <tr><td>shape</td><td>string</td><td>square</td><td>Dot shape: <code>square</code> or <code>round</code></td></tr>
+                <tr><td>bezel</td><td>boolean</td><td>true</td><td>Show frame bezel</td></tr>
+                <tr><td>weight</td><td>string</td><td>bold</td><td>Font weight for dot rendering</td></tr>
+                <tr><td>flicker</td><td>number</td><td>0.05</td><td>Random dot flicker amount</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>Board surface color</td></tr>
+                <tr><td>wrap</td><td>boolean</td><td>false</td><td>Wrap height to content</td></tr>
               </tbody>
             </table>
           </div>
-          <a class="theme-detail-try" href="/HELLO?t=dot-matrix">試す &rarr;</a>
+          <a class="theme-detail-try" href="/HELLO?t=dot-matrix">Try it &rarr;</a>
         </div>
 
-        <!-- Interactions -->
-        <h2 id="interactions">操作方法</h2>
-        <p>サインが表示されたら、キーボード、マウス、またはタッチで操作できます。</p>
+        <!-- ==================== LIGHT ==================== -->
 
-        <h3>キーボード</h3>
-        <ul class="interaction-list">
-          <li>
-            <span class="interaction-key"><span class="kbd">Space</span></span>
-            <span class="interaction-desc">スクロールの一時停止 / 再開（flow モード）</span>
-          </li>
-          <li>
-            <span class="interaction-key"><span class="kbd">F</span></span>
-            <span class="interaction-desc">フルスクリーンの切り替え</span>
-          </li>
-          <li>
-            <span class="interaction-key"><span class="kbd">Esc</span></span>
-            <span class="interaction-desc">フルスクリーンの解除</span>
-          </li>
+        <h2 id="light-overview">Light &mdash; Overview</h2>
+        <p>The Light product turns any screen into a full-screen light effect. Use it as a flashlight, strobe, mood light, or ambient display. 18 built-in effects range from practical (solid, SOS) to atmospheric (aurora waves, lava lamp).</p>
+
+        <pre><code>led.run/light?t=solid              White flashlight
+led.run/light?t=disco&amp;speed=5      Fast disco lights
+led.run/light?t=candle&amp;warmth=9    Extra warm candle
+led.run/light?t=aurora-waves       Aurora light bands</code></pre>
+
+        <div class="docs-note">
+          <strong>Note:</strong> <code>/light</code> without <code>?t=</code> opens the landing page. Share links always include <code>?t=</code>.
+        </div>
+
+        <!-- Light Parameters -->
+        <h2 id="light-parameters">Light Parameters</h2>
+        <p>Common parameters recognized by light effects:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>Param</th><th>Alias</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>solid</td><td>Effect ID (see <a href="#effects">Effects</a>)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>per effect</td><td>Primary color</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>per effect</td><td>Background color</td></tr>
+              <tr><td>speed</td><td>&mdash;</td><td>number</td><td>per effect</td><td>Animation speed</td></tr>
+              <tr><td>colors</td><td>&mdash;</td><td>string</td><td>per effect</td><td>Comma-separated hex colors (multi-color effects)</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>Brightness level (solid effect)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Effects -->
+        <h2 id="effects">Effects</h2>
+        <p>led.run includes 18 light effects.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="effect-search" placeholder="Search effects (e.g. 'candle', 'aurora')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Solid</span>
+              <span class="theme-card-id">solid</span>
+            </div>
+            <div class="theme-card-desc">Pure white flashlight, maximum brightness</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-solid">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Strobe</span>
+              <span class="theme-card-id">strobe</span>
+            </div>
+            <div class="theme-card-desc">Adjustable-rate strobe flash</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-strobe">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Disco</span>
+              <span class="theme-card-id">disco</span>
+            </div>
+            <div class="theme-card-desc">Multi-color rotation party lights</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0000" title="colors"></span>
+              <span class="theme-color-chip" style="background:#00ff00" title="colors"></span>
+              <span class="theme-color-chip" style="background:#0000ff" title="colors"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-disco">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gradient</span>
+              <span class="theme-card-id">gradient</span>
+            </div>
+            <div class="theme-card-desc">Flowing gradient color transitions</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff)" title="colors"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-gradient">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Emergency</span>
+              <span class="theme-card-id">emergency</span>
+            </div>
+            <div class="theme-card-desc">Red-blue alternating police flasher</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0000" title="red"></span>
+              <span class="theme-color-chip" style="background:#0000ff" title="blue"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-emergency">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Candle</span>
+              <span class="theme-card-id">candle</span>
+            </div>
+            <div class="theme-card-desc">Warm flickering candlelight simulation</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff9329" title="color: ff9329"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-candle">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Rainbow</span>
+              <span class="theme-card-id">rainbow</span>
+            </div>
+            <div class="theme-card-desc">Smooth rainbow color cycle</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-rainbow">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">SOS</span>
+              <span class="theme-card-id">sos</span>
+            </div>
+            <div class="theme-card-desc">Morse code SOS signal</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-sos">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Breathing</span>
+              <span class="theme-card-id">breathing</span>
+            </div>
+            <div class="theme-card-desc">Slow radial breathing pulse</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#4488ff" title="color: 4488ff"></span>
+              <span class="theme-color-chip" style="background:#001122" title="bg: 001122"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-breathing">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sunset</span>
+              <span class="theme-card-id">sunset</span>
+            </div>
+            <div class="theme-card-desc">Sunset sky with sun and drifting clouds</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff8800" title="sunset"></span>
+              <span class="theme-color-chip" style="background:#4400aa" title="sky"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-sunset">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Heartbeat</span>
+              <span class="theme-card-id">heartbeat</span>
+            </div>
+            <div class="theme-card-desc">BPM-driven pulse with ripple rings</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0040" title="color: ff0040"></span>
+              <span class="theme-color-chip" style="background:#100010" title="bg: 100010"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-heartbeat">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Matrix Rain</span>
+              <span class="theme-card-id">matrix-rain</span>
+            </div>
+            <div class="theme-card-desc">Falling green characters (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-matrix-rain">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Aurora Waves</span>
+              <span class="theme-card-id">aurora-waves</span>
+            </div>
+            <div class="theme-card-desc">Multi-layer sine wave aurora bands</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff88" title="colors"></span>
+              <span class="theme-color-chip" style="background:#ff66cc" title="colors"></span>
+              <span class="theme-color-chip" style="background:#8844ff" title="colors"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-aurora-waves">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Campfire</span>
+              <span class="theme-card-id">campfire</span>
+            </div>
+            <div class="theme-card-desc">Particle campfire with sparks and smoke</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff6600" title="fire"></span>
+              <span class="theme-color-chip" style="background:#331100" title="embers"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-campfire">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Lightning</span>
+              <span class="theme-card-id">lightning</span>
+            </div>
+            <div class="theme-card-desc">Fractal lightning bolts with flash</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#aaddff" title="color: aaddff"></span>
+              <span class="theme-color-chip" style="background:#0a0a2e" title="bg: 0a0a2e"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-lightning">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Kaleidoscope</span>
+              <span class="theme-card-id">kaleidoscope</span>
+            </div>
+            <div class="theme-card-desc">N-fold rotational symmetry patterns</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff0066" title="colors"></span>
+              <span class="theme-color-chip" style="background:#00ffcc" title="colors"></span>
+              <span class="theme-color-chip" style="background:#ffcc00" title="colors"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-kaleidoscope">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Plasma</span>
+              <span class="theme-card-id">plasma</span>
+            </div>
+            <div class="theme-card-desc">Classic sine-wave plasma (1/4 res buffer)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)" title="HSL"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-plasma">Details &rarr;</a>
+          </div>
+          <div class="theme-card effect-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Lava Lamp</span>
+              <span class="theme-card-id">lava-lamp</span>
+            </div>
+            <div class="theme-card-desc">Metaball lava lamp (1/4 res buffer)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff4500" title="color: ff4500"></span>
+              <span class="theme-color-chip" style="background:#1a0a2e" title="bg: 1a0a2e"></span>
+            </div>
+            <a class="theme-card-link" href="#effect-lava-lamp">Details &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Individual effect details -->
+
+        <div class="theme-detail" id="effect-solid">
+          <div class="theme-detail-header"><span class="theme-detail-name">Solid</span><span class="theme-detail-id">solid</span></div>
+          <p class="theme-detail-desc">Pure white flashlight. Maximum brightness for any situation.</p>
+          <div class="theme-detail-colors"><span>Default color:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Light color</td></tr>
+            <tr><td>brightness</td><td>number</td><td>100</td><td>Brightness level (0&ndash;100)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=solid">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-strobe">
+          <div class="theme-detail-header"><span class="theme-detail-name">Strobe</span><span class="theme-detail-id">strobe</span></div>
+          <p class="theme-detail-desc">Adjustable-rate strobe flash for parties and events.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Flash color</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>Flash rate (1&ndash;20)</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=strobe">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-disco">
+          <div class="theme-detail-header"><span class="theme-detail-name">Disco</span><span class="theme-detail-id">disco</span></div>
+          <p class="theme-detail-desc">Multi-color rotation party lights with smooth transitions.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff0000"></span> <span class="color-swatch" style="background:#00ff00"></span> <span class="color-swatch" style="background:#0000ff"></span> <span class="color-swatch" style="background:#ffff00"></span> <span class="color-swatch" style="background:#ff00ff"></span> <span class="color-swatch" style="background:#00ffff"></span></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>colors</td><td>string</td><td>ff0000,00ff00,0000ff,ffff00,ff00ff,00ffff</td><td>Comma-separated hex colors</td></tr>
+            <tr><td>speed</td><td>number</td><td>2</td><td>Rotation speed (1&ndash;20)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=disco">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-gradient">
+          <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
+          <p class="theme-detail-desc">Flowing gradient color transitions across the screen.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff0000"></span> <span class="color-swatch" style="background:#ff8800"></span> <span class="color-swatch" style="background:#ffff00"></span> <span class="color-swatch" style="background:#00ff00"></span> <span class="color-swatch" style="background:#0088ff"></span> <span class="color-swatch" style="background:#8800ff"></span></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>colors</td><td>string</td><td>ff0000,ff8800,ffff00,00ff00,0088ff,8800ff</td><td>Comma-separated hex colors</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>Animation speed (1&ndash;20)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=gradient">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-emergency">
+          <div class="theme-detail-header"><span class="theme-detail-name">Emergency</span><span class="theme-detail-id">emergency</span></div>
+          <p class="theme-detail-desc">Red-blue alternating police flasher.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff0000"></span> red <span class="color-swatch" style="background:#0000ff"></span> blue</div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>2</td><td>Flash alternation speed (1&ndash;20)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=emergency">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-candle">
+          <div class="theme-detail-header"><span class="theme-detail-name">Candle</span><span class="theme-detail-id">candle</span></div>
+          <p class="theme-detail-desc">Warm flickering candlelight simulation for ambient mood lighting.</p>
+          <div class="theme-detail-colors"><span>Default color:</span> <span class="color-swatch" style="background:#ff9329"></span> <code>ff9329</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ff9329</td><td>Flame color</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>Warmth intensity (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=candle">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-rainbow">
+          <div class="theme-detail-header"><span class="theme-detail-name">Rainbow</span><span class="theme-detail-id">rainbow</span></div>
+          <p class="theme-detail-desc">Smooth cycling through all rainbow colors.</p>
+          <div class="theme-detail-colors"><span>Default:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow cycle</div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>3</td><td>Cycle speed (1&ndash;20)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=rainbow">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-sos">
+          <div class="theme-detail-header"><span class="theme-detail-name">SOS</span><span class="theme-detail-id">sos</span></div>
+          <p class="theme-detail-desc">Morse code SOS signal &mdash; three short, three long, three short.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Signal color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=sos">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-breathing">
+          <div class="theme-detail-header"><span class="theme-detail-name">Breathing</span><span class="theme-detail-id">breathing</span></div>
+          <p class="theme-detail-desc">Slow radial breathing pulse for meditation and relaxation.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#4488ff"></span> <code>4488ff</code> <span>on</span> <span class="color-swatch" style="background:#001122"></span> <code>001122</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>4488ff</td><td>Pulse color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>001122</td><td>Background color</td></tr>
+            <tr><td>cycle</td><td>number</td><td>8</td><td>Breath cycle duration in seconds</td></tr>
+            <tr><td>depth</td><td>number</td><td>5</td><td>Pulse depth (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=breathing">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-sunset">
+          <div class="theme-detail-header"><span class="theme-detail-name">Sunset</span><span class="theme-detail-id">sunset</span></div>
+          <p class="theme-detail-desc">Warm sunset sky gradient with drifting clouds and golden sun.</p>
+          <div class="theme-detail-colors"><span>Default:</span> sunset sky gradient</div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>2</td><td>Cloud drift speed (1&ndash;20)</td></tr>
+            <tr><td>sunSize</td><td>number</td><td>5</td><td>Sun size (1&ndash;10)</td></tr>
+            <tr><td>cloudDensity</td><td>number</td><td>5</td><td>Cloud density (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=sunset">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-heartbeat">
+          <div class="theme-detail-header"><span class="theme-detail-name">Heartbeat</span><span class="theme-detail-id">heartbeat</span></div>
+          <p class="theme-detail-desc">Center pulse with BPM-driven ripple rings.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff0040"></span> <code>ff0040</code> <span>on</span> <span class="color-swatch" style="background:#100010"></span> <code>100010</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ff0040</td><td>Pulse color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>100010</td><td>Background color</td></tr>
+            <tr><td>bpm</td><td>number</td><td>72</td><td>Beats per minute</td></tr>
+            <tr><td>pulse</td><td>number</td><td>5</td><td>Pulse intensity (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=heartbeat">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-matrix-rain">
+          <div class="theme-detail-header"><span class="theme-detail-name">Matrix Rain</span><span class="theme-detail-id">matrix-rain</span></div>
+          <p class="theme-detail-desc">Falling green characters in cascading digital rain, rendered on Canvas.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>00ff41</td><td>Character color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
+            <tr><td>speed</td><td>number</td><td>8</td><td>Fall speed (1&ndash;20)</td></tr>
+            <tr><td>density</td><td>number</td><td>5</td><td>Column density (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=matrix-rain">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-aurora-waves">
+          <div class="theme-detail-header"><span class="theme-detail-name">Aurora Waves</span><span class="theme-detail-id">aurora-waves</span></div>
+          <p class="theme-detail-desc">Multi-layer sine wave aurora bands in green, pink, and purple.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff88"></span> <span class="color-swatch" style="background:#ff66cc"></span> <span class="color-swatch" style="background:#8844ff"></span></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>3</td><td>Wave speed (1&ndash;20)</td></tr>
+            <tr><td>waves</td><td>number</td><td>6</td><td>Number of wave layers</td></tr>
+            <tr><td>amplitude</td><td>number</td><td>5</td><td>Wave amplitude (1&ndash;10)</td></tr>
+            <tr><td>colors</td><td>string</td><td>00ff88,ff66cc,8844ff</td><td>Comma-separated hex colors</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=aurora-waves">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-campfire">
+          <div class="theme-detail-header"><span class="theme-detail-name">Campfire</span><span class="theme-detail-id">campfire</span></div>
+          <p class="theme-detail-desc">Particle campfire with rising sparks and smoke.</p>
+          <div class="theme-detail-colors"><span>Default:</span> warm fire tones</div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>sparks</td><td>number</td><td>5</td><td>Spark count (1&ndash;10)</td></tr>
+            <tr><td>wind</td><td>number</td><td>3</td><td>Wind strength (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=campfire">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-lightning">
+          <div class="theme-detail-header"><span class="theme-detail-name">Lightning</span><span class="theme-detail-id">lightning</span></div>
+          <p class="theme-detail-desc">Fractal lightning bolts with thunder flash effects. Capped at &le;3Hz for photosensitivity safety.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#aaddff"></span> <code>aaddff</code> <span>on</span> <span class="color-swatch" style="background:#0a0a2e"></span> <code>0a0a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>aaddff</td><td>Lightning color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>0a0a2e</td><td>Sky background</td></tr>
+            <tr><td>frequency</td><td>number</td><td>5</td><td>Strike frequency (1&ndash;10)</td></tr>
+            <tr><td>branches</td><td>number</td><td>5</td><td>Branch count per bolt (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=lightning">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-kaleidoscope">
+          <div class="theme-detail-header"><span class="theme-detail-name">Kaleidoscope</span><span class="theme-detail-id">kaleidoscope</span></div>
+          <p class="theme-detail-desc">N-fold rotational symmetry patterns with flowing colors.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff0066"></span> <span class="color-swatch" style="background:#00ffcc"></span> <span class="color-swatch" style="background:#ffcc00"></span> <span class="color-swatch" style="background:#6644ff"></span></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>4</td><td>Rotation speed (1&ndash;20)</td></tr>
+            <tr><td>symmetry</td><td>number</td><td>8</td><td>Number of symmetry folds</td></tr>
+            <tr><td>complexity</td><td>number</td><td>5</td><td>Pattern complexity (1&ndash;10)</td></tr>
+            <tr><td>colors</td><td>string</td><td>ff0066,00ffcc,ffcc00,6644ff</td><td>Comma-separated hex colors</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=kaleidoscope">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-plasma">
+          <div class="theme-detail-header"><span class="theme-detail-name">Plasma</span><span class="theme-detail-id">plasma</span></div>
+          <p class="theme-detail-desc">Classic demo-scene sine-wave plasma with flowing HSL colors, rendered at 1/4 resolution for performance.</p>
+          <div class="theme-detail-colors"><span>Default:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)"></span> HSL cycle</div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>speed</td><td>number</td><td>5</td><td>Animation speed (1&ndash;20)</td></tr>
+            <tr><td>waveScale</td><td>number</td><td>5</td><td>Wave pattern scale (1&ndash;10)</td></tr>
+            <tr><td>intensity</td><td>number</td><td>7</td><td>Color intensity (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=plasma">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="effect-lava-lamp">
+          <div class="theme-detail-header"><span class="theme-detail-name">Lava Lamp</span><span class="theme-detail-id">lava-lamp</span></div>
+          <p class="theme-detail-desc">Metaball lava lamp with floating and merging blobs, rendered at 1/4 resolution.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff4500"></span> <code>ff4500</code> <span>on</span> <span class="color-swatch" style="background:#1a0a2e"></span> <code>1a0a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>color</td><td>hex</td><td>ff4500</td><td>Blob color</td></tr>
+            <tr><td>bg</td><td>hex</td><td>1a0a2e</td><td>Background color</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>Animation speed (1&ndash;20)</td></tr>
+            <tr><td>blobCount</td><td>number</td><td>10</td><td>Number of blobs</td></tr>
+            <tr><td>viscosity</td><td>number</td><td>5</td><td>Blob viscosity (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/light?t=lava-lamp">Try it &rarr;</a>
+        </div>
+
+        <!-- ==================== SOUND ==================== -->
+
+        <h2 id="sound-overview">Sound &mdash; Overview</h2>
+        <p>The Sound product creates real-time audio visualizations driven by your microphone. 12 built-in visualizers transform sound into mesmerizing visuals, from classic spectrum bars to cinematic bokeh fields.</p>
+
+        <pre><code>led.run/sound?t=bars              Spectrum analyzer
+led.run/sound?t=ocean&amp;waveCount=10 Ocean with more waves
+led.run/sound?t=spikes            Radial spikes</code></pre>
+
+        <div class="docs-note">
+          <strong>Microphone permission:</strong> Sound visualizers require microphone access. Your browser will prompt for permission on first use. Audio is processed locally &mdash; nothing is recorded or transmitted.
+        </div>
+
+        <!-- Sound Parameters -->
+        <h2 id="sound-parameters">Sound Parameters</h2>
+        <p>Common parameters recognized by sound visualizers:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>Param</th><th>Alias</th><th>Type</th><th>Default</th><th>Description</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>bars</td><td>Visualizer ID (see <a href="#visualizers">Visualizers</a>)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>per visualizer</td><td>Primary color</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>per visualizer</td><td>Background color</td></tr>
+              <tr><td>sensitivity</td><td>&mdash;</td><td>number</td><td>5</td><td>Audio sensitivity (1&ndash;10)</td></tr>
+              <tr><td>smoothing</td><td>&mdash;</td><td>number</td><td>0.85</td><td>Frequency data smoothing (0&ndash;1)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Visualizers -->
+        <h2 id="visualizers">Visualizers</h2>
+        <p>led.run includes 12 sound visualizers.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="viz-search" placeholder="Search visualizers (e.g. 'bars', 'ocean')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Bars</span>
+              <span class="theme-card-id">bars</span>
+            </div>
+            <div class="theme-card-desc">Premium spectrum with peaks and reflections</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-bars">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Scope</span>
+              <span class="theme-card-id">scope</span>
+            </div>
+            <div class="theme-card-desc">CRT oscilloscope with trail persistence</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff80" title="color: 00ff80"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-scope">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Ocean</span>
+              <span class="theme-card-id">ocean</span>
+            </div>
+            <div class="theme-card-desc">Moonlit ocean with stars and foam</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
+              <span class="theme-color-chip" style="background:#001a33" title="bg: 001a33"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-ocean">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Alchemy</span>
+              <span class="theme-card-id">alchemy</span>
+            </div>
+            <div class="theme-card-desc">Organic energy vortex with HSL spiral</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ff6600" title="color: ff6600"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-alchemy">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Battery</span>
+              <span class="theme-card-id">battery</span>
+            </div>
+            <div class="theme-card-desc">Sonar pulse with radar sweep</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-battery">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Ambience</span>
+              <span class="theme-card-id">ambience</span>
+            </div>
+            <div class="theme-card-desc">Deep atmospheric presets (3 modes)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-ambience">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Particle</span>
+              <span class="theme-card-id">particle</span>
+            </div>
+            <div class="theme-card-desc">Tron-style 3D grid with bloom</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-particle">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Musical Colors</span>
+              <span class="theme-card-id">musical-colors</span>
+            </div>
+            <div class="theme-card-desc">Artistic flowing effects (7 presets)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)" title="multi"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-musical-colors">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Spikes</span>
+              <span class="theme-card-id">spikes</span>
+            </div>
+            <div class="theme-card-desc">360&deg; radial spikes with core glow</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-spikes">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Plenoptic</span>
+              <span class="theme-card-id">plenoptic</span>
+            </div>
+            <div class="theme-card-desc">Cinematic bokeh light field</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-plenoptic">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Waveform 3D</span>
+              <span class="theme-card-id">waveform-3d</span>
+            </div>
+            <div class="theme-card-desc">Holographic 3D waveform with depth</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff80" title="color: 00ff80"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-waveform-3d">Details &rarr;</a>
+          </div>
+          <div class="theme-card visualizer-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Spectrum Circle</span>
+              <span class="theme-card-id">spectrum-circle</span>
+            </div>
+            <div class="theme-card-desc">Circular spectrum with glow ring</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#viz-spectrum-circle">Details &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Individual visualizer details -->
+
+        <div class="theme-detail" id="viz-bars">
+          <div class="theme-detail-header"><span class="theme-detail-name">Bars</span><span class="theme-detail-id">bars</span></div>
+          <p class="theme-detail-desc">Premium green spectrum analyzer with persistent peaks, reflections, and multiple color modes.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>smoothing</td><td>number</td><td>0.85</td><td>Frequency data smoothing (0&ndash;1)</td></tr>
+            <tr><td>barCount</td><td>number</td><td>64</td><td>Number of bars</td></tr>
+            <tr><td>colorMode</td><td>string</td><td>single</td><td>Color mode: <code>single</code>, <code>rainbow</code>, <code>gradient</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=bars">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-scope">
+          <div class="theme-detail-header"><span class="theme-detail-name">Scope</span><span class="theme-detail-id">scope</span></div>
+          <p class="theme-detail-desc">CRT phosphor oscilloscope with trail persistence, dotted grid, and beam dot.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>lineWidth</td><td>number</td><td>2</td><td>Waveform line width</td></tr>
+            <tr><td>gridLines</td><td>boolean</td><td>true</td><td>Show dotted grid overlay</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=scope">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-ocean">
+          <div class="theme-detail-header"><span class="theme-detail-name">Ocean</span><span class="theme-detail-id">ocean</span></div>
+          <p class="theme-detail-desc">Moonlit ocean dreamscape with stars, moon, and foam particles driven by audio frequency.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#001a33"></span> <code>001a33</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>waveCount</td><td>number</td><td>7</td><td>Number of wave layers</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=ocean">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-alchemy">
+          <div class="theme-detail-header"><span class="theme-detail-name">Alchemy</span><span class="theme-detail-id">alchemy</span></div>
+          <p class="theme-detail-desc">Organic energy vortex with energy waves, HSL spiral color, and radial trail fade.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ff6600"></span> <code>ff6600</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>complexity</td><td>number</td><td>5</td><td>Vortex complexity (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=alchemy">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-battery">
+          <div class="theme-detail-header"><span class="theme-detail-name">Battery</span><span class="theme-detail-id">battery</span></div>
+          <p class="theme-detail-desc">Sonar pulse system with radar sweep, gradient rings, and interference glow.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>pulseSpeed</td><td>number</td><td>5</td><td>Pulse expansion speed (1&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=battery">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-ambience">
+          <div class="theme-detail-header"><span class="theme-detail-name">Ambience</span><span class="theme-detail-id">ambience</span></div>
+          <p class="theme-detail-desc">Deep atmospheric presets: Nebula (glow), Ripple (water), Veil (swirl).</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>glowRadius</td><td>number</td><td>0.6</td><td>Glow radius (0&ndash;1)</td></tr>
+            <tr><td>ambPreset</td><td>string</td><td>glow</td><td>Preset: <code>glow</code>, <code>ripple</code>, <code>veil</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=ambience">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-particle">
+          <div class="theme-detail-header"><span class="theme-detail-name">Particle</span><span class="theme-detail-id">particle</span></div>
+          <p class="theme-detail-desc">Tron-style 3D grid with connections, wave propagation, and bloom lighting.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>gridSize</td><td>number</td><td>20</td><td>Grid resolution</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=particle">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-musical-colors">
+          <div class="theme-detail-header"><span class="theme-detail-name">Musical Colors</span><span class="theme-detail-id">musical-colors</span></div>
+          <p class="theme-detail-desc">Artistic flowing effects with 7 presets: aurora, water, silky, electric, neon, flame, star.</p>
+          <div class="theme-detail-colors"><span>Default:</span> aurora preset <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>mcPreset</td><td>string</td><td>aurora</td><td>Preset: <code>aurora</code>, <code>water</code>, <code>silky</code>, <code>electric</code>, <code>neon</code>, <code>flame</code>, <code>star</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=musical-colors">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-spikes">
+          <div class="theme-detail-header"><span class="theme-detail-name">Spikes</span><span class="theme-detail-id">spikes</span></div>
+          <p class="theme-detail-desc">Dramatic 360&deg; radial spikes with tip particles and inner core glow.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>spikeCount</td><td>number</td><td>96</td><td>Number of spikes</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=spikes">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-plenoptic">
+          <div class="theme-detail-header"><span class="theme-detail-name">Plenoptic</span><span class="theme-detail-id">plenoptic</span></div>
+          <p class="theme-detail-desc">Cinematic bokeh light field with pre-rendered textures and depth color variation.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>8</td><td>Depth layers</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=plenoptic">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-waveform-3d">
+          <div class="theme-detail-header"><span class="theme-detail-name">Waveform 3D</span><span class="theme-detail-id">waveform-3d</span></div>
+          <p class="theme-detail-desc">Holographic 3D waveform with depth color gradient and grid lines.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>12</td><td>Number of depth layers</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=waveform-3d">Try it &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="viz-spectrum-circle">
+          <div class="theme-detail-header"><span class="theme-detail-name">Spectrum Circle</span><span class="theme-detail-id">spectrum-circle</span></div>
+          <p class="theme-detail-desc">Monstercat-style circular spectrum with log binning, rotating glow ring, and central orb.</p>
+          <div class="theme-detail-colors"><span>Default colors:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>innerRadius</td><td>number</td><td>0.2</td><td>Inner circle radius (0&ndash;1)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/sound?t=spectrum-circle">Try it &rarr;</a>
+        </div>
+
+        <!-- ==================== REFERENCE ==================== -->
+
+        <!-- Color Format -->
+        <h2 id="color-format">Color Format</h2>
+        <p>Colors are specified as hex values <strong>without</strong> the <code>#</code> prefix:</p>
+        <ul>
+          <li><strong>6-digit</strong> <code>RRGGBB</code> &mdash; e.g. <code>ff0000</code> for red</li>
+          <li><strong>8-digit</strong> <code>AARRGGBB</code> &mdash; e.g. <code>80ff0000</code> for 50% transparent red</li>
         </ul>
+        <pre><code>led.run/HELLO?color=00ff41          Green text
+led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 
-        <h3>マウス / タッチ</h3>
+        <!-- Scale -->
+        <h2 id="scale">Scale &amp; Card Themes</h2>
+        <p>The <code>scale</code> parameter (0.1&ndash;1) controls display size. Its behavior depends on the theme type:</p>
+        <h3>Card Themes</h3>
+        <p>Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS <code>transform: scale()</code> on an inner wrapper. When <code>scale &lt; 1</code>, the card floats centered on a transparent background. Use the <code>fill</code> param to set the card face color, and <code>bg</code> for the page background.</p>
+        <h3>Extended Themes</h3>
+        <p>All other themes apply <code>scale</code> as a font-size multiplier: the auto-fit result is multiplied by the scale value. Background effects remain fullscreen.</p>
+
+        <!-- Interactions -->
+        <h2 id="interactions">Interactions</h2>
+        <p>Once a display is running, you can interact with it using keyboard, mouse, or touch. Available controls vary by product.</p>
+
+        <h3>Keyboard</h3>
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Key</th>
+                <th>Text</th>
+                <th>Light</th>
+                <th>Sound</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="kbd">Space</span></td>
+                <td>Pause / resume</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">S</span></td>
+                <td>Open settings</td>
+                <td>Open settings</td>
+                <td>Open settings</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">&rarr;</span></td>
+                <td>&mdash;</td>
+                <td>Next effect</td>
+                <td>Next visualizer</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">&larr;</span></td>
+                <td>&mdash;</td>
+                <td>Previous effect</td>
+                <td>Previous visualizer</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">&uarr;</span></td>
+                <td>&mdash;</td>
+                <td>Brightness +5</td>
+                <td>Sensitivity +1</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">&darr;</span></td>
+                <td>&mdash;</td>
+                <td>Brightness &minus;5</td>
+                <td>Sensitivity &minus;1</td>
+              </tr>
+              <tr>
+                <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h3>Mouse / Touch</h3>
         <ul class="interaction-list">
           <li>
-            <span class="interaction-key">シングルクリック / タップ</span>
-            <span class="interaction-desc">一時停止 / 再開</span>
-          </li>
-          <li>
-            <span class="interaction-key">ダブルクリック / タップ</span>
-            <span class="interaction-desc">フルスクリーンの切り替え</span>
+            <span class="interaction-key">Double click / tap</span>
+            <span class="interaction-desc">Toggle fullscreen</span>
           </li>
         </ul>
 
         <!-- Toolbar -->
-        <h2 id="toolbar">ツールバー</h2>
-        <p>画面下部にフローティングツールバーが表示されます（カーソルに連動して自動非表示）。以下の機能を提供します：</p>
-        <ul>
-          <li><strong>フルスクリーン</strong> &mdash; フルスクリーンモードの開始または解除</li>
-          <li><strong>回転</strong> &mdash; ディスプレイを90度回転（横向き画面でのポートレートサインに便利）</li>
-          <li><strong>キャスト</strong> &mdash; Presentation API 経由で外部ディスプレイにキャスト</li>
-          <li><strong>共有</strong> &mdash; 現在の URL をコピーして共有</li>
-        </ul>
+        <h2 id="toolbar">Toolbar</h2>
+        <p>A floating toolbar appears at the bottom of the screen (auto-hides with the cursor). Available buttons vary by product:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Button</th>
+                <th>Text</th>
+                <th>Light</th>
+                <th>Sound</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Fullscreen</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Rotate</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Cast</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Settings</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Share</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Microphone</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&#10003;</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
         <!-- Casting -->
-        <h2 id="casting">キャスト</h2>
-        <p>キャスト機能は <a href="https://developer.mozilla.org/en-US/docs/Web/API/Presentation_API">W3C Presentation API</a> を使用して、サインをセカンダリスクリーンに表示します。現在、Chrome と Edge で対応しています。</p>
+        <h2 id="casting">Casting</h2>
+        <p>The Cast feature uses the <a href="https://developer.mozilla.org/en-US/docs/Web/API/Presentation_API">W3C Presentation API</a> to display your content on a secondary screen. Currently supported in Chrome and Edge.</p>
         <ul>
-          <li>ツールバーのキャストボタンをクリックしてディスプレイを選択</li>
-          <li>レシーバーはツールバーやコントロールなしのクリーンな表示</li>
-          <li>接続はページ遷移後も維持されます</li>
+          <li>Click the Cast button in the toolbar to select a display</li>
+          <li>The receiver shows a clean display without toolbar or controls</li>
+          <li>The connection persists across page navigations</li>
         </ul>
-        <div class="docs-note">キャストボタンは Presentation API をサポートするブラウザでのみ表示されます。</div>
+        <div class="docs-note">The Cast button only appears in browsers that support the Presentation API.</div>
 
       </main>
     </div>
 
     <!-- Footer -->
     <footer class="docs-footer">
-      <div>&copy; 2026 led.run &mdash; オープンソース</div>
+      <div>&copy; 2026 led.run &mdash; Open Source</div>
       <div class="docs-footer-links">
-        <a href="/">ホーム</a>
+        <a href="/">Home</a>
         <a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>
-        <a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">ライセンス</a>
+        <a href="https://github.com/led-run/led.run/blob/main/LICENSE" target="_blank">License</a>
       </div>
     </footer>
 
@@ -1086,24 +2037,28 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   紫の背景、マゼンタのテキス�
         if (e.target.tagName === 'A') closeMenu();
       });
 
-      // Theme search/filter
-      var themeSearch = document.getElementById('theme-search');
-      var themeCards = document.querySelectorAll('.theme-card');
+      // Universal search/filter for themes, effects, and visualizers
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card');
 
-      themeSearch.addEventListener('input', function(e) {
-        var term = e.target.value.toLowerCase().trim();
-        themeCards.forEach(function(card) {
-          var name = card.querySelector('.theme-card-name').textContent.toLowerCase();
-          var id = card.querySelector('.theme-card-id').textContent.toLowerCase();
-          var desc = card.querySelector('.theme-card-desc').textContent.toLowerCase();
-
-          if (name.includes(term) || id.includes(term) || desc.includes(term)) {
-            card.style.display = 'flex';
-          } else {
-            card.style.display = 'none';
-          }
+      function setupSearch(inputId, cards) {
+        var input = document.getElementById(inputId);
+        if (!input) return;
+        input.addEventListener('input', function(e) {
+          var term = e.target.value.toLowerCase().trim();
+          cards.forEach(function(card) {
+            var name = card.querySelector('.theme-card-name');
+            var id = card.querySelector('.theme-card-id');
+            var desc = card.querySelector('.theme-card-desc');
+            var text = (name ? name.textContent : '') + ' ' + (id ? id.textContent : '') + ' ' + (desc ? desc.textContent : '');
+            card.style.display = text.toLowerCase().includes(term) ? 'flex' : 'none';
+          });
         });
-      });
+      }
+
+      // Set up search for each product section
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card)'));
+      setupSearch('effect-search', document.querySelectorAll('.effect-card'));
+      setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
