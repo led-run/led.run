@@ -1048,21 +1048,21 @@ led.run/WELCOME?mode=flow&amp;speed=120      스크롤 자막</code></pre>
 
         <!-- ==================== LIGHT ==================== -->
 
-        <h2 id="light-overview">Light &mdash; Overview</h2>
-        <p>The Light product turns any screen into a full-screen light effect. Use it as a flashlight, strobe, mood light, or ambient display. 18 built-in effects range from practical (solid, SOS) to atmospheric (aurora waves, lava lamp).</p>
+        <h2 id="light-overview">라이트 &mdash; 개요</h2>
+        <p>라이트 제품은 모든 화면을 전체 화면 조명 이펙트로 변환합니다. 손전등, 스트로브, 무드 조명 또는 앰비언트 디스플레이로 사용할 수 있습니다. 18가지 내장 이펙트는 실용적인 것(solid, SOS)부터 분위기 있는 것(aurora waves, lava lamp)까지 다양합니다.</p>
 
-        <pre><code>led.run/light?t=solid              White flashlight
-led.run/light?t=disco&amp;speed=5      Fast disco lights
-led.run/light?t=candle&amp;warmth=9    Extra warm candle
-led.run/light?t=aurora-waves       Aurora light bands</code></pre>
+        <pre><code>led.run/light?t=solid              흰색 손전등
+led.run/light?t=disco&amp;speed=5      빠른 디스코 조명
+led.run/light?t=candle&amp;warmth=9    따뜻한 촛불
+led.run/light?t=aurora-waves       오로라 조명 밴드</code></pre>
 
         <div class="docs-note">
-          <strong>Note:</strong> <code>/light</code> without <code>?t=</code> opens the landing page. Share links always include <code>?t=</code>.
+          <strong>참고:</strong> <code>/light</code>에 <code>?t=</code>가 없으면 랜딩 페이지가 열립니다. 공유 링크에는 항상 <code>?t=</code>가 포함됩니다.
         </div>
 
         <!-- Light Parameters -->
-        <h2 id="light-parameters">Light Parameters</h2>
-        <p>Common parameters recognized by light effects:</p>
+        <h2 id="light-parameters">라이트 매개변수</h2>
+        <p>라이트 이펙트에서 인식하는 공통 매개변수:</p>
 
         <div class="docs-table-wrap">
           <table class="docs-table">
@@ -1070,22 +1070,22 @@ led.run/light?t=aurora-waves       Aurora light bands</code></pre>
               <tr><th>파라미터</th><th>별칭</th><th>타입</th><th>기본값</th><th>설명</th></tr>
             </thead>
             <tbody>
-              <tr><td>theme</td><td>t</td><td>string</td><td>solid</td><td>Effect ID (see <a href="#effects">Effects</a>)</td></tr>
-              <tr><td>color</td><td>c</td><td>hex</td><td>per effect</td><td>Primary color</td></tr>
-              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>per effect</td><td>Background color</td></tr>
-              <tr><td>speed</td><td>&mdash;</td><td>number</td><td>per effect</td><td>Animation speed</td></tr>
-              <tr><td>colors</td><td>&mdash;</td><td>string</td><td>per effect</td><td>Comma-separated hex colors (multi-color effects)</td></tr>
-              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>Brightness level (solid effect)</td></tr>
+              <tr><td>theme</td><td>t</td><td>string</td><td>solid</td><td>이펙트 ID (<a href="#effects">이펙트</a> 참조)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>이펙트별</td><td>기본 색상</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>이펙트별</td><td>배경 색상</td></tr>
+              <tr><td>speed</td><td>&mdash;</td><td>number</td><td>이펙트별</td><td>애니메이션 속도</td></tr>
+              <tr><td>colors</td><td>&mdash;</td><td>string</td><td>이펙트별</td><td>쉼표로 구분된 hex 색상 (멀티 컬러 이펙트)</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>밝기 수준 (solid 이펙트)</td></tr>
             </tbody>
           </table>
         </div>
 
         <!-- Effects -->
-        <h2 id="effects">Effects</h2>
-        <p>led.run includes 18 light effects.</p>
+        <h2 id="effects">이펙트</h2>
+        <p>led.run에는 18가지 라이트 이펙트가 포함되어 있습니다.</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
-          <input type="text" id="effect-search" placeholder="Search effects (e.g. 'candle', 'aurora')..."
+          <input type="text" id="effect-search" placeholder="이펙트 검색 (예: 'candle', 'aurora')..."
                  style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
         </div>
 
@@ -1095,214 +1095,214 @@ led.run/light?t=aurora-waves       Aurora light bands</code></pre>
               <span class="theme-card-name">Solid</span>
               <span class="theme-card-id">solid</span>
             </div>
-            <div class="theme-card-desc">Pure white flashlight, maximum brightness</div>
+            <div class="theme-card-desc">순백색 손전등, 최대 밝기</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
             </div>
-            <a class="theme-card-link" href="#effect-solid">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-solid">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Strobe</span>
               <span class="theme-card-id">strobe</span>
             </div>
-            <div class="theme-card-desc">Adjustable-rate strobe flash</div>
+            <div class="theme-card-desc">속도 조절 가능한 스트로브 플래시</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#effect-strobe">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-strobe">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Disco</span>
               <span class="theme-card-id">disco</span>
             </div>
-            <div class="theme-card-desc">Multi-color rotation party lights</div>
+            <div class="theme-card-desc">멀티 컬러 회전 파티 조명</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff0000" title="colors"></span>
               <span class="theme-color-chip" style="background:#00ff00" title="colors"></span>
               <span class="theme-color-chip" style="background:#0000ff" title="colors"></span>
             </div>
-            <a class="theme-card-link" href="#effect-disco">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-disco">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Gradient</span>
               <span class="theme-card-id">gradient</span>
             </div>
-            <div class="theme-card-desc">Flowing gradient color transitions</div>
+            <div class="theme-card-desc">흐르는 그라데이션 색상 전환</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ff8800,#ffff00,#00ff00,#0088ff,#8800ff)" title="colors"></span>
             </div>
-            <a class="theme-card-link" href="#effect-gradient">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-gradient">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Emergency</span>
               <span class="theme-card-id">emergency</span>
             </div>
-            <div class="theme-card-desc">Red-blue alternating police flasher</div>
+            <div class="theme-card-desc">적청 교대 경찰 점멸등</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff0000" title="red"></span>
               <span class="theme-color-chip" style="background:#0000ff" title="blue"></span>
             </div>
-            <a class="theme-card-link" href="#effect-emergency">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-emergency">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Candle</span>
               <span class="theme-card-id">candle</span>
             </div>
-            <div class="theme-card-desc">Warm flickering candlelight simulation</div>
+            <div class="theme-card-desc">따뜻하게 깜빡이는 촛불 시뮬레이션</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff9329" title="color: ff9329"></span>
             </div>
-            <a class="theme-card-link" href="#effect-candle">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-candle">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Rainbow</span>
               <span class="theme-card-id">rainbow</span>
             </div>
-            <div class="theme-card-desc">Smooth rainbow color cycle</div>
+            <div class="theme-card-desc">부드러운 무지개 색상 순환</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)" title="rainbow"></span>
             </div>
-            <a class="theme-card-link" href="#effect-rainbow">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-rainbow">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">SOS</span>
               <span class="theme-card-id">sos</span>
             </div>
-            <div class="theme-card-desc">Morse code SOS signal</div>
+            <div class="theme-card-desc">모스 부호 SOS 신호</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#effect-sos">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-sos">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Breathing</span>
               <span class="theme-card-id">breathing</span>
             </div>
-            <div class="theme-card-desc">Slow radial breathing pulse</div>
+            <div class="theme-card-desc">느린 방사형 브리딩 펄스</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#4488ff" title="color: 4488ff"></span>
               <span class="theme-color-chip" style="background:#001122" title="bg: 001122"></span>
             </div>
-            <a class="theme-card-link" href="#effect-breathing">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-breathing">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Sunset</span>
               <span class="theme-card-id">sunset</span>
             </div>
-            <div class="theme-card-desc">Sunset sky with sun and drifting clouds</div>
+            <div class="theme-card-desc">태양과 흘러가는 구름이 있는 석양 하늘</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff8800" title="sunset"></span>
               <span class="theme-color-chip" style="background:#4400aa" title="sky"></span>
             </div>
-            <a class="theme-card-link" href="#effect-sunset">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-sunset">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Heartbeat</span>
               <span class="theme-card-id">heartbeat</span>
             </div>
-            <div class="theme-card-desc">BPM-driven pulse with ripple rings</div>
+            <div class="theme-card-desc">BPM 기반 펄스와 리플 링</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff0040" title="color: ff0040"></span>
               <span class="theme-color-chip" style="background:#100010" title="bg: 100010"></span>
             </div>
-            <a class="theme-card-link" href="#effect-heartbeat">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-heartbeat">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Matrix Rain</span>
               <span class="theme-card-id">matrix-rain</span>
             </div>
-            <div class="theme-card-desc">Falling green characters (Canvas)</div>
+            <div class="theme-card-desc">떨어지는 초록색 문자 (Canvas)</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#effect-matrix-rain">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-matrix-rain">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Aurora Waves</span>
               <span class="theme-card-id">aurora-waves</span>
             </div>
-            <div class="theme-card-desc">Multi-layer sine wave aurora bands</div>
+            <div class="theme-card-desc">다층 사인파 오로라 밴드</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff88" title="colors"></span>
               <span class="theme-color-chip" style="background:#ff66cc" title="colors"></span>
               <span class="theme-color-chip" style="background:#8844ff" title="colors"></span>
             </div>
-            <a class="theme-card-link" href="#effect-aurora-waves">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-aurora-waves">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Campfire</span>
               <span class="theme-card-id">campfire</span>
             </div>
-            <div class="theme-card-desc">Particle campfire with sparks and smoke</div>
+            <div class="theme-card-desc">불꽃과 연기가 있는 파티클 캠프파이어</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff6600" title="fire"></span>
               <span class="theme-color-chip" style="background:#331100" title="embers"></span>
             </div>
-            <a class="theme-card-link" href="#effect-campfire">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-campfire">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Lightning</span>
               <span class="theme-card-id">lightning</span>
             </div>
-            <div class="theme-card-desc">Fractal lightning bolts with flash</div>
+            <div class="theme-card-desc">프랙탈 번개와 번쩍임</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#aaddff" title="color: aaddff"></span>
               <span class="theme-color-chip" style="background:#0a0a2e" title="bg: 0a0a2e"></span>
             </div>
-            <a class="theme-card-link" href="#effect-lightning">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-lightning">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Kaleidoscope</span>
               <span class="theme-card-id">kaleidoscope</span>
             </div>
-            <div class="theme-card-desc">N-fold rotational symmetry patterns</div>
+            <div class="theme-card-desc">N중 회전 대칭 패턴</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff0066" title="colors"></span>
               <span class="theme-color-chip" style="background:#00ffcc" title="colors"></span>
               <span class="theme-color-chip" style="background:#ffcc00" title="colors"></span>
             </div>
-            <a class="theme-card-link" href="#effect-kaleidoscope">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-kaleidoscope">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Plasma</span>
               <span class="theme-card-id">plasma</span>
             </div>
-            <div class="theme-card-desc">Classic sine-wave plasma (1/4 res buffer)</div>
+            <div class="theme-card-desc">클래식 사인파 플라즈마 (1/4 해상도 버퍼)</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)" title="HSL"></span>
             </div>
-            <a class="theme-card-link" href="#effect-plasma">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-plasma">상세 &rarr;</a>
           </div>
           <div class="theme-card effect-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Lava Lamp</span>
               <span class="theme-card-id">lava-lamp</span>
             </div>
-            <div class="theme-card-desc">Metaball lava lamp (1/4 res buffer)</div>
+            <div class="theme-card-desc">메타볼 라바 램프 (1/4 해상도 버퍼)</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff4500" title="color: ff4500"></span>
               <span class="theme-color-chip" style="background:#1a0a2e" title="bg: 1a0a2e"></span>
             </div>
-            <a class="theme-card-link" href="#effect-lava-lamp">Details &rarr;</a>
+            <a class="theme-card-link" href="#effect-lava-lamp">상세 &rarr;</a>
           </div>
         </div>
 
@@ -1310,234 +1310,234 @@ led.run/light?t=aurora-waves       Aurora light bands</code></pre>
 
         <div class="theme-detail" id="effect-solid">
           <div class="theme-detail-header"><span class="theme-detail-name">Solid</span><span class="theme-detail-id">solid</span></div>
-          <p class="theme-detail-desc">Pure white flashlight. Maximum brightness for any situation.</p>
+          <p class="theme-detail-desc">순백색 손전등. 어떤 상황에서든 최대 밝기를 제공합니다.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Light color</td></tr>
-            <tr><td>brightness</td><td>number</td><td>100</td><td>Brightness level (0&ndash;100)</td></tr>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>조명 색상</td></tr>
+            <tr><td>brightness</td><td>number</td><td>100</td><td>밝기 수준 (0&ndash;100)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=solid">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-strobe">
           <div class="theme-detail-header"><span class="theme-detail-name">Strobe</span><span class="theme-detail-id">strobe</span></div>
-          <p class="theme-detail-desc">Adjustable-rate strobe flash for parties and events.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">파티와 이벤트를 위한 속도 조절 가능한 스트로브 플래시.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Flash color</td></tr>
-            <tr><td>speed</td><td>number</td><td>5</td><td>Flash rate (1&ndash;20)</td></tr>
-            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>플래시 색상</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>플래시 속도 (1&ndash;20)</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>배경 색상</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=strobe">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-disco">
           <div class="theme-detail-header"><span class="theme-detail-name">Disco</span><span class="theme-detail-id">disco</span></div>
-          <p class="theme-detail-desc">Multi-color rotation party lights with smooth transitions.</p>
+          <p class="theme-detail-desc">부드러운 전환이 있는 멀티 컬러 회전 파티 조명.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0000"></span> <span class="color-swatch" style="background:#00ff00"></span> <span class="color-swatch" style="background:#0000ff"></span> <span class="color-swatch" style="background:#ffff00"></span> <span class="color-swatch" style="background:#ff00ff"></span> <span class="color-swatch" style="background:#00ffff"></span></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>colors</td><td>string</td><td>ff0000,00ff00,0000ff,ffff00,ff00ff,00ffff</td><td>Comma-separated hex colors</td></tr>
-            <tr><td>speed</td><td>number</td><td>2</td><td>Rotation speed (1&ndash;20)</td></tr>
+            <tr><td>colors</td><td>string</td><td>ff0000,00ff00,0000ff,ffff00,ff00ff,00ffff</td><td>쉼표로 구분된 hex 색상</td></tr>
+            <tr><td>speed</td><td>number</td><td>2</td><td>회전 속도 (1&ndash;20)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=disco">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-gradient">
           <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
-          <p class="theme-detail-desc">Flowing gradient color transitions across the screen.</p>
+          <p class="theme-detail-desc">화면 전체에 걸친 흐르는 그라데이션 색상 전환.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0000"></span> <span class="color-swatch" style="background:#ff8800"></span> <span class="color-swatch" style="background:#ffff00"></span> <span class="color-swatch" style="background:#00ff00"></span> <span class="color-swatch" style="background:#0088ff"></span> <span class="color-swatch" style="background:#8800ff"></span></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>colors</td><td>string</td><td>ff0000,ff8800,ffff00,00ff00,0088ff,8800ff</td><td>Comma-separated hex colors</td></tr>
-            <tr><td>speed</td><td>number</td><td>3</td><td>Animation speed (1&ndash;20)</td></tr>
+            <tr><td>colors</td><td>string</td><td>ff0000,ff8800,ffff00,00ff00,0088ff,8800ff</td><td>쉼표로 구분된 hex 색상</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>애니메이션 속도 (1&ndash;20)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=gradient">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-emergency">
           <div class="theme-detail-header"><span class="theme-detail-name">Emergency</span><span class="theme-detail-id">emergency</span></div>
-          <p class="theme-detail-desc">Red-blue alternating police flasher.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0000"></span> red <span class="color-swatch" style="background:#0000ff"></span> blue</div>
+          <p class="theme-detail-desc">적청 교대 경찰 점멸등.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0000"></span> 빨강 <span class="color-swatch" style="background:#0000ff"></span> 파랑</div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>2</td><td>Flash alternation speed (1&ndash;20)</td></tr>
+            <tr><td>speed</td><td>number</td><td>2</td><td>점멸 교대 속도 (1&ndash;20)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=emergency">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-candle">
           <div class="theme-detail-header"><span class="theme-detail-name">Candle</span><span class="theme-detail-id">candle</span></div>
-          <p class="theme-detail-desc">Warm flickering candlelight simulation for ambient mood lighting.</p>
+          <p class="theme-detail-desc">분위기 있는 무드 조명을 위한 따뜻하게 깜빡이는 촛불 시뮬레이션.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff9329"></span> <code>ff9329</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ff9329</td><td>Flame color</td></tr>
-            <tr><td>warmth</td><td>number</td><td>7</td><td>Warmth intensity (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>ff9329</td><td>불꽃 색상</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>온기 강도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=candle">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-rainbow">
           <div class="theme-detail-header"><span class="theme-detail-name">Rainbow</span><span class="theme-detail-id">rainbow</span></div>
-          <p class="theme-detail-desc">Smooth cycling through all rainbow colors.</p>
-          <div class="theme-detail-colors"><span>기본값:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> rainbow cycle</div>
+          <p class="theme-detail-desc">모든 무지개 색상을 부드럽게 순환합니다.</p>
+          <div class="theme-detail-colors"><span>기본값:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#ffff00,#00ff00,#00ffff,#0000ff,#ff00ff)"></span> 무지개 순환</div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>3</td><td>Cycle speed (1&ndash;20)</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>순환 속도 (1&ndash;20)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=rainbow">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-sos">
           <div class="theme-detail-header"><span class="theme-detail-name">SOS</span><span class="theme-detail-id">sos</span></div>
-          <p class="theme-detail-desc">Morse code SOS signal &mdash; three short, three long, three short.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">모스 부호 SOS 신호 &mdash; 짧게 셋, 길게 셋, 짧게 셋.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ffffff</td><td>Signal color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
+            <tr><td>color</td><td>hex</td><td>ffffff</td><td>신호 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>배경 색상</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=sos">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-breathing">
           <div class="theme-detail-header"><span class="theme-detail-name">Breathing</span><span class="theme-detail-id">breathing</span></div>
-          <p class="theme-detail-desc">Slow radial breathing pulse for meditation and relaxation.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4488ff"></span> <code>4488ff</code> <span>on</span> <span class="color-swatch" style="background:#001122"></span> <code>001122</code></div>
+          <p class="theme-detail-desc">명상과 휴식을 위한 느린 방사형 브리딩 펄스.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4488ff"></span> <code>4488ff</code> <span>배경</span> <span class="color-swatch" style="background:#001122"></span> <code>001122</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>4488ff</td><td>Pulse color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>001122</td><td>Background color</td></tr>
-            <tr><td>cycle</td><td>number</td><td>8</td><td>Breath cycle duration in seconds</td></tr>
-            <tr><td>depth</td><td>number</td><td>5</td><td>Pulse depth (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>4488ff</td><td>펄스 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>001122</td><td>배경 색상</td></tr>
+            <tr><td>cycle</td><td>number</td><td>8</td><td>호흡 주기 (초 단위)</td></tr>
+            <tr><td>depth</td><td>number</td><td>5</td><td>펄스 깊이 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=breathing">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-sunset">
           <div class="theme-detail-header"><span class="theme-detail-name">Sunset</span><span class="theme-detail-id">sunset</span></div>
-          <p class="theme-detail-desc">Warm sunset sky gradient with drifting clouds and golden sun.</p>
-          <div class="theme-detail-colors"><span>기본값:</span> sunset sky gradient</div>
+          <p class="theme-detail-desc">흘러가는 구름과 황금빛 태양이 있는 따뜻한 석양 하늘 그라데이션.</p>
+          <div class="theme-detail-colors"><span>기본값:</span> 석양 하늘 그라데이션</div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>2</td><td>Cloud drift speed (1&ndash;20)</td></tr>
-            <tr><td>sunSize</td><td>number</td><td>5</td><td>Sun size (1&ndash;10)</td></tr>
-            <tr><td>cloudDensity</td><td>number</td><td>5</td><td>Cloud density (1&ndash;10)</td></tr>
+            <tr><td>speed</td><td>number</td><td>2</td><td>구름 이동 속도 (1&ndash;20)</td></tr>
+            <tr><td>sunSize</td><td>number</td><td>5</td><td>태양 크기 (1&ndash;10)</td></tr>
+            <tr><td>cloudDensity</td><td>number</td><td>5</td><td>구름 밀도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=sunset">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-heartbeat">
           <div class="theme-detail-header"><span class="theme-detail-name">Heartbeat</span><span class="theme-detail-id">heartbeat</span></div>
-          <p class="theme-detail-desc">Center pulse with BPM-driven ripple rings.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0040"></span> <code>ff0040</code> <span>on</span> <span class="color-swatch" style="background:#100010"></span> <code>100010</code></div>
+          <p class="theme-detail-desc">BPM 기반 리플 링이 있는 중앙 펄스.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0040"></span> <code>ff0040</code> <span>배경</span> <span class="color-swatch" style="background:#100010"></span> <code>100010</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ff0040</td><td>Pulse color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>100010</td><td>Background color</td></tr>
-            <tr><td>bpm</td><td>number</td><td>72</td><td>Beats per minute</td></tr>
-            <tr><td>pulse</td><td>number</td><td>5</td><td>Pulse intensity (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>ff0040</td><td>펄스 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>100010</td><td>배경 색상</td></tr>
+            <tr><td>bpm</td><td>number</td><td>72</td><td>분당 박동 수</td></tr>
+            <tr><td>pulse</td><td>number</td><td>5</td><td>펄스 강도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=heartbeat">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-matrix-rain">
           <div class="theme-detail-header"><span class="theme-detail-name">Matrix Rain</span><span class="theme-detail-id">matrix-rain</span></div>
-          <p class="theme-detail-desc">Falling green characters in cascading digital rain, rendered on Canvas.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">Canvas로 렌더링된 연속적인 디지털 비처럼 떨어지는 초록색 문자.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>00ff41</td><td>Character color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>000000</td><td>Background color</td></tr>
-            <tr><td>speed</td><td>number</td><td>8</td><td>Fall speed (1&ndash;20)</td></tr>
-            <tr><td>density</td><td>number</td><td>5</td><td>Column density (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>00ff41</td><td>문자 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>000000</td><td>배경 색상</td></tr>
+            <tr><td>speed</td><td>number</td><td>8</td><td>낙하 속도 (1&ndash;20)</td></tr>
+            <tr><td>density</td><td>number</td><td>5</td><td>열 밀도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=matrix-rain">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-aurora-waves">
           <div class="theme-detail-header"><span class="theme-detail-name">Aurora Waves</span><span class="theme-detail-id">aurora-waves</span></div>
-          <p class="theme-detail-desc">Multi-layer sine wave aurora bands in green, pink, and purple.</p>
+          <p class="theme-detail-desc">초록, 분홍, 보라색의 다층 사인파 오로라 밴드.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff88"></span> <span class="color-swatch" style="background:#ff66cc"></span> <span class="color-swatch" style="background:#8844ff"></span></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>3</td><td>Wave speed (1&ndash;20)</td></tr>
-            <tr><td>waves</td><td>number</td><td>6</td><td>Number of wave layers</td></tr>
-            <tr><td>amplitude</td><td>number</td><td>5</td><td>Wave amplitude (1&ndash;10)</td></tr>
-            <tr><td>colors</td><td>string</td><td>00ff88,ff66cc,8844ff</td><td>Comma-separated hex colors</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>파동 속도 (1&ndash;20)</td></tr>
+            <tr><td>waves</td><td>number</td><td>6</td><td>파동 레이어 수</td></tr>
+            <tr><td>amplitude</td><td>number</td><td>5</td><td>파동 진폭 (1&ndash;10)</td></tr>
+            <tr><td>colors</td><td>string</td><td>00ff88,ff66cc,8844ff</td><td>쉼표로 구분된 hex 색상</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=aurora-waves">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-campfire">
           <div class="theme-detail-header"><span class="theme-detail-name">Campfire</span><span class="theme-detail-id">campfire</span></div>
-          <p class="theme-detail-desc">Particle campfire with rising sparks and smoke.</p>
-          <div class="theme-detail-colors"><span>기본값:</span> warm fire tones</div>
+          <p class="theme-detail-desc">솟아오르는 불꽃과 연기가 있는 파티클 캠프파이어.</p>
+          <div class="theme-detail-colors"><span>기본값:</span> 따뜻한 불꽃 톤</div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>sparks</td><td>number</td><td>5</td><td>Spark count (1&ndash;10)</td></tr>
-            <tr><td>wind</td><td>number</td><td>3</td><td>Wind strength (1&ndash;10)</td></tr>
+            <tr><td>sparks</td><td>number</td><td>5</td><td>불꽃 수 (1&ndash;10)</td></tr>
+            <tr><td>wind</td><td>number</td><td>3</td><td>바람 세기 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=campfire">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-lightning">
           <div class="theme-detail-header"><span class="theme-detail-name">Lightning</span><span class="theme-detail-id">lightning</span></div>
-          <p class="theme-detail-desc">Fractal lightning bolts with thunder flash effects. Capped at &le;3Hz for photosensitivity safety.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#aaddff"></span> <code>aaddff</code> <span>on</span> <span class="color-swatch" style="background:#0a0a2e"></span> <code>0a0a2e</code></div>
+          <p class="theme-detail-desc">천둥 번쩍임 효과가 있는 프랙탈 번개. 광과민성 안전을 위해 &le;3Hz로 제한됩니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#aaddff"></span> <code>aaddff</code> <span>배경</span> <span class="color-swatch" style="background:#0a0a2e"></span> <code>0a0a2e</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>aaddff</td><td>Lightning color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>0a0a2e</td><td>Sky background</td></tr>
-            <tr><td>frequency</td><td>number</td><td>5</td><td>Strike frequency (1&ndash;10)</td></tr>
-            <tr><td>branches</td><td>number</td><td>5</td><td>Branch count per bolt (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>aaddff</td><td>번개 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>0a0a2e</td><td>하늘 배경</td></tr>
+            <tr><td>frequency</td><td>number</td><td>5</td><td>낙뢰 빈도 (1&ndash;10)</td></tr>
+            <tr><td>branches</td><td>number</td><td>5</td><td>번개당 가지 수 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=lightning">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-kaleidoscope">
           <div class="theme-detail-header"><span class="theme-detail-name">Kaleidoscope</span><span class="theme-detail-id">kaleidoscope</span></div>
-          <p class="theme-detail-desc">N-fold rotational symmetry patterns with flowing colors.</p>
+          <p class="theme-detail-desc">흐르는 색상의 N중 회전 대칭 패턴.</p>
           <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff0066"></span> <span class="color-swatch" style="background:#00ffcc"></span> <span class="color-swatch" style="background:#ffcc00"></span> <span class="color-swatch" style="background:#6644ff"></span></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>4</td><td>Rotation speed (1&ndash;20)</td></tr>
-            <tr><td>symmetry</td><td>number</td><td>8</td><td>Number of symmetry folds</td></tr>
-            <tr><td>complexity</td><td>number</td><td>5</td><td>Pattern complexity (1&ndash;10)</td></tr>
-            <tr><td>colors</td><td>string</td><td>ff0066,00ffcc,ffcc00,6644ff</td><td>Comma-separated hex colors</td></tr>
+            <tr><td>speed</td><td>number</td><td>4</td><td>회전 속도 (1&ndash;20)</td></tr>
+            <tr><td>symmetry</td><td>number</td><td>8</td><td>대칭 접힘 수</td></tr>
+            <tr><td>complexity</td><td>number</td><td>5</td><td>패턴 복잡도 (1&ndash;10)</td></tr>
+            <tr><td>colors</td><td>string</td><td>ff0066,00ffcc,ffcc00,6644ff</td><td>쉼표로 구분된 hex 색상</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=kaleidoscope">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-plasma">
           <div class="theme-detail-header"><span class="theme-detail-name">Plasma</span><span class="theme-detail-id">plasma</span></div>
-          <p class="theme-detail-desc">Classic demo-scene sine-wave plasma with flowing HSL colors, rendered at 1/4 resolution for performance.</p>
-          <div class="theme-detail-colors"><span>기본값:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)"></span> HSL cycle</div>
+          <p class="theme-detail-desc">흐르는 HSL 색상의 클래식 데모씬 사인파 플라즈마, 성능을 위해 1/4 해상도로 렌더링됩니다.</p>
+          <div class="theme-detail-colors"><span>기본값:</span> <span class="color-swatch" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)"></span> HSL 순환</div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>speed</td><td>number</td><td>5</td><td>Animation speed (1&ndash;20)</td></tr>
-            <tr><td>waveScale</td><td>number</td><td>5</td><td>Wave pattern scale (1&ndash;10)</td></tr>
-            <tr><td>intensity</td><td>number</td><td>7</td><td>Color intensity (1&ndash;10)</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>애니메이션 속도 (1&ndash;20)</td></tr>
+            <tr><td>waveScale</td><td>number</td><td>5</td><td>파동 패턴 스케일 (1&ndash;10)</td></tr>
+            <tr><td>intensity</td><td>number</td><td>7</td><td>색상 강도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=plasma">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="effect-lava-lamp">
           <div class="theme-detail-header"><span class="theme-detail-name">Lava Lamp</span><span class="theme-detail-id">lava-lamp</span></div>
-          <p class="theme-detail-desc">Metaball lava lamp with floating and merging blobs, rendered at 1/4 resolution.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff4500"></span> <code>ff4500</code> <span>on</span> <span class="color-swatch" style="background:#1a0a2e"></span> <code>1a0a2e</code></div>
+          <p class="theme-detail-desc">떠다니며 합쳐지는 방울이 있는 메타볼 라바 램프, 1/4 해상도로 렌더링됩니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff4500"></span> <code>ff4500</code> <span>배경</span> <span class="color-swatch" style="background:#1a0a2e"></span> <code>1a0a2e</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>color</td><td>hex</td><td>ff4500</td><td>Blob color</td></tr>
-            <tr><td>bg</td><td>hex</td><td>1a0a2e</td><td>Background color</td></tr>
-            <tr><td>speed</td><td>number</td><td>3</td><td>Animation speed (1&ndash;20)</td></tr>
-            <tr><td>blobCount</td><td>number</td><td>10</td><td>Number of blobs</td></tr>
-            <tr><td>viscosity</td><td>number</td><td>5</td><td>Blob viscosity (1&ndash;10)</td></tr>
+            <tr><td>color</td><td>hex</td><td>ff4500</td><td>방울 색상</td></tr>
+            <tr><td>bg</td><td>hex</td><td>1a0a2e</td><td>배경 색상</td></tr>
+            <tr><td>speed</td><td>number</td><td>3</td><td>애니메이션 속도 (1&ndash;20)</td></tr>
+            <tr><td>blobCount</td><td>number</td><td>10</td><td>방울 수</td></tr>
+            <tr><td>viscosity</td><td>number</td><td>5</td><td>방울 점성 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/light?t=lava-lamp">사용해보기 &rarr;</a>
         </div>
 
         <!-- ==================== SOUND ==================== -->
 
-        <h2 id="sound-overview">Sound &mdash; Overview</h2>
-        <p>The Sound product creates real-time audio visualizations driven by your microphone. 12 built-in visualizers transform sound into mesmerizing visuals, from classic spectrum bars to cinematic bokeh fields.</p>
+        <h2 id="sound-overview">사운드 &mdash; 개요</h2>
+        <p>사운드 제품은 마이크로 구동되는 실시간 오디오 시각화를 생성합니다. 12가지 내장 비주얼라이저가 소리를 매혹적인 비주얼로 변환합니다. 클래식 스펙트럼 바부터 시네마틱 보케 필드까지 다양합니다.</p>
 
-        <pre><code>led.run/sound?t=bars              Spectrum analyzer
-led.run/sound?t=ocean&amp;waveCount=10 Ocean with more waves
-led.run/sound?t=spikes            Radial spikes</code></pre>
+        <pre><code>led.run/sound?t=bars              스펙트럼 분석기
+led.run/sound?t=ocean&amp;waveCount=10 더 많은 파도의 바다
+led.run/sound?t=spikes            방사형 스파이크</code></pre>
 
         <div class="docs-note">
-          <strong>Microphone permission:</strong> Sound visualizers require microphone access. Your browser will prompt for permission on first use. Audio is processed locally &mdash; nothing is recorded or transmitted.
+          <strong>마이크 권한:</strong> 사운드 비주얼라이저는 마이크 접근이 필요합니다. 처음 사용 시 브라우저에서 권한을 요청합니다. 오디오는 로컬에서 처리됩니다 &mdash; 녹음되거나 전송되지 않습니다.
         </div>
 
         <!-- Sound Parameters -->
-        <h2 id="sound-parameters">Sound Parameters</h2>
-        <p>Common parameters recognized by sound visualizers:</p>
+        <h2 id="sound-parameters">사운드 매개변수</h2>
+        <p>사운드 비주얼라이저에서 인식하는 공통 매개변수:</p>
 
         <div class="docs-table-wrap">
           <table class="docs-table">
@@ -1545,21 +1545,21 @@ led.run/sound?t=spikes            Radial spikes</code></pre>
               <tr><th>파라미터</th><th>별칭</th><th>타입</th><th>기본값</th><th>설명</th></tr>
             </thead>
             <tbody>
-              <tr><td>theme</td><td>t</td><td>string</td><td>bars</td><td>Visualizer ID (see <a href="#visualizers">Visualizers</a>)</td></tr>
-              <tr><td>color</td><td>c</td><td>hex</td><td>per visualizer</td><td>Primary color</td></tr>
-              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>per visualizer</td><td>Background color</td></tr>
-              <tr><td>sensitivity</td><td>&mdash;</td><td>number</td><td>5</td><td>Audio sensitivity (1&ndash;10)</td></tr>
-              <tr><td>smoothing</td><td>&mdash;</td><td>number</td><td>0.85</td><td>Frequency data smoothing (0&ndash;1)</td></tr>
+              <tr><td>theme</td><td>t</td><td>string</td><td>bars</td><td>비주얼라이저 ID (<a href="#visualizers">비주얼라이저</a> 참조)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>비주얼라이저별</td><td>기본 색상</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>비주얼라이저별</td><td>배경 색상</td></tr>
+              <tr><td>sensitivity</td><td>&mdash;</td><td>number</td><td>5</td><td>오디오 감도 (1&ndash;10)</td></tr>
+              <tr><td>smoothing</td><td>&mdash;</td><td>number</td><td>0.85</td><td>주파수 데이터 스무딩 (0&ndash;1)</td></tr>
             </tbody>
           </table>
         </div>
 
         <!-- Visualizers -->
-        <h2 id="visualizers">Visualizers</h2>
-        <p>led.run includes 12 sound visualizers.</p>
+        <h2 id="visualizers">비주얼라이저</h2>
+        <p>led.run에는 12가지 사운드 비주얼라이저가 포함되어 있습니다.</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
-          <input type="text" id="viz-search" placeholder="Search visualizers (e.g. 'bars', 'ocean')..."
+          <input type="text" id="viz-search" placeholder="비주얼라이저 검색 (예: 'bars', 'ocean')..."
                  style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
         </div>
 
@@ -1569,144 +1569,144 @@ led.run/sound?t=spikes            Radial spikes</code></pre>
               <span class="theme-card-name">Bars</span>
               <span class="theme-card-id">bars</span>
             </div>
-            <div class="theme-card-desc">Premium spectrum with peaks and reflections</div>
+            <div class="theme-card-desc">피크와 반사가 있는 프리미엄 스펙트럼</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-bars">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-bars">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Scope</span>
               <span class="theme-card-id">scope</span>
             </div>
-            <div class="theme-card-desc">CRT oscilloscope with trail persistence</div>
+            <div class="theme-card-desc">잔상 지속이 있는 CRT 오실로스코프</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff80" title="color: 00ff80"></span>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
             </div>
-            <a class="theme-card-link" href="#viz-scope">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-scope">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Ocean</span>
               <span class="theme-card-id">ocean</span>
             </div>
-            <div class="theme-card-desc">Moonlit ocean with stars and foam</div>
+            <div class="theme-card-desc">별과 물거품이 있는 달빛 바다</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
               <span class="theme-color-chip" style="background:#001a33" title="bg: 001a33"></span>
             </div>
-            <a class="theme-card-link" href="#viz-ocean">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-ocean">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Alchemy</span>
               <span class="theme-card-id">alchemy</span>
             </div>
-            <div class="theme-card-desc">Organic energy vortex with HSL spiral</div>
+            <div class="theme-card-desc">HSL 나선형의 유기적 에너지 소용돌이</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ff6600" title="color: ff6600"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-alchemy">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-alchemy">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Battery</span>
               <span class="theme-card-id">battery</span>
             </div>
-            <div class="theme-card-desc">Sonar pulse with radar sweep</div>
+            <div class="theme-card-desc">레이더 스윕이 있는 소나 펄스</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-battery">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-battery">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Ambience</span>
               <span class="theme-card-id">ambience</span>
             </div>
-            <div class="theme-card-desc">Deep atmospheric presets (3 modes)</div>
+            <div class="theme-card-desc">깊은 분위기 프리셋 (3가지 모드)</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-ambience">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-ambience">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Particle</span>
               <span class="theme-card-id">particle</span>
             </div>
-            <div class="theme-card-desc">Tron-style 3D grid with bloom</div>
+            <div class="theme-card-desc">블룸이 있는 트론 스타일 3D 그리드</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-particle">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-particle">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Musical Colors</span>
               <span class="theme-card-id">musical-colors</span>
             </div>
-            <div class="theme-card-desc">Artistic flowing effects (7 presets)</div>
+            <div class="theme-card-desc">예술적 유동 이펙트 (7가지 프리셋)</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:linear-gradient(90deg,#ff0000,#00ff00,#0000ff)" title="multi"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-musical-colors">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-musical-colors">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Spikes</span>
               <span class="theme-card-id">spikes</span>
             </div>
-            <div class="theme-card-desc">360&deg; radial spikes with core glow</div>
+            <div class="theme-card-desc">코어 글로우가 있는 360&deg; 방사형 스파이크</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-spikes">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-spikes">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Plenoptic</span>
               <span class="theme-card-id">plenoptic</span>
             </div>
-            <div class="theme-card-desc">Cinematic bokeh light field</div>
+            <div class="theme-card-desc">시네마틱 보케 라이트 필드</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-plenoptic">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-plenoptic">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Waveform 3D</span>
               <span class="theme-card-id">waveform-3d</span>
             </div>
-            <div class="theme-card-desc">Holographic 3D waveform with depth</div>
+            <div class="theme-card-desc">깊이감이 있는 홀로그래픽 3D 파형</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#00ff80" title="color: 00ff80"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-waveform-3d">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-waveform-3d">상세 &rarr;</a>
           </div>
           <div class="theme-card visualizer-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Spectrum Circle</span>
               <span class="theme-card-id">spectrum-circle</span>
             </div>
-            <div class="theme-card-desc">Circular spectrum with glow ring</div>
+            <div class="theme-card-desc">글로우 링이 있는 원형 스펙트럼</div>
             <div class="theme-card-colors">
               <span class="theme-color-chip" style="background:#4080ff" title="color: 4080ff"></span>
               <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
             </div>
-            <a class="theme-card-link" href="#viz-spectrum-circle">Details &rarr;</a>
+            <a class="theme-card-link" href="#viz-spectrum-circle">상세 &rarr;</a>
           </div>
         </div>
 
@@ -1714,124 +1714,124 @@ led.run/sound?t=spikes            Radial spikes</code></pre>
 
         <div class="theme-detail" id="viz-bars">
           <div class="theme-detail-header"><span class="theme-detail-name">Bars</span><span class="theme-detail-id">bars</span></div>
-          <p class="theme-detail-desc">Premium green spectrum analyzer with persistent peaks, reflections, and multiple color modes.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">지속 피크, 반사, 다중 색상 모드를 갖춘 프리미엄 녹색 스펙트럼 분석기.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>smoothing</td><td>number</td><td>0.85</td><td>Frequency data smoothing (0&ndash;1)</td></tr>
-            <tr><td>barCount</td><td>number</td><td>64</td><td>Number of bars</td></tr>
-            <tr><td>colorMode</td><td>string</td><td>single</td><td>Color mode: <code>single</code>, <code>rainbow</code>, <code>gradient</code></td></tr>
+            <tr><td>smoothing</td><td>number</td><td>0.85</td><td>주파수 데이터 스무딩 (0&ndash;1)</td></tr>
+            <tr><td>barCount</td><td>number</td><td>64</td><td>바 수</td></tr>
+            <tr><td>colorMode</td><td>string</td><td>single</td><td>색상 모드: <code>single</code>, <code>rainbow</code>, <code>gradient</code></td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=bars">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-scope">
           <div class="theme-detail-header"><span class="theme-detail-name">Scope</span><span class="theme-detail-id">scope</span></div>
-          <p class="theme-detail-desc">CRT phosphor oscilloscope with trail persistence, dotted grid, and beam dot.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <p class="theme-detail-desc">잔상 지속, 점선 그리드, 빔 도트가 있는 CRT 형광 오실로스코프.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>배경</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>lineWidth</td><td>number</td><td>2</td><td>Waveform line width</td></tr>
-            <tr><td>gridLines</td><td>boolean</td><td>true</td><td>Show dotted grid overlay</td></tr>
+            <tr><td>lineWidth</td><td>number</td><td>2</td><td>파형 선 두께</td></tr>
+            <tr><td>gridLines</td><td>boolean</td><td>true</td><td>점선 그리드 오버레이 표시</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=scope">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-ocean">
           <div class="theme-detail-header"><span class="theme-detail-name">Ocean</span><span class="theme-detail-id">ocean</span></div>
-          <p class="theme-detail-desc">Moonlit ocean dreamscape with stars, moon, and foam particles driven by audio frequency.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#001a33"></span> <code>001a33</code></div>
+          <p class="theme-detail-desc">오디오 주파수로 구동되는 별, 달, 물거품 파티클이 있는 달빛 바다 풍경.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>배경</span> <span class="color-swatch" style="background:#001a33"></span> <code>001a33</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>waveCount</td><td>number</td><td>7</td><td>Number of wave layers</td></tr>
+            <tr><td>waveCount</td><td>number</td><td>7</td><td>파도 레이어 수</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=ocean">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-alchemy">
           <div class="theme-detail-header"><span class="theme-detail-name">Alchemy</span><span class="theme-detail-id">alchemy</span></div>
-          <p class="theme-detail-desc">Organic energy vortex with energy waves, HSL spiral color, and radial trail fade.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff6600"></span> <code>ff6600</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">에너지 파동, HSL 나선형 색상, 방사형 잔상 페이드가 있는 유기적 에너지 소용돌이.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ff6600"></span> <code>ff6600</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>complexity</td><td>number</td><td>5</td><td>Vortex complexity (1&ndash;10)</td></tr>
+            <tr><td>complexity</td><td>number</td><td>5</td><td>소용돌이 복잡도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=alchemy">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-battery">
           <div class="theme-detail-header"><span class="theme-detail-name">Battery</span><span class="theme-detail-id">battery</span></div>
-          <p class="theme-detail-desc">Sonar pulse system with radar sweep, gradient rings, and interference glow.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">레이더 스윕, 그라데이션 링, 간섭 글로우가 있는 소나 펄스 시스템.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>pulseSpeed</td><td>number</td><td>5</td><td>Pulse expansion speed (1&ndash;10)</td></tr>
+            <tr><td>pulseSpeed</td><td>number</td><td>5</td><td>펄스 확장 속도 (1&ndash;10)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=battery">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-ambience">
           <div class="theme-detail-header"><span class="theme-detail-name">Ambience</span><span class="theme-detail-id">ambience</span></div>
-          <p class="theme-detail-desc">Deep atmospheric presets: Nebula (glow), Ripple (water), Veil (swirl).</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">깊은 분위기 프리셋: Nebula (글로우), Ripple (물결), Veil (소용돌이).</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>glowRadius</td><td>number</td><td>0.6</td><td>Glow radius (0&ndash;1)</td></tr>
-            <tr><td>ambPreset</td><td>string</td><td>glow</td><td>Preset: <code>glow</code>, <code>ripple</code>, <code>veil</code></td></tr>
+            <tr><td>glowRadius</td><td>number</td><td>0.6</td><td>글로우 반경 (0&ndash;1)</td></tr>
+            <tr><td>ambPreset</td><td>string</td><td>glow</td><td>프리셋: <code>glow</code>, <code>ripple</code>, <code>veil</code></td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=ambience">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-particle">
           <div class="theme-detail-header"><span class="theme-detail-name">Particle</span><span class="theme-detail-id">particle</span></div>
-          <p class="theme-detail-desc">Tron-style 3D grid with connections, wave propagation, and bloom lighting.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">연결선, 파동 전파, 블룸 조명이 있는 트론 스타일 3D 그리드.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>gridSize</td><td>number</td><td>20</td><td>Grid resolution</td></tr>
+            <tr><td>gridSize</td><td>number</td><td>20</td><td>그리드 해상도</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=particle">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-musical-colors">
           <div class="theme-detail-header"><span class="theme-detail-name">Musical Colors</span><span class="theme-detail-id">musical-colors</span></div>
-          <p class="theme-detail-desc">Artistic flowing effects with 7 presets: aurora, water, silky, electric, neon, flame, star.</p>
-          <div class="theme-detail-colors"><span>기본값:</span> aurora preset <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">7가지 프리셋이 있는 예술적 유동 이펙트: aurora, water, silky, electric, neon, flame, star.</p>
+          <div class="theme-detail-colors"><span>기본값:</span> aurora 프리셋 <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>mcPreset</td><td>string</td><td>aurora</td><td>Preset: <code>aurora</code>, <code>water</code>, <code>silky</code>, <code>electric</code>, <code>neon</code>, <code>flame</code>, <code>star</code></td></tr>
+            <tr><td>mcPreset</td><td>string</td><td>aurora</td><td>프리셋: <code>aurora</code>, <code>water</code>, <code>silky</code>, <code>electric</code>, <code>neon</code>, <code>flame</code>, <code>star</code></td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=musical-colors">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-spikes">
           <div class="theme-detail-header"><span class="theme-detail-name">Spikes</span><span class="theme-detail-id">spikes</span></div>
-          <p class="theme-detail-desc">Dramatic 360&deg; radial spikes with tip particles and inner core glow.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">팁 파티클과 내부 코어 글로우가 있는 드라마틱한 360&deg; 방사형 스파이크.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>spikeCount</td><td>number</td><td>96</td><td>Number of spikes</td></tr>
+            <tr><td>spikeCount</td><td>number</td><td>96</td><td>스파이크 수</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=spikes">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-plenoptic">
           <div class="theme-detail-header"><span class="theme-detail-name">Plenoptic</span><span class="theme-detail-id">plenoptic</span></div>
-          <p class="theme-detail-desc">Cinematic bokeh light field with pre-rendered textures and depth color variation.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">사전 렌더링된 텍스처와 깊이별 색상 변화가 있는 시네마틱 보케 라이트 필드.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>depth</td><td>number</td><td>8</td><td>Depth layers</td></tr>
+            <tr><td>depth</td><td>number</td><td>8</td><td>깊이 레이어</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=plenoptic">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-waveform-3d">
           <div class="theme-detail-header"><span class="theme-detail-name">Waveform 3D</span><span class="theme-detail-id">waveform-3d</span></div>
-          <p class="theme-detail-desc">Holographic 3D waveform with depth color gradient and grid lines.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">깊이 색상 그라데이션과 그리드 라인이 있는 홀로그래픽 3D 파형.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff80"></span> <code>00ff80</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>depth</td><td>number</td><td>12</td><td>Number of depth layers</td></tr>
+            <tr><td>depth</td><td>number</td><td>12</td><td>깊이 레이어 수</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=waveform-3d">사용해보기 &rarr;</a>
         </div>
 
         <div class="theme-detail" id="viz-spectrum-circle">
           <div class="theme-detail-header"><span class="theme-detail-name">Spectrum Circle</span><span class="theme-detail-id">spectrum-circle</span></div>
-          <p class="theme-detail-desc">Monstercat-style circular spectrum with log binning, rotating glow ring, and central orb.</p>
-          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <p class="theme-detail-desc">로그 비닝, 회전 글로우 링, 중앙 오브가 있는 Monstercat 스타일 원형 스펙트럼.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#4080ff"></span> <code>4080ff</code> <span>배경</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
           <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
-            <tr><td>innerRadius</td><td>number</td><td>0.2</td><td>Inner circle radius (0&ndash;1)</td></tr>
+            <tr><td>innerRadius</td><td>number</td><td>0.2</td><td>내부 원 반경 (0&ndash;1)</td></tr>
           </tbody></table></div>
           <a class="theme-detail-try" href="/sound?t=spectrum-circle">사용해보기 &rarr;</a>
         </div>
