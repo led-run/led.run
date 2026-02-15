@@ -1,0 +1,9 @@
+/**
+ * Time Product Styles
+ * Base styles for clock themes
+ */
+
+/* Clock themes fill entire container */
+#app[data-product="time"] #display {
+  background: #000;
+}

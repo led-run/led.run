@@ -5,7 +5,7 @@
 - **Pure vanilla JS/CSS** — no frameworks, no build step, no npm
 - **IIFE modules** — each file wraps in `;(function(global) { ... })(window)`
 - **Cloudflare Pages** — static hosting, SPA rewrite via `_redirects`
-- **Multi-product platform** — three products (Text, Light, Sound) with independent managers
+- **Multi-product platform** — four products (Text, Light, Sound, Time) with independent managers
 - **Theme-centric** — themes/effects/visualizers are autonomous rendering systems, the app only orchestrates
 
 ## Products
@@ -15,6 +15,7 @@
 | **Text** | LED-style text display (20 themes) | `TextManager` | `texts/` | `led.run/HELLO` or `led.run/text/HELLO` |
 | **Light** | Pure color/pattern light effects (18 effects) | `LightManager` | `lights/` | `led.run/light?t=disco` |
 | **Sound** | Real-time audio visualization (12 visualizers) | `SoundManager` | `sounds/` | `led.run/sound?t=bars` |
+| **Time** | Clock displays (14 themes) | `TimeManager` | `times/` | `led.run/time?t=digital` |
 
 ## URL Protocol
 
@@ -23,11 +24,12 @@ led.run/HELLO?t=neon                   → Text product (preferred short-link fo
 led.run/text/HELLO?t=neon              → Text product (canonical form, technically equivalent)
 led.run/light?t=disco&colors=ff0000    → Light product
 led.run/sound?t=bars&sensitivity=5     → Sound product
+led.run/time?t=digital&format=12h      → Time product
 led.run/                               → Landing page
 ```
 
 **Routing rules**:
-- `text`, `light`, `sound` are reserved path prefixes (lowercase)
+- `text`, `light`, `sound`, `time` are reserved path prefixes (lowercase)
 - All non-reserved paths fall back to Text product (backward compatible)
 - `/text/light` displays text "light" (`text/` prefix overrides reserved words)
 - Text share links use `led.run/content` short-link form (no `/text/` prefix)
@@ -48,6 +50,14 @@ All params are "preference hints" — themes decide whether to consume them.
 | `fill` | — | hex (6 or 8 digit) | Card face background color (no #), used by card themes when scale < 1 |
 | `cursor` | `cur` | number | Cursor auto-hide delay (App-level) |
 | `lang` | `l` | string | UI language (en/zh/ja/ko/es/fr/de), App-level |
+| `format` | — | string | Time format (12h/24h), Time product |
+| `showSeconds` | — | boolean | Show seconds display, Time product |
+| `showDate` | — | boolean | Show date display, Time product |
+| `dateFormat` | — | string | Date format (MDY/DMY/YMD), Time product |
+| `tz` | — | number | Timezone UTC offset (-12 to 14), Time product |
+| `lcdScale` | — | number | LCD overall scale (0.3–2.0, default 1.0), LCD clock |
+| `lcdPosition` | — | string | LCD position (center/top/bottom/top-left/top-right/bottom-left/bottom-right), LCD clock |
+| `lcdFull` | — | boolean | LCD fullscreen mode (removes bezel, fills container), LCD clock |
 
 ## Manager Interfaces (Symmetric Design)
 
@@ -105,6 +115,24 @@ getCurrentConfig(), resize()
 }
 ```
 
+### TimeManager (`js/core/time-manager.js`)
+
+```
+register(clock), switch(clockId, container, config), getCurrent(),
+getCurrentId(), getClockIds(), hasClock(id), getDefaults(id),
+getCurrentConfig(), resize()
+```
+
+**Clock Theme interface:**
+```javascript
+{
+  id: 'digital',
+  defaults: { color: 'ff0000', bg: '0a0a0a', format: '24h', showSeconds: true },
+  init(container, config) {},
+  destroy() {}
+}
+```
+
 ### AudioEngine (`js/core/audio-engine.js`)
 
 ```
@@ -122,7 +150,7 @@ Pipeline: `getUserMedia({ audio }) → AudioContext → MediaStreamSource → An
 
 ```
 robots.txt                SEO crawler directives
-sitemap.xml               SEO sitemap (7 landing pages, 7 docs pages, 3 product pages)
+sitemap.xml               SEO sitemap (7 landing pages, 7 docs pages, 4 product pages)
 _redirects                Cloudflare Pages rewrite rules (robots/sitemap before SPA catch-all)
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles + language switcher + product tabs
@@ -131,6 +159,7 @@ css/toolbar.css           Floating toolbar styles + rotation classes
 css/settings.css          Settings panel styles (drawer/bottom-sheet)
 css/light.css             Light product global styles
 css/sound.css             Sound product global styles
+css/time.css              Time product global styles
 docs/index.html           Documentation site (English)
 docs/{lang}/index.html    Translated documentation (zh/ja/ko/es/fr/de)
 js/core/url-parser.js     URL text + param extraction + product detection
@@ -139,12 +168,15 @@ js/core/text-manager.js   Text theme registry, switching + dynamic loading
 js/core/light-manager.js  Light effect registry, switching + lifecycle
 js/core/sound-manager.js  Sound visualizer registry, switching + lifecycle
 js/core/audio-engine.js   Web Audio API pipeline (mic → analyzer)
+js/core/time-manager.js   Clock theme registry, switching + lifecycle
+js/core/time-utils.js     Shared time utilities (timezone, formatting)
 js/core/i18n.js           I18n module — locale detection + translation lookup
 locales/{lang}.js         Translation strings (en/zh/ja/ko/es/fr/de)
 texts/{id}/renderer.js    Text theme implementation (self-registers via TextManager.register)
 texts/{id}/style.css      Text theme stylesheet
 lights/{id}/renderer.js   Light effect implementation (self-registers via LightManager.register)
 sounds/{id}/renderer.js   Sound visualizer implementation (self-registers via SoundManager.register)
+times/{id}/renderer.js    Clock theme implementation (self-registers via TimeManager.register)
 js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
@@ -221,14 +253,34 @@ js/app.js                 App entry + multi-product orchestrator
 | `waveform-3d` | Holographic 3D waveform with depth color gradient, grid lines (default depth 12) | `depth` |
 | `spectrum-circle` | Monstercat-style circular spectrum with log binning, rotating glow ring, orb | `innerRadius` |
 
+## Available Clock Themes
+
+| ID | Effect | Custom Params |
+|----|--------|---------------|
+| `digital` | 7-segment LED display (Canvas, default) | `dotStyle`, `segmentStyle`, `glow`, `dimBrightness` |
+| `minimal` | Clean minimal typography (DOM) | `align`, `weight`, `separator`, `uppercase` |
+| `retro` | CRT terminal green phosphor (DOM) | `scanlines`, `vignette`, `flicker`, `prompt` |
+| `binary` | Binary clock with glowing bits (DOM) | `dotStyle`, `glow`, `bitShape`, `showLabels` |
+| `lcd` | Casio-style LCD watch face (DOM) | `backlight`, `bezel`, `brand`, `lcdScale`, `lcdPosition`, `lcdFull` |
+| `analog` | Classic analog clock with smooth hands (Canvas) | `style`, `handColor`, `markers` |
+| `flip` | Mechanical split-flap display (CSS 3D) | `flipSpeed`, `gap` |
+| `nixie` | Warm glowing nixie tube display (Canvas) | `glow`, `flicker`, `tubeColor`, `warmth` |
+| `neon` | Neon tube glow sign (DOM+CSS) | `glow`, `flicker`, `tube` |
+| `word` | Time spelled in English words (DOM) | `wordLang`, `showPeriod`, `animation` |
+| `sun` | Sundial with sky gradient (Canvas) | `stars`, `showSundial`, `atmosphere` |
+| `calendar` | Monthly calendar with time (DOM) | `firstDay`, `weekendHighlight`, `compact`, `weekendColor` |
+| `matrix` | Matrix rain with time overlay (Canvas) | `density`, `speed`, `charset`, `glowIntensity` |
+| `gradient` | Background shifts with time of day (DOM) | `palette`, `angle` |
+
 ## Script Load Order
 
 ```
-core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, i18n)
+core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, time-manager, time-utils, i18n)
 → locales
 → texts (text themes)
 → lights (light effects)
 → sounds (sound visualizers)
+→ times (clock themes)
 → ui (fullscreen, wakelock, cursor, controls, cast, toolbar, settings)
 → app
 ```
@@ -277,51 +329,54 @@ Themes can also fully override position, shape, and animations via standard CSS 
 
 ### Toolbar Buttons by Product
 
-| Button | Text | Light | Sound |
-|--------|------|-------|-------|
-| Fullscreen | Yes | Yes | Yes |
-| Rotate | Yes | Yes | Yes |
-| Cast | Yes | Yes | Yes |
-| Settings | Yes | Yes | Yes |
-| Share | Yes | Yes | Yes |
-| Microphone | No | No | Yes |
+| Button | Text | Light | Sound | Time |
+|--------|------|-------|-------|------|
+| Fullscreen | Yes | Yes | Yes | Yes |
+| Rotate | Yes | Yes | Yes | Yes |
+| Cast | Yes | Yes | Yes | Yes |
+| Settings | Yes | Yes | Yes | Yes |
+| Share | Yes | Yes | Yes | Yes |
+| Microphone | No | No | Yes | No |
 
 ## Keyboard & Pointer Controls
 
-| Action | Key/Gesture | Text | Light | Sound |
-|--------|-------------|------|-------|-------|
-| Toggle pause | Space | Pause/resume animation | — | — |
-| Fullscreen | F / DblClick | Yes | Yes | Yes |
-| Settings | S | Open settings panel | Open settings panel | Open settings panel |
-| Next | Right arrow | — | Next effect | Next visualizer |
-| Previous | Left arrow | — | Previous effect | Previous visualizer |
-| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 |
-| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 |
-| Exit fullscreen | Escape | Yes | Yes | Yes |
+| Action | Key/Gesture | Text | Light | Sound | Time |
+|--------|-------------|------|-------|-------|------|
+| Toggle pause | Space | Pause/resume animation | — | — | — |
+| Fullscreen | F / DblClick | Yes | Yes | Yes | Yes |
+| Settings | S | Open settings panel | Open settings panel | Open settings panel | Open settings panel |
+| Next | Right arrow | — | Next effect | Next visualizer | Next clock |
+| Previous | Left arrow | — | Previous effect | Previous visualizer | Previous clock |
+| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 | — |
+| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 | — |
+| Exit fullscreen | Escape | Yes | Yes | Yes | Yes |
 
 **Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture.
 
 ## Key Design Decisions
 
-- **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
+- **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
 - **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
 - **UI modules copied from til.re** — fullscreen.js, wakelock.js, cursor.js are identical
 - **Toolbar uses `<button>` elements** — controls.js ignores clicks on `button` elements, preventing toolbar clicks from triggering pause/fullscreen
-- **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same
+- **Themes must use container dimensions, not viewport** — `_fitText` and CSS sizing must reference `this._container.clientWidth/clientHeight` (or CSS `100%`), never `window.innerWidth/innerHeight` (or CSS `100vw/100vh`), because toolbar rotation swaps the container's width/height via CSS classes while the viewport stays the same. DOM clock themes use a container-relative sizing helper in `init()`: `function s(xPct, yPct) { return Math.min(cw * xPct / 100, ch * (yPct || xPct) / 100) + 'px'; }` — replaces all `min(Xvw, Yvh)` CSS patterns with computed px values. Themes that reference sizes in `_render()` (binary, calendar) store the helper as `this._s`
+- **DOM theme `_resizeHandler` uses destroy+re-init** — DOM-based clock themes (flip, lcd, neon, minimal, retro, binary, word, calendar, gradient) implement `_resizeHandler` with: save container/config refs → `destroy()` → `container.innerHTML = ''` → `init(container, config)`. This recalculates all container-relative sizes. Canvas-based themes (digital, analog, nixie, sun, matrix) handle resize differently via canvas redraw
+- **Flip clock text centering uses flex layout** — flip card text uses `height:200%; display:flex; align-items:center; justify-content:center` instead of `line-height` matching. Top half text renders naturally; bottom half text adds `transform:translateY(-50%)`. This ensures pixel-perfect alignment between static halves and flip animation overlays. Flip animation uses sequential two-phase timing: flipOut runs for `D/2 ms ease-in`, flipIn runs for `D/2 ms ease-out` with `D/2` delay (total = D, no overlap)
 - **Themes must never set inline `transform` on the container** — toolbar rotation uses CSS class `transform` on `#display`; inline styles override CSS classes. Use an inner wrapper div for theme transforms like `scale()`
 - **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 - **Presentation API casting** — `Cast` module uses W3C Presentation API (Chrome/Edge only); receiver detected via `navigator.presentation.receiver` (no URL params needed); receiver skips Controls + Toolbar for clean display; controller persists connection ID in `sessionStorage` for reconnect across page navigations; unsupported browsers never see the cast button
 - **Settings panel** — right-side drawer (desktop 360px) / bottom sheet (mobile ≤640px); opens via toolbar gear button or `S` key; disables cursor auto-hide while open; real-time preview via debounced manager switch on param change; `history.replaceState()` syncs URL without page reload; switching themes resets theme-specific params but preserves common params; `KNOWN_PARAMS` metadata drives control types (color picker, range slider, select, toggle); polymorphic params like `glow` auto-detect type from theme defaults; `PRODUCT_ADAPTERS` map each product to its manager, i18n prefix, common params, URL builder, and resize method; adapters can define `knownParamOverrides` to override global `KNOWN_PARAMS` ranges for product-specific needs (e.g., Light `speed` uses 1-20 instead of Text's 10-300); `_buildField` checks adapter overrides before global metadata; `Settings.syncThemeId(id)` allows external code (e.g., arrow key navigation) to notify Settings of theme changes; text input only shown for text product; `audioEngine` passed via init options for sound product
-- **Landing page** — Tab switcher (Text / Light / Sound); each product has Simple + Studio modes; Text simple mode navigates with `led.run/content` short links; mode preference persisted in `localStorage('led-active-mode')`
+- **Landing page** — Tab switcher (Text / Light / Sound / Time); each product has Simple + Studio modes; Text simple mode navigates with `led.run/content` short links; mode preference persisted in `localStorage('led-active-mode')`
 - **Font param uses combo control** — `FONT_PRESETS` array defines web-safe presets (monospace, serif, sans-serif, cursive, Arial, Georgia, Courier New, Impact, Comic Sans MS) with i18n labels; `FONT_CUSTOM_VALUE = '__custom__'` sentinel triggers a text input for arbitrary font names; both settings panel and landing builder use the same combo pattern; `Settings.FONT_PRESETS` and `Settings.FONT_CUSTOM_VALUE` are exposed for reuse
 - **Random style button** — Landing page dice button next to GO picks random theme, random text color (HSL high saturation), random bg color (HSL low lightness), random fill color (for card themes only), and random font (from FONT_PRESETS); speed/direction/scale/theme-specific params use theme defaults
-- **Multi-product routing** — URLParser detects product from path prefix; App.init() switches on product type to call `_initText`/`_initLight`/`_initSound`; each product initializes its own manager, controls, and settings
-- **Light/Sound share URLs must include `?t=`** — `/light` and `/sound` without `?t=` route to the landing page; `_syncURL()` always emits `?t=` for light/sound products (even for default effect/visualizer), so share links like `/light?t=solid` and `/sound?t=bars` work correctly; text product keeps existing behavior (no `?t=` for default theme)
+- **Multi-product routing** — URLParser detects product from path prefix; App.init() switches on product type to call `_initText`/`_initLight`/`_initSound`/`_initTime`; each product initializes its own manager, controls, and settings
+- **Light/Sound/Time share URLs must include `?t=`** — `/light`, `/sound`, and `/time` without `?t=` route to the landing page; `_syncURL()` always emits `?t=` for light/sound/time products (even for default effect/visualizer/clock), so share links like `/light?t=solid`, `/sound?t=bars`, and `/time?t=digital` work correctly; text product keeps existing behavior (no `?t=` for default theme)
 - **AudioContext needs user-gesture resume** — Chrome autoplay policy starts AudioContext in `suspended` state when `getUserMedia` resolves without a dialog (pre-saved permission = no user gesture). `AudioEngine.init()` never blocks on `context.resume()` — it resolves immediately after pipeline setup, attempts a non-blocking resume, and installs one-time gesture listeners (`click`/`touchstart`/`keydown`) as fallback. `isRunning()` checks `context.state === 'running'` so visualizers gate data reads correctly and auto-transition when the context resumes
 - **Builder-Settings param alignment** — Landing page builders use the same `defaults[key] !== undefined` logic as Settings panel to conditionally show/hide common param controls when effect/visualizer changes; `direction` control added to Text builder; each common param row has a unique ID for dynamic visibility toggling
+- **TimeManager follows LightManager pattern** — TimeManager is architecturally identical to LightManager (no text input, no audio engine); clock themes implement `{ id, defaults, init(container, config), destroy() }` interface; `TimeUtils` provides shared time utilities (`getTime(tz)`, `formatHours()`, `formatDate()`, `padZero()`, `getAmPm()`); timezone offset via `?tz=N` parameter (UTC hours); clock themes use Canvas (digital, analog, nixie, sun, matrix), DOM (minimal, binary, lcd, word, calendar), CSS 3D (flip), or hybrid (retro, neon, gradient)
 - **Builder preview must mirror `#display` layout** — `#builder-live-preview` must have the same layout properties as `#display` (`display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative`); without these, ID selector specificity overrides theme class styles (e.g., `.theme-wood { display: flex }` loses to `#builder-live-preview { display: block }`), causing preview/display inconsistency across all 20 themes
 
 ## Internationalization (i18n)
