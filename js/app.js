@@ -59,6 +59,24 @@
     { id: 'lava-lamp', icon: '\uD83E\uDEAB', descKey: 'preset.light.lava-lamp.desc', params: '?t=lava-lamp' }
   ];
 
+  // Time clock presets — for landing page
+  var TIME_PRESETS = [
+    { id: 'digital', icon: '\uD83D\uDD22', descKey: 'landing.time.preset.digital', params: '?t=digital' },
+    { id: 'minimal', icon: '\u23F0', descKey: 'landing.time.preset.minimal', params: '?t=minimal' },
+    { id: 'retro', icon: '\uD83D\uDDA5\uFE0F', descKey: 'landing.time.preset.retro', params: '?t=retro' },
+    { id: 'binary', icon: '\uD83E\uDD16', descKey: 'landing.time.preset.binary', params: '?t=binary' },
+    { id: 'lcd', icon: '\u231A', descKey: 'landing.time.preset.lcd', params: '?t=lcd' },
+    { id: 'analog', icon: '\uD83D\uDD70\uFE0F', descKey: 'landing.time.preset.analog', params: '?t=analog' },
+    { id: 'flip', icon: '\uD83D\uDCC5', descKey: 'landing.time.preset.flip', params: '?t=flip' },
+    { id: 'nixie', icon: '\uD83D\uDD25', descKey: 'landing.time.preset.nixie', params: '?t=nixie' },
+    { id: 'neon', icon: '\uD83C\uDF1F', descKey: 'landing.time.preset.neon', params: '?t=neon' },
+    { id: 'word', icon: '\uD83D\uDCD6', descKey: 'landing.time.preset.word', params: '?t=word' },
+    { id: 'sun', icon: '\u2600\uFE0F', descKey: 'landing.time.preset.sun', params: '?t=sun' },
+    { id: 'calendar', icon: '\uD83D\uDCC6', descKey: 'landing.time.preset.calendar', params: '?t=calendar' },
+    { id: 'matrix', icon: '\uD83D\uDFE9', descKey: 'landing.time.preset.matrix', params: '?t=matrix' },
+    { id: 'gradient', icon: '\uD83C\uDF08', descKey: 'landing.time.preset.gradient', params: '?t=gradient' }
+  ];
+
   // Sound visualizer presets — for landing page
   var SOUND_PRESETS = [
     { id: 'bars', icon: '\uD83C\uDFB5', descKey: 'landing.sound.preset.bars', params: '?t=bars' },
@@ -109,7 +127,8 @@
       // Landing page: no content to display
       var isLanding = (this._product === 'text' && !text) ||
                       (this._product === 'light' && !productConfig.theme) ||
-                      (this._product === 'sound' && !productConfig.theme);
+                      (this._product === 'sound' && !productConfig.theme) ||
+                      (this._product === 'time' && !productConfig.theme);
       if (isLanding) {
         this._showLanding(this._product);
         return;
@@ -122,6 +141,9 @@
           break;
         case 'sound':
           this._initSound(productConfig, appConfig);
+          break;
+        case 'time':
+          this._initTime(productConfig, appConfig);
           break;
         default:
           this._initText(text, productConfig, appConfig);
@@ -302,6 +324,57 @@
     },
 
     /**
+     * Initialize Time product
+     * @private
+     */
+    _initTime: function(productConfig, appConfig) {
+      var clockId = productConfig.theme || 'digital';
+      delete productConfig.theme;
+
+      document.title = I18n.t('time.title') + ' \u2014 led.run';
+
+      TimeManager.switch(clockId, this._container, productConfig);
+      document.getElementById('app').dataset.theme = clockId;
+      document.getElementById('app').dataset.product = 'time';
+
+      this._initCommonUI(appConfig);
+
+      Controls.init({
+        onFullscreen: function() {
+          Fullscreen.toggle();
+        },
+        onNext: function() {
+          var ids = TimeManager.getClockIds();
+          var idx = ids.indexOf(TimeManager.getCurrentId());
+          var nextId = ids[(idx + 1) % ids.length];
+          TimeManager.switch(nextId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = nextId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
+        },
+        onPrev: function() {
+          var ids = TimeManager.getClockIds();
+          var idx = ids.indexOf(TimeManager.getCurrentId());
+          var prevId = ids[(idx - 1 + ids.length) % ids.length];
+          TimeManager.switch(prevId, App._container, productConfig);
+          document.getElementById('app').dataset.theme = prevId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+        }
+      });
+      Toolbar.init({ container: this._container, product: 'time' });
+
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          product: 'time',
+          themeId: clockId,
+          themeConfig: productConfig
+        });
+      }
+
+      this._initCast();
+    },
+
+    /**
      * Initialize common UI modules (WakeLock, Cursor, Cast receiver)
      * @private
      */
@@ -407,7 +480,7 @@
 
       // Product Tab Switcher
       html += '<div class="product-switcher">';
-      ['text', 'light', 'sound'].forEach(function(p) {
+      ['text', 'light', 'sound', 'time'].forEach(function(p) {
         html += '<button class="product-tab' + (p === activeProduct ? ' active' : '') + '" data-product="' + p + '">' + I18n.t('landing.tab.' + p) + '</button>';
       });
       html += '</div>';
@@ -631,6 +704,80 @@
       html += '</div>'; // builder-grid
       html += '</div>'; // sound builder mode-panel
       html += '</div>'; // product-sound
+
+      // ====== TIME PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'time' ? ' active' : '') + '" id="product-time">';
+
+      // Time Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="presets-grid presets-grid-compact">';
+      TIME_PRESETS.forEach(function(p) {
+        var href = '/time' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.clock.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // Time Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-grid">';
+
+      // Clock selection
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.clock') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.clockLabel') + '</span>';
+      html += '<select class="builder-select" id="time-builder-clock">';
+      var clockIds = TimeManager.getClockIds();
+      clockIds.forEach(function(id) {
+        html += '<option value="' + id + '">' + I18n.t('settings.clock.' + id) + '</option>';
+      });
+      html += '</select></div></div></div>';
+
+      // Visual Style
+      html += '<div class="prop-card" id="time-builder-style-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row" id="time-builder-color-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="time-builder-color" value="#ff0000"></div>';
+      html += '<div class="prop-row" id="time-builder-bg-row"><span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="time-builder-bg" value="#000000"></div>';
+      html += '<div class="prop-row" id="time-builder-fill-row" style="display:none"><span class="prop-label">' + I18n.t('settings.param.fill') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="time-builder-fill" value="#000000"></div>';
+      html += '</div></div>';
+
+      // Time Settings
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.timeSettings') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.format') + '</span>';
+      html += '<select class="builder-select" id="time-builder-format">';
+      html += '<option value="24h">' + I18n.t('settings.format.24h') + '</option>';
+      html += '<option value="12h">' + I18n.t('settings.format.12h') + '</option>';
+      html += '</select></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.showSeconds') + '</span>';
+      html += '<label class="builder-toggle"><input type="checkbox" id="time-builder-seconds" checked><span class="builder-toggle-track"></span></label></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.showDate') + '</span>';
+      html += '<label class="builder-toggle"><input type="checkbox" id="time-builder-date"><span class="builder-toggle-track"></span></label></div>';
+      html += '<div class="prop-row" id="time-builder-dateformat-row" style="display:none"><span class="prop-label">' + I18n.t('settings.param.dateFormat') + '</span>';
+      html += '<select class="builder-select" id="time-builder-dateformat">';
+      html += '<option value="MDY">' + I18n.t('settings.dateFormat.MDY') + '</option>';
+      html += '<option value="DMY">' + I18n.t('settings.dateFormat.DMY') + '</option>';
+      html += '<option value="YMD">' + I18n.t('settings.dateFormat.YMD') + '</option>';
+      html += '</select></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.tz') + '</span><span class="val" id="time-builder-tz-val">0</span></div>';
+      html += '<input type="range" class="builder-range" id="time-builder-tz" min="-12" max="14" step="1" value="0"></div>';
+      html += '</div></div>';
+
+      // Time Advanced (Dynamic)
+      html += '<div class="prop-card" id="time-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="time-builder-clock-params"></div></div>';
+
+      // Time Action Card
+      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
+      html += '<div class="builder-url-preview" id="time-builder-url">led.run/time?t=digital</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="time-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // time builder mode-panel
+      html += '</div>'; // product-time
 
       html += '</div>'; // landing-content
       html += '</div>'; // landing-hero
@@ -1236,6 +1383,197 @@
         window.location.href = url;
       });
 
+      // ====== TIME PANEL LOGIC ======
+      var timeClock = document.getElementById('time-builder-clock');
+      var timeColor = document.getElementById('time-builder-color');
+      var timeBg = document.getElementById('time-builder-bg');
+      var timeFill = document.getElementById('time-builder-fill');
+      var timeFormat = document.getElementById('time-builder-format');
+      var timeSeconds = document.getElementById('time-builder-seconds');
+      var timeDate = document.getElementById('time-builder-date');
+      var timeDateFormat = document.getElementById('time-builder-dateformat');
+      var timeTz = document.getElementById('time-builder-tz');
+      var timeUrl = document.getElementById('time-builder-url');
+
+      var timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false };
+      var timeClockParamValues = {};
+
+      function getTimeDefaults() {
+        return TimeManager.getDefaults(timeClock.value) || {};
+      }
+
+      function syncTimeBuilderToClockDefaults() {
+        var d = getTimeDefaults();
+        timeColor.value = '#' + (d.color || 'ff0000').slice(0, 6);
+        timeBg.value = '#' + (d.bg || '000000').slice(0, 6);
+        document.getElementById('time-builder-fill-row').style.display = d.fill !== undefined ? 'flex' : 'none';
+        timeFill.value = '#' + (d.fill || '000000').slice(0, 6);
+        timeFormat.value = d.format || '24h';
+        timeSeconds.checked = d.showSeconds !== false;
+        timeDate.checked = !!d.showDate;
+        document.getElementById('time-builder-dateformat-row').style.display = d.showDate ? 'flex' : 'none';
+        timeDateFormat.value = d.dateFormat || 'MDY';
+        timeTz.value = 0;
+        document.getElementById('time-builder-tz-val').textContent = '0';
+      }
+
+      function rebuildTimeClockParams() {
+        var container = document.getElementById('time-builder-clock-params');
+        var section = document.getElementById('time-builder-custom-section');
+        container.innerHTML = '';
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(timeClock.value, 'time');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getTimeDefaults();
+        keys.forEach(function(key) {
+          var meta = Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              timeClockParamValues[key] = parseFloat(this.value);
+              updateTimeUrl();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              timeClockParamValues[key] = this.value.replace('#', '');
+              updateTimeUrl();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'select') {
+            row.className = 'prop-row';
+            var sel = document.createElement('select');
+            sel.className = 'builder-select';
+            var opts = (meta && meta.options) ? meta.options : [];
+            opts.forEach(function(opt) {
+              var o = document.createElement('option');
+              o.value = opt;
+              var tk = 'settings.' + key + '.' + (opt || 'none');
+              var tt = I18n.t(tk);
+              o.textContent = (tt !== tk) ? tt : opt;
+              if (opt === defVal) o.selected = true;
+              sel.appendChild(o);
+            });
+            sel.addEventListener('change', function() {
+              timeClockParamValues[key] = this.value;
+              updateTimeUrl();
+            });
+            inputWrap.appendChild(sel);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              timeClockParamValues[key] = this.checked;
+              updateTimeUrl();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      function updateTimeUrl() {
+        var clockId = timeClock.value;
+        var d = getTimeDefaults();
+        var params = ['t=' + clockId];
+        if (timeUserChanged.color) {
+          var c = timeColor.value.replace('#', '');
+          if (c !== (d.color || 'ff0000')) params.push('color=' + c);
+        }
+        if (timeUserChanged.bg) {
+          var b = timeBg.value.replace('#', '');
+          if (b !== (d.bg || '000000')) params.push('bg=' + b);
+        }
+        if (timeUserChanged.fill && d.fill !== undefined) {
+          var f = timeFill.value.replace('#', '');
+          if (f !== (d.fill || '000000')) params.push('fill=' + f);
+        }
+        if (timeUserChanged.format) {
+          if (timeFormat.value !== (d.format || '24h')) params.push('format=' + timeFormat.value);
+        }
+        if (timeUserChanged.showSeconds) {
+          if (timeSeconds.checked !== (d.showSeconds !== false)) params.push('showSeconds=' + timeSeconds.checked);
+        }
+        if (timeUserChanged.showDate) {
+          if (timeDate.checked !== !!d.showDate) params.push('showDate=' + timeDate.checked);
+        }
+        if (timeUserChanged.dateFormat) {
+          if (timeDateFormat.value !== (d.dateFormat || 'MDY')) params.push('dateFormat=' + timeDateFormat.value);
+        }
+        if (timeUserChanged.tz) {
+          if (timeTz.value !== '0') params.push('tz=' + timeTz.value);
+        }
+        for (var k in timeClockParamValues) {
+          if (timeClockParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(timeClockParamValues[k]));
+        }
+        timeUrl.textContent = 'led.run/time?' + params.join('&');
+      }
+
+      [timeColor, timeBg, timeFill, timeFormat, timeDateFormat, timeTz].forEach(function(el) {
+        el.addEventListener('input', function() {
+          var paramKey = this.id.replace('time-builder-', '');
+          timeUserChanged[paramKey] = true;
+          if (this.id === 'time-builder-tz') document.getElementById('time-builder-tz-val').textContent = this.value;
+          updateTimeUrl();
+        });
+      });
+
+      timeSeconds.addEventListener('change', function() {
+        timeUserChanged.showSeconds = true;
+        updateTimeUrl();
+      });
+
+      timeDate.addEventListener('change', function() {
+        timeUserChanged.showDate = true;
+        document.getElementById('time-builder-dateformat-row').style.display = this.checked ? 'flex' : 'none';
+        updateTimeUrl();
+      });
+
+      timeClock.addEventListener('input', function() {
+        timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false };
+        timeClockParamValues = {};
+        syncTimeBuilderToClockDefaults();
+        rebuildTimeClockParams();
+        updateTimeUrl();
+      });
+
+      document.getElementById('time-builder-launch').addEventListener('click', function() {
+        var url = timeUrl.textContent.replace('led.run', '');
+        window.location.href = url;
+      });
+
       // ====== LANG SWITCHER ======
       document.querySelectorAll('.footer-lang-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
@@ -1261,6 +1599,10 @@
       syncSoundBuilderVisibility();
       rebuildSoundVizParams();
       updateSoundUrl();
+
+      syncTimeBuilderToClockDefaults();
+      rebuildTimeClockParams();
+      updateTimeUrl();
 
       // Focus
       setTimeout(function() {

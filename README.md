@@ -1,6 +1,6 @@
 # led.run — Display Toolkit
 
-Turn any screen into a text sign, light effect, or sound visualizer. 50+ display modes. No apps, no accounts — just a URL.
+Turn any screen into a text sign, light effect, sound visualizer, or clock display. 64+ display modes. No apps, no accounts — just a URL.
 
 ## Products
 
@@ -37,6 +37,17 @@ led.run/sound?t=waveform-3d             3D waveform
 led.run/sound?t=spectrum-circle         Circular spectrum
 ```
 
+### Time — 14 Clocks
+
+Beautiful clock displays: digital, analog, flip, nixie, neon, and more.
+
+```
+led.run/time?t=digital                  7-segment LED clock
+led.run/time?t=analog&showDate=true     Analog with date
+led.run/time?t=nixie&format=12h         Nixie tubes, 12h
+led.run/time?t=flip                     Flip clock
+```
+
 ## URL Protocol
 
 ```
@@ -44,20 +55,21 @@ Text:   led.run/HELLO?t=neon              Path = text content
         led.run/text/HELLO?t=neon         Explicit /text/ prefix
 Light:  led.run/light?t=disco             Product prefix + params
 Sound:  led.run/sound?t=bars              Product prefix + params
+Time:   led.run/time?t=digital            Product prefix + params
 ```
 
 All parameters are optional "preference hints" — themes decide whether to consume them.
 
 ## Controls
 
-| Key | Text | Light | Sound |
-|-----|------|-------|-------|
-| Space | Pause/resume | — | — |
-| F / Double-click | Fullscreen | Fullscreen | Fullscreen |
-| S | Settings | Settings | Settings |
-| ← → | — | Prev/next effect | Prev/next visualizer |
-| ↑ ↓ | — | Brightness ±5 | Sensitivity ±1 |
-| Esc | Exit fullscreen | Exit fullscreen | Exit fullscreen |
+| Key | Text | Light | Sound | Time |
+|-----|------|-------|-------|------|
+| Space | Pause/resume | — | — | — |
+| F / Double-click | Fullscreen | Fullscreen | Fullscreen | Fullscreen |
+| S | Settings | Settings | Settings | Settings |
+| ← → | — | Prev/next effect | Prev/next visualizer | Prev/next clock |
+| ↑ ↓ | — | Brightness ±5 | Sensitivity ±1 | — |
+| Esc | Exit fullscreen | Exit fullscreen | Exit fullscreen | Exit fullscreen |
 
 ## Documentation
 

@@ -331,5 +331,171 @@ I18n.register('zh', {
   'landing.sound.preset.spikes': '360° 中心放射尖刺',
   'landing.sound.preset.plenoptic': '光场景深模糊效果',
   'landing.sound.preset.waveform-3d': '3D 透视波形深度层',
-  'landing.sound.preset.spectrum-circle': '向外辐射环形频谱'
+  'landing.sound.preset.spectrum-circle': '向外辐射环形频谱',
+
+  // Time - Product tab
+  'landing.tab.time': '时钟',
+
+  // Time - Product title
+  'time.title': '时钟',
+
+  // Time clock names
+  'settings.clock.digital': '数字',
+  'settings.clock.minimal': '极简',
+  'settings.clock.retro': '复古',
+  'settings.clock.binary': '二进制',
+  'settings.clock.lcd': '液晶',
+  'settings.clock.analog': '模拟',
+  'settings.clock.flip': '翻页',
+  'settings.clock.nixie': '辉光管',
+  'settings.clock.neon': '霓虹',
+  'settings.clock.word': '文字',
+  'settings.clock.sun': '日晷',
+  'settings.clock.calendar': '日历',
+  'settings.clock.matrix': '矩阵',
+  'settings.clock.gradient': '渐变',
+
+  // Settings - Time section labels
+  'settings.clockLabel': '时钟',
+  'settings.section.clockParams': '时钟选项',
+
+  // Time param labels
+  'settings.param.format': '格式',
+  'settings.param.showSeconds': '显示秒',
+  'settings.param.showDate': '显示日期',
+  'settings.param.dateFormat': '日期格式',
+  'settings.param.tz': '时区 (UTC)',
+  'settings.param.dotStyle': '冒号样式',
+  'settings.param.segmentStyle': '段码样式',
+  'settings.param.align': '对齐',
+  'settings.param.firstDay': '每周首日',
+
+  // Time format options
+  'settings.format.24h': '24小时制',
+  'settings.format.12h': '12小时制',
+
+  // Time dateFormat options
+  'settings.dateFormat.MDY': '月/日/年',
+  'settings.dateFormat.DMY': '日/月/年',
+  'settings.dateFormat.YMD': '年/月/日',
+
+  // Time dotStyle options
+  'settings.dotStyle.blink': '闪烁',
+  'settings.dotStyle.solid': '常亮',
+  'settings.dotStyle.fade': '渐变',
+
+  // Time align options
+  'settings.align.center': '居中',
+  'settings.align.left': '左对齐',
+  'settings.align.right': '右对齐',
+
+  // Time firstDay options
+  'settings.firstDay.sun': '周日',
+  'settings.firstDay.mon': '周一',
+
+  // Time segmentStyle options
+  'settings.segmentStyle.sharp': '锐角',
+  'settings.segmentStyle.round': '圆角',
+  'settings.segmentStyle.flat': '平面',
+
+  // Landing - Time presets
+  'landing.time.preset.digital': '经典七段LED数字显示效果。',
+  'landing.time.preset.minimal': '简洁极简排版，纤细线条。',
+  'landing.time.preset.retro': 'CRT终端绿色荧光复古风格。',
+  'landing.time.preset.binary': '发光位列的二进制时钟。',
+  'landing.time.preset.lcd': '复古液晶手表风格像素数字。',
+  'landing.time.preset.analog': '经典模拟时钟，平滑指针。',
+  'landing.time.preset.flip': '机械翻页式分页显示动画。',
+  'landing.time.preset.nixie': '温暖辉光管复古显示效果。',
+  'landing.time.preset.neon': '霓虹灯管发光时钟。',
+  'landing.time.preset.word': '用英文单词拼出时间。',
+  'landing.time.preset.sun': '日晷与真实天空渐变和阴影。',
+  'landing.time.preset.calendar': '月历视图，高亮显示今天。',
+  'landing.time.preset.matrix': '绿色数字雨中显现时间。',
+  'landing.time.preset.gradient': '背景渐变随时间变化。',
+
+  // Landing - Time builder card titles
+  // Time param labels (new theme params)
+  'settings.param.flipSpeed': '翻转速度',
+  'settings.param.handColor': '指针颜色',
+  'settings.param.markers': '刻度',
+  'settings.param.angle': '角度',
+  'settings.param.dimBrightness': '暗段亮度',
+  'settings.param.tubeColor': '管色',
+  'settings.param.bitShape': '位形状',
+  'settings.param.showLabels': '显示标签',
+  'settings.param.charset': '字符集',
+  'settings.param.glowIntensity': '发光强度',
+  'settings.param.vignette': '暗角',
+  'settings.param.prompt': '提示符',
+  'settings.param.tube': '管样式',
+  'settings.param.separator': '分隔符',
+  'settings.param.uppercase': '大写',
+  'settings.param.backlight': '背光',
+  'settings.param.brand': '品牌',
+  'settings.param.lcdScale': 'LCD 缩放',
+  'settings.param.lcdPosition': 'LCD 位置',
+  'settings.param.lcdFull': '全屏模式',
+  'settings.param.stars': '星星',
+  'settings.param.showSundial': '显示日晷',
+  'settings.param.atmosphere': '氛围',
+  'settings.param.wordLang': '文字样式',
+  'settings.param.showPeriod': '显示时段',
+  'settings.param.animation': '动画',
+  'settings.param.weekendHighlight': '周末高亮',
+  'settings.param.compact': '紧凑模式',
+  'settings.param.weekendColor': '周末颜色',
+
+  // Time select option labels
+  'settings.style.classic': '经典',
+  'settings.style.modern': '现代',
+  'settings.style.dress': '正装',
+  'settings.style.sport': '运动',
+  'settings.palette.auto': '自动',
+  'settings.palette.ocean': '海洋',
+  'settings.palette.sunset': '日落',
+  'settings.palette.forest': '森林',
+  'settings.palette.neon': '霓虹',
+  'settings.palette.mono': '单色',
+  'settings.bitShape.square': '方形',
+  'settings.bitShape.round': '圆形',
+  'settings.bitShape.diamond': '菱形',
+  'settings.charset.katakana': '片假名',
+  'settings.charset.latin': '拉丁字母',
+  'settings.charset.digits': '数字',
+  'settings.charset.binary': '二进制',
+  'settings.prompt.default': '默认',
+  'settings.prompt.minimal': '极简',
+  'settings.prompt.none': '无',
+  'settings.tube.single': '单管',
+  'settings.tube.outline': '轮廓',
+  'settings.tube.double': '双管',
+  'settings.separator.colon': '冒号',
+  'settings.separator.dot': '点号',
+  'settings.separator.space': '空格',
+  'settings.separator.none': '无',
+  'settings.brand.led.run': 'led.run',
+  'settings.brand.none': '无',
+
+  // LCD position options
+  'settings.lcdPosition.center': '居中',
+  'settings.lcdPosition.top': '顶部',
+  'settings.lcdPosition.bottom': '底部',
+  'settings.lcdPosition.top-left': '左上',
+  'settings.lcdPosition.top-right': '右上',
+  'settings.lcdPosition.bottom-left': '左下',
+  'settings.lcdPosition.bottom-right': '右下',
+
+  'settings.atmosphere.realistic': '写实',
+  'settings.atmosphere.vivid': '鲜艳',
+  'settings.atmosphere.pastel': '柔和',
+  'settings.wordLang.en': '英语',
+  'settings.wordLang.fuzzy': '模糊',
+  'settings.animation.none': '无',
+  'settings.animation.fade': '淡入淡出',
+  'settings.animation.slide': '滑动',
+
+  // Landing - Time builder card titles
+  'landing.builder.card.clock': '时钟',
+  'landing.builder.card.timeSettings': '时间设置'
 });
