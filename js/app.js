@@ -514,7 +514,15 @@
 
       // Text Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
-      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="builder-live-preview"></div></div></div>';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="builder-live-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Card 1: Content
@@ -577,15 +585,9 @@
       html += '<div class="prop-card" id="builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="builder-theme-params"></div></div>';
 
-      // Action Card
-      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
-      html += '<button class="btn-secondary" id="builder-copy" title="Copy URL">';
-      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      html += '</button></div></div>';
-
       html += '</div>'; // builder-grid
+
+      html += '</div>'; // builder-layout
       html += '</div>'; // text builder mode-panel
       html += '</div>'; // product-text
 
@@ -607,7 +609,15 @@
 
       // Light Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
-      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="light-builder-preview"></div></div></div>';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="light-builder-url">led.run/light?t=solid</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="light-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="light-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Effect selection
@@ -640,15 +650,9 @@
       html += '<div class="prop-card" id="light-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="light-builder-effect-params"></div></div>';
 
-      // Light Action Card
-      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="light-builder-url">led.run/light?t=solid</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button>';
-      html += '<button class="btn-secondary" id="light-builder-copy" title="Copy URL">';
-      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      html += '</button></div></div>';
-
       html += '</div>'; // builder-grid
+
+      html += '</div>'; // builder-layout
       html += '</div>'; // light builder mode-panel
       html += '</div>'; // product-light
 
@@ -670,7 +674,15 @@
 
       // Sound Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
-      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="sound-builder-preview"></div></div></div>';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="sound-builder-url">led.run/sound?t=bars</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="sound-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="sound-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Visualizer selection
@@ -703,15 +715,9 @@
       html += '<div class="prop-card" id="sound-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="sound-builder-viz-params"></div></div>';
 
-      // Sound Action Card
-      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="sound-builder-url">led.run/sound?t=bars</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button>';
-      html += '<button class="btn-secondary" id="sound-builder-copy" title="Copy URL">';
-      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      html += '</button></div></div>';
-
       html += '</div>'; // builder-grid
+
+      html += '</div>'; // builder-layout
       html += '</div>'; // sound builder mode-panel
       html += '</div>'; // product-sound
 
@@ -733,7 +739,15 @@
 
       // Time Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
-      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="time-builder-preview"></div></div></div>';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="time-builder-url">led.run/time?t=digital</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="time-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="time-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="time-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Clock selection
@@ -781,15 +795,9 @@
       html += '<div class="prop-card" id="time-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="time-builder-clock-params"></div></div>';
 
-      // Time Action Card
-      html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
-      html += '<div class="builder-url-preview" id="time-builder-url">led.run/time?t=digital</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="time-builder-launch">' + I18n.t('landing.input.go') + '</button>';
-      html += '<button class="btn-secondary" id="time-builder-copy" title="Copy URL">';
-      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
-      html += '</button></div></div>';
-
       html += '</div>'; // builder-grid
+
+      html += '</div>'; // builder-layout
       html += '</div>'; // time builder mode-panel
       html += '</div>'; // product-time
 
@@ -844,6 +852,12 @@
 
       container.innerHTML = html;
 
+      // Apply wide mode if builder is active on init
+      if (activeMode === 'builder') {
+        var landingContent = document.querySelector('.landing-content');
+        if (landingContent) landingContent.classList.add('landing-content--wide');
+      }
+
       // --- Interaction Logic ---
       var self = this;
 
@@ -878,6 +892,8 @@
           document.querySelectorAll('.mode-panel').forEach(function(p) {
             p.classList.toggle('active', p.dataset.mode === mode);
           });
+          var landingContent = document.querySelector('.landing-content');
+          if (landingContent) landingContent.classList.toggle('landing-content--wide', mode === 'builder');
           if (mode === 'builder') {
             var activeTab = document.querySelector('.product-tab.active');
             var activeP = activeTab ? activeTab.dataset.product : 'text';
