@@ -12,9 +12,11 @@
   var LIGHT_COMMON_PARAMS = ['color', 'bg', 'speed', 'brightness'];
   // Sound-product common params
   var SOUND_COMMON_PARAMS = ['color', 'bg', 'sensitivity', 'smoothing'];
+  // Time-product common params
+  var TIME_COMMON_PARAMS = ['color', 'bg', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'fill'];
 
   // Union of all product common params (kept for landing page builder reuse)
-  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing'];
+  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz'];
 
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
@@ -114,6 +116,62 @@
                      options: ['aurora', 'water', 'silky', 'electric', 'neon', 'flame', 'star'] },
     ambPreset:     { type: 'select', label: 'settings.param.ambPreset',
                      options: ['glow', 'water', 'swirl'] },
+    // Time-specific params
+    format:        { type: 'select', label: 'settings.param.format', options: ['24h', '12h'] },
+    showSeconds:   { type: 'boolean', label: 'settings.param.showSeconds' },
+    showDate:      { type: 'boolean', label: 'settings.param.showDate' },
+    dateFormat:    { type: 'select', label: 'settings.param.dateFormat', options: ['MDY', 'DMY', 'YMD'] },
+    tz:            { type: 'range', label: 'settings.param.tz', min: -12, max: 14, step: 1 },
+    dotStyle:      { type: 'select', label: 'settings.param.dotStyle', options: ['blink', 'solid', 'fade'] },
+    style:         { type: 'select', label: 'settings.param.style', options: ['classic', 'modern', 'dress', 'sport'] },
+    palette:       { type: 'select', label: 'settings.param.palette', options: ['auto', 'ocean', 'sunset', 'forest', 'neon', 'mono'] },
+    align:         { type: 'select', label: 'settings.param.align', options: ['center', 'left', 'right'] },
+    firstDay:      { type: 'select', label: 'settings.param.firstDay', options: ['sun', 'mon'] },
+    segmentStyle:  { type: 'select', label: 'settings.param.segmentStyle', options: ['sharp', 'round', 'flat'] },
+    // Flip params
+    flipSpeed:     { type: 'range', label: 'settings.param.flipSpeed', min: 0.2, max: 1.0, step: 0.1 },
+    // Analog params
+    handColor:     { type: 'color', label: 'settings.param.handColor' },
+    markers:       { type: 'boolean', label: 'settings.param.markers' },
+    // Gradient params
+    angle:         { type: 'range', label: 'settings.param.angle', min: 0, max: 360, step: 45 },
+    // Digital params
+    dimBrightness: { type: 'range', label: 'settings.param.dimBrightness', min: 0, max: 5, step: 1 },
+    // Nixie params
+    tubeColor:     { type: 'color', label: 'settings.param.tubeColor' },
+    // Binary params
+    bitShape:      { type: 'select', label: 'settings.param.bitShape', options: ['square', 'round', 'diamond'] },
+    showLabels:    { type: 'boolean', label: 'settings.param.showLabels' },
+    // Matrix params
+    charset:       { type: 'select', label: 'settings.param.charset', options: ['katakana', 'latin', 'digits', 'binary'] },
+    glowIntensity: { type: 'range', label: 'settings.param.glowIntensity', min: 0, max: 10, step: 1 },
+    // Retro params
+    vignette:      { type: 'range', label: 'settings.param.vignette', min: 0, max: 10, step: 1 },
+    prompt:        { type: 'select', label: 'settings.param.prompt', options: ['default', 'minimal', 'none'] },
+    // Neon params
+    tube:          { type: 'select', label: 'settings.param.tube', options: ['single', 'outline', 'double'] },
+    // Minimal params
+    separator:     { type: 'select', label: 'settings.param.separator', options: ['colon', 'dot', 'space', 'none'] },
+    uppercase:     { type: 'boolean', label: 'settings.param.uppercase' },
+    // LCD params
+    backlight:     { type: 'range', label: 'settings.param.backlight', min: 0, max: 10, step: 1 },
+    brand:         { type: 'string', label: 'settings.param.brand' },
+    lcdScale:      { type: 'range', label: 'settings.param.lcdScale', min: 0.3, max: 2.0, step: 0.1 },
+    lcdPosition:   { type: 'select', label: 'settings.param.lcdPosition',
+                     options: ['center', 'top', 'bottom', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] },
+    lcdFull:       { type: 'boolean', label: 'settings.param.lcdFull' },
+    // Sun params
+    stars:         { type: 'range', label: 'settings.param.stars', min: 0, max: 10, step: 1 },
+    showSundial:   { type: 'boolean', label: 'settings.param.showSundial' },
+    atmosphere:    { type: 'select', label: 'settings.param.atmosphere', options: ['realistic', 'vivid', 'pastel'] },
+    // Word params
+    wordLang:      { type: 'select', label: 'settings.param.wordLang', options: ['en', 'fuzzy'] },
+    showPeriod:    { type: 'boolean', label: 'settings.param.showPeriod' },
+    animation:     { type: 'select', label: 'settings.param.animation', options: ['none', 'fade', 'slide'] },
+    // Calendar params
+    weekendHighlight: { type: 'boolean', label: 'settings.param.weekendHighlight' },
+    compact:       { type: 'boolean', label: 'settings.param.compact' },
+    weekendColor:  { type: 'color', label: 'settings.param.weekendColor' },
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder
@@ -172,6 +230,28 @@
       knownParamOverrides: {
         shape: { type: 'select', label: 'settings.param.shape', options: ['circle', 'square'] },
         depth: { type: 'range', label: 'settings.param.depth', min: 4, max: 16, step: 1 }
+      }
+    },
+    time: {
+      getIds: function() { return TimeManager.getClockIds(); },
+      getDefaults: function(id) { return TimeManager.getDefaults(id); },
+      getCurrentId: function() { return TimeManager.getCurrentId(); },
+      doSwitch: function(id, container, config) {
+        TimeManager.switch(id, container, config);
+      },
+      i18nPrefix: 'settings.clock.',
+      commonParams: TIME_COMMON_PARAMS,
+      defaultId: 'digital',
+      hasText: false,
+      sectionLabel: 'settings.clockLabel',
+      sectionParamsLabel: 'settings.section.clockParams',
+      buildPath: function() { return '/time'; },
+      resize: function() { TimeManager.resize(); },
+      knownParamOverrides: {
+        speed: { type: 'range', label: 'settings.param.speed', min: 1, max: 10, step: 1 },
+        glow: { type: 'range', label: 'settings.param.glow', min: 0, max: 10, step: 1 },
+        weight: { type: 'select', label: 'settings.param.weight', options: ['100', '200', '300', '400'] },
+        gap: { type: 'range', label: 'settings.param.gap', min: 0, max: 5, step: 0.5 }
       }
     }
   };

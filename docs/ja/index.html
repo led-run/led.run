@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ドキュメント — led.run ディスプレイツールキット</title>
-  <meta name="description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、URLプロトコル、パラメータ。">
+  <meta name="description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、URLプロトコル、パラメータ。">
   <link rel="canonical" href="https://led.run/docs/ja/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/ja/">
   <meta property="og:title" content="ドキュメント — led.run ディスプレイツールキット">
-  <meta property="og:description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、URLプロトコル、パラメータ。">
+  <meta property="og:description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、URLプロトコル、パラメータ。">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="ja_JP">
 
@@ -82,6 +82,12 @@
             <a href="#visualizers">ビジュアライザー (12)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">時計</div>
+            <a href="#time-overview">概要</a>
+            <a href="#time-parameters">パラメータ</a>
+            <a href="#clocks">時計 (14)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">リファレンス</div>
             <a href="#color-format">カラー形式</a>
             <a href="#scale">スケール &amp; カードテーマ</a>
@@ -96,7 +102,7 @@
       <main class="docs-content">
 
         <h1>led.run ドキュメント</h1>
-        <p>あらゆる画面をテキストサイン、ライトエフェクト、またはサウンドビジュアライザーに変換。アプリ不要、アカウント不要 &mdash; URLだけで完結。</p>
+        <p>あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザー、またはクロックディスプレイに変換。アプリ不要、アカウント不要 &mdash; URLだけで完結。</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">仕組み</h2>
@@ -156,28 +162,47 @@
           </div>
         </div>
 
+        <h3>クロックディスプレイ</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">time</span><span class="url-part-params">?t=digital&amp;format=12h</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> プロダクトプレフィックス</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 時計と設定</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URLプロトコル</h2>
-        <p>3つのプロダクト、3つのURLパターン：</p>
+        <p>4つのプロダクト、4つのURLパターン：</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              パス = テキスト内容
         led.run/text/HELLO?t=neon         明示的な /text/ プレフィックス
 Light:  led.run/light?t=disco             プロダクトプレフィックス + パラメータ
-Sound:  led.run/sound?t=bars              プロダクトプレフィックス + パラメータ</code></pre>
+Sound:  led.run/sound?t=bars              プロダクトプレフィックス + パラメータ
+Time:   led.run/time?t=digital            プロダクトプレフィックス + パラメータ</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; <code>/</code> 以降のURLパスが表示テキストになります。スペースは <code>+</code> または <code>%20</code> で指定できます。</li>
-          <li><strong>Light &amp; Sound</strong> &mdash; 予約済みパスプレフィックスを使用します。すべての設定はクエリパラメータで行います。</li>
-          <li>すべてのパラメータは任意の「プリファレンスヒント」です &mdash; テーマ／エフェクト／ビジュアライザーが使用するかどうかを決定します。</li>
+          <li><strong>Light、Sound &amp; Time</strong> &mdash; 予約済みパスプレフィックスを使用します。すべての設定はクエリパラメータで行います。</li>
+          <li>すべてのパラメータは任意の「プリファレンスヒント」です &mdash; テーマ／エフェクト／ビジュアライザー／時計が使用するかどうかを決定します。</li>
         </ul>
 
         <div class="docs-note">
-          <strong>予約済みプレフィックス：</strong> <code>text</code>、<code>light</code>、<code>sound</code> は予約されています。「light」という文字をテキストとして表示するには、<code>led.run/text/light</code> を使用してください。
+          <strong>予約済みプレフィックス：</strong> <code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code> は予約されています。「light」という文字をテキストとして表示するには、<code>led.run/text/light</code> を使用してください。
         </div>
 
         <!-- Products -->
         <h2 id="products">プロダクト</h2>
-        <p>led.run は3つのディスプレイプロダクトを提供し、それぞれ独自の表示モードを備えています：</p>
+        <p>led.run は4つのディスプレイプロダクトを提供し、それぞれ独自の表示モードを備えています：</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
@@ -203,6 +228,14 @@ Sound:  led.run/sound?t=bars              プロダクトプレフィックス +
             </div>
             <div class="theme-card-desc">マイクで駆動するリアルタイムオーディオビジュアライゼーション &mdash; スペクトラムバー、海の波、3Dウェーブフォームなど。</div>
             <a class="theme-card-link" href="#sound-overview">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Time</span>
+              <span class="theme-card-id">14種の時計</span>
+            </div>
+            <div class="theme-card-desc">フルスクリーン時計ディスプレイ &mdash; デジタルLED、アナログ、フリップ、ニキシー管、ネオン、日時計、カレンダーなど。</div>
+            <a class="theme-card-link" href="#time-overview">探索 &rarr;</a>
           </div>
         </div>
 
@@ -1836,6 +1869,292 @@ led.run/sound?t=spikes            放射状スパイク</code></pre>
           <a class="theme-detail-try" href="/sound?t=spectrum-circle">試す &rarr;</a>
         </div>
 
+        <!-- ==================== TIME ==================== -->
+
+        <h2 id="time-overview">時計 &mdash; 概要</h2>
+        <p>Timeプロダクトは画面をフルスクリーン時計ディスプレイに変換します。クラシックな7セグメントLEDからニキシー管や日時計まで、14種の内蔵時計テーマから選べます。各テーマはそれぞれ独自のビジュアルスタイルで現在の時刻を表示します。</p>
+
+        <pre><code>led.run/time?t=digital                 デフォルトデジタル時計
+led.run/time?t=nixie&amp;color=ff8833      ニキシー管時計
+led.run/time?t=analog&amp;style=modern     モダンアナログ時計
+led.run/time?t=lcd&amp;format=12h          LCD腕時計、12時間制</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong> <code>/time</code> に <code>?t=</code> を付けないとランディングページにルーティングされます。共有リンクには常に <code>?t=</code> を含めてください。例：<code>led.run/time?t=digital</code>。
+        </div>
+
+        <!-- Time Parameters -->
+        <h2 id="time-parameters">時計パラメータ</h2>
+        <p>時計テーマで認識されるパラメータです。各時計は独自のデフォルト値を提供します。</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>パラメータ</th>
+                <th>エイリアス</th>
+                <th>タイプ</th>
+                <th>説明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>時計テーマID</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>プライマリカラー（数字、針、テキスト）</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>背景色</td></tr>
+              <tr><td>format</td><td>&mdash;</td><td>string</td><td>時間形式：<code>12h</code> または <code>24h</code></td></tr>
+              <tr><td>showSeconds</td><td>&mdash;</td><td>boolean</td><td>秒表示</td></tr>
+              <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>日付表示</td></tr>
+              <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>日付形式：<code>MDY</code>、<code>DMY</code>、<code>YMD</code></td></tr>
+              <tr><td>tz</td><td>&mdash;</td><td>number</td><td>タイムゾーンUTCオフセット（&minus;12〜14）</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clocks -->
+        <h2 id="clocks">時計 (14)</h2>
+        <p>14種の時計テーマをご覧ください。カードをクリックすると詳細とカスタムパラメータが表示されます。</p>
+
+        <div class="theme-search-wrap">
+          <input type="text" id="clock-search" placeholder="時計を検索..." class="theme-search">
+        </div>
+
+        <div class="theme-grid">
+          <a href="#clock-digital" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Digital</span><span class="theme-card-id">digital</span></div>
+            <div class="theme-card-desc">7セグメントLEDのクラシックなデジタル表示。</div>
+          </a>
+          <a href="#clock-minimal" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Minimal</span><span class="theme-card-id">minimal</span></div>
+            <div class="theme-card-desc">クリーンなミニマルタイポグラフィ。</div>
+          </a>
+          <a href="#clock-retro" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Retro</span><span class="theme-card-id">retro</span></div>
+            <div class="theme-card-desc">CRT端末の緑色蛍光レトロスタイル。</div>
+          </a>
+          <a href="#clock-binary" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Binary</span><span class="theme-card-id">binary</span></div>
+            <div class="theme-card-desc">光るビット列のバイナリ時計。</div>
+          </a>
+          <a href="#clock-lcd" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">LCD</span><span class="theme-card-id">lcd</span></div>
+            <div class="theme-card-desc">レトロなLCD腕時計スタイル。</div>
+          </a>
+          <a href="#clock-analog" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Analog</span><span class="theme-card-id">analog</span></div>
+            <div class="theme-card-desc">スムーズな針のクラシックアナログ時計。</div>
+          </a>
+          <a href="#clock-flip" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Flip</span><span class="theme-card-id">flip</span></div>
+            <div class="theme-card-desc">機械式フリップ表示アニメーション。</div>
+          </a>
+          <a href="#clock-nixie" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Nixie</span><span class="theme-card-id">nixie</span></div>
+            <div class="theme-card-desc">暖かいニキシー管ビンテージ表示。</div>
+          </a>
+          <a href="#clock-neon" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Neon</span><span class="theme-card-id">neon</span></div>
+            <div class="theme-card-desc">ネオンチューブのグロー時計。</div>
+          </a>
+          <a href="#clock-word" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Word</span><span class="theme-card-id">word</span></div>
+            <div class="theme-card-desc">英語で時刻を表示。</div>
+          </a>
+          <a href="#clock-sun" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Sundial</span><span class="theme-card-id">sun</span></div>
+            <div class="theme-card-desc">空のグラデーションと影の日時計。</div>
+          </a>
+          <a href="#clock-calendar" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Calendar</span><span class="theme-card-id">calendar</span></div>
+            <div class="theme-card-desc">今日をハイライトした月間カレンダー。</div>
+          </a>
+          <a href="#clock-matrix" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Matrix</span><span class="theme-card-id">matrix</span></div>
+            <div class="theme-card-desc">落下する緑の数字が時刻を表示。</div>
+          </a>
+          <a href="#clock-gradient" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Gradient</span><span class="theme-card-id">gradient</span></div>
+            <div class="theme-card-desc">時間帯に応じて背景が変化。</div>
+          </a>
+        </div>
+
+        <!-- Clock details -->
+
+        <div class="theme-detail" id="clock-digital">
+          <div class="theme-detail-header"><span class="theme-detail-name">Digital</span><span class="theme-detail-id">digital</span></div>
+          <p class="theme-detail-desc">Canvasで描画されるクラシックな7セグメントLEDディスプレイ。設定可能なグローとコロンアニメーション付きのシャープなセグメント。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ff0000"></span> <code>ff0000</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>blink</td><td>コロンスタイル：blink、solid、fade</td></tr>
+            <tr><td>segmentStyle</td><td>select</td><td>sharp</td><td>セグメント形状：sharp、round、flat</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>グロー強度（0&ndash;10）</td></tr>
+            <tr><td>dimBrightness</td><td>number</td><td>1</td><td>消灯セグメント明度（0&ndash;5）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=digital">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-minimal">
+          <div class="theme-detail-header"><span class="theme-detail-name">Minimal</span><span class="theme-detail-id">minimal</span></div>
+          <p class="theme-detail-desc">極細ウェイトのクリーンなミニマルタイポグラフィ。DOMベースでコンテナ相対サイジング対応。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>align</td><td>select</td><td>center</td><td>テキスト配置：center、left、right</td></tr>
+            <tr><td>weight</td><td>number</td><td>200</td><td>フォントウェイト</td></tr>
+            <tr><td>separator</td><td>select</td><td>colon</td><td>時間区切り：colon、dot、space、none</td></tr>
+            <tr><td>uppercase</td><td>boolean</td><td>true</td><td>AM/PMと日付を大文字にする</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=minimal">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-retro">
+          <div class="theme-detail-header"><span class="theme-detail-name">Retro</span><span class="theme-detail-id">retro</span></div>
+          <p class="theme-detail-desc">緑色蛍光グロー、スキャンライン、ビネット効果のCRT端末。コマンドプロンプトオーバーレイ付き。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>CRTスキャンラインオーバーレイ表示</td></tr>
+            <tr><td>vignette</td><td>number</td><td>6</td><td>ビネット強度（0&ndash;10）</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>画面フリッカー強度（0&ndash;10）</td></tr>
+            <tr><td>prompt</td><td>select</td><td>default</td><td>プロンプトスタイル：default、minimal、none</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=retro">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-binary">
+          <div class="theme-detail-header"><span class="theme-detail-name">Binary</span><span class="theme-detail-id">binary</span></div>
+          <p class="theme-detail-desc">時、分、秒を光るビット列で表示するバイナリ時計。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#00ccff"></span> <code>00ccff</code> <span>on</span> <span class="color-swatch" style="background:#0a0a1a"></span> <code>0a0a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>solid</td><td>ドットアニメーション：solid、blink、fade</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>グロー強度（0&ndash;10）</td></tr>
+            <tr><td>bitShape</td><td>select</td><td>square</td><td>ビット形状：square、round、diamond</td></tr>
+            <tr><td>showLabels</td><td>boolean</td><td>true</td><td>列ラベル（H M S）表示</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=binary">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-lcd">
+          <div class="theme-detail-header"><span class="theme-detail-name">LCD</span><span class="theme-detail-id">lcd</span></div>
+          <p class="theme-detail-desc">セグメント数字、オプションのベゼル、バックライト付きのCasioスタイルLCD腕時計フェイス。ポジショニングとフルスクリーンモード対応。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#2a3a2a"></span> <code>2a3a2a</code> <span>on</span> <span class="color-swatch" style="background:#8a9f78"></span> <code>8a9f78</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>backlight</td><td>number</td><td>0</td><td>バックライト強度（0&ndash;10）</td></tr>
+            <tr><td>bezel</td><td>boolean</td><td>true</td><td>腕時計ベゼルフレーム表示</td></tr>
+            <tr><td>brand</td><td>select</td><td>led.run</td><td>文字盤のブランドテキスト</td></tr>
+            <tr><td>lcdScale</td><td>number</td><td>1.0</td><td>LCD全体スケール（0.3&ndash;2.0）</td></tr>
+            <tr><td>lcdPosition</td><td>select</td><td>center</td><td>画面上の位置</td></tr>
+            <tr><td>lcdFull</td><td>boolean</td><td>false</td><td>フルスクリーンモード（ベゼルなし）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=lcd">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-analog">
+          <div class="theme-detail-header"><span class="theme-detail-name">Analog</span><span class="theme-detail-id">analog</span></div>
+          <p class="theme-detail-desc">スムーズに動く針と複数の文字盤スタイルを持つCanvasで描画されるクラシックアナログ時計。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>style</td><td>select</td><td>classic</td><td>文字盤スタイル：classic、modern、dress、sport</td></tr>
+            <tr><td>handColor</td><td>color</td><td>ff5050</td><td>秒針の色</td></tr>
+            <tr><td>markers</td><td>boolean</td><td>true</td><td>時間マーカー表示</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=analog">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-flip">
+          <div class="theme-detail-header"><span class="theme-detail-name">Flip</span><span class="theme-detail-id">flip</span></div>
+          <p class="theme-detail-desc">CSS 3Dフリップアニメーション付きの機械式フリップ表示。各桁がシーケンシャルタイミングで独立してフリップ。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#f0f0f0"></span> <code>f0f0f0</code> <span>on</span> <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.5</td><td>フリップアニメーション時間（秒）</td></tr>
+            <tr><td>gap</td><td>number</td><td>1.5</td><td>カード間の隙間</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=flip">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-nixie">
+          <div class="theme-detail-header"><span class="theme-detail-name">Nixie</span><span class="theme-detail-id">nixie</span></div>
+          <p class="theme-detail-desc">Canvasで描画される暖かいグローのニキシー管ディスプレイ。各数字がカソードグロー効果のガラス管内に配置。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ff8833"></span> <code>ff8833</code> <span>on</span> <span class="color-swatch" style="background:#1a0f0a"></span> <code>1a0f0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>6</td><td>グロー強度（0&ndash;10）</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>フリッカー強度（0&ndash;10）</td></tr>
+            <tr><td>tubeColor</td><td>color</td><td>332211</td><td>ガラス管のティント色</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>色の暖かさ（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=nixie">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">DOMとCSSによるネオンチューブグローサイン。レイヤードtext-shadowでリアルなチューブライティングを再現。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ff1493"></span> <code>ff1493</code> <span>on</span> <span class="color-swatch" style="background:#0a0010"></span> <code>0a0010</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>7</td><td>グロー強度（0&ndash;10）</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>フリッカー強度（0&ndash;10）</td></tr>
+            <tr><td>tube</td><td>select</td><td>single</td><td>チューブスタイル：single、outline、double</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=neon">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-word">
+          <div class="theme-detail-header"><span class="theme-detail-name">Word</span><span class="theme-detail-id">word</span></div>
+          <p class="theme-detail-desc">英語の単語で時刻を綴る表示。オプションのファジー近似とスムーズなトランジションアニメーション付き。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>wordLang</td><td>select</td><td>en</td><td>ワードスタイル：en（正確）、fuzzy（近似）</td></tr>
+            <tr><td>showPeriod</td><td>boolean</td><td>true</td><td>AM/PMテキスト表示</td></tr>
+            <tr><td>animation</td><td>select</td><td>none</td><td>トランジション：none、fade、slide</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=word">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-sun">
+          <div class="theme-detail-header"><span class="theme-detail-name">Sundial</span><span class="theme-detail-id">sun</span></div>
+          <p class="theme-detail-desc">時刻に応じて変化する空のグラデーション付き日時計。星、太陽/月、大気効果のCanvas描画。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a3a5c"></span> <code>1a3a5c</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>stars</td><td>number</td><td>5</td><td>星の密度（0&ndash;10）</td></tr>
+            <tr><td>showSundial</td><td>boolean</td><td>true</td><td>日時計のノーモンと影を表示</td></tr>
+            <tr><td>atmosphere</td><td>select</td><td>realistic</td><td>空のスタイル：realistic、vivid、pastel</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=sun">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-calendar">
+          <div class="theme-detail-header"><span class="theme-detail-name">Calendar</span><span class="theme-detail-id">calendar</span></div>
+          <p class="theme-detail-desc">時刻表示付きの月間カレンダービュー。週の始まり日と週末カラーの設定可能な今日のハイライト。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>firstDay</td><td>select</td><td>sun</td><td>週の始まり：sun、mon</td></tr>
+            <tr><td>weekendHighlight</td><td>boolean</td><td>false</td><td>週末をハイライト</td></tr>
+            <tr><td>compact</td><td>boolean</td><td>false</td><td>コンパクトレイアウト</td></tr>
+            <tr><td>weekendColor</td><td>color</td><td>ff6b6b</td><td>週末テキスト色</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=calendar">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-matrix">
+          <div class="theme-detail-header"><span class="theme-detail-name">Matrix</span><span class="theme-detail-id">matrix</span></div>
+          <p class="theme-detail-desc">Canvasで描画されるMatrixスタイルの落下文字。レインの中から現在の時刻が浮かび上がる。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>5</td><td>レイン密度（1&ndash;10）</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>落下速度（1&ndash;10）</td></tr>
+            <tr><td>charset</td><td>select</td><td>katakana</td><td>文字セット：katakana、latin、digits、binary</td></tr>
+            <tr><td>glowIntensity</td><td>number</td><td>5</td><td>グロー強度（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=matrix">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-gradient">
+          <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
+          <p class="theme-detail-desc">時間帯に応じて自動的に変化する背景グラデーション。DOMベースでスムーズなカラートランジション。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>パラメータ</th><th>タイプ</th><th>デフォルト</th><th>説明</th></tr></thead><tbody>
+            <tr><td>palette</td><td>select</td><td>auto</td><td>カラーパレット：auto、ocean、sunset、forest、neon、mono</td></tr>
+            <tr><td>angle</td><td>number</td><td>135</td><td>グラデーション角度（度）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=gradient">試す &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -1869,6 +2188,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -1877,9 +2197,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Pause / resume</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -1889,33 +2211,39 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
                 <td>&mdash;</td>
                 <td>Next effect</td>
                 <td>Next visualizer</td>
+                <td>Next clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
                 <td>&mdash;</td>
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
+                <td>Previous clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">&darr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -1944,11 +2272,13 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1958,9 +2288,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1970,9 +2302,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Share</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1982,6 +2316,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
               </tr>
             </tbody>
           </table>
@@ -2038,7 +2373,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2056,9 +2391,10 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
+      setupSearch('clock-search', document.querySelectorAll('.clock-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {

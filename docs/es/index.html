@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentación — led.run Kit de Visualización</title>
-  <meta name="description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, protocolo URL y parámetros.">
+  <meta name="description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, protocolo URL y parámetros.">
   <link rel="canonical" href="https://led.run/docs/es/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/es/">
   <meta property="og:title" content="Documentación — led.run Kit de Visualización">
-  <meta property="og:description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, protocolo URL y parámetros.">
+  <meta property="og:description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, protocolo URL y parámetros.">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="es_ES">
 
@@ -82,6 +82,12 @@
             <a href="#visualizers">Visualizadores (12)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">Reloj</div>
+            <a href="#time-overview">Resumen</a>
+            <a href="#time-parameters">Parámetros</a>
+            <a href="#clocks">Relojes (14)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">Referencia</div>
             <a href="#color-format">Formato de color</a>
             <a href="#scale">Escala y temas de tarjeta</a>
@@ -96,7 +102,7 @@
       <main class="docs-content">
 
         <h1>Documentación de led.run</h1>
-        <p>Convierte cualquier pantalla en un letrero de texto, efecto de luz o visualizador de sonido. Sin aplicaciones, sin cuentas &mdash; solo una URL.</p>
+        <p>Convierte cualquier pantalla en un letrero de texto, efecto de luz, visualizador de sonido o pantalla de reloj. Sin aplicaciones, sin cuentas &mdash; solo una URL.</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">Cómo funciona</h2>
@@ -156,28 +162,47 @@
           </div>
         </div>
 
+        <h3>Pantallas de Reloj</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">time</span><span class="url-part-params">?t=digital&amp;format=12h</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Prefijo de producto</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Reloj y ajustes</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">Protocolo URL</h2>
-        <p>Tres productos, tres patrones de URL:</p>
+        <p>Cuatro productos, cuatro patrones de URL:</p>
 
         <pre><code>Texto:  led.run/HELLO?t=neon              Ruta = contenido de texto
         led.run/text/HELLO?t=neon         Prefijo /text/ explícito
 Luz:    led.run/light?t=disco             Prefijo de producto + parámetros
-Sonido: led.run/sound?t=bars              Prefijo de producto + parámetros</code></pre>
+Sonido: led.run/sound?t=bars              Prefijo de producto + parámetros
+Reloj:  led.run/time?t=digital            Prefijo de producto + parámetros</code></pre>
 
         <ul>
           <li><strong>Texto</strong> &mdash; la ruta URL después de <code>/</code> se convierte en el texto mostrado. Los espacios pueden ser <code>+</code> o <code>%20</code>.</li>
-          <li><strong>Luz y Sonido</strong> &mdash; usan prefijos de ruta reservados. Toda la configuración se realiza mediante parámetros de consulta.</li>
+          <li><strong>Luz, Sonido y Reloj</strong> &mdash; usan prefijos de ruta reservados. Toda la configuración se realiza mediante parámetros de consulta.</li>
           <li>Todos los parámetros son &ldquo;sugerencias de preferencia&rdquo; opcionales &mdash; los temas/efectos/visualizadores deciden si los utilizan.</li>
         </ul>
 
         <div class="docs-note">
-          <strong>Prefijos reservados:</strong> <code>text</code>, <code>light</code>, <code>sound</code> están reservados. Para mostrar la palabra &ldquo;light&rdquo; como texto, usa <code>led.run/text/light</code>.
+          <strong>Prefijos reservados:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code> están reservados. Para mostrar la palabra &ldquo;light&rdquo; como texto, usa <code>led.run/text/light</code>.
         </div>
 
         <!-- Products -->
         <h2 id="products">Productos</h2>
-        <p>led.run ofrece tres productos de visualización, cada uno con su propio conjunto de modos de pantalla:</p>
+        <p>led.run ofrece cuatro productos de visualización, cada uno con su propio conjunto de modos de pantalla:</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
@@ -203,6 +228,14 @@ Sonido: led.run/sound?t=bars              Prefijo de producto + parámetros</cod
             </div>
             <div class="theme-card-desc">Visualizaciones de audio en tiempo real impulsadas por tu micrófono &mdash; barras de espectro, olas del océano, formas de onda 3D y más.</div>
             <a class="theme-card-link" href="#sound-overview">Explorar &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Reloj</span>
+              <span class="theme-card-id">14 relojes</span>
+            </div>
+            <div class="theme-card-desc">Pantallas de reloj a pantalla completa &mdash; LED digital, analógico, flip, tubos nixie, neón, reloj solar, calendario y más.</div>
+            <a class="theme-card-link" href="#time-overview">Explorar &rarr;</a>
           </div>
         </div>
 
@@ -1836,6 +1869,292 @@ led.run/sound?t=spikes            Picos radiales</code></pre>
           <a class="theme-detail-try" href="/sound?t=spectrum-circle">Probar &rarr;</a>
         </div>
 
+        <!-- ==================== TIME ==================== -->
+
+        <h2 id="time-overview">Reloj &mdash; Resumen</h2>
+        <p>El producto Reloj convierte tu pantalla en una pantalla de reloj a pantalla completa. Elige entre 14 temas de reloj integrados, desde LED clásico de 7 segmentos hasta tubos nixie y relojes solares. Cada tema muestra la hora actual con su propio estilo visual único.</p>
+
+        <pre><code>led.run/time?t=digital                 Reloj digital predeterminado
+led.run/time?t=nixie&amp;color=ff8833      Reloj de tubos nixie
+led.run/time?t=analog&amp;style=modern     Reloj analógico moderno
+led.run/time?t=lcd&amp;format=12h          Reloj LCD, formato 12 horas</code></pre>
+
+        <div class="docs-note">
+          <strong>Nota:</strong> <code>/time</code> sin <code>?t=</code> abre la página de inicio. Los enlaces para compartir siempre incluyen <code>?t=</code>, ej. <code>led.run/time?t=digital</code>.
+        </div>
+
+        <!-- Time Parameters -->
+        <h2 id="time-parameters">Parámetros del Reloj</h2>
+        <p>Estos parámetros son reconocidos por los temas de reloj. Cada reloj proporciona sus propios valores por defecto.</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Parámetro</th>
+                <th>Alias</th>
+                <th>Tipo</th>
+                <th>Descripción</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>ID del tema de reloj</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>Color primario (dígitos, manecillas, texto)</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>Color de fondo</td></tr>
+              <tr><td>format</td><td>&mdash;</td><td>string</td><td>Formato de hora: <code>12h</code> o <code>24h</code></td></tr>
+              <tr><td>showSeconds</td><td>&mdash;</td><td>boolean</td><td>Mostrar segundos</td></tr>
+              <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>Mostrar fecha</td></tr>
+              <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>Formato de fecha: <code>MDY</code>, <code>DMY</code> o <code>YMD</code></td></tr>
+              <tr><td>tz</td><td>&mdash;</td><td>number</td><td>Zona horaria UTC (&minus;12 a 14)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clocks -->
+        <h2 id="clocks">Relojes (14)</h2>
+        <p>Explora los 14 temas de reloj. Haz clic en una tarjeta para ver detalles y parámetros personalizados.</p>
+
+        <div class="theme-search-wrap">
+          <input type="text" id="clock-search" placeholder="Buscar relojes..." class="theme-search">
+        </div>
+
+        <div class="theme-grid">
+          <a href="#clock-digital" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Digital</span><span class="theme-card-id">digital</span></div>
+            <div class="theme-card-desc">Pantalla LED de 7 segmentos clásica.</div>
+          </a>
+          <a href="#clock-minimal" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Minimal</span><span class="theme-card-id">minimal</span></div>
+            <div class="theme-card-desc">Tipografía minimalista con líneas finas.</div>
+          </a>
+          <a href="#clock-retro" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Retro</span><span class="theme-card-id">retro</span></div>
+            <div class="theme-card-desc">Terminal CRT con fósforo verde retro.</div>
+          </a>
+          <a href="#clock-binary" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Binary</span><span class="theme-card-id">binary</span></div>
+            <div class="theme-card-desc">Reloj binario con columnas de bits brillantes.</div>
+          </a>
+          <a href="#clock-lcd" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">LCD</span><span class="theme-card-id">lcd</span></div>
+            <div class="theme-card-desc">Estilo de reloj LCD retro con dígitos píxel.</div>
+          </a>
+          <a href="#clock-analog" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Analog</span><span class="theme-card-id">analog</span></div>
+            <div class="theme-card-desc">Reloj analógico clásico con manecillas suaves.</div>
+          </a>
+          <a href="#clock-flip" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Flip</span><span class="theme-card-id">flip</span></div>
+            <div class="theme-card-desc">Animación de pantalla mecánica flip.</div>
+          </a>
+          <a href="#clock-nixie" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Nixie</span><span class="theme-card-id">nixie</span></div>
+            <div class="theme-card-desc">Pantalla vintage de tubos nixie cálidos.</div>
+          </a>
+          <a href="#clock-neon" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Neon</span><span class="theme-card-id">neon</span></div>
+            <div class="theme-card-desc">Reloj de neón brillante con tubos de color.</div>
+          </a>
+          <a href="#clock-word" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Word</span><span class="theme-card-id">word</span></div>
+            <div class="theme-card-desc">Hora escrita en palabras en inglés.</div>
+          </a>
+          <a href="#clock-sun" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Sundial</span><span class="theme-card-id">sun</span></div>
+            <div class="theme-card-desc">Reloj solar con gradiente de cielo real.</div>
+          </a>
+          <a href="#clock-calendar" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Calendar</span><span class="theme-card-id">calendar</span></div>
+            <div class="theme-card-desc">Calendario mensual con el día destacado.</div>
+          </a>
+          <a href="#clock-matrix" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Matrix</span><span class="theme-card-id">matrix</span></div>
+            <div class="theme-card-desc">Dígitos verdes cayendo revelan la hora.</div>
+          </a>
+          <a href="#clock-gradient" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Gradient</span><span class="theme-card-id">gradient</span></div>
+            <div class="theme-card-desc">Gradiente de fondo cambia con la hora del día.</div>
+          </a>
+        </div>
+
+        <!-- Clock details -->
+
+        <div class="theme-detail" id="clock-digital">
+          <div class="theme-detail-header"><span class="theme-detail-name">Digital</span><span class="theme-detail-id">digital</span></div>
+          <p class="theme-detail-desc">Pantalla LED de 7 segmentos clásica renderizada en Canvas. Segmentos nítidos con brillo configurable y animación de dos puntos.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ff0000"></span> <code>ff0000</code> <span>sobre</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>blink</td><td>Estilo de dos puntos: blink, solid, fade</td></tr>
+            <tr><td>segmentStyle</td><td>select</td><td>sharp</td><td>Forma del segmento: sharp, round, flat</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>Intensidad de brillo (0&ndash;10)</td></tr>
+            <tr><td>dimBrightness</td><td>number</td><td>1</td><td>Brillo de segmentos apagados (0&ndash;5)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=digital">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-minimal">
+          <div class="theme-detail-header"><span class="theme-detail-name">Minimal</span><span class="theme-detail-id">minimal</span></div>
+          <p class="theme-detail-desc">Tipografía minimalista con peso ultrafino. Basado en DOM con dimensionamiento relativo al contenedor.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>align</td><td>select</td><td>center</td><td>Alineación del texto: center, left, right</td></tr>
+            <tr><td>weight</td><td>number</td><td>200</td><td>Peso de la fuente</td></tr>
+            <tr><td>separator</td><td>select</td><td>colon</td><td>Separador de hora: colon, dot, space, none</td></tr>
+            <tr><td>uppercase</td><td>boolean</td><td>true</td><td>Mayúsculas en AM/PM y fecha</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=minimal">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-retro">
+          <div class="theme-detail-header"><span class="theme-detail-name">Retro</span><span class="theme-detail-id">retro</span></div>
+          <p class="theme-detail-desc">Terminal CRT con brillo de fósforo verde, líneas de escaneo y efecto de viñeta. Incluye una superposición de línea de comandos.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>Mostrar superposición de líneas de escaneo CRT</td></tr>
+            <tr><td>vignette</td><td>number</td><td>6</td><td>Intensidad de viñeta (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>Intensidad de parpadeo de pantalla (0&ndash;10)</td></tr>
+            <tr><td>prompt</td><td>select</td><td>default</td><td>Estilo de prompt: default, minimal, none</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=retro">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-binary">
+          <div class="theme-detail-header"><span class="theme-detail-name">Binary</span><span class="theme-detail-id">binary</span></div>
+          <p class="theme-detail-desc">Reloj binario que muestra horas, minutos y segundos como columnas de bits brillantes.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#00ccff"></span> <code>00ccff</code> <span>sobre</span> <span class="color-swatch" style="background:#0a0a1a"></span> <code>0a0a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>solid</td><td>Animación del punto: solid, blink, fade</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>Intensidad de brillo (0&ndash;10)</td></tr>
+            <tr><td>bitShape</td><td>select</td><td>square</td><td>Forma del bit: square, round, diamond</td></tr>
+            <tr><td>showLabels</td><td>boolean</td><td>true</td><td>Mostrar etiquetas de columna (H M S)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=binary">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-lcd">
+          <div class="theme-detail-header"><span class="theme-detail-name">LCD</span><span class="theme-detail-id">lcd</span></div>
+          <p class="theme-detail-desc">Esfera de reloj LCD estilo Casio con dígitos segmentados, bisel opcional y retroiluminación. Admite posicionamiento y modo pantalla completa.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#2a3a2a"></span> <code>2a3a2a</code> <span>sobre</span> <span class="color-swatch" style="background:#8a9f78"></span> <code>8a9f78</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>backlight</td><td>number</td><td>0</td><td>Intensidad de retroiluminación (0&ndash;10)</td></tr>
+            <tr><td>bezel</td><td>boolean</td><td>true</td><td>Mostrar marco biselado del reloj</td></tr>
+            <tr><td>brand</td><td>select</td><td>led.run</td><td>Texto de marca en la esfera</td></tr>
+            <tr><td>lcdScale</td><td>number</td><td>1.0</td><td>Escala general del LCD (0.3&ndash;2.0)</td></tr>
+            <tr><td>lcdPosition</td><td>select</td><td>center</td><td>Posición en pantalla</td></tr>
+            <tr><td>lcdFull</td><td>boolean</td><td>false</td><td>Modo pantalla completa (sin bisel)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=lcd">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-analog">
+          <div class="theme-detail-header"><span class="theme-detail-name">Analog</span><span class="theme-detail-id">analog</span></div>
+          <p class="theme-detail-desc">Reloj analógico clásico renderizado en Canvas con manecillas suaves y múltiples estilos de esfera.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>style</td><td>select</td><td>classic</td><td>Estilo de esfera: classic, modern, dress, sport</td></tr>
+            <tr><td>handColor</td><td>color</td><td>ff5050</td><td>Color del segundero</td></tr>
+            <tr><td>markers</td><td>boolean</td><td>true</td><td>Mostrar marcadores de hora</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=analog">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-flip">
+          <div class="theme-detail-header"><span class="theme-detail-name">Flip</span><span class="theme-detail-id">flip</span></div>
+          <p class="theme-detail-desc">Pantalla mecánica flip con animación CSS 3D. Cada dígito gira independientemente con temporización secuencial.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#f0f0f0"></span> <code>f0f0f0</code> <span>sobre</span> <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.5</td><td>Duración de la animación flip (segundos)</td></tr>
+            <tr><td>gap</td><td>number</td><td>1.5</td><td>Espacio entre tarjetas</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=flip">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-nixie">
+          <div class="theme-detail-header"><span class="theme-detail-name">Nixie</span><span class="theme-detail-id">nixie</span></div>
+          <p class="theme-detail-desc">Pantalla vintage de tubos nixie cálidos renderizada en Canvas. Cada dígito se encuentra dentro de un tubo de vidrio con efecto de brillo de cátodo.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ff8833"></span> <code>ff8833</code> <span>sobre</span> <span class="color-swatch" style="background:#1a0f0a"></span> <code>1a0f0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>6</td><td>Intensidad de brillo (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>Intensidad de parpadeo (0&ndash;10)</td></tr>
+            <tr><td>tubeColor</td><td>color</td><td>332211</td><td>Color del tinte del tubo de vidrio</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>Calidez de color (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=nixie">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">Reloj de neón brillante usando DOM y CSS. Dígitos renderizados con text-shadow en capas para iluminación realista de tubo.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ff1493"></span> <code>ff1493</code> <span>sobre</span> <span class="color-swatch" style="background:#0a0010"></span> <code>0a0010</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>7</td><td>Intensidad de brillo (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>Intensidad de parpadeo (0&ndash;10)</td></tr>
+            <tr><td>tube</td><td>select</td><td>single</td><td>Estilo de tubo: single, outline, double</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=neon">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-word">
+          <div class="theme-detail-header"><span class="theme-detail-name">Word</span><span class="theme-detail-id">word</span></div>
+          <p class="theme-detail-desc">Hora escrita en palabras en inglés con aproximación difusa opcional y animaciones de transición suaves.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>wordLang</td><td>select</td><td>en</td><td>Estilo de palabras: en (exacto), fuzzy (aproximado)</td></tr>
+            <tr><td>showPeriod</td><td>boolean</td><td>true</td><td>Mostrar texto de período AM/PM</td></tr>
+            <tr><td>animation</td><td>select</td><td>none</td><td>Transición: none, fade, slide</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=word">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-sun">
+          <div class="theme-detail-header"><span class="theme-detail-name">Sundial</span><span class="theme-detail-id">sun</span></div>
+          <p class="theme-detail-desc">Reloj solar con gradiente de cielo que cambia según la hora del día. Renderizado en Canvas con estrellas, sol/luna y efectos atmosféricos.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#1a3a5c"></span> <code>1a3a5c</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>stars</td><td>number</td><td>5</td><td>Densidad de estrellas (0&ndash;10)</td></tr>
+            <tr><td>showSundial</td><td>boolean</td><td>true</td><td>Mostrar gnomon y sombra del reloj solar</td></tr>
+            <tr><td>atmosphere</td><td>select</td><td>realistic</td><td>Estilo del cielo: realistic, vivid, pastel</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=sun">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-calendar">
+          <div class="theme-detail-header"><span class="theme-detail-name">Calendar</span><span class="theme-detail-id">calendar</span></div>
+          <p class="theme-detail-desc">Vista de calendario mensual con visualización de hora. Destaca el día actual con primer día de semana y colores de fin de semana configurables.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>firstDay</td><td>select</td><td>sun</td><td>Primer día de la semana: sun, mon</td></tr>
+            <tr><td>weekendHighlight</td><td>boolean</td><td>false</td><td>Destacar días de fin de semana</td></tr>
+            <tr><td>compact</td><td>boolean</td><td>false</td><td>Diseño compacto</td></tr>
+            <tr><td>weekendColor</td><td>color</td><td>ff6b6b</td><td>Color del texto de fin de semana</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=calendar">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-matrix">
+          <div class="theme-detail-header"><span class="theme-detail-name">Matrix</span><span class="theme-detail-id">matrix</span></div>
+          <p class="theme-detail-desc">Caracteres verdes cayendo estilo Matrix renderizados en Canvas con la hora actual revelada a través de la lluvia.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>5</td><td>Densidad de la lluvia (1&ndash;10)</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>Velocidad de caída (1&ndash;10)</td></tr>
+            <tr><td>charset</td><td>select</td><td>katakana</td><td>Conjunto de caracteres: katakana, latin, digits, binary</td></tr>
+            <tr><td>glowIntensity</td><td>number</td><td>5</td><td>Intensidad de brillo (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=matrix">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-gradient">
+          <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
+          <p class="theme-detail-desc">Gradiente de fondo que cambia automáticamente según la hora del día. Basado en DOM con transiciones de color suaves.</p>
+          <div class="theme-detail-colors"><span>Colores predeterminados:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Predeterminado</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>palette</td><td>select</td><td>auto</td><td>Paleta de colores: auto, ocean, sunset, forest, neon, mono</td></tr>
+            <tr><td>angle</td><td>number</td><td>135</td><td>Ángulo del gradiente en grados</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=gradient">Probar &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -1869,6 +2188,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -1877,9 +2197,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Pause / resume</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -1889,33 +2211,39 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
                 <td>&mdash;</td>
                 <td>Next effect</td>
                 <td>Next visualizer</td>
+                <td>Next clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
                 <td>&mdash;</td>
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
+                <td>Previous clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">&darr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -1944,11 +2272,13 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1958,9 +2288,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1970,9 +2302,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Share</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1982,6 +2316,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
               </tr>
             </tbody>
           </table>
@@ -2038,7 +2373,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2056,9 +2391,10 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
+      setupSearch('clock-search', document.querySelectorAll('.clock-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {

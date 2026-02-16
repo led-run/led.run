@@ -6,7 +6,7 @@
   'use strict';
 
   // Reserved product path prefixes
-  var PRODUCTS = ['text', 'light', 'sound'];
+  var PRODUCTS = ['text', 'light', 'sound', 'time'];
 
   // Parameter alias mapping
   const PARAM_ALIASES = {
@@ -19,7 +19,8 @@
   };
 
   // Parameters that should always remain strings (never convert to number)
-  const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font', 'lang'];
+  const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font', 'lang',
+    'format', 'dateFormat', 'dotStyle', 'style', 'palette', 'align', 'firstDay', 'segmentStyle', 'weight'];
 
   // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
   const COLOR_PARAMS = ['color', 'bg', 'fill', 'glow'];
@@ -79,6 +80,11 @@
       if (lowerFirst === 'sound') {
         // Sound product — no text content
         return { product: 'sound', text: '' };
+      }
+
+      if (lowerFirst === 'time') {
+        // Time product — no text content
+        return { product: 'time', text: '' };
       }
 
       if (lowerFirst === 'text') {
