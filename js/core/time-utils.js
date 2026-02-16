@@ -66,6 +66,14 @@
     },
 
     /**
+     * Get local UTC offset in hours (e.g., UTC+8 → 8, UTC-5 → -5)
+     * @returns {number}
+     */
+    getLocalOffset: function() {
+      return -(new Date().getTimezoneOffset()) / 60;
+    },
+
+    /**
      * Get AM/PM string
      * @param {Date} date
      * @returns {string} 'AM' or 'PM'

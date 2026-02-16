@@ -56,7 +56,7 @@ All params are "preference hints" — themes decide whether to consume them.
 | `showSeconds` | — | boolean | Show seconds display, Time product |
 | `showDate` | — | boolean | Show date display, Time product |
 | `dateFormat` | — | string | Date format (MDY/DMY/YMD), Time product |
-| `tz` | — | number | Timezone UTC offset (-12 to 14), Time product |
+| `tz` | — | number | Timezone UTC offset (-12 to 14, default: local timezone), Time product |
 | `lcdScale` | — | number | LCD overall scale (0.3–2.0, default 1.0), LCD clock |
 | `lcdPosition` | — | string | LCD position (center/top/bottom/top-left/top-right/bottom-left/bottom-right), LCD clock |
 | `lcdFull` | — | boolean | LCD fullscreen mode (removes bezel, fills container), LCD clock |

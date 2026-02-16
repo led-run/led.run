@@ -489,7 +489,7 @@
       // 3. General params (product-specific common params)
       var generalSection = this._createSection('settings.section.general');
       var generalParams = adapter.commonParams;
-      var ALWAYS_SHOW = { mode: true, scale: 1, position: 'center', padding: 0 };
+      var ALWAYS_SHOW = { mode: true, scale: 1, position: 'center', padding: 0, tz: (typeof TimeUtils !== 'undefined' ? TimeUtils.getLocalOffset() : 0) };
       generalParams.forEach(function(key) {
         if (merged[key] === undefined && !ALWAYS_SHOW.hasOwnProperty(key)) return;
         var val = merged[key] !== undefined ? merged[key] : ALWAYS_SHOW[key];

@@ -787,8 +787,9 @@
       html += '<option value="DMY">' + I18n.t('settings.dateFormat.DMY') + '</option>';
       html += '<option value="YMD">' + I18n.t('settings.dateFormat.YMD') + '</option>';
       html += '</select></div>';
-      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.tz') + '</span><span class="val" id="time-builder-tz-val">0</span></div>';
-      html += '<input type="range" class="builder-range" id="time-builder-tz" min="-12" max="14" step="1" value="0"></div>';
+      var _localTz = TimeUtils.getLocalOffset();
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.tz') + '</span><span class="val" id="time-builder-tz-val">' + _localTz + '</span></div>';
+      html += '<input type="range" class="builder-range" id="time-builder-tz" min="-12" max="14" step="1" value="' + _localTz + '"></div>';
       html += '</div></div>';
 
       // Layout card (scale + position + padding)
@@ -1537,8 +1538,9 @@
         timeDate.checked = !!d.showDate;
         document.getElementById('time-builder-dateformat-row').style.display = d.showDate ? 'flex' : 'none';
         timeDateFormat.value = d.dateFormat || 'MDY';
-        timeTz.value = 0;
-        document.getElementById('time-builder-tz-val').textContent = '0';
+        var _localTzDefault = TimeUtils.getLocalOffset();
+        timeTz.value = _localTzDefault;
+        document.getElementById('time-builder-tz-val').textContent = String(_localTzDefault);
         timeScale.value = 1;
         document.getElementById('time-builder-scale-val').textContent = '1';
         timePosition.value = 'center';
@@ -1666,7 +1668,7 @@
           if (timeDateFormat.value !== (d.dateFormat || 'MDY')) params.push('dateFormat=' + timeDateFormat.value);
         }
         if (timeUserChanged.tz) {
-          if (timeTz.value !== '0') params.push('tz=' + timeTz.value);
+          if (timeTz.value !== String(TimeUtils.getLocalOffset())) params.push('tz=' + timeTz.value);
         }
         if (timeUserChanged.scale) {
           if (timeScale.value !== '1') params.push('scale=' + timeScale.value);
@@ -1694,7 +1696,7 @@
         config.showSeconds = timeSeconds.checked;
         config.showDate = timeDate.checked;
         if (timeDate.checked) config.dateFormat = timeDateFormat.value;
-        if (timeTz.value !== '0') config.tz = parseInt(timeTz.value, 10);
+        if (timeTz.value !== String(TimeUtils.getLocalOffset())) config.tz = parseInt(timeTz.value, 10);
         if (timeScale.value !== '1') config.scale = parseFloat(timeScale.value);
         if (timePosition.value !== 'center') config.position = timePosition.value;
         if (timePadding.value !== '0') config.padding = parseInt(timePadding.value, 10);
