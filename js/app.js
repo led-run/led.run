@@ -791,6 +791,22 @@
       html += '<input type="range" class="builder-range" id="time-builder-tz" min="-12" max="14" step="1" value="0"></div>';
       html += '</div></div>';
 
+      // Layout card (scale + position + padding)
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.layout') + '</div><div class="prop-group">';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="time-builder-scale-val">1</span></div>';
+      html += '<input type="range" class="builder-range" id="time-builder-scale" min="0.1" max="1" step="0.1" value="1"></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.position') + '</span>';
+      html += '<select class="builder-select" id="time-builder-position">';
+      ['center','top','bottom','top-left','top-right','bottom-left','bottom-right'].forEach(function(opt) {
+        var tk = 'settings.position.' + opt;
+        var tt = I18n.t(tk);
+        html += '<option value="' + opt + '">' + (tt !== tk ? tt : opt) + '</option>';
+      });
+      html += '</select></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.padding') + '</span><span class="val" id="time-builder-padding-val">0</span></div>';
+      html += '<input type="range" class="builder-range" id="time-builder-padding" min="0" max="20" step="1" value="0"></div>';
+      html += '</div></div>';
+
       // Time Advanced (Dynamic)
       html += '<div class="prop-card" id="time-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
       html += '<div class="prop-group" id="time-builder-clock-params"></div></div>';
@@ -1497,10 +1513,13 @@
       var timeDate = document.getElementById('time-builder-date');
       var timeDateFormat = document.getElementById('time-builder-dateformat');
       var timeTz = document.getElementById('time-builder-tz');
+      var timeScale = document.getElementById('time-builder-scale');
+      var timePosition = document.getElementById('time-builder-position');
+      var timePadding = document.getElementById('time-builder-padding');
       var timeUrl = document.getElementById('time-builder-url');
       var timePreviewEl = document.getElementById('time-builder-preview');
 
-      var timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false };
+      var timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false, scale: false, position: false, padding: false };
       var timeClockParamValues = {};
 
       function getTimeDefaults() {
@@ -1520,6 +1539,11 @@
         timeDateFormat.value = d.dateFormat || 'MDY';
         timeTz.value = 0;
         document.getElementById('time-builder-tz-val').textContent = '0';
+        timeScale.value = 1;
+        document.getElementById('time-builder-scale-val').textContent = '1';
+        timePosition.value = 'center';
+        timePadding.value = 0;
+        document.getElementById('time-builder-padding-val').textContent = '0';
       }
 
       function rebuildTimeClockParams() {
@@ -1644,6 +1668,15 @@
         if (timeUserChanged.tz) {
           if (timeTz.value !== '0') params.push('tz=' + timeTz.value);
         }
+        if (timeUserChanged.scale) {
+          if (timeScale.value !== '1') params.push('scale=' + timeScale.value);
+        }
+        if (timeUserChanged.position) {
+          if (timePosition.value !== 'center') params.push('position=' + timePosition.value);
+        }
+        if (timeUserChanged.padding) {
+          if (timePadding.value !== '0') params.push('padding=' + timePadding.value);
+        }
         for (var k in timeClockParamValues) {
           if (timeClockParamValues[k] !== d[k]) params.push(k + '=' + encodeURIComponent(timeClockParamValues[k]));
         }
@@ -1662,16 +1695,21 @@
         config.showDate = timeDate.checked;
         if (timeDate.checked) config.dateFormat = timeDateFormat.value;
         if (timeTz.value !== '0') config.tz = parseInt(timeTz.value, 10);
+        if (timeScale.value !== '1') config.scale = parseFloat(timeScale.value);
+        if (timePosition.value !== 'center') config.position = timePosition.value;
+        if (timePadding.value !== '0') config.padding = parseInt(timePadding.value, 10);
         for (var k in timeClockParamValues) config[k] = timeClockParamValues[k];
         TimeManager.switch(clockId, timePreviewEl, config);
         setTimeout(function() { TimeManager.resize(); }, 0);
       }
 
-      [timeColor, timeBg, timeFill, timeFormat, timeDateFormat, timeTz].forEach(function(el) {
+      [timeColor, timeBg, timeFill, timeFormat, timeDateFormat, timeTz, timeScale, timePadding].forEach(function(el) {
         el.addEventListener('input', function() {
           var paramKey = this.id.replace('time-builder-', '');
           timeUserChanged[paramKey] = true;
           if (this.id === 'time-builder-tz') document.getElementById('time-builder-tz-val').textContent = this.value;
+          if (this.id === 'time-builder-scale') document.getElementById('time-builder-scale-val').textContent = this.value;
+          if (this.id === 'time-builder-padding') document.getElementById('time-builder-padding-val').textContent = this.value;
           updateTimeUrl();
           updateTimePreview();
         });
@@ -1690,8 +1728,14 @@
         updateTimePreview();
       });
 
+      timePosition.addEventListener('change', function() {
+        timeUserChanged.position = true;
+        updateTimeUrl();
+        updateTimePreview();
+      });
+
       timeClock.addEventListener('input', function() {
-        timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false };
+        timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false, scale: false, position: false, padding: false };
         timeClockParamValues = {};
         syncTimeBuilderToClockDefaults();
         rebuildTimeClockParams();

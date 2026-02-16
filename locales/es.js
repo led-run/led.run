@@ -83,6 +83,8 @@ I18n.register('es', {
   'settings.param.direction': 'Direcci\u00f3n',
   'settings.param.font': 'Fuente',
   'settings.param.scale': 'Escala',
+  'settings.param.position': 'Posición',
+  'settings.param.padding': 'Relleno',
   'settings.param.flicker': 'Parpadeo',
   'settings.param.scanlines': 'L\u00edneas de Escaneo',
   'settings.param.intensity': 'Intensidad',
@@ -461,6 +463,14 @@ I18n.register('es', {
   'settings.lcdPosition.bottom-left': 'Abajo Izquierda',
   'settings.lcdPosition.bottom-right': 'Abajo Derecha',
 
+  'settings.position.center': 'Centro',
+  'settings.position.top': 'Arriba',
+  'settings.position.bottom': 'Abajo',
+  'settings.position.top-left': 'Superior izquierda',
+  'settings.position.top-right': 'Superior derecha',
+  'settings.position.bottom-left': 'Inferior izquierda',
+  'settings.position.bottom-right': 'Inferior derecha',
+
   'settings.atmosphere.realistic': 'Realista',
   'settings.atmosphere.vivid': 'Vívido',
   'settings.atmosphere.pastel': 'Pastel',
@@ -472,5 +482,6 @@ I18n.register('es', {
 
   // Landing - Time builder card titles
   'landing.builder.card.clock': 'Reloj',
-  'landing.builder.card.timeSettings': 'Ajustes de hora'
+  'landing.builder.card.timeSettings': 'Ajustes de hora',
+  'landing.builder.card.layout': 'Diseño'
 });

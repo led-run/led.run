@@ -1906,6 +1906,10 @@ led.run/time?t=lcd&amp;format=12h          Montre LCD, format 12h</code></pre>
               <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>Afficher la date</td></tr>
               <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>Format de date : <code>MDY</code>, <code>DMY</code> ou <code>YMD</code></td></tr>
               <tr><td>tz</td><td>&mdash;</td><td>number</td><td>Décalage UTC du fuseau horaire (&minus;12 à 14)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>Clock display scale (0.1&ndash;1, default 1)</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>Clock position: <code>center</code>, <code>top</code>, <code>bottom</code>, <code>top-left</code>, <code>top-right</code>, <code>bottom-left</code>, <code>bottom-right</code></td></tr>
+              <tr><td>padding</td><td>&mdash;</td><td>number</td><td>Container padding in % (0&ndash;20, default 0)</td></tr>
+              <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>Card face background color (when scale &lt; 1)</td></tr>
             </tbody>
           </table>
         </div>
@@ -2174,6 +2178,9 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
         <p>Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS <code>transform: scale()</code> on an inner wrapper. When <code>scale &lt; 1</code>, the card floats centered on a transparent background. Use the <code>fill</code> param to set the card face color, and <code>bg</code> for the page background.</p>
         <h3>Extended Themes</h3>
         <p>All other themes apply <code>scale</code> as a font-size multiplier: the auto-fit result is multiplied by the scale value. Background effects remain fullscreen.</p>
+        <h3>Time Product</h3>
+        <p>Clock themes support <code>scale</code>, <code>position</code>, and <code>padding</code> as layout parameters. When <code>scale &lt; 1</code> or <code>padding &gt; 0</code>, a wrapper is created inside the container with real dimensions (not CSS transform), so themes render at the correct size. Use <code>position</code> to place the clock (e.g., <code>top-left</code>), and <code>padding</code> to add spacing from container edges.</p>
+        <pre><code>led.run/time?t=digital&amp;scale=0.5&amp;position=top-left&amp;padding=3</code></pre>
 
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>

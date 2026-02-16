@@ -13,10 +13,10 @@
   // Sound-product common params
   var SOUND_COMMON_PARAMS = ['color', 'bg', 'sensitivity', 'smoothing'];
   // Time-product common params
-  var TIME_COMMON_PARAMS = ['color', 'bg', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'fill'];
+  var TIME_COMMON_PARAMS = ['color', 'bg', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'scale', 'position', 'padding', 'fill'];
 
   // Union of all product common params (kept for landing page builder reuse)
-  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz'];
+  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'position', 'padding'];
 
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
@@ -47,6 +47,9 @@
     direction: { type: 'select', label: 'settings.param.direction', options: ['left', 'right'] },
     font:      { type: 'font', label: 'settings.param.font' },
     scale:     { type: 'range', label: 'settings.param.scale', min: 0.1, max: 1, step: 0.1 },
+    position:  { type: 'select', label: 'settings.param.position',
+                 options: ['center', 'top', 'bottom', 'top-left', 'top-right', 'bottom-left', 'bottom-right'] },
+    padding:   { type: 'range', label: 'settings.param.padding', min: 0, max: 20, step: 1 },
     // Light/Sound common
     brightness:  { type: 'range', label: 'settings.param.brightness', min: 10, max: 100, step: 5 },
     sensitivity: { type: 'range', label: 'settings.param.sensitivity', min: 1, max: 10, step: 1 },
@@ -485,9 +488,11 @@
       // 3. General params (product-specific common params)
       var generalSection = this._createSection('settings.section.general');
       var generalParams = adapter.commonParams;
+      var ALWAYS_SHOW = { mode: true, scale: 1, position: 'center', padding: 0 };
       generalParams.forEach(function(key) {
-        if (merged[key] === undefined && key !== 'mode') return;
-        var field = self._buildField(key, merged[key], defaults[key]);
+        if (merged[key] === undefined && !ALWAYS_SHOW.hasOwnProperty(key)) return;
+        var val = merged[key] !== undefined ? merged[key] : ALWAYS_SHOW[key];
+        var field = self._buildField(key, val, defaults[key]);
         if (field) generalSection.appendChild(field);
       });
       body.appendChild(generalSection);

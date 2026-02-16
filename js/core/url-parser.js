@@ -20,7 +20,8 @@
 
   // Parameters that should always remain strings (never convert to number)
   const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font', 'lang',
-    'format', 'dateFormat', 'dotStyle', 'style', 'palette', 'align', 'firstDay', 'segmentStyle', 'weight'];
+    'format', 'dateFormat', 'dotStyle', 'style', 'palette', 'align', 'firstDay', 'segmentStyle', 'weight',
+    'position'];
 
   // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
   const COLOR_PARAMS = ['color', 'bg', 'fill', 'glow'];

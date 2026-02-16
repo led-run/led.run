@@ -83,6 +83,8 @@ I18n.register('ko', {
   'settings.param.direction': '\ubc29\ud5a5',
   'settings.param.font': '\uae00\uaf34',
   'settings.param.scale': '\ubc30\uc728',
+  'settings.param.position': '위치',
+  'settings.param.padding': '여백',
   'settings.param.flicker': '\uae5c\ubc15\uc784',
   'settings.param.scanlines': '\uc2a4\uce94\ub77c\uc778',
   'settings.param.intensity': '\uac15\ub3c4',
@@ -465,6 +467,14 @@ I18n.register('ko', {
   'settings.lcdPosition.bottom-left': '좌하단',
   'settings.lcdPosition.bottom-right': '우하단',
 
+  'settings.position.center': '중앙',
+  'settings.position.top': '상단',
+  'settings.position.bottom': '하단',
+  'settings.position.top-left': '좌상단',
+  'settings.position.top-right': '우상단',
+  'settings.position.bottom-left': '좌하단',
+  'settings.position.bottom-right': '우하단',
+
   'settings.atmosphere.realistic': '리얼리스틱',
   'settings.atmosphere.vivid': '비비드',
   'settings.atmosphere.pastel': '파스텔',
@@ -476,5 +486,6 @@ I18n.register('ko', {
 
   // Landing - Time builder card titles
   'landing.builder.card.clock': '시계',
-  'landing.builder.card.timeSettings': '시간 설정'
+  'landing.builder.card.timeSettings': '시간 설정',
+  'landing.builder.card.layout': '레이아웃'
 });

@@ -83,6 +83,8 @@ I18n.register('ja', {
   'settings.param.direction': '\u65b9\u5411',
   'settings.param.font': '\u30d5\u30a9\u30f3\u30c8',
   'settings.param.scale': '\u30b9\u30b1\u30fc\u30eb',
+  'settings.param.position': '位置',
+  'settings.param.padding': '余白',
   'settings.param.flicker': '\u30d5\u30ea\u30c3\u30ab\u30fc',
   'settings.param.scanlines': '\u30b9\u30ad\u30e3\u30f3\u30e9\u30a4\u30f3',
   'settings.param.intensity': '\u5f37\u5ea6',
@@ -460,6 +462,14 @@ I18n.register('ja', {
   'settings.lcdPosition.bottom-left': '左下',
   'settings.lcdPosition.bottom-right': '右下',
 
+  'settings.position.center': '中央',
+  'settings.position.top': '上',
+  'settings.position.bottom': '下',
+  'settings.position.top-left': '左上',
+  'settings.position.top-right': '右上',
+  'settings.position.bottom-left': '左下',
+  'settings.position.bottom-right': '右下',
+
   'settings.atmosphere.realistic': 'リアル',
   'settings.atmosphere.vivid': 'ビビッド',
   'settings.atmosphere.pastel': 'パステル',
@@ -471,5 +481,6 @@ I18n.register('ja', {
 
   // Landing - Time builder card titles
   'landing.builder.card.clock': '時計',
-  'landing.builder.card.timeSettings': '時間設定'
+  'landing.builder.card.timeSettings': '時間設定',
+  'landing.builder.card.layout': 'レイアウト'
 });

@@ -5,6 +5,16 @@
 ;(function(global) {
   'use strict';
 
+  var POSITIONS = {
+    'center':       { ai: 'center',     jc: 'center' },
+    'top':          { ai: 'center',     jc: 'flex-start' },
+    'bottom':       { ai: 'center',     jc: 'flex-end' },
+    'top-left':     { ai: 'flex-start', jc: 'flex-start' },
+    'top-right':    { ai: 'flex-end',   jc: 'flex-start' },
+    'bottom-left':  { ai: 'flex-start', jc: 'flex-end' },
+    'bottom-right': { ai: 'flex-end',   jc: 'flex-end' }
+  };
+
   var TimeManager = {
     _clocks: new Map(),
     _current: null,
@@ -60,9 +70,36 @@
       var mergedConfig = Object.assign({}, clock.defaults || {}, config);
       this._currentConfig = mergedConfig;
 
+      // Scale/position/padding wrapper
+      var scale = Math.max(0.1, Math.min(1, parseFloat(mergedConfig.scale) || 1));
+      var padding = Math.max(0, Math.min(20, parseFloat(mergedConfig.padding) || 0));
+      var position = mergedConfig.position || 'center';
+      var needsWrapper = scale < 1 || padding > 0;
+      var target = container;
+
+      if (needsWrapper) {
+        var bg = mergedConfig.bg || (clock.defaults && clock.defaults.bg) || '000000';
+        var pos = POSITIONS[position] || POSITIONS['center'];
+        container.style.background = '#' + bg;
+        container.style.display = 'flex';
+        container.style.alignItems = pos.ai;
+        container.style.justifyContent = pos.jc;
+        container.style.overflow = 'hidden';
+        if (padding > 0) container.style.padding = padding + '%';
+
+        var wrapper = document.createElement('div');
+        wrapper.style.width = (scale * 100) + '%';
+        wrapper.style.height = (scale * 100) + '%';
+        wrapper.style.flexShrink = '0';
+        wrapper.style.position = 'relative';
+        wrapper.style.overflow = 'hidden';
+        container.appendChild(wrapper);
+        target = wrapper;
+      }
+
       // Initialize clock
       if (clock.init) {
-        clock.init(container, mergedConfig);
+        clock.init(target, mergedConfig);
       }
     },
 

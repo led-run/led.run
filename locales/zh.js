@@ -85,6 +85,8 @@ I18n.register('zh', {
   'settings.param.direction': '\u65b9\u5411',
   'settings.param.font': '\u5b57\u4f53',
   'settings.param.scale': '\u7f29\u653e',
+  'settings.param.position': '位置',
+  'settings.param.padding': '边距',
   'settings.param.flicker': '\u95ea\u70c1',
   'settings.param.scanlines': '\u626b\u63cf\u7ebf',
   'settings.param.intensity': '\u5f3a\u5ea6',
@@ -486,6 +488,14 @@ I18n.register('zh', {
   'settings.lcdPosition.bottom-left': '左下',
   'settings.lcdPosition.bottom-right': '右下',
 
+  'settings.position.center': '居中',
+  'settings.position.top': '顶部',
+  'settings.position.bottom': '底部',
+  'settings.position.top-left': '左上',
+  'settings.position.top-right': '右上',
+  'settings.position.bottom-left': '左下',
+  'settings.position.bottom-right': '右下',
+
   'settings.atmosphere.realistic': '写实',
   'settings.atmosphere.vivid': '鲜艳',
   'settings.atmosphere.pastel': '柔和',
@@ -497,5 +507,6 @@ I18n.register('zh', {
 
   // Landing - Time builder card titles
   'landing.builder.card.clock': '时钟',
-  'landing.builder.card.timeSettings': '时间设置'
+  'landing.builder.card.timeSettings': '时间设置',
+  'landing.builder.card.layout': '布局'
 });

@@ -85,6 +85,8 @@ I18n.register('en', {
   'settings.param.direction': 'Direction',
   'settings.param.font': 'Font',
   'settings.param.scale': 'Scale',
+  'settings.param.position': 'Position',
+  'settings.param.padding': 'Padding',
   'settings.param.flicker': 'Flicker',
   'settings.param.scanlines': 'Scanlines',
   'settings.param.intensity': 'Intensity',
@@ -487,6 +489,14 @@ I18n.register('en', {
   'settings.lcdPosition.top-right': 'Top Right',
   'settings.lcdPosition.bottom-left': 'Bottom Left',
   'settings.lcdPosition.bottom-right': 'Bottom Right',
+  // Position options (shared by scale/position param)
+  'settings.position.center': 'Center',
+  'settings.position.top': 'Top',
+  'settings.position.bottom': 'Bottom',
+  'settings.position.top-left': 'Top Left',
+  'settings.position.top-right': 'Top Right',
+  'settings.position.bottom-left': 'Bottom Left',
+  'settings.position.bottom-right': 'Bottom Right',
 
   // Time select option labels — atmosphere
   'settings.atmosphere.realistic': 'Realistic',
@@ -505,6 +515,7 @@ I18n.register('en', {
   // Landing - Time builder card titles
   'landing.builder.card.clock': 'Clock',
   'landing.builder.card.timeSettings': 'Time Settings',
+  'landing.builder.card.layout': 'Layout',
 
   // Landing sound preset descriptions
   'landing.sound.preset.bars': 'Premium spectrum bars with green LED gradient',

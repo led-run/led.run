@@ -83,6 +83,8 @@ I18n.register('fr', {
   'settings.param.direction': 'Direction',
   'settings.param.font': 'Police',
   'settings.param.scale': '\u00c9chelle',
+  'settings.param.position': 'Position',
+  'settings.param.padding': 'Marge',
   'settings.param.flicker': 'Scintillement',
   'settings.param.scanlines': 'Lignes de Balayage',
   'settings.param.intensity': 'Intensit\u00e9',
@@ -461,6 +463,14 @@ I18n.register('fr', {
   'settings.lcdPosition.bottom-left': 'Bas Gauche',
   'settings.lcdPosition.bottom-right': 'Bas Droite',
 
+  'settings.position.center': 'Centre',
+  'settings.position.top': 'Haut',
+  'settings.position.bottom': 'Bas',
+  'settings.position.top-left': 'Haut gauche',
+  'settings.position.top-right': 'Haut droite',
+  'settings.position.bottom-left': 'Bas gauche',
+  'settings.position.bottom-right': 'Bas droite',
+
   'settings.atmosphere.realistic': 'Réaliste',
   'settings.atmosphere.vivid': 'Vif',
   'settings.atmosphere.pastel': 'Pastel',
@@ -472,5 +482,6 @@ I18n.register('fr', {
 
   // Landing - Time builder card titles
   'landing.builder.card.clock': 'Horloge',
-  'landing.builder.card.timeSettings': 'Paramètres horaires'
+  'landing.builder.card.timeSettings': 'Paramètres horaires',
+  'landing.builder.card.layout': 'Disposition'
 });
