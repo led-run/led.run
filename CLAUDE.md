@@ -356,7 +356,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 ## Key Design Decisions
 
 - **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
-- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all four products and "60+ display modes" (20+18+12+14=64). Docs pages list product-specific theme counts (e.g., "20 text themes, 18 light effects, 12 sound visualizers, 14 clock themes")
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
