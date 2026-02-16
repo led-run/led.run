@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文档 — led.run 显示工具集</title>
-  <meta name="description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、URL 协议与参数说明。">
+  <meta name="description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、URL 协议与参数说明。">
   <link rel="canonical" href="https://led.run/docs/zh/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/zh/">
   <meta property="og:title" content="文档 — led.run 显示工具集">
-  <meta property="og:description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、URL 协议与参数说明。">
+  <meta property="og:description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、URL 协议与参数说明。">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="zh_CN">
 
@@ -82,6 +82,12 @@
             <a href="#visualizers">可视化 (12)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">时钟</div>
+            <a href="#time-overview">概览</a>
+            <a href="#time-parameters">参数</a>
+            <a href="#clocks">时钟 (14)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">参考</div>
             <a href="#color-format">颜色格式</a>
             <a href="#scale">缩放与卡片主题</a>
@@ -96,7 +102,7 @@
       <main class="docs-content">
 
         <h1>led.run 文档</h1>
-        <p>将任何屏幕变成文字标牌、灯光效果或声音可视化。无需应用，无需账号 &mdash; 只需一个 URL。</p>
+        <p>将任何屏幕变成文字标牌、灯光效果、声音可视化或时钟显示。无需应用，无需账号 &mdash; 只需一个 URL。</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">工作原理</h2>
@@ -156,28 +162,47 @@
           </div>
         </div>
 
+        <h3>时钟显示</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">time</span><span class="url-part-params">?t=digital&amp;format=12h</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 产品前缀</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 时钟与设置</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URL 协议</h2>
-        <p>三种产品，三种 URL 格式：</p>
+        <p>四种产品，四种 URL 格式：</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              路径 = 文字内容
         led.run/text/HELLO?t=neon         显式 /text/ 前缀
 Light:  led.run/light?t=disco             产品前缀 + 参数
-Sound:  led.run/sound?t=bars              产品前缀 + 参数</code></pre>
+Sound:  led.run/sound?t=bars              产品前缀 + 参数
+Time:   led.run/time?t=digital            产品前缀 + 参数</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; <code>/</code> 之后的 URL 路径即为显示文字。空格可使用 <code>+</code> 或 <code>%20</code>。</li>
-          <li><strong>Light 与 Sound</strong> &mdash; 使用保留的路径前缀。所有配置通过查询参数完成。</li>
-          <li>所有参数都是可选的"偏好提示" &mdash; 由主题/效果/可视化决定是否使用。</li>
+          <li><strong>Light、Sound 与 Time</strong> &mdash; 使用保留的路径前缀。所有配置通过查询参数完成。</li>
+          <li>所有参数都是可选的"偏好提示" &mdash; 由主题/效果/可视化/时钟决定是否使用。</li>
         </ul>
 
         <div class="docs-note">
-          <strong>保留前缀：</strong><code>text</code>、<code>light</code>、<code>sound</code> 为保留前缀。如需将"light"作为文字显示，请使用 <code>led.run/text/light</code>。
+          <strong>保留前缀：</strong><code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code> 为保留前缀。如需将"light"作为文字显示，请使用 <code>led.run/text/light</code>。
         </div>
 
         <!-- Products -->
         <h2 id="products">产品</h2>
-        <p>led.run 提供三种显示产品，各自拥有独立的显示模式：</p>
+        <p>led.run 提供四种显示产品，各自拥有独立的显示模式：</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
@@ -203,6 +228,14 @@ Sound:  led.run/sound?t=bars              产品前缀 + 参数</code></pre>
             </div>
             <div class="theme-card-desc">由麦克风驱动的实时音频可视化 &mdash; 频谱柱状图、海浪、3D 波形等。</div>
             <a class="theme-card-link" href="#sound-overview">探索 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Time</span>
+              <span class="theme-card-id">14 种时钟</span>
+            </div>
+            <div class="theme-card-desc">全屏时钟显示 &mdash; 数字 LED、模拟、翻页、辉光管、霓虹、日晷、日历等。</div>
+            <a class="theme-card-link" href="#time-overview">探索 &rarr;</a>
           </div>
         </div>
 
@@ -1836,6 +1869,288 @@ led.run/sound?t=spikes            径向尖刺</code></pre>
           <a class="theme-detail-try" href="/sound?t=spectrum-circle">试一下 &rarr;</a>
         </div>
 
+        <!-- ==================== TIME ==================== -->
+
+        <h2 id="time-overview">时钟 &mdash; 概览</h2>
+        <p>时钟产品将您的屏幕变为全屏时钟显示。可从 14 种内置时钟主题中选择，从经典七段 LED 到辉光管和日晷。每种主题以独特的视觉风格呈现当前时间。</p>
+
+        <pre><code>led.run/time?t=digital                 默认数字时钟
+led.run/time?t=nixie&amp;color=ff8833      辉光管时钟
+led.run/time?t=analog&amp;style=modern     现代模拟时钟
+led.run/time?t=lcd&amp;format=12h          LCD 手表，12 小时制</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong><code>/time</code> 不带 <code>?t=</code> 参数将跳转到首页。分享链接始终包含 <code>?t=</code>，例如 <code>led.run/time?t=digital</code>。
+        </div>
+
+        <h2 id="time-parameters">时钟参数</h2>
+        <p>以下参数被时钟主题识别。每种时钟提供自己的默认值。</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>参数</th>
+                <th>别名</th>
+                <th>类型</th>
+                <th>说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>时钟主题 ID</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>主色调（数字、指针、文字）</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>背景颜色</td></tr>
+              <tr><td>format</td><td>&mdash;</td><td>string</td><td>时间格式：<code>12h</code> 或 <code>24h</code></td></tr>
+              <tr><td>showSeconds</td><td>&mdash;</td><td>boolean</td><td>显示秒</td></tr>
+              <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>显示日期</td></tr>
+              <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>日期格式：<code>MDY</code>、<code>DMY</code> 或 <code>YMD</code></td></tr>
+              <tr><td>tz</td><td>&mdash;</td><td>number</td><td>时区 UTC 偏移量（&minus;12 至 14）</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <h2 id="clocks">时钟 (14)</h2>
+        <p>浏览全部 14 种时钟主题。点击卡片查看详情和自定义参数。</p>
+
+        <div class="theme-search-wrap">
+          <input type="text" id="clock-search" placeholder="搜索时钟..." class="theme-search">
+        </div>
+
+        <div class="theme-grid">
+          <a href="#clock-digital" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Digital</span><span class="theme-card-id">digital</span></div>
+            <div class="theme-card-desc">经典七段 LED 数字显示效果。</div>
+          </a>
+          <a href="#clock-minimal" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Minimal</span><span class="theme-card-id">minimal</span></div>
+            <div class="theme-card-desc">简洁极简排版，纤细线条。</div>
+          </a>
+          <a href="#clock-retro" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Retro</span><span class="theme-card-id">retro</span></div>
+            <div class="theme-card-desc">CRT 终端绿色荧光复古风格。</div>
+          </a>
+          <a href="#clock-binary" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Binary</span><span class="theme-card-id">binary</span></div>
+            <div class="theme-card-desc">发光位列的二进制时钟。</div>
+          </a>
+          <a href="#clock-lcd" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">LCD</span><span class="theme-card-id">lcd</span></div>
+            <div class="theme-card-desc">复古液晶手表风格像素数字。</div>
+          </a>
+          <a href="#clock-analog" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Analog</span><span class="theme-card-id">analog</span></div>
+            <div class="theme-card-desc">经典模拟时钟，平滑指针。</div>
+          </a>
+          <a href="#clock-flip" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Flip</span><span class="theme-card-id">flip</span></div>
+            <div class="theme-card-desc">机械翻页式分页显示动画。</div>
+          </a>
+          <a href="#clock-nixie" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Nixie</span><span class="theme-card-id">nixie</span></div>
+            <div class="theme-card-desc">温暖辉光管复古显示效果。</div>
+          </a>
+          <a href="#clock-neon" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Neon</span><span class="theme-card-id">neon</span></div>
+            <div class="theme-card-desc">霓虹灯管发光时钟。</div>
+          </a>
+          <a href="#clock-word" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Word</span><span class="theme-card-id">word</span></div>
+            <div class="theme-card-desc">用英文单词拼出时间。</div>
+          </a>
+          <a href="#clock-sun" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Sundial</span><span class="theme-card-id">sun</span></div>
+            <div class="theme-card-desc">日晷与真实天空渐变和阴影。</div>
+          </a>
+          <a href="#clock-calendar" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Calendar</span><span class="theme-card-id">calendar</span></div>
+            <div class="theme-card-desc">月历视图，高亮显示今天。</div>
+          </a>
+          <a href="#clock-matrix" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Matrix</span><span class="theme-card-id">matrix</span></div>
+            <div class="theme-card-desc">绿色数字雨中显现时间。</div>
+          </a>
+          <a href="#clock-gradient" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Gradient</span><span class="theme-card-id">gradient</span></div>
+            <div class="theme-card-desc">背景渐变随时间变化。</div>
+          </a>
+        </div>
+
+        <div class="theme-detail" id="clock-digital">
+          <div class="theme-detail-header"><span class="theme-detail-name">Digital</span><span class="theme-detail-id">digital</span></div>
+          <p class="theme-detail-desc">经典七段 LED 显示，Canvas 渲染。锐利段码，可配置发光和冒号动画。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ff0000"></span> <code>ff0000</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>blink</td><td>冒号样式：blink、solid、fade</td></tr>
+            <tr><td>segmentStyle</td><td>select</td><td>sharp</td><td>段码形状：sharp、round、flat</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>发光强度 (0&ndash;10)</td></tr>
+            <tr><td>dimBrightness</td><td>number</td><td>1</td><td>暗段亮度 (0&ndash;5)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=digital">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-minimal">
+          <div class="theme-detail-header"><span class="theme-detail-name">Minimal</span><span class="theme-detail-id">minimal</span></div>
+          <p class="theme-detail-desc">简洁极简排版，超细字重。DOM 渲染，容器相对尺寸。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>align</td><td>select</td><td>center</td><td>对齐方式：center、left、right</td></tr>
+            <tr><td>weight</td><td>number</td><td>200</td><td>字重</td></tr>
+            <tr><td>separator</td><td>select</td><td>colon</td><td>分隔符：colon、dot、space、none</td></tr>
+            <tr><td>uppercase</td><td>boolean</td><td>true</td><td>大写 AM/PM 和日期</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=minimal">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-retro">
+          <div class="theme-detail-header"><span class="theme-detail-name">Retro</span><span class="theme-detail-id">retro</span></div>
+          <p class="theme-detail-desc">CRT 终端，绿色荧光效果，扫描线和暗角。包含命令提示符叠加层。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>显示 CRT 扫描线</td></tr>
+            <tr><td>vignette</td><td>number</td><td>6</td><td>暗角强度 (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>闪烁强度 (0&ndash;10)</td></tr>
+            <tr><td>prompt</td><td>select</td><td>default</td><td>提示符样式：default、minimal、none</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=retro">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-binary">
+          <div class="theme-detail-header"><span class="theme-detail-name">Binary</span><span class="theme-detail-id">binary</span></div>
+          <p class="theme-detail-desc">二进制时钟，以发光位列显示时、分、秒。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#00ccff"></span> <code>00ccff</code> <span>on</span> <span class="color-swatch" style="background:#0a0a1a"></span> <code>0a0a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>solid</td><td>点动画：solid、blink、fade</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>发光强度 (0&ndash;10)</td></tr>
+            <tr><td>bitShape</td><td>select</td><td>square</td><td>位形状：square、round、diamond</td></tr>
+            <tr><td>showLabels</td><td>boolean</td><td>true</td><td>显示列标签 (H M S)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=binary">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-lcd">
+          <div class="theme-detail-header"><span class="theme-detail-name">LCD</span><span class="theme-detail-id">lcd</span></div>
+          <p class="theme-detail-desc">卡西欧风格液晶手表表盘，分段数字、可选边框和背光。支持定位和全屏模式。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#2a3a2a"></span> <code>2a3a2a</code> <span>on</span> <span class="color-swatch" style="background:#8a9f78"></span> <code>8a9f78</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>backlight</td><td>number</td><td>0</td><td>背光强度 (0&ndash;10)</td></tr>
+            <tr><td>bezel</td><td>boolean</td><td>true</td><td>显示表壳边框</td></tr>
+            <tr><td>brand</td><td>select</td><td>led.run</td><td>表盘品牌文字</td></tr>
+            <tr><td>lcdScale</td><td>number</td><td>1.0</td><td>LCD 整体缩放 (0.3&ndash;2.0)</td></tr>
+            <tr><td>lcdPosition</td><td>select</td><td>center</td><td>屏幕位置</td></tr>
+            <tr><td>lcdFull</td><td>boolean</td><td>false</td><td>全屏模式（无边框）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=lcd">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-analog">
+          <div class="theme-detail-header"><span class="theme-detail-name">Analog</span><span class="theme-detail-id">analog</span></div>
+          <p class="theme-detail-desc">经典模拟时钟，Canvas 渲染，平滑扫秒指针，多种表盘样式。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>style</td><td>select</td><td>classic</td><td>表盘样式：classic、modern、dress、sport</td></tr>
+            <tr><td>handColor</td><td>color</td><td>ff5050</td><td>秒针颜色</td></tr>
+            <tr><td>markers</td><td>boolean</td><td>true</td><td>显示小时刻度</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=analog">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-flip">
+          <div class="theme-detail-header"><span class="theme-detail-name">Flip</span><span class="theme-detail-id">flip</span></div>
+          <p class="theme-detail-desc">机械翻页式显示屏，CSS 3D 翻转动画。每位数字独立翻转，依序计时。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#f0f0f0"></span> <code>f0f0f0</code> <span>on</span> <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.5</td><td>翻转动画时长（秒）</td></tr>
+            <tr><td>gap</td><td>number</td><td>1.5</td><td>卡片间距</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=flip">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-nixie">
+          <div class="theme-detail-header"><span class="theme-detail-name">Nixie</span><span class="theme-detail-id">nixie</span></div>
+          <p class="theme-detail-desc">温暖辉光管显示，Canvas 渲染。每位数字置于玻璃管内，带阴极发光效果。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ff8833"></span> <code>ff8833</code> <span>on</span> <span class="color-swatch" style="background:#1a0f0a"></span> <code>1a0f0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>6</td><td>发光强度 (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>闪烁强度 (0&ndash;10)</td></tr>
+            <tr><td>tubeColor</td><td>color</td><td>332211</td><td>玻璃管色调</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>色彩温暖度 (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=nixie">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">霓虹灯管发光时钟，DOM 和 CSS 实现。多层 text-shadow 营造真实灯管效果。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ff1493"></span> <code>ff1493</code> <span>on</span> <span class="color-swatch" style="background:#0a0010"></span> <code>0a0010</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>7</td><td>发光强度 (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>闪烁强度 (0&ndash;10)</td></tr>
+            <tr><td>tube</td><td>select</td><td>single</td><td>管样式：single、outline、double</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=neon">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-word">
+          <div class="theme-detail-header"><span class="theme-detail-name">Word</span><span class="theme-detail-id">word</span></div>
+          <p class="theme-detail-desc">以英文单词拼出时间，支持模糊近似和平滑过渡动画。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>wordLang</td><td>select</td><td>en</td><td>文字样式：en（精确）、fuzzy（近似）</td></tr>
+            <tr><td>showPeriod</td><td>boolean</td><td>true</td><td>显示 AM/PM 时段</td></tr>
+            <tr><td>animation</td><td>select</td><td>none</td><td>过渡动画：none、fade、slide</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=word">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-sun">
+          <div class="theme-detail-header"><span class="theme-detail-name">Sundial</span><span class="theme-detail-id">sun</span></div>
+          <p class="theme-detail-desc">日晷，天空渐变随时间变化。Canvas 渲染，包含星空、日月和大气效果。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a3a5c"></span> <code>1a3a5c</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>stars</td><td>number</td><td>5</td><td>星星密度 (0&ndash;10)</td></tr>
+            <tr><td>showSundial</td><td>boolean</td><td>true</td><td>显示日晷晷针和阴影</td></tr>
+            <tr><td>atmosphere</td><td>select</td><td>realistic</td><td>天空风格：realistic、vivid、pastel</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=sun">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-calendar">
+          <div class="theme-detail-header"><span class="theme-detail-name">Calendar</span><span class="theme-detail-id">calendar</span></div>
+          <p class="theme-detail-desc">月历视图带时间显示。高亮当天日期，可配置每周首日和周末颜色。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>firstDay</td><td>select</td><td>sun</td><td>每周首日：sun、mon</td></tr>
+            <tr><td>weekendHighlight</td><td>boolean</td><td>false</td><td>高亮周末</td></tr>
+            <tr><td>compact</td><td>boolean</td><td>false</td><td>紧凑布局</td></tr>
+            <tr><td>weekendColor</td><td>color</td><td>ff6b6b</td><td>周末文字颜色</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=calendar">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-matrix">
+          <div class="theme-detail-header"><span class="theme-detail-name">Matrix</span><span class="theme-detail-id">matrix</span></div>
+          <p class="theme-detail-desc">矩阵风格字符雨，Canvas 渲染，当前时间从雨中显现。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>5</td><td>雨滴密度 (1&ndash;10)</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>下落速度 (1&ndash;10)</td></tr>
+            <tr><td>charset</td><td>select</td><td>katakana</td><td>字符集：katakana、latin、digits、binary</td></tr>
+            <tr><td>glowIntensity</td><td>number</td><td>5</td><td>发光强度 (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=matrix">试用 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-gradient">
+          <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
+          <p class="theme-detail-desc">背景渐变根据时间自动变化。DOM 渲染，平滑色彩过渡。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>参数</th><th>类型</th><th>默认值</th><th>说明</th></tr></thead><tbody>
+            <tr><td>palette</td><td>select</td><td>auto</td><td>调色板：auto、ocean、sunset、forest、neon、mono</td></tr>
+            <tr><td>angle</td><td>number</td><td>135</td><td>渐变角度（度）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=gradient">试用 &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -1869,6 +2184,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -1877,9 +2193,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Pause / resume</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -1889,33 +2207,39 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
                 <td>&mdash;</td>
                 <td>Next effect</td>
                 <td>Next visualizer</td>
+                <td>Next clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
                 <td>&mdash;</td>
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
+                <td>Previous clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">&darr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -1944,11 +2268,13 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1958,9 +2284,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1970,9 +2298,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Share</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1982,6 +2312,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
               </tr>
             </tbody>
           </table>
@@ -2038,7 +2369,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2056,9 +2387,10 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
+      setupSearch('clock-search', document.querySelectorAll('.clock-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
