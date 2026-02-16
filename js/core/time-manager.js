@@ -71,10 +71,10 @@
       this._currentConfig = mergedConfig;
 
       // Scale/position/padding wrapper
-      var scale = Math.max(0.1, Math.min(1, parseFloat(mergedConfig.scale) || 1));
+      var scale = Math.max(0.1, Math.min(3, parseFloat(mergedConfig.scale) || 1));
       var padding = Math.max(0, Math.min(20, parseFloat(mergedConfig.padding) || 0));
       var position = mergedConfig.position || 'center';
-      var needsWrapper = scale < 1 || padding > 0;
+      var needsWrapper = scale !== 1 || padding > 0;
       var target = container;
 
       if (needsWrapper) {

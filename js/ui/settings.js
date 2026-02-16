@@ -252,6 +252,7 @@
       resize: function() { TimeManager.resize(); },
       knownParamOverrides: {
         speed: { type: 'range', label: 'settings.param.speed', min: 1, max: 10, step: 1 },
+        scale: { type: 'range', label: 'settings.param.scale', min: 0.1, max: 3, step: 0.1 },
         glow: { type: 'range', label: 'settings.param.glow', min: 0, max: 10, step: 1 },
         weight: { type: 'select', label: 'settings.param.weight', options: ['100', '200', '300', '400'] },
         gap: { type: 'range', label: 'settings.param.gap', min: 0, max: 5, step: 0.5 }

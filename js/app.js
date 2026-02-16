@@ -794,7 +794,7 @@
       // Layout card (scale + position + padding)
       html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.layout') + '</div><div class="prop-group">';
       html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="time-builder-scale-val">1</span></div>';
-      html += '<input type="range" class="builder-range" id="time-builder-scale" min="0.1" max="1" step="0.1" value="1"></div>';
+      html += '<input type="range" class="builder-range" id="time-builder-scale" min="0.1" max="3" step="0.1" value="1"></div>';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.position') + '</span>';
       html += '<select class="builder-select" id="time-builder-position">';
       ['center','top','bottom','top-left','top-right','bottom-left','bottom-right'].forEach(function(opt) {

@@ -333,7 +333,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
                 <td>&mdash;</td>
                 <td>number</td>
                 <td>1</td>
-                <td>表示スケール倍率（0.1&ndash;1）。<a href="#scale">スケール</a>を参照</td>
+                <td>表示スケール倍率（Text: 0.1&ndash;1, Time: 0.1&ndash;3）。<a href="#scale">スケール</a>を参照</td>
               </tr>
               <tr>
                 <td>fill</td>
@@ -1906,7 +1906,7 @@ led.run/time?t=lcd&amp;format=12h          LCD腕時計、12時間制</code></pr
               <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>日付表示</td></tr>
               <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>日付形式：<code>MDY</code>、<code>DMY</code>、<code>YMD</code></td></tr>
               <tr><td>tz</td><td>&mdash;</td><td>number</td><td>タイムゾーンUTCオフセット（&minus;12〜14）</td></tr>
-              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>Clock display scale (0.1&ndash;1, default 1)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>Clock display scale (0.1&ndash;3, default 1). Values &gt; 1 enlarge; <code>position</code> controls visible area</td></tr>
               <tr><td>position</td><td>&mdash;</td><td>string</td><td>Clock position: <code>center</code>, <code>top</code>, <code>bottom</code>, <code>top-left</code>, <code>top-right</code>, <code>bottom-left</code>, <code>bottom-right</code></td></tr>
               <tr><td>padding</td><td>&mdash;</td><td>number</td><td>Container padding in % (0&ndash;20, default 0)</td></tr>
               <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>Card face background color (when scale &lt; 1)</td></tr>
@@ -2173,14 +2173,16 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 
         <!-- Scale -->
         <h2 id="scale">Scale &amp; Card Themes</h2>
-        <p>The <code>scale</code> parameter (0.1&ndash;1) controls display size. Its behavior depends on the theme type:</p>
+        <p>The <code>scale</code> parameter controls display size. Its behavior depends on the theme type:</p>
         <h3>Card Themes</h3>
         <p>Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS <code>transform: scale()</code> on an inner wrapper. When <code>scale &lt; 1</code>, the card floats centered on a transparent background. Use the <code>fill</code> param to set the card face color, and <code>bg</code> for the page background.</p>
         <h3>Extended Themes</h3>
         <p>All other themes apply <code>scale</code> as a font-size multiplier: the auto-fit result is multiplied by the scale value. Background effects remain fullscreen.</p>
         <h3>Time Product</h3>
-        <p>Clock themes support <code>scale</code>, <code>position</code>, and <code>padding</code> as layout parameters. When <code>scale &lt; 1</code> or <code>padding &gt; 0</code>, a wrapper is created inside the container with real dimensions (not CSS transform), so themes render at the correct size. Use <code>position</code> to place the clock (e.g., <code>top-left</code>), and <code>padding</code> to add spacing from container edges.</p>
-        <pre><code>led.run/time?t=digital&amp;scale=0.5&amp;position=top-left&amp;padding=3</code></pre>
+        <p>Clock themes support <code>scale</code> (0.1&ndash;3), <code>position</code>, and <code>padding</code> as layout parameters. When <code>scale &ne; 1</code> or <code>padding &gt; 0</code>, a wrapper is created inside the container with real dimensions (not CSS transform), so themes render at the correct size. Values &lt; 1 shrink the clock; values &gt; 1 enlarge it beyond the container, with <code>overflow:hidden</code> clipping the excess. Use <code>position</code> to control which portion of the enlarged clock is visible (e.g., <code>top-left</code> anchors the top-left corner). <code>padding</code> adds spacing from container edges.</p>
+        <pre><code>led.run/time?t=digital&amp;scale=0.5&amp;position=top-left&amp;padding=3
+led.run/time?t=digital&amp;scale=2&amp;position=center            &mdash; 2&times; zoom, centered
+led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&times; zoom, top-left anchor</code></pre>
 
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>
