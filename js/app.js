@@ -454,7 +454,7 @@
     /**
      * Show landing page
      * @private
-     * @param {string} activeProduct - 'text' | 'light' | 'sound'
+     * @param {string} activeProduct - 'text' | 'light' | 'sound' | 'time'
      */
     _showLanding(activeProduct) {
       activeProduct = activeProduct || 'text';
@@ -477,19 +477,21 @@
       html += '<div class="hero-brand"><span class="hero-brand-icon"></span>' + I18n.t('landing.hero.brand') + '</div>';
       html += '<h1 class="hero-title">' + I18n.t('landing.hero.title') + '</h1>';
       html += '<p class="hero-subtitle">' + I18n.t('landing.hero.subtitle') + '</p>';
+      html += '</div>'; // landing-hero
 
-      // Product Tab Switcher
+      // Unified Navigation
+      html += '<nav class="landing-nav">';
       html += '<div class="product-switcher">';
       ['text', 'light', 'sound', 'time'].forEach(function(p) {
         html += '<button class="product-tab' + (p === activeProduct ? ' active' : '') + '" data-product="' + p + '">' + I18n.t('landing.tab.' + p) + '</button>';
       });
       html += '</div>';
 
-      // Mode Switcher
       html += '<div class="mode-switcher">';
       html += '<button class="mode-tab' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">' + I18n.t('landing.mode.simple') + '</button>';
       html += '<button class="mode-tab' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">' + I18n.t('landing.mode.builder') + '</button>';
       html += '</div>';
+      html += '</nav>';
 
       html += '<div class="landing-content">';
 
@@ -504,7 +506,7 @@
       html += '<input class="url-input" id="simple-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false">';
       html += '<div class="input-actions">';
       html += '<button class="btn-random" id="simple-random" title="' + I18n.t('landing.input.random') + '">';
-      html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">';
       html += '<rect x="1" y="1" width="22" height="22" rx="4"></rect><circle cx="8" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="8" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="8" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="16" cy="16" r="1.5" fill="currentColor" stroke="none"></circle><circle cx="12" cy="12" r="1.5" fill="currentColor" stroke="none"></circle></svg>';
       html += '</button>';
       html += '<button class="btn-launch" id="simple-go">' + I18n.t('landing.input.go') + '</button>';
@@ -580,7 +582,7 @@
       html += '<div class="builder-url-preview" id="builder-url-preview">led.run/HELLO</div></div>';
       html += '<div class="builder-actions"><button class="btn-primary" id="builder-launch">' + I18n.t('landing.input.go') + '</button>';
       html += '<button class="btn-secondary" id="builder-copy" title="Copy URL">';
-      html += '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
       html += '</button></div></div>';
 
       html += '</div>'; // builder-grid
@@ -592,7 +594,7 @@
 
       // Light Simple — preset card grid
       html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
-      html += '<div class="presets-grid presets-grid-compact">';
+      html += '<div class="presets-grid">';
       LIGHT_PRESETS.forEach(function(p) {
         var href = '/light' + (p.params ? p.params : '');
         html += '<a class="preset-card" href="' + href + '">';
@@ -651,7 +653,7 @@
 
       // Sound Simple — preset card grid
       html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
-      html += '<div class="presets-grid presets-grid-compact">';
+      html += '<div class="presets-grid">';
       SOUND_PRESETS.forEach(function(p) {
         var href = '/sound' + (p.params ? p.params : '');
         html += '<a class="preset-card" href="' + href + '">';
@@ -710,7 +712,7 @@
 
       // Time Simple — preset card grid
       html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
-      html += '<div class="presets-grid presets-grid-compact">';
+      html += '<div class="presets-grid">';
       TIME_PRESETS.forEach(function(p) {
         var href = '/time' + (p.params ? p.params : '');
         html += '<a class="preset-card" href="' + href + '">';
@@ -780,7 +782,6 @@
       html += '</div>'; // product-time
 
       html += '</div>'; // landing-content
-      html += '</div>'; // landing-hero
 
       // Text preset sections (only for text product)
       html += '<div class="text-presets-section' + (activeProduct === 'text' ? ' active' : '') + '" id="text-presets">';
@@ -808,17 +809,17 @@
 
       // Footer
       html += '<footer class="landing-footer">';
+      html += '<div class="footer-top">';
       html += '<div>' + I18n.t('landing.footer.copyright') + '</div>';
       html += '<div class="footer-links">';
       var docsHref = I18n.locale() === 'en' ? '/docs' : '/docs/' + I18n.locale() + '/';
       html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
-      html += '</div>';
+      html += '</div></div>';
 
       // Language Switcher
       html += '<div class="footer-lang">';
       I18n.supported().forEach(function(lang, i) {
-        if (i > 0) html += '<span class="footer-lang-sep">|</span>';
         if (lang === I18n.locale()) {
           html += '<span class="footer-lang-current">' + LANG_LABELS[lang] + '</span>';
         } else {
@@ -843,6 +844,13 @@
           // Show text presets only for text product
           var textPresets = document.getElementById('text-presets');
           if (textPresets) textPresets.classList.toggle('active', product === 'text');
+          
+          // Re-render preview if in builder mode
+          if (localStorage.getItem('led-active-mode') === 'builder') {
+            if (product === 'text') {
+              updateTextPreview();
+            }
+          }
         });
       });
 
@@ -856,8 +864,14 @@
             p.classList.toggle('active', p.dataset.mode === mode);
           });
           if (mode === 'builder') {
-            updateTextPreview();
-            setTimeout(function() { if (TextManager.resize) TextManager.resize(); }, 50);
+            var activeTab = document.querySelector('.product-tab.active');
+            if (activeTab && activeTab.dataset.product === 'text') {
+              // Wait for DOM to be visible
+              setTimeout(function() {
+                updateTextPreview();
+                if (TextManager.resize) TextManager.resize();
+              }, 50);
+            }
           }
         });
       });
