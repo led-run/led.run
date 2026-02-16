@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dokumentation — led.run Display-Toolkit</title>
-  <meta name="description" content="Vollständige Anleitung zu led.run — 20 Text-Themes, 18 Lichteffekte, 12 Sound-Visualizer, URL-Protokoll und Parameter.">
+  <meta name="description" content="Vollständige Anleitung zu led.run — 20 Text-Themes, 18 Lichteffekte, 12 Sound-Visualizer, 14 Uhr-Themen, URL-Protokoll und Parameter.">
   <link rel="canonical" href="https://led.run/docs/de/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/de/">
   <meta property="og:title" content="Dokumentation — led.run Display-Toolkit">
-  <meta property="og:description" content="Vollständige Anleitung zu led.run — 20 Text-Themes, 18 Lichteffekte, 12 Sound-Visualizer, URL-Protokoll und Parameter.">
+  <meta property="og:description" content="Vollständige Anleitung zu led.run — 20 Text-Themes, 18 Lichteffekte, 12 Sound-Visualizer, 14 Uhr-Themen, URL-Protokoll und Parameter.">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="de_DE">
 
@@ -82,6 +82,12 @@
             <a href="#visualizers">Visualizer (12)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">Uhr</div>
+            <a href="#time-overview">&Uuml;bersicht</a>
+            <a href="#time-parameters">Parameter</a>
+            <a href="#clocks">Uhren (14)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">Referenz</div>
             <a href="#color-format">Farbformat</a>
             <a href="#scale">Skalierung &amp; Card-Themes</a>
@@ -96,7 +102,7 @@
       <main class="docs-content">
 
         <h1>led.run Dokumentation</h1>
-        <p>Verwandle jeden Bildschirm in ein Textschild, einen Lichteffekt oder einen Sound-Visualizer. Keine Apps, keine Konten &mdash; nur eine URL.</p>
+        <p>Verwandle jeden Bildschirm in ein Textschild, einen Lichteffekt, einen Sound-Visualizer oder eine Uhranzeige. Keine Apps, keine Konten &mdash; nur eine URL.</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">So funktioniert es</h2>
@@ -156,28 +162,47 @@
           </div>
         </div>
 
+        <h3>Uhranzeigen</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">time</span><span class="url-part-params">?t=digital&amp;format=12h</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Produktpr&auml;fix</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Uhr &amp; Einstellungen</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URL-Protokoll</h2>
-        <p>Drei Produkte, drei URL-Muster:</p>
+        <p>Vier Produkte, vier URL-Muster:</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              Pfad = Textinhalt
         led.run/text/HELLO?t=neon         Explizites /text/-Pr&auml;fix
 Light:  led.run/light?t=disco             Produkt-Pr&auml;fix + Parameter
-Sound:  led.run/sound?t=bars              Produkt-Pr&auml;fix + Parameter</code></pre>
+Sound:  led.run/sound?t=bars              Produkt-Pr&auml;fix + Parameter
+Time:   led.run/time?t=digital            Produkt-Pr&auml;fix + Parameter</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; der URL-Pfad nach <code>/</code> wird zum Anzeigetext. Leerzeichen k&ouml;nnen als <code>+</code> oder <code>%20</code> geschrieben werden.</li>
-          <li><strong>Light &amp; Sound</strong> &mdash; verwenden reservierte Pfad-Pr&auml;fixe. Die gesamte Konfiguration erfolgt &uuml;ber Query-Parameter.</li>
-          <li>Alle Parameter sind optionale &bdquo;Pr&auml;ferenzhinweise&ldquo; &mdash; Themes/Effekte/Visualizer entscheiden, ob sie diese verwenden.</li>
+          <li><strong>Light, Sound &amp; Time</strong> &mdash; verwenden reservierte Pfad-Pr&auml;fixe. Die gesamte Konfiguration erfolgt &uuml;ber Query-Parameter.</li>
+          <li>Alle Parameter sind optionale &bdquo;Pr&auml;ferenzhinweise&ldquo; &mdash; Themes/Effekte/Visualizer/Uhren entscheiden, ob sie diese verwenden.</li>
         </ul>
 
         <div class="docs-note">
-          <strong>Reservierte Pr&auml;fixe:</strong> <code>text</code>, <code>light</code>, <code>sound</code> sind reserviert. Um das Wort &bdquo;light&ldquo; als Text anzuzeigen, verwende <code>led.run/text/light</code>.
+          <strong>Reservierte Pr&auml;fixe:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code> sind reserviert. Um das Wort &bdquo;light&ldquo; als Text anzuzeigen, verwende <code>led.run/text/light</code>.
         </div>
 
         <!-- Products -->
         <h2 id="products">Produkte</h2>
-        <p>led.run bietet drei Anzeigeprodukte, jedes mit eigenen Anzeigemodi:</p>
+        <p>led.run bietet vier Anzeigeprodukte, jedes mit eigenen Anzeigemodi:</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
@@ -203,6 +228,14 @@ Sound:  led.run/sound?t=bars              Produkt-Pr&auml;fix + Parameter</code>
             </div>
             <div class="theme-card-desc">Echtzeit-Audio-Visualisierungen &uuml;ber dein Mikrofon &mdash; Spektrumbalken, Ozeanwellen, 3D-Wellenformen und mehr.</div>
             <a class="theme-card-link" href="#sound-overview">Entdecken &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Time</span>
+              <span class="theme-card-id">14 Uhren</span>
+            </div>
+            <div class="theme-card-desc">Vollbild-Uhranzeigen &mdash; digitale LED, Analog, Flip, Nixie-R&ouml;hren, Neon, Sonnenuhr, Kalender und mehr.</div>
+            <a class="theme-card-link" href="#time-overview">Entdecken &rarr;</a>
           </div>
         </div>
 
@@ -1836,6 +1869,292 @@ led.run/sound?t=spikes            Radiale Spitzen</code></pre>
           <a class="theme-detail-try" href="/sound?t=spectrum-circle">Ausprobieren &rarr;</a>
         </div>
 
+        <!-- ==================== TIME ==================== -->
+
+        <h2 id="time-overview">Uhr &mdash; &Uuml;bersicht</h2>
+        <p>Das Uhr-Produkt verwandelt deinen Bildschirm in eine Vollbild-Uhranzeige. W&auml;hle aus 14 integrierten Uhr-Themen, von klassischer 7-Segment-LED bis zu Nixie-R&ouml;hren und Sonnenuhren. Jedes Thema zeigt die aktuelle Uhrzeit in seinem eigenen visuellen Stil.</p>
+
+        <pre><code>led.run/time?t=digital                 Standard-Digitaluhr
+led.run/time?t=nixie&amp;color=ff8833      Nixie-R&ouml;hren-Uhr
+led.run/time?t=analog&amp;style=modern     Moderne Analoguhr
+led.run/time?t=lcd&amp;format=12h          LCD-Uhr, 12-Stunden</code></pre>
+
+        <div class="docs-note">
+          <strong>Hinweis:</strong> <code>/time</code> ohne <code>?t=</code> leitet zur Startseite. Teilen-Links enthalten immer <code>?t=</code>, z.B. <code>led.run/time?t=digital</code>.
+        </div>
+
+        <!-- Time Parameters -->
+        <h2 id="time-parameters">Uhr-Parameter</h2>
+        <p>Diese Parameter werden von Uhr-Themen erkannt. Jede Uhr hat eigene Standardwerte.</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr>
+                <th>Parameter</th>
+                <th>Alias</th>
+                <th>Typ</th>
+                <th>Beschreibung</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>Uhr-Thema-ID</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>Prim&auml;rfarbe (Ziffern, Zeiger, Text)</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>Hintergrundfarbe</td></tr>
+              <tr><td>format</td><td>&mdash;</td><td>string</td><td>Zeitformat: <code>12h</code> oder <code>24h</code></td></tr>
+              <tr><td>showSeconds</td><td>&mdash;</td><td>boolean</td><td>Sekundenanzeige</td></tr>
+              <tr><td>showDate</td><td>&mdash;</td><td>boolean</td><td>Datumsanzeige</td></tr>
+              <tr><td>dateFormat</td><td>&mdash;</td><td>string</td><td>Datumsformat: <code>MDY</code>, <code>DMY</code> oder <code>YMD</code></td></tr>
+              <tr><td>tz</td><td>&mdash;</td><td>number</td><td>Zeitzone UTC-Offset (&minus;12 bis 14)</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Clocks -->
+        <h2 id="clocks">Uhren (14)</h2>
+        <p>Alle 14 Uhr-Themen im &Uuml;berblick. Klicke auf eine Karte f&uuml;r Details und eigene Parameter.</p>
+
+        <div class="theme-search-wrap">
+          <input type="text" id="clock-search" placeholder="Uhren suchen..." class="theme-search">
+        </div>
+
+        <div class="theme-grid">
+          <a href="#clock-digital" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Digital</span><span class="theme-card-id">digital</span></div>
+            <div class="theme-card-desc">Klassische 7-Segment-LED-Anzeige.</div>
+          </a>
+          <a href="#clock-minimal" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Minimal</span><span class="theme-card-id">minimal</span></div>
+            <div class="theme-card-desc">Saubere minimalistische Typografie.</div>
+          </a>
+          <a href="#clock-retro" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Retro</span><span class="theme-card-id">retro</span></div>
+            <div class="theme-card-desc">CRT-Terminal gr&uuml;ner Phosphor Retro-Stil.</div>
+          </a>
+          <a href="#clock-binary" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Binary</span><span class="theme-card-id">binary</span></div>
+            <div class="theme-card-desc">Bin&auml;ruhr mit leuchtenden Bit-Spalten.</div>
+          </a>
+          <a href="#clock-lcd" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">LCD</span><span class="theme-card-id">lcd</span></div>
+            <div class="theme-card-desc">Retro-LCD-Uhrenstil mit Pixel-Ziffern.</div>
+          </a>
+          <a href="#clock-analog" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Analog</span><span class="theme-card-id">analog</span></div>
+            <div class="theme-card-desc">Klassische Analoguhr mit glatten Zeigern.</div>
+          </a>
+          <a href="#clock-flip" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Flip</span><span class="theme-card-id">flip</span></div>
+            <div class="theme-card-desc">Mechanische Flip-Anzeige-Animation.</div>
+          </a>
+          <a href="#clock-nixie" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Nixie</span><span class="theme-card-id">nixie</span></div>
+            <div class="theme-card-desc">Warme Nixie-R&ouml;hren Vintage-Anzeige.</div>
+          </a>
+          <a href="#clock-neon" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Neon</span><span class="theme-card-id">neon</span></div>
+            <div class="theme-card-desc">Neon-Leuchtröhren-Uhr.</div>
+          </a>
+          <a href="#clock-word" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Word</span><span class="theme-card-id">word</span></div>
+            <div class="theme-card-desc">Zeit in englischen W&ouml;rtern buchstabiert.</div>
+          </a>
+          <a href="#clock-sun" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Sundial</span><span class="theme-card-id">sun</span></div>
+            <div class="theme-card-desc">Sonnenuhr mit echtem Himmelsverlauf.</div>
+          </a>
+          <a href="#clock-calendar" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Calendar</span><span class="theme-card-id">calendar</span></div>
+            <div class="theme-card-desc">Monatskalender mit hervorgehobenem Tag.</div>
+          </a>
+          <a href="#clock-matrix" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Matrix</span><span class="theme-card-id">matrix</span></div>
+            <div class="theme-card-desc">Fallende gr&uuml;ne Ziffern zeigen die Zeit.</div>
+          </a>
+          <a href="#clock-gradient" class="theme-card clock-card">
+            <div class="theme-card-header"><span class="theme-card-name">Gradient</span><span class="theme-card-id">gradient</span></div>
+            <div class="theme-card-desc">Hintergrundverlauf &auml;ndert sich mit der Tageszeit.</div>
+          </a>
+        </div>
+
+        <!-- Clock details -->
+
+        <div class="theme-detail" id="clock-digital">
+          <div class="theme-detail-header"><span class="theme-detail-name">Digital</span><span class="theme-detail-id">digital</span></div>
+          <p class="theme-detail-desc">Klassische 7-Segment-LED-Anzeige auf Canvas gerendert. Scharfe Segmente mit konfigurierbarem Leuchten und Doppelpunkt-Animation.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ff0000"></span> <code>ff0000</code> <span>auf</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>blink</td><td>Doppelpunkt-Stil: blink, solid, fade</td></tr>
+            <tr><td>segmentStyle</td><td>select</td><td>sharp</td><td>Segmentform: sharp, round, flat</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>Leuchtintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>dimBrightness</td><td>number</td><td>1</td><td>Gedimmte Segmenthelligkeit (0&ndash;5)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=digital">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-minimal">
+          <div class="theme-detail-header"><span class="theme-detail-name">Minimal</span><span class="theme-detail-id">minimal</span></div>
+          <p class="theme-detail-desc">Saubere minimalistische Typografie mit ultrafeinem Schriftgewicht. DOM-basiert mit containerrelativer Gr&ouml;&szlig;enanpassung.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>align</td><td>select</td><td>center</td><td>Textausrichtung: center, left, right</td></tr>
+            <tr><td>weight</td><td>number</td><td>200</td><td>Schriftgewicht</td></tr>
+            <tr><td>separator</td><td>select</td><td>colon</td><td>Zeittrennzeichen: colon, dot, space, none</td></tr>
+            <tr><td>uppercase</td><td>boolean</td><td>true</td><td>AM/PM und Datum in Gro&szlig;buchstaben</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=minimal">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-retro">
+          <div class="theme-detail-header"><span class="theme-detail-name">Retro</span><span class="theme-detail-id">retro</span></div>
+          <p class="theme-detail-desc">CRT-Terminal mit gr&uuml;nem Phosphorleuchten, Scanlines und Vignetten-Effekt. Enth&auml;lt ein Kommandozeilen-Overlay.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#33ff33"></span> <code>33ff33</code> <span>auf</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>CRT-Scanline-Overlay anzeigen</td></tr>
+            <tr><td>vignette</td><td>number</td><td>6</td><td>Vignettenintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>Bildschirmflackern (0&ndash;10)</td></tr>
+            <tr><td>prompt</td><td>select</td><td>default</td><td>Prompt-Stil: default, minimal, none</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=retro">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-binary">
+          <div class="theme-detail-header"><span class="theme-detail-name">Binary</span><span class="theme-detail-id">binary</span></div>
+          <p class="theme-detail-desc">Bin&auml;ruhr die Stunden, Minuten und Sekunden als Spalten leuchtender Bits darstellt.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#00ccff"></span> <code>00ccff</code> <span>auf</span> <span class="color-swatch" style="background:#0a0a1a"></span> <code>0a0a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>dotStyle</td><td>select</td><td>solid</td><td>Punkt-Animation: solid, blink, fade</td></tr>
+            <tr><td>glow</td><td>number</td><td>5</td><td>Leuchtintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>bitShape</td><td>select</td><td>square</td><td>Bit-Form: square, round, diamond</td></tr>
+            <tr><td>showLabels</td><td>boolean</td><td>true</td><td>Spaltenbeschriftungen anzeigen (H M S)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=binary">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-lcd">
+          <div class="theme-detail-header"><span class="theme-detail-name">LCD</span><span class="theme-detail-id">lcd</span></div>
+          <p class="theme-detail-desc">Casio-artiges LCD-Uhrengesicht mit Segmentziffern, optionaler Blende und Hintergrundbeleuchtung. Unterst&uuml;tzt Positionierung und Vollbildmodus.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#2a3a2a"></span> <code>2a3a2a</code> <span>auf</span> <span class="color-swatch" style="background:#8a9f78"></span> <code>8a9f78</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>backlight</td><td>number</td><td>0</td><td>Hintergrundbeleuchtung (0&ndash;10)</td></tr>
+            <tr><td>bezel</td><td>boolean</td><td>true</td><td>Uhrenblende anzeigen</td></tr>
+            <tr><td>brand</td><td>select</td><td>led.run</td><td>Markentext auf dem Zifferblatt</td></tr>
+            <tr><td>lcdScale</td><td>number</td><td>1.0</td><td>Gesamt-LCD-Skalierung (0.3&ndash;2.0)</td></tr>
+            <tr><td>lcdPosition</td><td>select</td><td>center</td><td>Position auf dem Bildschirm</td></tr>
+            <tr><td>lcdFull</td><td>boolean</td><td>false</td><td>Vollbildmodus (ohne Blende)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=lcd">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-analog">
+          <div class="theme-detail-header"><span class="theme-detail-name">Analog</span><span class="theme-detail-id">analog</span></div>
+          <p class="theme-detail-desc">Klassische Analoguhr auf Canvas gerendert mit sanft gleitenden Zeigern und verschiedenen Zifferblatt-Stilen.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>style</td><td>select</td><td>classic</td><td>Zifferblatt-Stil: classic, modern, dress, sport</td></tr>
+            <tr><td>handColor</td><td>color</td><td>ff5050</td><td>Sekundenzeigerfarbe</td></tr>
+            <tr><td>markers</td><td>boolean</td><td>true</td><td>Stundenmarkierungen anzeigen</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=analog">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-flip">
+          <div class="theme-detail-header"><span class="theme-detail-name">Flip</span><span class="theme-detail-id">flip</span></div>
+          <p class="theme-detail-desc">Mechanische Fallblatt-Anzeige mit CSS-3D-Flip-Animation. Jede Ziffer klappt unabh&auml;ngig mit sequenziellem Timing.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#f0f0f0"></span> <code>f0f0f0</code> <span>auf</span> <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.5</td><td>Flip-Animationsdauer (Sekunden)</td></tr>
+            <tr><td>gap</td><td>number</td><td>1.5</td><td>Abstand zwischen Karten</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=flip">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-nixie">
+          <div class="theme-detail-header"><span class="theme-detail-name">Nixie</span><span class="theme-detail-id">nixie</span></div>
+          <p class="theme-detail-desc">Warme leuchtende Nixie-R&ouml;hren-Anzeige auf Canvas gerendert. Jede Ziffer sitzt in einer Glasr&ouml;hre mit Kathodenleuchten.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ff8833"></span> <code>ff8833</code> <span>auf</span> <span class="color-swatch" style="background:#1a0f0a"></span> <code>1a0f0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>6</td><td>Leuchtintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>Flackerintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>tubeColor</td><td>color</td><td>332211</td><td>Glasr&ouml;hren-T&ouml;nungsfarbe</td></tr>
+            <tr><td>warmth</td><td>number</td><td>7</td><td>Farbw&auml;rme (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=nixie">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">Neon-Leuchtröhren-Uhr mit DOM und CSS. Ziffern mit geschichteten Text-Schatten f&uuml;r realistische R&ouml;hrenbeleuchtung.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ff1493"></span> <code>ff1493</code> <span>auf</span> <span class="color-swatch" style="background:#0a0010"></span> <code>0a0010</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>7</td><td>Leuchtintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>flicker</td><td>number</td><td>2</td><td>Flackerintensit&auml;t (0&ndash;10)</td></tr>
+            <tr><td>tube</td><td>select</td><td>single</td><td>R&ouml;hrenstil: single, outline, double</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=neon">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-word">
+          <div class="theme-detail-header"><span class="theme-detail-name">Word</span><span class="theme-detail-id">word</span></div>
+          <p class="theme-detail-desc">Zeit in englischen W&ouml;rtern buchstabiert mit optionaler Fuzzy-Ann&auml;herung und sanften &Uuml;bergangsanimationen.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#111111"></span> <code>111111</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>wordLang</td><td>select</td><td>en</td><td>Wort-Stil: en (exakt), fuzzy (angen&auml;hert)</td></tr>
+            <tr><td>showPeriod</td><td>boolean</td><td>true</td><td>AM/PM-Zeitraum anzeigen</td></tr>
+            <tr><td>animation</td><td>select</td><td>none</td><td>&Uuml;bergang: none, fade, slide</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=word">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-sun">
+          <div class="theme-detail-header"><span class="theme-detail-name">Sundial</span><span class="theme-detail-id">sun</span></div>
+          <p class="theme-detail-desc">Sonnenuhr mit Himmelsverlauf, der sich je nach Tageszeit &auml;ndert. Canvas-gerendert mit Sternen, Sonne/Mond und Atmosph&auml;reneffekten.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#1a3a5c"></span> <code>1a3a5c</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>stars</td><td>number</td><td>5</td><td>Sterndichte (0&ndash;10)</td></tr>
+            <tr><td>showSundial</td><td>boolean</td><td>true</td><td>Sonnenuhrzeiger und Schatten anzeigen</td></tr>
+            <tr><td>atmosphere</td><td>select</td><td>realistic</td><td>Himmelsstil: realistic, vivid, pastel</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=sun">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-calendar">
+          <div class="theme-detail-header"><span class="theme-detail-name">Calendar</span><span class="theme-detail-id">calendar</span></div>
+          <p class="theme-detail-desc">Monatskalenderansicht mit Zeitanzeige. Hebt den aktuellen Tag hervor mit konfigurierbarem ersten Wochentag und Wochenendfarben.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#1a1a2e"></span> <code>1a1a2e</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>firstDay</td><td>select</td><td>sun</td><td>Erster Wochentag: sun, mon</td></tr>
+            <tr><td>weekendHighlight</td><td>boolean</td><td>false</td><td>Wochenendtage hervorheben</td></tr>
+            <tr><td>compact</td><td>boolean</td><td>false</td><td>Kompaktes Layout</td></tr>
+            <tr><td>weekendColor</td><td>color</td><td>ff6b6b</td><td>Wochenend-Textfarbe</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=calendar">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-matrix">
+          <div class="theme-detail-header"><span class="theme-detail-name">Matrix</span><span class="theme-detail-id">matrix</span></div>
+          <p class="theme-detail-desc">Matrix-artige fallende Zeichen auf Canvas gerendert, die aktuelle Uhrzeit wird durch den Regen sichtbar.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>auf</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>5</td><td>Regendichte (1&ndash;10)</td></tr>
+            <tr><td>speed</td><td>number</td><td>5</td><td>Fallgeschwindigkeit (1&ndash;10)</td></tr>
+            <tr><td>charset</td><td>select</td><td>katakana</td><td>Zeichensatz: katakana, latin, digits, binary</td></tr>
+            <tr><td>glowIntensity</td><td>number</td><td>5</td><td>Leuchtintensit&auml;t (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=matrix">Ausprobieren &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="clock-gradient">
+          <div class="theme-detail-header"><span class="theme-detail-name">Gradient</span><span class="theme-detail-id">gradient</span></div>
+          <p class="theme-detail-desc">Hintergrundverlauf der sich automatisch je nach Tageszeit &auml;ndert. DOM-basiert mit sanften Farb&uuml;berg&auml;ngen.</p>
+          <div class="theme-detail-colors"><span>Standardfarben:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>auf</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parameter</th><th>Typ</th><th>Standard</th><th>Beschreibung</th></tr></thead><tbody>
+            <tr><td>palette</td><td>select</td><td>auto</td><td>Farbpalette: auto, ocean, sunset, forest, neon, mono</td></tr>
+            <tr><td>angle</td><td>number</td><td>135</td><td>Verlaufswinkel in Grad</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/time?t=gradient">Ausprobieren &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -1869,6 +2188,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
@@ -1877,9 +2197,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Pause / resume</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -1889,33 +2211,39 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
                 <td>&mdash;</td>
                 <td>Next effect</td>
                 <td>Next visualizer</td>
+                <td>Next clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
                 <td>&mdash;</td>
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
+                <td>Previous clock</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">&darr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -1944,11 +2272,13 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <th>Text</th>
                 <th>Light</th>
                 <th>Sound</th>
+                <th>Time</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1958,9 +2288,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1970,9 +2302,11 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Share</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -1982,6 +2316,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
               </tr>
             </tbody>
           </table>
@@ -2038,7 +2373,7 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2056,9 +2391,10 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
+      setupSearch('clock-search', document.querySelectorAll('.clock-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
