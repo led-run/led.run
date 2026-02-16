@@ -607,6 +607,7 @@
 
       // Light Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="light-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Effect selection
@@ -642,7 +643,10 @@
       // Light Action Card
       html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
       html += '<div class="builder-url-preview" id="light-builder-url">led.run/light?t=solid</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="light-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="light-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
 
       html += '</div>'; // builder-grid
       html += '</div>'; // light builder mode-panel
@@ -666,6 +670,7 @@
 
       // Sound Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="sound-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Visualizer selection
@@ -701,7 +706,10 @@
       // Sound Action Card
       html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
       html += '<div class="builder-url-preview" id="sound-builder-url">led.run/sound?t=bars</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="sound-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="sound-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
 
       html += '</div>'; // builder-grid
       html += '</div>'; // sound builder mode-panel
@@ -725,6 +733,7 @@
 
       // Time Builder
       html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-canvas"><div class="preview-card"><div class="preview-label">' + I18n.t('landing.builder.card.livePreview') + '</div><div id="time-builder-preview"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Clock selection
@@ -775,7 +784,10 @@
       // Time Action Card
       html += '<div class="prop-card prop-card-highlight"><div class="builder-url-box">';
       html += '<div class="builder-url-preview" id="time-builder-url">led.run/time?t=digital</div></div>';
-      html += '<div class="builder-actions"><button class="btn-primary" id="time-builder-launch">' + I18n.t('landing.input.go') + '</button></div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="time-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="time-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
 
       html += '</div>'; // builder-grid
       html += '</div>'; // time builder mode-panel
@@ -847,9 +859,12 @@
           
           // Re-render preview if in builder mode
           if (localStorage.getItem('led-active-mode') === 'builder') {
-            if (product === 'text') {
-              updateTextPreview();
-            }
+            setTimeout(function() {
+              if (product === 'text') updateTextPreview();
+              else if (product === 'light') updateLightPreview();
+              else if (product === 'sound') updateSoundPreview();
+              else if (product === 'time') updateTimePreview();
+            }, 50);
           }
         });
       });
@@ -865,13 +880,14 @@
           });
           if (mode === 'builder') {
             var activeTab = document.querySelector('.product-tab.active');
-            if (activeTab && activeTab.dataset.product === 'text') {
-              // Wait for DOM to be visible
-              setTimeout(function() {
-                updateTextPreview();
-                if (TextManager.resize) TextManager.resize();
-              }, 50);
-            }
+            var activeP = activeTab ? activeTab.dataset.product : 'text';
+            // Wait for DOM to be visible
+            setTimeout(function() {
+              if (activeP === 'text') { updateTextPreview(); if (TextManager.resize) TextManager.resize(); }
+              else if (activeP === 'light') updateLightPreview();
+              else if (activeP === 'sound') updateSoundPreview();
+              else if (activeP === 'time') updateTimePreview();
+            }, 50);
           }
         });
       });
@@ -1079,6 +1095,7 @@
       var lightSpeed = document.getElementById('light-builder-speed');
       var lightBrightness = document.getElementById('light-builder-brightness');
       var lightUrl = document.getElementById('light-builder-url');
+      var lightPreviewEl = document.getElementById('light-builder-preview');
 
       var lightUserChanged = { color: false, bg: false, speed: false, brightness: false };
       var lightEffectParamValues = {};
@@ -1148,6 +1165,7 @@
               rv.textContent = this.value;
               lightEffectParamValues[key] = parseFloat(this.value);
               updateLightUrl();
+              updateLightPreview();
             });
             inputWrap.appendChild(ri);
           } else if (type === 'color') {
@@ -1158,6 +1176,7 @@
             ci.addEventListener('input', function() {
               lightEffectParamValues[key] = this.value.replace('#', '');
               updateLightUrl();
+              updateLightPreview();
             });
             inputWrap.appendChild(ci);
           } else if (type === 'string') {
@@ -1168,6 +1187,7 @@
             si.addEventListener('change', function() {
               lightEffectParamValues[key] = this.value;
               updateLightUrl();
+              updateLightPreview();
             });
             inputWrap.appendChild(si);
           } else if (type === 'boolean') {
@@ -1182,6 +1202,7 @@
             cb.addEventListener('change', function() {
               lightEffectParamValues[key] = this.checked;
               updateLightUrl();
+              updateLightPreview();
             });
             inputWrap.appendChild(toggle);
           }
@@ -1214,6 +1235,19 @@
         lightUrl.textContent = 'led.run/light?' + params.join('&');
       }
 
+      function updateLightPreview() {
+        var effectId = lightEffect.value;
+        var config = {};
+        var d = getLightDefaults();
+        if (d.color !== undefined) config.color = lightColor.value.replace('#', '');
+        if (d.bg !== undefined) config.bg = lightBg.value.replace('#', '');
+        if (d.speed !== undefined) config.speed = parseInt(lightSpeed.value, 10);
+        if (d.brightness !== undefined) config.brightness = parseInt(lightBrightness.value, 10);
+        for (var k in lightEffectParamValues) config[k] = lightEffectParamValues[k];
+        LightManager.switch(effectId, lightPreviewEl, config);
+        setTimeout(function() { LightManager.resize(); }, 0);
+      }
+
       [lightColor, lightBg, lightSpeed, lightBrightness].forEach(function(el) {
         el.addEventListener('input', function() {
           var paramKey = this.id.replace('light-builder-', '');
@@ -1221,6 +1255,7 @@
           if (this.id === 'light-builder-speed') document.getElementById('light-builder-speed-val').textContent = this.value;
           if (this.id === 'light-builder-brightness') document.getElementById('light-builder-brightness-val').textContent = this.value;
           updateLightUrl();
+          updateLightPreview();
         });
       });
 
@@ -1231,11 +1266,21 @@
         syncLightBuilderVisibility();
         rebuildLightEffectParams();
         updateLightUrl();
+        updateLightPreview();
       });
 
       document.getElementById('light-builder-launch').addEventListener('click', function() {
         var url = lightUrl.textContent.replace('led.run', '');
         window.location.href = url;
+      });
+
+      document.getElementById('light-builder-copy').addEventListener('click', function() {
+        var url = 'https://' + lightUrl.textContent;
+        navigator.clipboard.writeText(url).then(function() {
+          var originalIcon = this.innerHTML;
+          this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+        }.bind(this));
       });
 
       // ====== SOUND PANEL LOGIC ======
@@ -1245,6 +1290,7 @@
       var soundSens = document.getElementById('sound-builder-sensitivity');
       var soundSmooth = document.getElementById('sound-builder-smoothing');
       var soundUrl = document.getElementById('sound-builder-url');
+      var soundPreviewEl = document.getElementById('sound-builder-preview');
 
       var soundUserChanged = { color: false, bg: false, sensitivity: false, smoothing: false };
       var soundVizParamValues = {};
@@ -1305,6 +1351,7 @@
               rv.textContent = this.value;
               soundVizParamValues[key] = parseFloat(this.value);
               updateSoundUrl();
+              updateSoundPreview();
             });
             inputWrap.appendChild(ri);
           } else if (type === 'color') {
@@ -1315,6 +1362,7 @@
             ci.addEventListener('input', function() {
               soundVizParamValues[key] = this.value.replace('#', '');
               updateSoundUrl();
+              updateSoundPreview();
             });
             inputWrap.appendChild(ci);
           } else if (type === 'string') {
@@ -1325,6 +1373,7 @@
             si.addEventListener('change', function() {
               soundVizParamValues[key] = this.value;
               updateSoundUrl();
+              updateSoundPreview();
             });
             inputWrap.appendChild(si);
           } else if (type === 'boolean') {
@@ -1339,6 +1388,7 @@
             cb.addEventListener('change', function() {
               soundVizParamValues[key] = this.checked;
               updateSoundUrl();
+              updateSoundPreview();
             });
             inputWrap.appendChild(toggle);
           }
@@ -1371,6 +1421,19 @@
         soundUrl.textContent = 'led.run/sound?' + params.join('&');
       }
 
+      function updateSoundPreview() {
+        var vizId = soundViz.value;
+        var config = {};
+        config.color = soundColor.value.replace('#', '');
+        config.bg = soundBg.value.replace('#', '');
+        config.sensitivity = parseInt(soundSens.value, 10);
+        var d = getSoundDefaults();
+        if (d.smoothing !== undefined) config.smoothing = parseFloat(soundSmooth.value);
+        for (var k in soundVizParamValues) config[k] = soundVizParamValues[k];
+        SoundManager.switch(vizId, soundPreviewEl, config, null);
+        setTimeout(function() { SoundManager.resize(); }, 0);
+      }
+
       [soundColor, soundBg, soundSens, soundSmooth].forEach(function(el) {
         el.addEventListener('input', function() {
           var paramKey = this.id.replace('sound-builder-', '');
@@ -1380,6 +1443,7 @@
           if (this.id === 'sound-builder-sensitivity') document.getElementById('sound-builder-sens-val').textContent = this.value;
           if (this.id === 'sound-builder-smoothing') document.getElementById('sound-builder-smooth-val').textContent = this.value;
           updateSoundUrl();
+          updateSoundPreview();
         });
       });
 
@@ -1390,11 +1454,21 @@
         syncSoundBuilderVisibility();
         rebuildSoundVizParams();
         updateSoundUrl();
+        updateSoundPreview();
       });
 
       document.getElementById('sound-builder-launch').addEventListener('click', function() {
         var url = soundUrl.textContent.replace('led.run', '');
         window.location.href = url;
+      });
+
+      document.getElementById('sound-builder-copy').addEventListener('click', function() {
+        var url = 'https://' + soundUrl.textContent;
+        navigator.clipboard.writeText(url).then(function() {
+          var originalIcon = this.innerHTML;
+          this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+        }.bind(this));
       });
 
       // ====== TIME PANEL LOGIC ======
@@ -1408,6 +1482,7 @@
       var timeDateFormat = document.getElementById('time-builder-dateformat');
       var timeTz = document.getElementById('time-builder-tz');
       var timeUrl = document.getElementById('time-builder-url');
+      var timePreviewEl = document.getElementById('time-builder-preview');
 
       var timeUserChanged = { color: false, bg: false, fill: false, format: false, showSeconds: false, showDate: false, dateFormat: false, tz: false };
       var timeClockParamValues = {};
@@ -1467,6 +1542,7 @@
               rv.textContent = this.value;
               timeClockParamValues[key] = parseFloat(this.value);
               updateTimeUrl();
+              updateTimePreview();
             });
             inputWrap.appendChild(ri);
           } else if (type === 'color') {
@@ -1477,6 +1553,7 @@
             ci.addEventListener('input', function() {
               timeClockParamValues[key] = this.value.replace('#', '');
               updateTimeUrl();
+              updateTimePreview();
             });
             inputWrap.appendChild(ci);
           } else if (type === 'select') {
@@ -1496,6 +1573,7 @@
             sel.addEventListener('change', function() {
               timeClockParamValues[key] = this.value;
               updateTimeUrl();
+              updateTimePreview();
             });
             inputWrap.appendChild(sel);
           } else if (type === 'boolean') {
@@ -1510,6 +1588,7 @@
             cb.addEventListener('change', function() {
               timeClockParamValues[key] = this.checked;
               updateTimeUrl();
+              updateTimePreview();
             });
             inputWrap.appendChild(toggle);
           }
@@ -1555,24 +1634,44 @@
         timeUrl.textContent = 'led.run/time?' + params.join('&');
       }
 
+      function updateTimePreview() {
+        var clockId = timeClock.value;
+        var config = {};
+        config.color = timeColor.value.replace('#', '');
+        config.bg = timeBg.value.replace('#', '');
+        var d = getTimeDefaults();
+        if (d.fill !== undefined) config.fill = timeFill.value.replace('#', '');
+        config.format = timeFormat.value;
+        config.showSeconds = timeSeconds.checked;
+        config.showDate = timeDate.checked;
+        if (timeDate.checked) config.dateFormat = timeDateFormat.value;
+        if (timeTz.value !== '0') config.tz = parseInt(timeTz.value, 10);
+        for (var k in timeClockParamValues) config[k] = timeClockParamValues[k];
+        TimeManager.switch(clockId, timePreviewEl, config);
+        setTimeout(function() { TimeManager.resize(); }, 0);
+      }
+
       [timeColor, timeBg, timeFill, timeFormat, timeDateFormat, timeTz].forEach(function(el) {
         el.addEventListener('input', function() {
           var paramKey = this.id.replace('time-builder-', '');
           timeUserChanged[paramKey] = true;
           if (this.id === 'time-builder-tz') document.getElementById('time-builder-tz-val').textContent = this.value;
           updateTimeUrl();
+          updateTimePreview();
         });
       });
 
       timeSeconds.addEventListener('change', function() {
         timeUserChanged.showSeconds = true;
         updateTimeUrl();
+        updateTimePreview();
       });
 
       timeDate.addEventListener('change', function() {
         timeUserChanged.showDate = true;
         document.getElementById('time-builder-dateformat-row').style.display = this.checked ? 'flex' : 'none';
         updateTimeUrl();
+        updateTimePreview();
       });
 
       timeClock.addEventListener('input', function() {
@@ -1581,11 +1680,21 @@
         syncTimeBuilderToClockDefaults();
         rebuildTimeClockParams();
         updateTimeUrl();
+        updateTimePreview();
       });
 
       document.getElementById('time-builder-launch').addEventListener('click', function() {
         var url = timeUrl.textContent.replace('led.run', '');
         window.location.href = url;
+      });
+
+      document.getElementById('time-builder-copy').addEventListener('click', function() {
+        var url = 'https://' + timeUrl.textContent;
+        navigator.clipboard.writeText(url).then(function() {
+          var originalIcon = this.innerHTML;
+          this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+          setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+        }.bind(this));
       });
 
       // ====== LANG SWITCHER ======
@@ -1608,15 +1717,24 @@
       syncLightBuilderVisibility();
       rebuildLightEffectParams();
       updateLightUrl();
+      if (activeMode === 'builder' && activeProduct === 'light') {
+        updateLightPreview();
+      }
 
       syncSoundBuilderToVizDefaults();
       syncSoundBuilderVisibility();
       rebuildSoundVizParams();
       updateSoundUrl();
+      if (activeMode === 'builder' && activeProduct === 'sound') {
+        updateSoundPreview();
+      }
 
       syncTimeBuilderToClockDefaults();
       rebuildTimeClockParams();
       updateTimeUrl();
+      if (activeMode === 'builder' && activeProduct === 'time') {
+        updateTimePreview();
+      }
 
       // Focus
       setTimeout(function() {
