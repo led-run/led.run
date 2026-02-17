@@ -1,0 +1,235 @@
+/**
+ * Cinema Theme Styles
+ * Classic cinema marquee letterboard with felt background
+ * and white plastic slot-mounted letters
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap');
+
+/* ── Toolbar Override ── */
+#app[data-theme="cinema"] .toolbar {
+  --toolbar-bg: rgba(20, 10, 5, 0.85);
+  --toolbar-btn-color: rgba(255, 200, 100, 0.8);
+}
+
+/* ── Container ── */
+.theme-cinema {
+  background-color: var(--cinema-bg, #0a0a0a);
+  font-family: 'Bebas Neue', 'Impact', sans-serif;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Top Casing (header bar with warm backlight) ── */
+.theme-cinema .cinema-casing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 60px;
+  background: linear-gradient(180deg, #2a2a2a 0%, #1a1a1a 60%, #111 100%);
+  border-bottom: 2px solid #333;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 2px 10px rgba(0, 0, 0, 0.5);
+  z-index: 10;
+}
+
+.theme-cinema .cinema-glow {
+  position: absolute;
+  bottom: -40px;
+  left: 10%;
+  right: 10%;
+  height: 40px;
+  background: radial-gradient(
+    ellipse at 50% 0%,
+    rgba(255, 220, 150, calc(var(--cinema-backlight, 0.5) * 0.6)) 0%,
+    rgba(255, 200, 100, calc(var(--cinema-backlight, 0.5) * 0.3)) 40%,
+    transparent 100%
+  );
+  pointer-events: none;
+  z-index: 11;
+}
+
+/* ── Outer Frame ── */
+.theme-cinema .cinema-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 8px solid #222;
+  border-top-width: 0;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.4),
+    inset 0 0 2px rgba(255, 255, 255, 0.05);
+  pointer-events: none;
+  z-index: 12;
+}
+
+/* ── Felt Board ── */
+.theme-cinema .cinema-board {
+  position: absolute;
+  top: 60px;
+  left: 8px;
+  right: 8px;
+  bottom: 8px;
+  background-color: var(--cinema-felt, #1a1a1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  overflow: hidden;
+}
+
+/* ── Felt Texture Overlay ── */
+.theme-cinema .cinema-felt-texture {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-image:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 1px,
+      rgba(0, 0, 0, 0.08) 1px,
+      rgba(0, 0, 0, 0.08) 2px
+    ),
+    repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 1px,
+      rgba(0, 0, 0, 0.04) 1px,
+      rgba(0, 0, 0, 0.04) 2px
+    );
+  background-size: 2px 2px, 2px 2px;
+  pointer-events: none;
+  z-index: 3;
+  opacity: 0.8;
+}
+
+/* ── Horizontal Groove Rails ── */
+.theme-cinema .cinema-rail {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.6) 0%,
+    rgba(0, 0, 0, 0.3) 50%,
+    rgba(255, 255, 255, 0.05) 100%
+  );
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.03);
+  pointer-events: none;
+  z-index: 4;
+}
+
+/* ── SIGN Mode: Tile Container ── */
+.theme-cinema .cinema-tile-container {
+  --cinema-tile-size: 60px;
+  --cinema-font-size: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  gap: 2px;
+  padding: 0 20px;
+  z-index: 5;
+  position: relative;
+}
+
+/* ── Individual Letter Tile ── */
+.theme-cinema .cinema-tile {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: var(--cinema-tile-size);
+  height: calc(var(--cinema-tile-size) * 1.2);
+  color: var(--cinema-letter-color, #ffffff);
+  font-size: var(--cinema-font-size);
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  text-transform: uppercase;
+  user-select: none;
+  position: relative;
+  /* Plastic letter appearance */
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.3),
+    0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.05);
+  /* Subtle 3D depth */
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+  /* Appear animation */
+  animation: cinema-tile-appear 0.4s ease-out both;
+  transition: opacity 0.3s ease;
+}
+
+/* Slot groove behind each tile */
+.theme-cinema .cinema-tile::before {
+  content: '';
+  position: absolute;
+  top: 10%;
+  left: -1px;
+  right: -1px;
+  bottom: 10%;
+  background: linear-gradient(
+    180deg,
+    rgba(0, 0, 0, 0.3) 0%,
+    rgba(0, 0, 0, 0.15) 20%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.1) 80%,
+    rgba(0, 0, 0, 0.2) 100%
+  );
+  border-radius: 1px;
+  z-index: -1;
+}
+
+/* ── Tile Appear Animation ── */
+@keyframes cinema-tile-appear {
+  0% {
+    opacity: 0;
+    transform: translateY(-10px) rotateX(20deg);
+  }
+  60% {
+    opacity: 1;
+    transform: translateY(2px) rotateX(-3deg);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) rotateX(0);
+  }
+}
+
+/* ── FLOW Mode ── */
+.theme-cinema .cinema-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  z-index: 5;
+  position: relative;
+}
+
+.theme-cinema .cinema-flow-text {
+  color: var(--cinema-letter-color, #ffffff);
+  font-weight: 400;
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.3),
+    0 -1px 0 rgba(0, 0, 0, 0.2),
+    0 0 8px rgba(255, 255, 255, 0.05);
+  filter: drop-shadow(0 1px 1px rgba(0, 0, 0, 0.4));
+}

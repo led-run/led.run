@@ -12,7 +12,7 @@
 
 | Product | Purpose | Manager | Directory | URL |
 |---------|---------|---------|-----------|-----|
-| **Text** | LED-style text display (20 themes) | `TextManager` | `texts/` | `led.run/HELLO` or `led.run/text/HELLO` |
+| **Text** | LED-style text display (30 themes) | `TextManager` | `texts/` | `led.run/HELLO` or `led.run/text/HELLO` |
 | **Light** | Pure color/pattern light effects (18 effects) | `LightManager` | `lights/` | `led.run/light?t=disco` |
 | **Sound** | Real-time audio visualization (12 visualizers) | `SoundManager` | `sounds/` | `led.run/sound?t=bars` |
 | **Time** | Clock displays (14 themes) | `TimeManager` | `times/` | `led.run/time?t=digital` |
@@ -214,6 +214,16 @@ js/app.js                 App entry + multi-product orchestrator
 | `street-sign` | Highway guide sign + rivets + reflective coating | `sub`, `exit`, `arrow`, `glare`, `fill` |
 | `do-not-disturb` | Skeuomorphic lightbox + glass panel | `fill`, `glow` |
 | `dot-matrix` | Skeuomorphic LED dot-matrix board (Canvas) | `res`, `gap`, `glow`, `shape`, `bezel`, `weight`, `flicker`, `fill`, `wrap` |
+| `vfd` | Vacuum fluorescent 14-segment display (Canvas) | `glow`, `flicker`, `mesh`, `tube` |
+| `chalk` | Realistic chalkboard with chalk texture (Canvas) | `roughness`, `dust`, `smudge`, `board` |
+| `stamp` | Rubber stamp on aged paper (DOM/CSS) | `ink`, `aged`, `smudge`, `paper` |
+| `cinema` | Cinema marquee letterboard (DOM) | `rows`, `backlight`, `felt` |
+| `gothic` | Medieval illuminated manuscript (DOM/CSS) | `ornate`, `aged`, `illuminated`, `seal`, `candle` |
+| `railway` | Solari split-flap departure board (DOM/CSS 3D) | `flipSpeed`, `housing`, `wear`, `vibration` |
+| `sticker` | Vinyl sticker with glossy/holographic finish (DOM/CSS) | `finish`, `peel`, `outline`, `glitter` |
+| `embroidery` | Cross-stitch on linen fabric (Canvas) | `stitch`, `fabric`, `hoop`, `tension` |
+| `smoke` | Particle smoke forming/dissolving text (Canvas) | `density`, `turbulence`, `shafts`, `glow` |
+| `sand` | Beach sand writing with wave animation (Canvas) | `depth`, `wetness`, `foam`, `detail`, `showWaves` |
 
 ## Available Light Effects
 
@@ -358,7 +368,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 ## Key Design Decisions
 
 - **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
-- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all four products and "60+ display modes" (20+18+12+14=64). Docs pages list product-specific theme counts (e.g., "20 text themes, 18 light effects, 12 sound visualizers, 14 clock themes")
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all four products and "70+ display modes" (30+18+12+14=74). Docs pages list product-specific theme counts (e.g., "30 text themes, 18 light effects, 12 sound visualizers, 14 clock themes")
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
@@ -380,7 +390,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **AudioContext needs user-gesture resume** — Chrome autoplay policy starts AudioContext in `suspended` state when `getUserMedia` resolves without a dialog (pre-saved permission = no user gesture). `AudioEngine.init()` never blocks on `context.resume()` — it resolves immediately after pipeline setup, attempts a non-blocking resume, and installs one-time gesture listeners (`click`/`touchstart`/`keydown`) as fallback. `isRunning()` checks `context.state === 'running'` so visualizers gate data reads correctly and auto-transition when the context resumes
 - **Builder-Settings param alignment** — Landing page builders use the same `defaults[key] !== undefined` logic as Settings panel to conditionally show/hide common param controls when effect/visualizer changes; `direction` control added to Text builder; each common param row has a unique ID for dynamic visibility toggling
 - **TimeManager follows LightManager pattern** — TimeManager is architecturally identical to LightManager (no text input, no audio engine); clock themes implement `{ id, defaults, init(container, config), destroy() }` interface; `TimeUtils` provides shared time utilities (`getTime(tz)`, `formatHours()`, `formatDate()`, `padZero()`, `getAmPm()`); timezone offset via `?tz=N` parameter (UTC hours); clock themes use Canvas (digital, analog, nixie, sun, matrix), DOM (minimal, binary, lcd, word, calendar), CSS 3D (flip), or hybrid (retro, neon, gradient)
-- **Builder preview must mirror `#display` layout** — `#builder-live-preview` must have the same layout properties as `#display` (`display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative`); without these, ID selector specificity overrides theme class styles (e.g., `.theme-wood { display: flex }` loses to `#builder-live-preview { display: block }`), causing preview/display inconsistency across all 20 themes
+- **Builder preview must mirror `#display` layout** — `#builder-live-preview` must have the same layout properties as `#display` (`display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative`); without these, ID selector specificity overrides theme class styles (e.g., `.theme-wood { display: flex }` loses to `#builder-live-preview { display: block }`), causing preview/display inconsistency across all 30 themes
 - **Builder browser window chrome** — `.builder-canvas` is a unified browser window shell (border-radius, border, box-shadow, overflow hidden). Inside: `.browser-bar` (address bar with `.browser-dots` traffic light decoration + `.builder-url-box` + `.builder-actions` GO/Copy buttons) on top, `.preview-card` (rendering viewport) below. The old `.prop-card-highlight` Action Card is removed — URL bar and action buttons live inside the browser chrome. Desktop (>1024px) uses CSS Grid (`400px 1fr`) with `.builder-canvas` as a sticky flex column (`height: calc(100vh - 6rem)`) where `.preview-card` fills remaining space via `flex: 1`. `.landing-content--wide` class removes max-width when builder mode is active. Mobile (≤1024px) uses flex column with order (1: browser window, 2: controls). Mobile ≤800px: `.browser-bar` wraps with `flex-wrap: wrap`
 
 ## Internationalization (i18n)

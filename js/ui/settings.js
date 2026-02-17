@@ -175,6 +175,47 @@
     weekendHighlight: { type: 'boolean', label: 'settings.param.weekendHighlight' },
     compact:       { type: 'boolean', label: 'settings.param.compact' },
     weekendColor:  { type: 'color', label: 'settings.param.weekendColor' },
+    // Chalk params
+    dust:          { type: 'range', label: 'settings.param.dust', min: 0, max: 10, step: 1 },
+    board:         { type: 'select', label: 'settings.param.board', options: ['green', 'black'] },
+    roughness:     { type: 'range', label: 'settings.param.roughness', min: 0, max: 10, step: 1 },
+    smudge:        { type: 'range', label: 'settings.param.smudge', min: 0, max: 10, step: 1 },
+    // Embroidery params
+    stitch:        { type: 'range', label: 'settings.param.stitch', min: 4, max: 30, step: 1 },
+    fabric:        { type: 'color', label: 'settings.param.fabric' },
+    hoop:          { type: 'boolean', label: 'settings.param.hoop' },
+    tension:       { type: 'range', label: 'settings.param.tension', min: 0, max: 10, step: 1 },
+    // Stamp params
+    ink:           { type: 'range', label: 'settings.param.ink', min: 0, max: 10, step: 1 },
+    paper:         { type: 'select', label: 'settings.param.paper', options: ['white', 'cream', 'kraft'] },
+    aged:          { type: 'range', label: 'settings.param.aged', min: 0, max: 10, step: 1 },
+    // Cinema params
+    rows:          { type: 'range', label: 'settings.param.rows', min: 1, max: 3, step: 1 },
+    felt:          { type: 'select', label: 'settings.param.felt', options: ['black', 'red', 'blue'] },
+    // Railway params
+    housing:       { type: 'select', label: 'settings.param.housing', options: ['silver', 'black', 'brass'] },
+    vibration:     { type: 'range', label: 'settings.param.vibration', min: 0, max: 10, step: 1 },
+    wear:          { type: 'range', label: 'settings.param.wear', min: 0, max: 10, step: 1 },
+    // Sticker params
+    finish:        { type: 'select', label: 'settings.param.finish', options: ['glossy', 'matte', 'holographic'] },
+    peel:          { type: 'range', label: 'settings.param.peel', min: 0, max: 10, step: 1 },
+    outline:       { type: 'range', label: 'settings.param.outline', min: 0, max: 10, step: 1 },
+    glitter:       { type: 'range', label: 'settings.param.glitter', min: 0, max: 10, step: 1 },
+    // Gothic params
+    ornate:        { type: 'range', label: 'settings.param.ornate', min: 0, max: 10, step: 1 },
+    illuminated:   { type: 'boolean', label: 'settings.param.illuminated' },
+    seal:          { type: 'boolean', label: 'settings.param.seal' },
+    candle:        { type: 'range', label: 'settings.param.candle', min: 0, max: 10, step: 1 },
+    // VFD params
+    mesh:          { type: 'range', label: 'settings.param.mesh', min: 0, max: 10, step: 1 },
+    // Smoke params
+    turbulence:    { type: 'range', label: 'settings.param.turbulence', min: 0, max: 10, step: 1 },
+    shafts:        { type: 'range', label: 'settings.param.shafts', min: 0, max: 10, step: 1 },
+    // Sand params
+    showWaves:     { type: 'boolean', label: 'settings.param.showWaves' },
+    wetness:       { type: 'range', label: 'settings.param.wetness', min: 0, max: 10, step: 1 },
+    foam:          { type: 'range', label: 'settings.param.foam', min: 0, max: 10, step: 1 },
+    detail:        { type: 'range', label: 'settings.param.detail', min: 0, max: 10, step: 1 },
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder
@@ -194,7 +235,10 @@
       sectionLabel: 'settings.theme',
       sectionParamsLabel: 'settings.section.themeParams',
       buildPath: function(ctx) { return '/' + encodeURIComponent(ctx.text); },
-      resize: function() { TextManager.resize(); }
+      resize: function() { TextManager.resize(); },
+      knownParamOverrides: {
+        tube: { type: 'boolean', label: 'settings.param.tube' }
+      }
     },
     light: {
       getIds: function() { return LightManager.getEffectIds(); },

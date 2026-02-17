@@ -30,6 +30,14 @@ I18n.register('zh', {
   'preset.flow.retro.badge': '\u590d\u53e4',
 
   // Preset descriptions - Sign mode
+  'preset.sign.vfd.desc': '具有明亮蓝绿色光芒和玻璃管反射效果的真空荧光显示屏。',
+  'preset.sign.chalk.desc': '带有粗糙粉笔笔触和飘落灰尘颗粒的教室黑板效果。',
+  'preset.sign.stamp.desc': '带有墨水晕染和旧纸张纹理的官方橡胶印章效果。',
+  'preset.sign.cinema.desc': '带有毛毡背景和塑料插槽字母的经典影院大屏幕效果。',
+  'preset.sign.gothic.desc': '带有金箔装饰和凹凸感蜡封的哥特式中世纪手稿效果。',
+  'preset.sign.sticker.desc': '具有动态全息光泽和翘角的精致乙烯基贴纸效果。',
+  'preset.sign.embroidery.desc': '在木质绣框中的亚麻织物上进行的传统十字绣文字。',
+  'preset.sign.sand.desc': '刻在沙滩上的文字，伴随动画海浪和海洋泡沫效果。',
   'preset.sign.do-not-disturb.desc': '\u4e13\u4e1a\u9690\u79c1\u6807\u724c\uff0c\u6e29\u6696\u7425\u73c0\u8272\u5149\u6655\u4e0e\u6307\u793a\u706f\u3002',
   'preset.sign.street-sign.desc': '\u9ad8\u901f\u516c\u8def\u6307\u793a\u724c\uff0c\u5e26\u51fa\u53e3\u6807\u7b7e\u3001\u8def\u7ebf\u526f\u6807\u9898\u548c\u53cd\u5149\u7bad\u5934\u3002',
   'preset.sign.neon.desc': '\u7ecf\u5178\u5e97\u94fa\u9713\u8679\u706f\uff0c\u6e29\u6696\u7c89\u8272\u5149\u6655\u4e0e\u706f\u7ba1\u95ea\u70c1\u3002',
@@ -42,6 +50,8 @@ I18n.register('zh', {
   'preset.sign.tokyo.desc': '\u7535\u5f71\u822c\u7684\u96e8\u4e2d\u9713\u8679\u706f\u724c\uff0c\u65e5\u672c\u57ce\u5e02\u6c1b\u56f4\u3002',
 
   // Preset descriptions - Flow mode
+  'preset.flow.railway.desc': '具有真实翻页动画和机械感的机场/车站翻牌显示屏。',
+  'preset.flow.smoke.desc': '具有流动湍流和神圣光束效果的空灵上升烟雾。',
   'preset.flow.gradient.desc': '\u6f14\u5531\u4f1a\u7c89\u4e1d LED \u5e94\u63f4\u724c \u2014\u2014 \u4e3e\u8d77\u624b\u673a\u4e3a\u5076\u50cf\u52a0\u6cb9\u3002',
   'preset.flow.neon.desc': '\u6b22\u4e50\u65f6\u5149\u4fc3\u9500\u5728\u6e29\u6696\u9713\u8679\u9152\u5427\u6807\u724c\u4e0a\u6eda\u52a8\u3002',
   'preset.flow.firework.desc': '\u5e86\u795d\u516c\u544a\uff0c\u914d\u4ee5\u70df\u82b1\u548c\u91d1\u8272\u6587\u5b57\u3002',
@@ -110,6 +120,44 @@ I18n.register('zh', {
   'settings.param.bezel': '\u8fb9\u6846',
   'settings.param.weight': '\u5b57\u91cd',
   'settings.param.wrap': '\u81ea\u52a8\u6362\u884c',
+  'settings.param.dust': '灰尘',
+  'settings.param.board': '黑板',
+  'settings.param.stitch': '针距',
+  'settings.param.fabric': '织物',
+  'settings.param.hoop': '绣框',
+  'settings.param.ink': '墨水',
+  'settings.param.paper': '纸张',
+  'settings.param.aged': '做旧',
+  'settings.param.rows': '行数',
+  'settings.param.felt': '毛毡',
+  'settings.param.housing': '外壳',
+  'settings.param.finish': '表面',
+  'settings.param.peel': '剥离',
+  'settings.param.outline': '轮廓',
+  'settings.param.ornate': '装饰',
+  'settings.param.illuminated': '花体首字母',
+  'settings.param.seal': '蜡封',
+  'settings.param.mesh': '金属网格',
+  // Smoke params
+  'settings.param.turbulence': '湍流强度',
+  'settings.param.shafts': '光束数量',
+  // Sand params
+  'settings.param.showWaves': '显示海浪',
+  'settings.param.wetness': '湿润度',
+  'settings.param.foam': '泡沫量',
+  'settings.param.detail': '细节密度',
+  // Railway params
+  'settings.param.vibration': '机械振动',
+  'settings.param.wear': '磨损程度',
+  // Sticker params
+  'settings.param.glitter': '闪粉密度',
+  // Embroidery params
+  'settings.param.tension': '织物张力',
+  // Gothic params
+  'settings.param.candle': '烛光闪烁',
+  // Chalk params
+  'settings.param.roughness': '颗粒粗糙度',
+  'settings.param.smudge': '污迹程度',
 
   // Settings - mode options
   'settings.mode.none': '\u81ea\u52a8',
@@ -139,6 +187,20 @@ I18n.register('zh', {
   'settings.grain.dark': '\u6df1\u8272',
   'settings.grain.light': '\u6d45\u8272',
   'settings.grain.natural': '\u81ea\u7136',
+  'settings.board.green': '绿色',
+  'settings.board.black': '黑色',
+  'settings.paper.white': '白色',
+  'settings.paper.cream': '米色',
+  'settings.paper.kraft': '牛皮纸',
+  'settings.felt.black': '黑色',
+  'settings.felt.red': '红色',
+  'settings.felt.blue': '蓝色',
+  'settings.housing.silver': '银色',
+  'settings.housing.black': '黑色',
+  'settings.housing.brass': '黄铜',
+  'settings.finish.glossy': '光面',
+  'settings.finish.matte': '哑光',
+  'settings.finish.holographic': '全息',
 
   // Settings - theme names
   'settings.theme.default': '\u9ed8\u8ba4',
@@ -161,6 +223,16 @@ I18n.register('zh', {
   'settings.theme.street-sign': '\u8def\u724c',
   'settings.theme.do-not-disturb': '\u8bf7\u52ff\u6253\u6270',
   'settings.theme.dot-matrix': '\u70b9\u9635',
+  'settings.theme.vfd': '荧光管',
+  'settings.theme.chalk': '粉笔',
+  'settings.theme.stamp': '印章',
+  'settings.theme.cinema': '影院',
+  'settings.theme.gothic': '哥特',
+  'settings.theme.railway': '翻牌',
+  'settings.theme.sticker': '贴纸',
+  'settings.theme.embroidery': '刺绣',
+  'settings.theme.smoke': '烟雾',
+  'settings.theme.sand': '沙滩',
 
   // Settings - font presets
   'settings.font.default': '主题默认',

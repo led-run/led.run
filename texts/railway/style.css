@@ -1,0 +1,308 @@
+/**
+ * Railway Theme Styles
+ * Airport/train station Solari split-flap departure board
+ * Metal housing with rivets, amber/white text on black flaps
+ */
+
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+/* Toolbar integration */
+#app[data-theme="railway"] .toolbar {
+  --toolbar-bg: rgba(40, 40, 45, 0.85);
+  --toolbar-btn-color: rgba(200, 200, 210, 0.8);
+}
+
+/* ===== CONTAINER ===== */
+.theme-railway {
+  background-color: var(--railway-bg, #1a1a1a);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  position: relative;
+  font-family: 'Roboto Condensed', 'Arial Narrow', sans-serif;
+}
+
+/* ===== METAL HOUSING FRAME ===== */
+.railway-housing {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  border: 10px solid transparent;
+  background-image: var(--railway-frame-gradient);
+  background-origin: border-box;
+  background-clip: border-box;
+  -webkit-mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask:
+    linear-gradient(#fff 0 0) content-box,
+    linear-gradient(#fff 0 0);
+  mask-composite: exclude;
+  box-shadow:
+    inset 0 0 30px rgba(0, 0, 0, 0.5),
+    0 4px 20px rgba(0, 0, 0, 0.6);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* Fallback: use border-image for the housing frame gradient */
+.railway-housing {
+  border: 10px solid var(--railway-accent, #b0b0b8);
+  background: none;
+  -webkit-mask: none;
+  mask: none;
+  box-shadow:
+    inset 0 2px 0 rgba(255, 255, 255, 0.15),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+    0 4px 20px rgba(0, 0, 0, 0.6);
+}
+
+/* ===== RIVETS ===== */
+.railway-rivet {
+  position: absolute;
+  width: 18px;
+  height: 18px;
+  background: var(--railway-rivet-gradient);
+  border-radius: 50%;
+  box-shadow:
+    1px 2px 4px rgba(0, 0, 0, 0.5),
+    inset 0 -1px 1px rgba(0, 0, 0, 0.3);
+  z-index: 11;
+  opacity: 0.85;
+}
+
+.railway-rivet::after {
+  content: '';
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.4);
+  border-radius: 50%;
+}
+
+.rivet-tl { top: 16px; left: 16px; }
+.rivet-tr { top: 16px; right: 16px; }
+.rivet-bl { bottom: 16px; left: 16px; }
+.rivet-br { bottom: 16px; right: 16px; }
+
+/* ===== BOARD WRAPPER ===== */
+.railway-board {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  padding: 24px;
+  z-index: 5;
+}
+
+.railway-board-flow {
+  overflow: hidden;
+}
+
+/* Subtle inner texture on board surface */
+.railway-board::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background:
+    repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 4px,
+      rgba(255, 255, 255, 0.008) 4px,
+      rgba(255, 255, 255, 0.008) 5px
+    );
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ===== HEADER LABEL ===== */
+.railway-header {
+  position: relative;
+  z-index: 5;
+  color: var(--railway-accent, #b0b0b8);
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.3em;
+  margin-bottom: 12px;
+  opacity: 0.75;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* ===== STATUS INDICATOR DOTS ===== */
+.railway-indicators {
+  position: absolute;
+  top: 22px;
+  right: 28px;
+  display: flex;
+  gap: 6px;
+  z-index: 12;
+}
+
+.railway-indicator {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #333;
+  border: 1px solid #555;
+}
+
+.railway-indicator.active {
+  background: #00cc44;
+  box-shadow: 0 0 6px #00cc44, 0 0 12px rgba(0, 204, 68, 0.4);
+  animation: railway-indicator-pulse 2s ease-in-out infinite;
+}
+
+@keyframes railway-indicator-pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.5; }
+}
+
+/* ===== FLAPS ROW CONTAINER ===== */
+.railway-flaps-row {
+  position: relative;
+  z-index: 5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+}
+
+/* ===== INDIVIDUAL FLAP UNIT ===== */
+.railway-flap-unit {
+  position: relative;
+  flex-shrink: 0;
+  border-radius: 4px;
+  box-shadow:
+    0 2px 8px rgba(0, 0, 0, 0.4),
+    0 1px 3px rgba(0, 0, 0, 0.3);
+}
+
+/* ===== TOP HALF OF FLAP ===== */
+.railway-flap-top {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #2a2a2a, #1e1e1e);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* ===== BOTTOM HALF OF FLAP ===== */
+.railway-flap-bottom {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 50%;
+  overflow: hidden;
+  background: linear-gradient(to bottom, #1a1a1a, #141414);
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* ===== FLAP CHARACTER TEXT ===== */
+.railway-flap-char {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  user-select: none;
+  line-height: 1;
+  text-shadow: 0 1px 3px rgba(0, 0, 0, 0.6);
+}
+
+/* Bottom half text offset: push text up to show bottom portion */
+.railway-flap-char-bottom {
+  transform: translateY(-50%);
+}
+
+/* ===== SPLIT LINE / HINGE ===== */
+.railway-split-line {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: rgba(0, 0, 0, 0.8);
+  z-index: 5;
+  transform: translateY(-1px);
+  box-shadow:
+    0 1px 0 rgba(255, 255, 255, 0.04),
+    0 -1px 0 rgba(0, 0, 0, 0.4);
+}
+
+/* Small hinge pins on left and right edges */
+.railway-split-line::before,
+.railway-split-line::after {
+  content: '';
+  position: absolute;
+  top: -2px;
+  width: 4px;
+  height: 6px;
+  background: #444;
+  border-radius: 1px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.railway-split-line::before {
+  left: 0;
+}
+
+.railway-split-line::after {
+  right: 0;
+}
+
+/* ===== FLIP ANIMATION OVERLAYS ===== */
+.railway-flip-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.railway-flip-overlay.railway-flap-top {
+  top: 0;
+  height: 50%;
+}
+
+.railway-flip-overlay.railway-flap-bottom {
+  bottom: 0;
+  height: 50%;
+}
+
+/* ===== FLOW MODE ===== */
+.railway-flow-track {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+  will-change: transform;
+  z-index: 5;
+  position: relative;
+}
+
+.railway-flow-text {
+  white-space: nowrap;
+  padding: 0 0.5em;
+  user-select: none;
+  flex-shrink: 0;
+  line-height: 1;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+}

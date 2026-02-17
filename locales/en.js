@@ -30,6 +30,14 @@ I18n.register('en', {
   'preset.flow.retro.badge': 'Retro',
 
   // Preset descriptions - Sign mode
+  'preset.sign.vfd.desc': 'Vacuum fluorescent display with bright blue-green glow and glass tube reflections.',
+  'preset.sign.chalk.desc': 'Classroom chalkboard with rough chalk writing and falling dust particles.',
+  'preset.sign.stamp.desc': 'Official rubber stamp impression with ink bleed and aged paper texture.',
+  'preset.sign.cinema.desc': 'Classic theater marquee with felt background and plastic slot letters.',
+  'preset.sign.gothic.desc': 'Medieval manuscript with gold-leaf illumination and embossed wax seal.',
+  'preset.sign.sticker.desc': 'Vinyl sticker with dynamic holographic finish and peeling corner.',
+  'preset.sign.embroidery.desc': 'Traditional cross-stitch on linen fabric within a wooden hoop.',
+  'preset.sign.sand.desc': 'Writing carved in beach sand with animated waves and ocean foam.',
   'preset.sign.do-not-disturb.desc': 'Professional privacy sign with warm amber glow and indicator lights.',
   'preset.sign.street-sign.desc': 'Highway guide sign with exit tag, route subtitle, and reflective arrow.',
   'preset.sign.neon.desc': 'Classic storefront neon with warm pink glow and tube flicker.',
@@ -42,6 +50,8 @@ I18n.register('en', {
   'preset.sign.tokyo.desc': 'Cinematic rain-soaked neon sign with Japanese city atmosphere.',
 
   // Preset descriptions - Flow mode
+  'preset.flow.railway.desc': 'Mechanical split-flap departure board with realistic flip animations.',
+  'preset.flow.smoke.desc': 'Ethereal rising smoke vapor with swirly turbulence and god rays.',
   'preset.flow.gradient.desc': 'Fan LED board for concerts — hold up your phone and cheer.',
   'preset.flow.neon.desc': 'Happy hour promo scrolling across a warm neon bar sign.',
   'preset.flow.firework.desc': 'Celebration announcement with fireworks and golden text.',
@@ -110,6 +120,52 @@ I18n.register('en', {
   'settings.param.bezel': 'Bezel',
   'settings.param.weight': 'Weight',
   'settings.param.wrap': 'Wrap',
+  // Chalk params
+  'settings.param.dust': 'Dust',
+  'settings.param.board': 'Board',
+  // Embroidery params
+  'settings.param.stitch': 'Stitch Size',
+  'settings.param.fabric': 'Fabric',
+  'settings.param.hoop': 'Hoop',
+  // Stamp params
+  'settings.param.ink': 'Ink',
+  'settings.param.paper': 'Paper',
+  'settings.param.aged': 'Aging',
+  // Cinema params
+  'settings.param.rows': 'Rows',
+  'settings.param.felt': 'Felt',
+  // Railway params
+  'settings.param.housing': 'Housing',
+  // Sticker params
+  'settings.param.finish': 'Finish',
+  'settings.param.peel': 'Peel',
+  'settings.param.outline': 'Outline',
+  // Gothic params
+  'settings.param.ornate': 'Ornate',
+  'settings.param.illuminated': 'Illuminated',
+  'settings.param.seal': 'Wax Seal',
+  // VFD params
+  'settings.param.mesh': 'Grid Mesh',
+  // Smoke params
+  'settings.param.turbulence': 'Turbulence',
+  'settings.param.shafts': 'God Rays',
+  // Sand params
+  'settings.param.showWaves': 'Waves',
+  'settings.param.wetness': 'Wetness',
+  'settings.param.foam': 'Foam',
+  'settings.param.detail': 'Detail',
+  // Railway params
+  'settings.param.vibration': 'Vibration',
+  'settings.param.wear': 'Wear',
+  // Sticker params
+  'settings.param.glitter': 'Glitter',
+  // Embroidery params
+  'settings.param.tension': 'Tension',
+  // Gothic params
+  'settings.param.candle': 'Candlelight',
+  // Chalk params
+  'settings.param.roughness': 'Roughness',
+  'settings.param.smudge': 'Smudge',
 
   // Settings - mode options
   'settings.mode.none': 'Auto',
@@ -140,6 +196,30 @@ I18n.register('en', {
   'settings.grain.light': 'Light',
   'settings.grain.natural': 'Natural',
 
+  // Settings - board options
+  'settings.board.green': 'Green',
+  'settings.board.black': 'Black',
+
+  // Settings - paper options
+  'settings.paper.white': 'White',
+  'settings.paper.cream': 'Cream',
+  'settings.paper.kraft': 'Kraft',
+
+  // Settings - felt options
+  'settings.felt.black': 'Black',
+  'settings.felt.red': 'Red',
+  'settings.felt.blue': 'Blue',
+
+  // Settings - housing options
+  'settings.housing.silver': 'Silver',
+  'settings.housing.black': 'Black',
+  'settings.housing.brass': 'Brass',
+
+  // Settings - finish options
+  'settings.finish.glossy': 'Glossy',
+  'settings.finish.matte': 'Matte',
+  'settings.finish.holographic': 'Holographic',
+
   // Settings - theme names
   'settings.theme.default': 'Default',
   'settings.theme.neon': 'Neon',
@@ -161,6 +241,16 @@ I18n.register('en', {
   'settings.theme.street-sign': 'Street Sign',
   'settings.theme.do-not-disturb': 'Do Not Disturb',
   'settings.theme.dot-matrix': 'Dot Matrix',
+  'settings.theme.vfd': 'VFD',
+  'settings.theme.chalk': 'Chalk',
+  'settings.theme.stamp': 'Stamp',
+  'settings.theme.cinema': 'Cinema',
+  'settings.theme.gothic': 'Gothic',
+  'settings.theme.railway': 'Railway',
+  'settings.theme.sticker': 'Sticker',
+  'settings.theme.embroidery': 'Embroidery',
+  'settings.theme.smoke': 'Smoke',
+  'settings.theme.sand': 'Sand',
 
   // Settings - font presets
   'settings.font.default': 'Theme Default',
