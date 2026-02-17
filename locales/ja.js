@@ -4,12 +4,12 @@
 I18n.register('ja', {
   // Meta
   'meta.title': 'led.run — ディスプレイツールキット',
-  'meta.description': 'あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザー、クロックディスプレイに。60以上の表示モード。アプリ不要、アカウント不要 — URLだけ。',
+  'meta.description': 'あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザー、クロックディスプレイ、QRコード、カメラフィルターに。80以上の表示モード。アプリ不要、アカウント不要 — URLだけ。',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': 'ディスプレイツールキット、<br>無限大。',
-  'landing.hero.subtitle': 'テキストサイン、ライトエフェクト、サウンドビジュアライザー、クロックディスプレイ — 数秒であらゆる画面をディスプレイに。アプリ不要、アカウント不要、URLだけ。',
+  'landing.hero.subtitle': 'テキストサイン、ライトエフェクト、サウンドビジュアライザー、クロックディスプレイ、QRコード、カメラフィルター — 数秒であらゆる画面をディスプレイに。アプリ不要、アカウント不要、URLだけ。',
   'landing.input.go': '\u958b\u59cb',
   'landing.input.random': '\u30e9\u30f3\u30c0\u30e0\u30b9\u30bf\u30a4\u30eb',
   'landing.mode.simple': '\u30b7\u30f3\u30d7\u30eb\u69cb\u7bc9',

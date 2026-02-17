@@ -4,12 +4,12 @@
 I18n.register('en', {
   // Meta
   'meta.title': 'led.run — Display Toolkit',
-  'meta.description': 'Turn any screen into a text sign, light effect, sound visualizer, or clock display. 60+ display modes. No apps, no accounts — just a URL.',
+  'meta.description': 'Turn any screen into a text sign, light effect, sound visualizer, clock display, QR code, or camera filter. 80+ display modes. No apps, no accounts — just a URL.',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': 'Display Toolkit,<br>Unlimited.',
-  'landing.hero.subtitle': 'Text signs, light effects, sound visualizers, and clock displays — turn any screen into a display in seconds. No apps, no accounts, just a URL.',
+  'landing.hero.subtitle': 'Text signs, light effects, sound visualizers, clock displays, QR codes, and camera filters — turn any screen into a display in seconds. No apps, no accounts, just a URL.',
   'landing.input.go': 'Go',
   'landing.input.random': 'Random style',
 

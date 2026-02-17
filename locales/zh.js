@@ -4,12 +4,12 @@
 I18n.register('zh', {
   // Meta
   'meta.title': 'led.run — 显示工具集',
-  'meta.description': '将任何屏幕变为文字标牌、灯光效果、声音可视化器或时钟显示。60+ 显示模式。无需应用，无需账号 — 只需一个 URL。',
+  'meta.description': '将任何屏幕变为文字标牌、灯光效果、声音可视化器、时钟显示、二维码或摄像头滤镜。80+ 显示模式。无需应用，无需账号 — 只需一个 URL。',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': '显示工具集，<br>无限可能。',
-  'landing.hero.subtitle': '文字标牌、灯光效果、声音可视化、时钟显示 — 几秒内将任何屏幕变为显示器。无需应用，无需账号，只需一个 URL。',
+  'landing.hero.subtitle': '文字标牌、灯光效果、声音可视化、时钟显示、二维码、摄像头滤镜 — 几秒内将任何屏幕变为显示器。无需应用，无需账号，只需一个 URL。',
   'landing.input.go': '\u542f\u52a8',
   'landing.input.random': '\u968f\u673a\u98ce\u683c',
 

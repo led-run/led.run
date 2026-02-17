@@ -4,12 +4,12 @@
 I18n.register('es', {
   // Meta
   'meta.title': 'led.run — Kit de Visualización',
-  'meta.description': 'Convierte cualquier pantalla en un letrero de texto, efecto de luz, visualizador de sonido o pantalla de reloj. 60+ modos de visualización. Sin apps, sin cuentas — solo una URL.',
+  'meta.description': 'Convierte cualquier pantalla en un letrero de texto, efecto de luz, visualizador de sonido, pantalla de reloj, código QR o filtro de cámara. 80+ modos de visualización. Sin apps, sin cuentas — solo una URL.',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': 'Kit de Visualización,<br>Sin Límites.',
-  'landing.hero.subtitle': 'Letreros de texto, efectos de luz, visualizadores de sonido y pantallas de reloj — transforma cualquier pantalla en un display en segundos. Sin apps, sin cuentas, solo una URL.',
+  'landing.hero.subtitle': 'Letreros de texto, efectos de luz, visualizadores de sonido, pantallas de reloj, códigos QR y filtros de cámara — transforma cualquier pantalla en un display en segundos. Sin apps, sin cuentas, solo una URL.',
   'landing.input.go': 'Ir',
   'landing.input.random': 'Estilo aleatorio',
   'landing.mode.simple': 'Modo Simple',

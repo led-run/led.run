@@ -4,12 +4,12 @@
 I18n.register('ko', {
   // Meta
   'meta.title': 'led.run — 디스플레이 툴킷',
-  'meta.description': '모든 화면을 텍스트 사인, 라이트 효과, 사운드 비주얼라이저, 시계 디스플레이로. 60개 이상의 디스플레이 모드. 앱 필요 없음, 계정 필요 없음 — URL만 있으면 됩니다.',
+  'meta.description': '모든 화면을 텍스트 사인, 라이트 효과, 사운드 비주얼라이저, 시계 디스플레이, QR 코드, 카메라 필터로. 80개 이상의 디스플레이 모드. 앱 필요 없음, 계정 필요 없음 — URL만 있으면 됩니다.',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': '디스플레이 툴킷,<br>무한한 가능성.',
-  'landing.hero.subtitle': '텍스트 사인, 라이트 효과, 사운드 비주얼라이저, 시계 디스플레이 — 몇 초 만에 모든 화면을 디스플레이로. 앱 필요 없음, 계정 필요 없음, URL만 있으면 됩니다.',
+  'landing.hero.subtitle': '텍스트 사인, 라이트 효과, 사운드 비주얼라이저, 시계 디스플레이, QR 코드, 카메라 필터 — 몇 초 만에 모든 화면을 디스플레이로. 앱 필요 없음, 계정 필요 없음, URL만 있으면 됩니다.',
   'landing.input.go': '\uc2dc\uc791',
   'landing.input.random': '\ub79c\ub364 \uc2a4\ud0c0\uc77c',
   'landing.mode.simple': '\uac04\ub2e8 \uad6c\uc131',

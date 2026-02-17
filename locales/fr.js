@@ -4,12 +4,12 @@
 I18n.register('fr', {
   // Meta
   'meta.title': 'led.run — Boîte à Outils d\'Affichage',
-  'meta.description': 'Transformez n\'importe quel écran en panneau texte, effet lumineux, visualiseur sonore ou affichage horloge. 60+ modes d\'affichage. Sans app, sans compte — juste une URL.',
+  'meta.description': 'Transformez n\'importe quel écran en panneau texte, effet lumineux, visualiseur sonore, affichage horloge, code QR ou filtre caméra. 80+ modes d\'affichage. Sans app, sans compte — juste une URL.',
 
   // Landing - Hero
   'landing.hero.brand': 'led.run v2.0',
   'landing.hero.title': 'Boîte à Outils<br>d\'Affichage.',
-  'landing.hero.subtitle': 'Panneaux texte, effets lumineux, visualiseurs sonores et affichages horloge — transformez n\'importe quel écran en affichage en quelques secondes. Sans app, sans compte, juste une URL.',
+  'landing.hero.subtitle': 'Panneaux texte, effets lumineux, visualiseurs sonores, affichages horloge, codes QR et filtres caméra — transformez n\'importe quel écran en affichage en quelques secondes. Sans app, sans compte, juste une URL.',
   'landing.input.go': 'Go',
   'landing.input.random': 'Style al\u00e9atoire',
   'landing.mode.simple': 'Mode Simple',
