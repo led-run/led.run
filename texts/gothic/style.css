@@ -88,8 +88,3 @@
   z-index: 10;
   pointer-events: none;
 }
-
-#app[data-theme="gothic"] .toolbar {
-  --toolbar-bg: rgba(60, 40, 20, 0.8);
-  --toolbar-btn-color: rgba(212, 175, 55, 0.9);
-}

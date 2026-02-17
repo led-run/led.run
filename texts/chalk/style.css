@@ -17,8 +17,3 @@
   height: 100%;
   z-index: 1;
 }
-
-#app[data-theme="chalk"] .toolbar {
-  --toolbar-bg: rgba(30, 40, 30, 0.8);
-  --toolbar-btn-color: rgba(255, 255, 255, 0.9);
-}

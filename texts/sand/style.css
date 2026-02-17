@@ -18,8 +18,3 @@
   height: 100%;
   z-index: 1;
 }
-
-#app[data-theme="sand"] .toolbar {
-  --toolbar-bg: rgba(120, 90, 60, 0.8);
-  --toolbar-btn-color: rgba(255, 240, 200, 0.9);
-}

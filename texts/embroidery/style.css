@@ -15,8 +15,3 @@
   width: 100%; height: 100%;
   z-index: 1;
 }
-
-#app[data-theme="embroidery"] .toolbar {
-  --toolbar-bg: rgba(100, 80, 60, 0.8);
-  --toolbar-btn-color: rgba(204, 51, 68, 0.9);
-}

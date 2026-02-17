@@ -67,8 +67,3 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
-#app[data-theme="stamp"] .toolbar {
-  --toolbar-bg: rgba(100, 80, 50, 0.8);
-  --toolbar-btn-color: rgba(204, 34, 51, 0.9);
-}

@@ -92,8 +92,3 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
-#app[data-theme="railway"] .toolbar {
-  --toolbar-bg: rgba(40, 40, 45, 0.8);
-  --toolbar-btn-color: rgba(255, 204, 0, 0.9);
-}

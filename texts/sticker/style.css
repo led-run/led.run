@@ -79,8 +79,3 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
-#app[data-theme="sticker"] .toolbar {
-  --toolbar-bg: rgba(50, 50, 50, 0.8);
-  --toolbar-btn-color: rgba(255, 255, 255, 0.9);
-}

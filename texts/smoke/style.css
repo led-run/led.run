@@ -18,8 +18,3 @@
   height: 100%;
   z-index: 1;
 }
-
-#app[data-theme="smoke"] .toolbar {
-  --toolbar-bg: rgba(20, 25, 30, 0.8);
-  --toolbar-btn-color: rgba(150, 200, 255, 0.9);
-}

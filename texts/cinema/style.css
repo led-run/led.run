@@ -84,8 +84,3 @@
   from { transform: translateX(0); }
   to { transform: translateX(-50%); }
 }
-
-#app[data-theme="cinema"] .toolbar {
-  --toolbar-bg: rgba(20, 15, 10, 0.8);
-  --toolbar-btn-color: rgba(255, 220, 150, 0.9);
-}
