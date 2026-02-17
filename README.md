@@ -1,10 +1,10 @@
 # led.run — Display Toolkit
 
-Turn any screen into a text sign, light effect, sound visualizer, or clock display. 64+ display modes. No apps, no accounts — just a URL.
+Turn any screen into a text sign, light effect, sound visualizer, clock display, QR code, or camera filter. 80+ display modes. No apps, no accounts — just a URL.
 
 ## Products
 
-### Text — 20 Themes
+### Text — 30 Themes
 
 LED-style text signs with auto-fit sizing, sign and flow modes.
 
@@ -48,6 +48,28 @@ led.run/time?t=nixie&format=12h         Nixie tubes, 12h
 led.run/time?t=flip                     Flip clock
 ```
 
+### QR — 4 Themes
+
+Full-screen QR code display with visual themes.
+
+```
+led.run/qr/https://example.com          Standard QR code
+led.run/qr/HELLO?t=neon                 Neon glow QR
+led.run/qr/WIFI:S:MyNet;T:WPA;P:pass;;?t=dot   Dot-style QR
+led.run/qr/hello?t=pixel&ec=H           Pixel art, high ECC
+```
+
+### Camera — 4 Effects
+
+Real-time camera feed with visual effect filters.
+
+```
+led.run/camera?t=default                Mirror view
+led.run/camera?t=ascii                  ASCII art
+led.run/camera?t=pixel&blockSize=12     Pixelated mosaic
+led.run/camera?t=surveillance           Security camera style
+```
+
 ## URL Protocol
 
 ```
@@ -56,20 +78,22 @@ Text:   led.run/HELLO?t=neon              Path = text content
 Light:  led.run/light?t=disco             Product prefix + params
 Sound:  led.run/sound?t=bars              Product prefix + params
 Time:   led.run/time?t=digital            Product prefix + params
+QR:     led.run/qr/CONTENT?t=neon         Path = QR content (URL-encoded)
+Camera: led.run/camera?t=ascii            Product prefix + params
 ```
 
 All parameters are optional "preference hints" — themes decide whether to consume them.
 
 ## Controls
 
-| Key | Text | Light | Sound | Time |
-|-----|------|-------|-------|------|
-| Space | Pause/resume | — | — | — |
-| F / Double-click | Fullscreen | Fullscreen | Fullscreen | Fullscreen |
-| S | Settings | Settings | Settings | Settings |
-| ← → | — | Prev/next effect | Prev/next visualizer | Prev/next clock |
-| ↑ ↓ | — | Brightness ±5 | Sensitivity ±1 | — |
-| Esc | Exit fullscreen | Exit fullscreen | Exit fullscreen | Exit fullscreen |
+| Key | Text | Light | Sound | Time | QR | Camera |
+|-----|------|-------|-------|------|-----|--------|
+| Space | Pause/resume | — | — | — | — | — |
+| F / Double-click | Fullscreen | Fullscreen | Fullscreen | Fullscreen | Fullscreen | Fullscreen |
+| S | Settings | Settings | Settings | Settings | Settings | Settings |
+| ← → | — | Prev/next effect | Prev/next visualizer | Prev/next clock | Prev/next theme | Prev/next effect |
+| ↑ ↓ | — | Brightness ±5 | Sensitivity ±1 | — | — | — |
+| Esc | Exit fullscreen | Exit fullscreen | Exit fullscreen | Exit fullscreen | Exit fullscreen | Exit fullscreen |
 
 ## Documentation
 

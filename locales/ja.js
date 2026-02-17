@@ -172,6 +172,18 @@ I18n.register('ja', {
   'settings.finish.matte': 'マット',
   'settings.finish.holographic': 'ホログラム',
 
+  // New param labels (QR/Camera enhancements)
+  'settings.param.contrast': 'コントラスト',
+  'settings.param.saturate': '彩度',
+  'settings.param.rounded': '角丸',
+  'settings.param.shadow': 'シャドウ',
+  'settings.param.invert': '反転',
+  'settings.param.noise': 'ノイズ',
+
+  // Shape options (QR dot theme)
+  'settings.shape.diamond': 'ダイヤ',
+  'settings.shape.star': '星',
+
   // Settings - theme names
   'settings.theme.default': '\u30c7\u30d5\u30a9\u30eb\u30c8',
   'settings.theme.neon': '\u30cd\u30aa\u30f3',
@@ -526,5 +538,59 @@ I18n.register('ja', {
   // Landing - Time builder card titles
   'landing.builder.card.clock': '時計',
   'landing.builder.card.timeSettings': '時間設定',
-  'landing.builder.card.layout': 'レイアウト'
+  'landing.builder.card.layout': 'レイアウト',
+
+  // QR product
+  'landing.tab.qr': 'QR',
+  'landing.tab.camera': 'カメラ',
+  'qr.title': 'QRコード',
+  'camera.title': 'カメラ',
+  'settings.qrTheme.default': 'スタンダード',
+  'settings.qrTheme.neon': 'ネオン',
+  'settings.qrTheme.dot': 'ドット',
+  'settings.qrTheme.pixel': 'ピクセル',
+  'settings.qrThemeLabel': 'スタイル',
+  'settings.section.qrThemeParams': 'スタイル設定',
+  'settings.param.ec': '誤り訂正',
+  'settings.param.size': 'モジュールサイズ',
+  'settings.param.margin': '余白',
+  'settings.ec.L': '低 (7%)',
+  'settings.ec.M': '中 (15%)',
+  'settings.ec.Q': '高 (25%)',
+  'settings.ec.H': '最高 (30%)',
+  'landing.qr.preset.default': '標準の白黒QRコード。',
+  'landing.qr.preset.neon': 'ネオン発光のQRコード。',
+  'landing.qr.preset.dot': '丸ドットモジュールQRコード。',
+  'landing.qr.preset.pixel': 'レトロピクセルアートQRコード。',
+  'landing.builder.card.qrContent': 'コンテンツ',
+  'landing.builder.card.qrStyle': 'スタイル',
+  'landing.qr.placeholder': 'HELLO',
+
+  // Camera product
+  'settings.cameraEffect.default': 'ミラー',
+  'settings.cameraEffect.ascii': 'ASCII',
+  'settings.cameraEffect.pixel': 'ピクセル',
+  'settings.cameraEffect.surveillance': '監視カメラ',
+  'settings.cameraEffectLabel': 'エフェクト',
+  'settings.section.cameraEffectParams': 'エフェクト設定',
+  'settings.param.facing': 'カメラ',
+  'settings.param.mirror': 'ミラー',
+  'settings.param.fps': 'フレームレート',
+  'settings.param.blockSize': 'ブロックサイズ',
+  'settings.param.overlay': 'オーバーレイ',
+  'settings.facing.user': '前面',
+  'settings.facing.environment': '背面',
+  'landing.camera.preset.default': 'カメラのミラービュー。',
+  'landing.camera.preset.ascii': 'リアルタイムASCIIアート。',
+  'landing.camera.preset.pixel': 'ピクセルモザイクエフェクト。',
+  'landing.camera.preset.surveillance': '監視カメラ風オーバーレイ。',
+  'landing.builder.card.cameraEffect': 'エフェクト',
+  'landing.camera.placeholder': 'クリックしてカメラを有効化',
+  'camera.error.notSupported.title': 'カメラ非対応',
+  'camera.error.notSupported.desc': 'お使いのブラウザはカメラに対応していません。ChromeまたはFirefoxをお試しください。',
+  'camera.error.denied.title': 'カメラアクセス拒否',
+  'camera.error.denied.desc': 'カメラエフェクトを使用するにはカメラへのアクセスを許可してください。',
+  'camera.error.generic.title': 'カメラエラー',
+  'camera.error.generic.desc': 'カメラにアクセスできません。デバイスの設定を確認してください。',
+  'toolbar.camera': 'カメラ切替'
 });

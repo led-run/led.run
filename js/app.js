@@ -95,6 +95,22 @@
     { id: 'spectrum-circle', icon: '\u2B55', descKey: 'landing.sound.preset.spectrum-circle', params: '?t=spectrum-circle' }
   ];
 
+  // QR theme presets — for landing page
+  var QR_PRESETS = [
+    { id: 'default', icon: '\uD83D\uDD33', descKey: 'landing.qr.preset.default', params: '?t=default' },
+    { id: 'neon', icon: '\uD83D\uDCA1', descKey: 'landing.qr.preset.neon', params: '?t=neon' },
+    { id: 'dot', icon: '\u26AB', descKey: 'landing.qr.preset.dot', params: '?t=dot' },
+    { id: 'pixel', icon: '\uD83C\uDFAE', descKey: 'landing.qr.preset.pixel', params: '?t=pixel' }
+  ];
+
+  // Camera effect presets — for landing page
+  var CAMERA_PRESETS = [
+    { id: 'default', icon: '\uD83D\uDCF7', descKey: 'landing.camera.preset.default', params: '?t=default' },
+    { id: 'ascii', icon: '\uD83D\uDDA5\uFE0F', descKey: 'landing.camera.preset.ascii', params: '?t=ascii' },
+    { id: 'pixel', icon: '\uD83D\uDD32', descKey: 'landing.camera.preset.pixel', params: '?t=pixel' },
+    { id: 'surveillance', icon: '\uD83D\uDCF9', descKey: 'landing.camera.preset.surveillance', params: '?t=surveillance' }
+  ];
+
   var App = {
     _container: null,
     _product: 'text',
@@ -130,7 +146,9 @@
       var isLanding = (this._product === 'text' && !text) ||
                       (this._product === 'light' && !productConfig.theme) ||
                       (this._product === 'sound' && !productConfig.theme) ||
-                      (this._product === 'time' && !productConfig.theme);
+                      (this._product === 'time' && !productConfig.theme) ||
+                      (this._product === 'qr' && !text) ||
+                      (this._product === 'camera' && !productConfig.theme);
       if (isLanding) {
         this._showLanding(this._product);
         return;
@@ -146,6 +164,12 @@
           break;
         case 'time':
           this._initTime(productConfig, appConfig);
+          break;
+        case 'qr':
+          this._initQR(text, productConfig, appConfig);
+          break;
+        case 'camera':
+          this._initCamera(productConfig, appConfig);
           break;
         default:
           this._initText(text, productConfig, appConfig);
@@ -377,6 +401,183 @@
     },
 
     /**
+     * Initialize QR product
+     * @private
+     */
+    _initQR: function(content, productConfig, appConfig) {
+      var themeId = productConfig.theme || 'default';
+      delete productConfig.theme;
+
+      document.title = I18n.t('qr.title') + ' \u2014 led.run';
+
+      QRManager.switch(themeId, this._container, content, productConfig);
+      document.getElementById('app').dataset.theme = themeId;
+
+      this._initCommonUI(appConfig);
+
+      Controls.init({
+        onFullscreen: function() {
+          Fullscreen.toggle();
+        },
+        onNext: function() {
+          var ids = QRManager.getThemeIds();
+          var idx = ids.indexOf(QRManager.getCurrentId());
+          var nextId = ids[(idx + 1) % ids.length];
+          QRManager.switch(nextId, App._container, content, productConfig);
+          document.getElementById('app').dataset.theme = nextId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
+        },
+        onPrev: function() {
+          var ids = QRManager.getThemeIds();
+          var idx = ids.indexOf(QRManager.getCurrentId());
+          var prevId = ids[(idx - 1 + ids.length) % ids.length];
+          QRManager.switch(prevId, App._container, content, productConfig);
+          document.getElementById('app').dataset.theme = prevId;
+          if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+        }
+      });
+      Toolbar.init({ container: this._container, product: 'qr' });
+
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          product: 'qr',
+          text: content,
+          themeId: themeId,
+          themeConfig: productConfig
+        });
+      }
+
+      this._initCast();
+    },
+
+    /**
+     * Initialize Camera product
+     * @private
+     */
+    _initCamera: function(productConfig, appConfig) {
+      var effectId = productConfig.theme || 'default';
+      delete productConfig.theme;
+      var self = this;
+
+      document.title = I18n.t('camera.title') + ' \u2014 led.run';
+
+      this._initCommonUI(appConfig);
+
+      // Check camera support first
+      if (!CameraEngine.isSupported()) {
+        this._showCameraError('notSupported');
+        return;
+      }
+
+      // Determine facing mode from config
+      var facing = productConfig.facing || 'user';
+
+      // Request camera access
+      CameraEngine.init({
+        facing: facing
+      }).then(function() {
+        // Auto-set mirror for front camera if not explicitly set
+        if (productConfig.mirror === undefined) {
+          productConfig.mirror = (facing !== 'environment');
+        }
+
+        CameraManager.switch(effectId, self._container, productConfig, CameraEngine);
+        document.getElementById('app').dataset.theme = effectId;
+
+        Controls.init({
+          onFullscreen: function() {
+            Fullscreen.toggle();
+          },
+          onNext: function() {
+            var ids = CameraManager.getEffectIds();
+            var idx = ids.indexOf(CameraManager.getCurrentId());
+            var nextId = ids[(idx + 1) % ids.length];
+            CameraManager.switch(nextId, self._container, productConfig, CameraEngine);
+            document.getElementById('app').dataset.theme = nextId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(nextId);
+          },
+          onPrev: function() {
+            var ids = CameraManager.getEffectIds();
+            var idx = ids.indexOf(CameraManager.getCurrentId());
+            var prevId = ids[(idx - 1 + ids.length) % ids.length];
+            CameraManager.switch(prevId, self._container, productConfig, CameraEngine);
+            document.getElementById('app').dataset.theme = prevId;
+            if (typeof Settings !== 'undefined') Settings.syncThemeId(prevId);
+          }
+        });
+        Toolbar.init({ container: self._container, product: 'camera' });
+
+        if (typeof Settings !== 'undefined') {
+          Settings.init({
+            container: self._container,
+            product: 'camera',
+            themeId: effectId,
+            themeConfig: productConfig,
+            cameraEngine: CameraEngine
+          });
+        }
+
+        self._initCast();
+      }).catch(function(err) {
+        console.error('Camera access failed:', err);
+        self._showCameraError(err.name === 'NotAllowedError' ? 'denied' : 'error');
+      });
+    },
+
+    /**
+     * Show camera error message
+     * @private
+     * @param {string} reason - 'notSupported' | 'denied' | 'error'
+     */
+    _showCameraError: function(reason) {
+      var container = this._container;
+      container.innerHTML = '';
+      container.className = '';
+      container.style.display = 'flex';
+      container.style.alignItems = 'center';
+      container.style.justifyContent = 'center';
+
+      var msg = document.createElement('div');
+      msg.style.textAlign = 'center';
+      msg.style.padding = '40px';
+      msg.style.color = '#fff';
+      msg.style.fontFamily = '-apple-system, sans-serif';
+
+      var icon = document.createElement('div');
+      icon.style.fontSize = '48px';
+      icon.style.marginBottom = '16px';
+
+      var title = document.createElement('div');
+      title.style.fontSize = '20px';
+      title.style.fontWeight = '600';
+      title.style.marginBottom = '8px';
+
+      var desc = document.createElement('div');
+      desc.style.fontSize = '14px';
+      desc.style.opacity = '0.7';
+
+      if (reason === 'notSupported') {
+        icon.textContent = '\uD83D\uDCF7';
+        title.textContent = I18n.t('camera.error.notSupported.title');
+        desc.textContent = I18n.t('camera.error.notSupported.desc');
+      } else if (reason === 'denied') {
+        icon.textContent = '\uD83D\uDEAB';
+        title.textContent = I18n.t('camera.error.denied.title');
+        desc.textContent = I18n.t('camera.error.denied.desc');
+      } else {
+        icon.textContent = '\u26A0\uFE0F';
+        title.textContent = I18n.t('camera.error.generic.title');
+        desc.textContent = I18n.t('camera.error.generic.desc');
+      }
+
+      msg.appendChild(icon);
+      msg.appendChild(title);
+      msg.appendChild(desc);
+      container.appendChild(msg);
+    },
+
+    /**
      * Initialize common UI modules (WakeLock, Cursor, Cast receiver)
      * @private
      */
@@ -484,7 +685,7 @@
       // Unified Navigation
       html += '<nav class="landing-nav">';
       html += '<div class="product-switcher">';
-      ['text', 'light', 'sound', 'time'].forEach(function(p) {
+      ['text', 'light', 'sound', 'time', 'qr', 'camera'].forEach(function(p) {
         html += '<button class="product-tab' + (p === activeProduct ? ' active' : '') + '" data-product="' + p + '">' + I18n.t('landing.tab.' + p) + '</button>';
       });
       html += '</div>';
@@ -820,6 +1021,157 @@
       html += '</div>'; // time builder mode-panel
       html += '</div>'; // product-time
 
+      // ====== QR PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'qr' ? ' active' : '') + '" id="product-qr">';
+
+      // QR Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="simple-mode-container">';
+      html += '<div class="input-group">';
+      html += '<div class="input-prefix">led.run/qr/</div>';
+      html += '<input class="url-input" id="qr-simple-input" type="text" placeholder="HELLO" autocomplete="off" spellcheck="false">';
+      html += '<div class="input-actions">';
+      html += '<button class="btn-launch" id="qr-simple-go">' + I18n.t('landing.input.go') + '</button>';
+      html += '</div></div></div>';
+      html += '<div class="presets-grid" style="margin-top:2rem">';
+      QR_PRESETS.forEach(function(p) {
+        var href = '/qr/HELLO' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.qrTheme.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // QR Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="qr-builder-url">led.run/qr/HELLO</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="qr-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="qr-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="qr-builder-preview"></div></div></div>';
+      html += '<div class="builder-grid">';
+
+      // QR Content
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.qrContent') + '</div>';
+      html += '<div class="prop-group"><input type="text" class="builder-text-input" id="qr-builder-content" placeholder="HELLO" autocomplete="off"></div></div>';
+
+      // QR Style
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.qrStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.qrThemeLabel') + '</span>';
+      html += '<select class="builder-select" id="qr-builder-theme">';
+      if (typeof QRManager !== 'undefined') {
+        QRManager.getThemeIds().forEach(function(id) {
+          html += '<option value="' + id + '">' + I18n.t('settings.qrTheme.' + id) + '</option>';
+        });
+      }
+      html += '</select></div></div></div>';
+
+      // QR Visual
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="qr-builder-color" value="#000000">';
+      html += '<span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color-input" id="qr-builder-bg" value="#ffffff"></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.ec') + '</span>';
+      html += '<select class="builder-select" id="qr-builder-ec">';
+      html += '<option value="L">' + I18n.t('settings.ec.L') + '</option>';
+      html += '<option value="M" selected>' + I18n.t('settings.ec.M') + '</option>';
+      html += '<option value="Q">' + I18n.t('settings.ec.Q') + '</option>';
+      html += '<option value="H">' + I18n.t('settings.ec.H') + '</option>';
+      html += '</select></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.margin') + '</span><span class="val" id="qr-builder-margin-val">4</span></div>';
+      html += '<input type="range" class="builder-range" id="qr-builder-margin" min="0" max="10" step="1" value="4"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.scale') + '</span><span class="val" id="qr-builder-scale-val">1</span></div>';
+      html += '<input type="range" class="builder-range" id="qr-builder-scale" min="0.1" max="3" step="0.1" value="1"></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.position') + '</span>';
+      html += '<select class="builder-select" id="qr-builder-position">';
+      ['center', 'top', 'bottom', 'top-left', 'top-right', 'bottom-left', 'bottom-right'].forEach(function(pos) {
+        html += '<option value="' + pos + '"' + (pos === 'center' ? ' selected' : '') + '>' + I18n.t('settings.position.' + pos) + '</option>';
+      });
+      html += '</select></div>';
+      html += '</div></div>';
+
+      // QR Advanced (Dynamic)
+      html += '<div class="prop-card" id="qr-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="qr-builder-theme-params"></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // builder-layout
+      html += '</div>'; // qr builder mode-panel
+      html += '</div>'; // product-qr
+
+      // ====== CAMERA PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'camera' ? ' active' : '') + '" id="product-camera">';
+
+      // Camera Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="presets-grid">';
+      CAMERA_PRESETS.forEach(function(p) {
+        var href = '/camera' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.cameraEffect.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // Camera Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="camera-builder-url">led.run/camera?t=default</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="camera-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="camera-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="camera-builder-preview"></div></div></div>';
+      html += '<div class="builder-grid">';
+
+      // Camera Effect selection
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.cameraEffect') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.cameraEffectLabel') + '</span>';
+      html += '<select class="builder-select" id="camera-builder-effect">';
+      if (typeof CameraManager !== 'undefined') {
+        CameraManager.getEffectIds().forEach(function(id) {
+          html += '<option value="' + id + '">' + I18n.t('settings.cameraEffect.' + id) + '</option>';
+        });
+      }
+      html += '</select></div></div></div>';
+
+      // Camera settings
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.facing') + '</span>';
+      html += '<select class="builder-select" id="camera-builder-facing">';
+      html += '<option value="user">' + I18n.t('settings.facing.user') + '</option>';
+      html += '<option value="environment">' + I18n.t('settings.facing.environment') + '</option>';
+      html += '</select></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.mirror') + '</span>';
+      html += '<label class="builder-toggle"><input type="checkbox" id="camera-builder-mirror" checked><span class="builder-toggle-track"></span></label></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.brightness') + '</span><span class="val" id="camera-builder-brightness-val">100</span></div>';
+      html += '<input type="range" class="builder-range" id="camera-builder-brightness" min="10" max="200" step="10" value="100"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.contrast') + '</span><span class="val" id="camera-builder-contrast-val">100</span></div>';
+      html += '<input type="range" class="builder-range" id="camera-builder-contrast" min="10" max="200" step="10" value="100"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.saturate') + '</span><span class="val" id="camera-builder-saturate-val">100</span></div>';
+      html += '<input type="range" class="builder-range" id="camera-builder-saturate" min="0" max="200" step="10" value="100"></div>';
+      html += '</div></div>';
+
+      // Camera Advanced (Dynamic)
+      html += '<div class="prop-card" id="camera-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="camera-builder-effect-params"></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // builder-layout
+      html += '</div>'; // camera builder mode-panel
+      html += '</div>'; // product-camera
+
       html += '</div>'; // landing-content
 
       // Text preset sections (only for text product)
@@ -897,6 +1249,8 @@
               else if (product === 'light') updateLightPreview();
               else if (product === 'sound') updateSoundPreview();
               else if (product === 'time') updateTimePreview();
+              else if (product === 'qr') updateQRPreview();
+              else if (product === 'camera') updateCameraPreview();
             }, 50);
           }
         });
@@ -922,6 +1276,8 @@
               else if (activeP === 'light') updateLightPreview();
               else if (activeP === 'sound') updateSoundPreview();
               else if (activeP === 'time') updateTimePreview();
+              else if (activeP === 'qr') updateQRPreview();
+              else if (activeP === 'camera') updateCameraPreview();
             }, 50);
           }
         });
@@ -1764,6 +2120,699 @@
         }.bind(this));
       });
 
+      // ====== QR PANEL LOGIC ======
+      var qrSimpleInput = document.getElementById('qr-simple-input');
+      var qrContent = document.getElementById('qr-builder-content');
+      var qrTheme = document.getElementById('qr-builder-theme');
+      var qrColor = document.getElementById('qr-builder-color');
+      var qrBg = document.getElementById('qr-builder-bg');
+      var qrEc = document.getElementById('qr-builder-ec');
+      var qrMargin = document.getElementById('qr-builder-margin');
+      var qrScale = document.getElementById('qr-builder-scale');
+      var qrPosition = document.getElementById('qr-builder-position');
+      var qrUrl = document.getElementById('qr-builder-url');
+      var qrPreviewEl = document.getElementById('qr-builder-preview');
+
+      var qrUserChanged = { color: false, bg: false, ec: false, margin: false, scale: false, position: false };
+      var qrThemeParamValues = {};
+
+      function getQRDefaults() {
+        return (typeof QRManager !== 'undefined') ? (QRManager.getDefaults(qrTheme.value) || {}) : {};
+      }
+
+      function updateQRUrl() {
+        var themeId = qrTheme.value;
+        var content = qrContent.value.trim() || 'HELLO';
+        var d = getQRDefaults();
+        var params = [];
+        if (themeId !== 'default') params.push('t=' + themeId);
+        if (qrUserChanged.color) {
+          var c = qrColor.value.replace('#', '');
+          if (c !== (d.color || '000000')) params.push('color=' + c);
+        }
+        if (qrUserChanged.bg) {
+          var b = qrBg.value.replace('#', '');
+          if (b !== (d.bg || 'ffffff')) params.push('bg=' + b);
+        }
+        if (qrUserChanged.ec) {
+          if (qrEc.value !== (d.ec || 'M')) params.push('ec=' + qrEc.value);
+        }
+        if (qrUserChanged.margin) {
+          if (qrMargin.value !== String(d.margin || 4)) params.push('margin=' + qrMargin.value);
+        }
+        if (qrUserChanged.scale) {
+          if (qrScale.value !== '1') params.push('scale=' + qrScale.value);
+        }
+        if (qrUserChanged.position) {
+          if (qrPosition.value !== 'center') params.push('position=' + qrPosition.value);
+        }
+        // Theme-specific params
+        for (var pk in qrThemeParamValues) {
+          var pv = qrThemeParamValues[pk];
+          if (pv !== d[pk]) params.push(pk + '=' + pv);
+        }
+        qrUrl.textContent = 'led.run/qr/' + encodeURIComponent(content) + (params.length ? '?' + params.join('&') : '');
+      }
+
+      function updateQRPreview() {
+        if (typeof QRManager === 'undefined') return;
+        var content = qrContent.value.trim() || 'HELLO';
+        var themeId = qrTheme.value;
+        var config = {};
+        config.color = qrColor.value.replace('#', '');
+        config.bg = qrBg.value.replace('#', '');
+        config.ec = qrEc.value;
+        config.margin = parseInt(qrMargin.value, 10);
+        if (qrScale.value !== '1') config.scale = parseFloat(qrScale.value);
+        if (qrPosition.value !== 'center') config.position = qrPosition.value;
+        for (var pk in qrThemeParamValues) {
+          config[pk] = qrThemeParamValues[pk];
+        }
+        QRManager.switch(themeId, qrPreviewEl, content, config);
+        setTimeout(function() { QRManager.resize(); }, 0);
+      }
+
+      function syncQRBuilderToThemeDefaults() {
+        var d = getQRDefaults();
+        qrColor.value = '#' + (d.color || '000000').slice(0, 6);
+        qrBg.value = '#' + (d.bg || 'ffffff').slice(0, 6);
+        qrEc.value = d.ec || 'M';
+        qrMargin.value = d.margin !== undefined ? d.margin : 4;
+        document.getElementById('qr-builder-margin-val').textContent = qrMargin.value;
+        qrScale.value = 1;
+        document.getElementById('qr-builder-scale-val').textContent = '1';
+        qrPosition.value = 'center';
+      }
+
+      function rebuildQRThemeParams() {
+        var container = document.getElementById('qr-builder-theme-params');
+        var section = document.getElementById('qr-builder-custom-section');
+        container.innerHTML = '';
+        qrThemeParamValues = {};
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(qrTheme.value, 'qr');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getQRDefaults();
+        var qrAdapter = Settings.PRODUCT_ADAPTERS.qr;
+        keys.forEach(function(key) {
+          var meta = (qrAdapter.knownParamOverrides && qrAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              qrThemeParamValues[key] = parseFloat(this.value);
+              updateQRUrl();
+              updateQRPreview();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              qrThemeParamValues[key] = this.value.replace('#', '');
+              updateQRUrl();
+              updateQRPreview();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'select') {
+            row.className = 'prop-row';
+            var sel = document.createElement('select');
+            sel.className = 'builder-select';
+            var opts = (meta && meta.options) ? meta.options : [];
+            opts.forEach(function(opt) {
+              var o = document.createElement('option');
+              o.value = opt;
+              var tk = 'settings.' + key + '.' + (opt || 'none');
+              var tt = I18n.t(tk);
+              o.textContent = (tt !== tk) ? tt : opt;
+              if (opt === defVal) o.selected = true;
+              sel.appendChild(o);
+            });
+            sel.addEventListener('change', function() {
+              qrThemeParamValues[key] = this.value;
+              updateQRUrl();
+              updateQRPreview();
+            });
+            inputWrap.appendChild(sel);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              qrThemeParamValues[key] = this.checked;
+              updateQRUrl();
+              updateQRPreview();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      // QR Simple mode
+      if (qrSimpleInput) {
+        document.getElementById('qr-simple-go').addEventListener('click', function() {
+          var val = qrSimpleInput.value.trim();
+          if (val) window.location.href = '/qr/' + encodeURIComponent(val);
+        });
+        qrSimpleInput.addEventListener('keydown', function(e) {
+          if (e.key === 'Enter') {
+            var val = qrSimpleInput.value.trim();
+            if (val) window.location.href = '/qr/' + encodeURIComponent(val);
+          }
+        });
+      }
+
+      // QR Builder events
+      if (qrContent && qrTheme) {
+        [qrContent, qrColor, qrBg, qrEc, qrMargin, qrScale, qrPosition].forEach(function(el) {
+          el.addEventListener('input', function() {
+            if (this.id !== 'qr-builder-content') {
+              var pk = this.id.replace('qr-builder-', '');
+              qrUserChanged[pk] = true;
+            }
+            if (this.id === 'qr-builder-margin') document.getElementById('qr-builder-margin-val').textContent = this.value;
+            if (this.id === 'qr-builder-scale') document.getElementById('qr-builder-scale-val').textContent = this.value;
+            updateQRUrl();
+            updateQRPreview();
+          });
+        });
+
+        qrTheme.addEventListener('input', function() {
+          qrUserChanged = { color: false, bg: false, ec: false, margin: false, scale: false, position: false };
+          syncQRBuilderToThemeDefaults();
+          rebuildQRThemeParams();
+          updateQRUrl();
+          updateQRPreview();
+        });
+
+        document.getElementById('qr-builder-launch').addEventListener('click', function() {
+          var url = qrUrl.textContent.replace('led.run', '');
+          window.location.href = url;
+        });
+
+        document.getElementById('qr-builder-copy').addEventListener('click', function() {
+          var url = 'https://' + qrUrl.textContent;
+          navigator.clipboard.writeText(url).then(function() {
+            var originalIcon = this.innerHTML;
+            this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+          }.bind(this));
+        });
+      }
+
+      // ====== CAMERA PANEL LOGIC ======
+      var cameraEffect = document.getElementById('camera-builder-effect');
+      var cameraFacing = document.getElementById('camera-builder-facing');
+      var cameraMirror = document.getElementById('camera-builder-mirror');
+      var cameraBrightness = document.getElementById('camera-builder-brightness');
+      var cameraContrast = document.getElementById('camera-builder-contrast');
+      var cameraSaturate = document.getElementById('camera-builder-saturate');
+      var cameraUrl = document.getElementById('camera-builder-url');
+      var cameraEffectParamValues = {};
+
+      function getCameraDefaults() {
+        return (typeof CameraManager !== 'undefined') ? (CameraManager.getDefaults(cameraEffect.value) || {}) : {};
+      }
+
+      function updateCameraUrl() {
+        if (!cameraEffect) return;
+        var effectId = cameraEffect.value;
+        var params = ['t=' + effectId];
+        if (cameraFacing.value !== 'user') params.push('facing=' + cameraFacing.value);
+        if (!cameraMirror.checked) params.push('mirror=false');
+        if (cameraBrightness.value !== '100') params.push('brightness=' + cameraBrightness.value);
+        if (cameraContrast.value !== '100') params.push('contrast=' + cameraContrast.value);
+        if (cameraSaturate.value !== '100') params.push('saturate=' + cameraSaturate.value);
+        // Effect-specific params
+        var d = getCameraDefaults();
+        for (var pk in cameraEffectParamValues) {
+          var pv = cameraEffectParamValues[pk];
+          if (pv !== d[pk]) params.push(pk + '=' + pv);
+        }
+        cameraUrl.textContent = 'led.run/camera?' + params.join('&');
+      }
+
+      // Mock CameraEngine for builder preview (lazily created)
+      // Renders a golden-hour cityscape: sunset sky, skyline silhouette, water reflection, stars
+      var mockCameraEngine = null;
+      function getMockCameraEngine(facing) {
+        if (!mockCameraEngine) {
+          var W = 640, H = 480;
+          var cvs = document.createElement('canvas');
+          cvs.width = W; cvs.height = H;
+          cvs.videoWidth = W; cvs.videoHeight = H;
+          var cx = cvs.getContext('2d');
+          var horizon = H * 0.48;
+
+          // Seeded PRNG
+          var seed = 137;
+          function rand() { seed = (seed * 16807) % 2147483647; return (seed - 1) / 2147483646; }
+
+          // === SKY ===
+          var sky = cx.createLinearGradient(0, 0, 0, horizon);
+          sky.addColorStop(0, '#0b1026');
+          sky.addColorStop(0.15, '#1a1b4b');
+          sky.addColorStop(0.35, '#3d2260');
+          sky.addColorStop(0.55, '#8b3a62');
+          sky.addColorStop(0.72, '#d46a4e');
+          sky.addColorStop(0.85, '#e8a44a');
+          sky.addColorStop(1, '#f5d38a');
+          cx.fillStyle = sky;
+          cx.fillRect(0, 0, W, horizon + 2);
+
+          // Stars in upper sky
+          for (var si = 0; si < 80; si++) {
+            var sx = rand() * W;
+            var sy = rand() * horizon * 0.45;
+            var sr = 0.3 + rand() * 1.2;
+            var sa = 0.3 + rand() * 0.7;
+            cx.beginPath();
+            cx.arc(sx, sy, sr, 0, Math.PI * 2);
+            cx.fillStyle = 'rgba(255,255,255,' + sa + ')';
+            cx.fill();
+          }
+
+          // Sun glow (just above horizon)
+          var sunX = W * 0.35, sunY = horizon - H * 0.02;
+          var sunOuter = cx.createRadialGradient(sunX, sunY, 0, sunX, sunY, H * 0.35);
+          sunOuter.addColorStop(0, 'rgba(255,220,140,0.6)');
+          sunOuter.addColorStop(0.15, 'rgba(255,180,80,0.3)');
+          sunOuter.addColorStop(0.4, 'rgba(255,120,60,0.1)');
+          sunOuter.addColorStop(1, 'rgba(0,0,0,0)');
+          cx.fillStyle = sunOuter;
+          cx.fillRect(0, 0, W, horizon + 2);
+          // Sun disc
+          var sunDisc = cx.createRadialGradient(sunX, sunY, 0, sunX, sunY, H * 0.06);
+          sunDisc.addColorStop(0, 'rgba(255,250,220,0.95)');
+          sunDisc.addColorStop(0.5, 'rgba(255,220,140,0.7)');
+          sunDisc.addColorStop(1, 'rgba(255,180,80,0)');
+          cx.fillStyle = sunDisc;
+          cx.beginPath();
+          cx.arc(sunX, sunY, H * 0.06, 0, Math.PI * 2);
+          cx.fill();
+
+          // Wispy clouds
+          var clouds = [
+            { x: 0.08, y: 0.22, w: 0.18, h: 0.025 },
+            { x: 0.55, y: 0.18, w: 0.25, h: 0.02 },
+            { x: 0.3, y: 0.32, w: 0.15, h: 0.018 },
+            { x: 0.7, y: 0.28, w: 0.20, h: 0.022 },
+            { x: 0.15, y: 0.38, w: 0.12, h: 0.015 },
+            { x: 0.82, y: 0.36, w: 0.14, h: 0.02 }
+          ];
+          clouds.forEach(function(cl) {
+            var clx = cl.x * W, cly = cl.y * H, clw = cl.w * W, clh = cl.h * H;
+            var cg = cx.createRadialGradient(clx + clw / 2, cly, clw * 0.1, clx + clw / 2, cly, clw / 2);
+            cg.addColorStop(0, 'rgba(255,200,160,0.18)');
+            cg.addColorStop(0.6, 'rgba(255,180,140,0.08)');
+            cg.addColorStop(1, 'rgba(0,0,0,0)');
+            cx.fillStyle = cg;
+            cx.beginPath();
+            cx.ellipse(clx + clw / 2, cly, clw / 2, clh, 0, 0, Math.PI * 2);
+            cx.fill();
+          });
+
+          // === CITY SKYLINE (silhouette) ===
+          cx.fillStyle = '#0a0e18';
+          cx.beginPath();
+          cx.moveTo(0, horizon);
+          // Left district — low-rise
+          cx.lineTo(0, horizon - H * 0.05);
+          cx.lineTo(W * 0.04, horizon - H * 0.05);
+          cx.lineTo(W * 0.04, horizon - H * 0.12);
+          cx.lineTo(W * 0.07, horizon - H * 0.12);
+          cx.lineTo(W * 0.07, horizon - H * 0.06);
+          cx.lineTo(W * 0.10, horizon - H * 0.06);
+          cx.lineTo(W * 0.10, horizon - H * 0.15);
+          cx.lineTo(W * 0.13, horizon - H * 0.15);
+          cx.lineTo(W * 0.13, horizon - H * 0.08);
+          cx.lineTo(W * 0.17, horizon - H * 0.08);
+          cx.lineTo(W * 0.17, horizon - H * 0.18);
+          cx.lineTo(W * 0.20, horizon - H * 0.18);
+          cx.lineTo(W * 0.20, horizon - H * 0.10);
+          // Mid-left — tall tower
+          cx.lineTo(W * 0.24, horizon - H * 0.10);
+          cx.lineTo(W * 0.24, horizon - H * 0.30);
+          cx.lineTo(W * 0.255, horizon - H * 0.34);
+          cx.lineTo(W * 0.27, horizon - H * 0.30);
+          cx.lineTo(W * 0.27, horizon - H * 0.10);
+          // Center cluster
+          cx.lineTo(W * 0.30, horizon - H * 0.10);
+          cx.lineTo(W * 0.30, horizon - H * 0.22);
+          cx.lineTo(W * 0.34, horizon - H * 0.22);
+          cx.lineTo(W * 0.34, horizon - H * 0.26);
+          cx.lineTo(W * 0.38, horizon - H * 0.26);
+          cx.lineTo(W * 0.38, horizon - H * 0.20);
+          cx.lineTo(W * 0.41, horizon - H * 0.20);
+          cx.lineTo(W * 0.41, horizon - H * 0.32);
+          cx.lineTo(W * 0.44, horizon - H * 0.32);
+          cx.lineTo(W * 0.44, horizon - H * 0.14);
+          cx.lineTo(W * 0.47, horizon - H * 0.14);
+          cx.lineTo(W * 0.47, horizon - H * 0.24);
+          cx.lineTo(W * 0.50, horizon - H * 0.24);
+          cx.lineTo(W * 0.50, horizon - H * 0.10);
+          // Right side — signature skyscraper
+          cx.lineTo(W * 0.54, horizon - H * 0.10);
+          cx.lineTo(W * 0.54, horizon - H * 0.16);
+          cx.lineTo(W * 0.57, horizon - H * 0.16);
+          cx.lineTo(W * 0.57, horizon - H * 0.36);
+          cx.lineTo(W * 0.585, horizon - H * 0.40);
+          cx.lineTo(W * 0.60, horizon - H * 0.36);
+          cx.lineTo(W * 0.60, horizon - H * 0.16);
+          cx.lineTo(W * 0.63, horizon - H * 0.16);
+          cx.lineTo(W * 0.63, horizon - H * 0.10);
+          // Far right
+          cx.lineTo(W * 0.67, horizon - H * 0.10);
+          cx.lineTo(W * 0.67, horizon - H * 0.20);
+          cx.lineTo(W * 0.71, horizon - H * 0.20);
+          cx.lineTo(W * 0.71, horizon - H * 0.14);
+          cx.lineTo(W * 0.75, horizon - H * 0.14);
+          cx.lineTo(W * 0.75, horizon - H * 0.18);
+          cx.lineTo(W * 0.79, horizon - H * 0.18);
+          cx.lineTo(W * 0.79, horizon - H * 0.08);
+          cx.lineTo(W * 0.84, horizon - H * 0.08);
+          cx.lineTo(W * 0.84, horizon - H * 0.12);
+          cx.lineTo(W * 0.88, horizon - H * 0.12);
+          cx.lineTo(W * 0.88, horizon - H * 0.06);
+          cx.lineTo(W * 0.93, horizon - H * 0.06);
+          cx.lineTo(W * 0.93, horizon - H * 0.10);
+          cx.lineTo(W * 0.97, horizon - H * 0.10);
+          cx.lineTo(W * 0.97, horizon - H * 0.04);
+          cx.lineTo(W, horizon - H * 0.04);
+          cx.lineTo(W, horizon);
+          cx.closePath();
+          cx.fill();
+
+          // Window lights on buildings
+          var winRows = [
+            { x0: 0.04, x1: 0.06, bot: 0.12, top: 0.05 },
+            { x0: 0.10, x1: 0.12, bot: 0.15, top: 0.06 },
+            { x0: 0.17, x1: 0.19, bot: 0.18, top: 0.08 },
+            { x0: 0.245, x1: 0.265, bot: 0.30, top: 0.10 },
+            { x0: 0.31, x1: 0.33, bot: 0.22, top: 0.10 },
+            { x0: 0.35, x1: 0.37, bot: 0.26, top: 0.22 },
+            { x0: 0.415, x1: 0.435, bot: 0.32, top: 0.20 },
+            { x0: 0.475, x1: 0.495, bot: 0.24, top: 0.14 },
+            { x0: 0.575, x1: 0.595, bot: 0.36, top: 0.16 },
+            { x0: 0.675, x1: 0.70, bot: 0.20, top: 0.10 },
+            { x0: 0.755, x1: 0.785, bot: 0.18, top: 0.14 },
+            { x0: 0.845, x1: 0.875, bot: 0.12, top: 0.08 }
+          ];
+          winRows.forEach(function(wr) {
+            var wx0 = wr.x0 * W, wx1 = wr.x1 * W;
+            var cols = Math.floor((wx1 - wx0) / 4);
+            var rows = Math.floor((wr.bot - wr.top) * H / 5);
+            for (var r = 0; r < rows; r++) {
+              for (var c = 0; c < cols; c++) {
+                if (rand() < 0.4) continue; // some windows dark
+                var wy = horizon - wr.top * H - r * 5;
+                var wx = wx0 + c * 4 + 1;
+                var warm = rand();
+                cx.fillStyle = warm > 0.5
+                  ? 'rgba(255,230,140,' + (0.3 + rand() * 0.5) + ')'
+                  : 'rgba(200,220,255,' + (0.2 + rand() * 0.4) + ')';
+                cx.fillRect(wx, wy, 2, 2.5);
+              }
+            }
+          });
+
+          // Tower antenna lights (red blinking)
+          [[0.255, 0.34], [0.585, 0.40]].forEach(function(pos) {
+            var ax = pos[0] * W, ay = horizon - pos[1] * H;
+            var ag = cx.createRadialGradient(ax, ay, 0, ax, ay, 6);
+            ag.addColorStop(0, 'rgba(255,60,60,0.9)');
+            ag.addColorStop(0.5, 'rgba(255,40,40,0.3)');
+            ag.addColorStop(1, 'rgba(255,0,0,0)');
+            cx.fillStyle = ag;
+            cx.beginPath();
+            cx.arc(ax, ay, 6, 0, Math.PI * 2);
+            cx.fill();
+          });
+
+          // === WATER ===
+          var water = cx.createLinearGradient(0, horizon, 0, H);
+          water.addColorStop(0, '#2a1e30');
+          water.addColorStop(0.15, '#1e2535');
+          water.addColorStop(0.5, '#141c28');
+          water.addColorStop(1, '#0a1018');
+          cx.fillStyle = water;
+          cx.fillRect(0, horizon, W, H - horizon);
+
+          // Sun reflection path on water
+          var refX = sunX;
+          for (var ry = horizon + 2; ry < H; ry += 2) {
+            var t = (ry - horizon) / (H - horizon);
+            var spread = 3 + t * W * 0.12;
+            var alpha = 0.35 * (1 - t * 0.7);
+            var rx = refX + (rand() - 0.5) * spread * 0.3;
+            var rw = 6 + rand() * spread;
+            var rg = cx.createLinearGradient(rx - rw / 2, ry, rx + rw / 2, ry);
+            rg.addColorStop(0, 'rgba(255,200,100,0)');
+            rg.addColorStop(0.3, 'rgba(255,210,120,' + alpha * 0.6 + ')');
+            rg.addColorStop(0.5, 'rgba(255,230,160,' + alpha + ')');
+            rg.addColorStop(0.7, 'rgba(255,210,120,' + alpha * 0.6 + ')');
+            rg.addColorStop(1, 'rgba(255,200,100,0)');
+            cx.fillStyle = rg;
+            cx.fillRect(rx - rw / 2, ry, rw, 1.5);
+          }
+
+          // Scattered city reflections on water
+          for (var wi = 0; wi < 60; wi++) {
+            var rwx = rand() * W;
+            var rwy = horizon + 4 + rand() * (H - horizon - 8);
+            var rww = 3 + rand() * 12;
+            var rwa = 0.03 + rand() * 0.06;
+            var warmR = rand() > 0.5;
+            cx.fillStyle = warmR
+              ? 'rgba(255,200,120,' + rwa + ')'
+              : 'rgba(160,190,220,' + rwa + ')';
+            cx.fillRect(rwx, rwy, rww, 1);
+          }
+
+          // Water ripple lines
+          for (var ri = 0; ri < 25; ri++) {
+            var riy = horizon + 8 + rand() * (H - horizon - 16);
+            var rix = rand() * W * 0.8;
+            var riw = 20 + rand() * 80;
+            cx.strokeStyle = 'rgba(255,255,255,' + (0.02 + rand() * 0.03) + ')';
+            cx.lineWidth = 0.5;
+            cx.beginPath();
+            cx.moveTo(rix, riy);
+            cx.lineTo(rix + riw, riy);
+            cx.stroke();
+          }
+
+          // === VIGNETTE ===
+          var vig = cx.createRadialGradient(W / 2, H * 0.45, Math.min(W, H) * 0.3, W / 2, H / 2, Math.max(W, H) * 0.72);
+          vig.addColorStop(0, 'rgba(0,0,0,0)');
+          vig.addColorStop(0.65, 'rgba(0,0,0,0)');
+          vig.addColorStop(1, 'rgba(0,0,0,0.4)');
+          cx.fillStyle = vig;
+          cx.fillRect(0, 0, W, H);
+
+          mockCameraEngine = {
+            _canvas: cvs,
+            _facing: facing || 'user',
+            isSupported: function() { return true; },
+            isRunning: function() { return true; },
+            getVideo: function() { return this._canvas; },
+            getFrame: function() { return null; },
+            getFacingMode: function() { return this._facing; },
+            getVideoWidth: function() { return W; },
+            getVideoHeight: function() { return H; },
+            switchCamera: function() { this._facing = this._facing === 'user' ? 'environment' : 'user'; return Promise.resolve(); },
+            init: function() { return Promise.resolve(); },
+            pause: function() { return Promise.resolve(); },
+            resume: function() { return Promise.resolve(); },
+            destroy: function() {}
+          };
+        }
+        mockCameraEngine._facing = facing || 'user';
+        return mockCameraEngine;
+      }
+
+      var cameraPreviewEl = document.getElementById('camera-builder-preview');
+
+      function updateCameraPreview() {
+        if (typeof CameraManager === 'undefined' || !cameraPreviewEl) return;
+        var effectId = cameraEffect.value;
+        var config = {};
+        config.facing = cameraFacing.value;
+        config.mirror = cameraMirror.checked;
+        config.brightness = parseInt(cameraBrightness.value, 10);
+        config.contrast = parseInt(cameraContrast.value, 10);
+        config.saturate = parseInt(cameraSaturate.value, 10);
+        for (var pk in cameraEffectParamValues) {
+          config[pk] = cameraEffectParamValues[pk];
+        }
+        var engine = getMockCameraEngine(config.facing);
+        CameraManager.switch(effectId, cameraPreviewEl, config, engine);
+        setTimeout(function() { CameraManager.resize(); }, 0);
+      }
+
+      function rebuildCameraEffectParams() {
+        var container = document.getElementById('camera-builder-effect-params');
+        var section = document.getElementById('camera-builder-custom-section');
+        container.innerHTML = '';
+        cameraEffectParamValues = {};
+        if (typeof Settings === 'undefined') return;
+        var keys = Settings.getThemeParamKeys(cameraEffect.value, 'camera');
+        section.style.display = keys.length ? 'flex' : 'none';
+        var d = getCameraDefaults();
+        var camAdapter = Settings.PRODUCT_ADAPTERS.camera;
+        keys.forEach(function(key) {
+          var meta = (camAdapter.knownParamOverrides && camAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
+          var defVal = d[key];
+          var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
+          var row = document.createElement('div');
+          row.className = 'prop-row-stack';
+          var labelRow = document.createElement('div');
+          labelRow.className = 'prop-label-row';
+          var labelText = document.createElement('span');
+          labelText.textContent = I18n.t(meta ? meta.label : 'settings.param.' + key);
+          labelRow.appendChild(labelText);
+          row.appendChild(labelRow);
+          var inputWrap = document.createElement('div');
+          inputWrap.className = 'prop-input-wrap';
+          if (type === 'range') {
+            var ri = document.createElement('input');
+            ri.type = 'range'; ri.className = 'builder-range';
+            ri.min = (meta && meta.min !== undefined) ? meta.min : 0;
+            ri.max = (meta && meta.max !== undefined) ? meta.max : 100;
+            ri.step = (meta && meta.step !== undefined) ? meta.step : 1;
+            ri.value = defVal;
+            var rv = document.createElement('span');
+            rv.className = 'val'; rv.textContent = defVal;
+            labelRow.appendChild(rv);
+            ri.addEventListener('input', function() {
+              rv.textContent = this.value;
+              cameraEffectParamValues[key] = parseFloat(this.value);
+              updateCameraUrl();
+              updateCameraPreview();
+            });
+            inputWrap.appendChild(ri);
+          } else if (type === 'color') {
+            row.className = 'prop-row';
+            var ci = document.createElement('input');
+            ci.type = 'color'; ci.className = 'builder-color-input';
+            ci.value = '#' + (defVal || '000000').slice(0, 6);
+            ci.addEventListener('input', function() {
+              cameraEffectParamValues[key] = this.value.replace('#', '');
+              updateCameraUrl();
+              updateCameraPreview();
+            });
+            inputWrap.appendChild(ci);
+          } else if (type === 'select') {
+            row.className = 'prop-row';
+            var sel = document.createElement('select');
+            sel.className = 'builder-select';
+            var opts = (meta && meta.options) ? meta.options : [];
+            opts.forEach(function(opt) {
+              var o = document.createElement('option');
+              o.value = opt;
+              var tk = 'settings.' + key + '.' + (opt || 'none');
+              var tt = I18n.t(tk);
+              o.textContent = (tt !== tk) ? tt : opt;
+              if (opt === defVal) o.selected = true;
+              sel.appendChild(o);
+            });
+            sel.addEventListener('change', function() {
+              cameraEffectParamValues[key] = this.value;
+              updateCameraUrl();
+              updateCameraPreview();
+            });
+            inputWrap.appendChild(sel);
+          } else if (type === 'boolean') {
+            row.className = 'prop-row';
+            var toggle = document.createElement('label');
+            toggle.className = 'builder-toggle';
+            var cb = document.createElement('input');
+            cb.type = 'checkbox'; cb.checked = !!defVal;
+            var track = document.createElement('span');
+            track.className = 'builder-toggle-track';
+            toggle.appendChild(cb); toggle.appendChild(track);
+            cb.addEventListener('change', function() {
+              cameraEffectParamValues[key] = this.checked;
+              updateCameraUrl();
+              updateCameraPreview();
+            });
+            inputWrap.appendChild(toggle);
+          }
+          row.appendChild(inputWrap);
+          container.appendChild(row);
+        });
+      }
+
+      if (cameraEffect) {
+        [cameraEffect, cameraFacing].forEach(function(el) {
+          el.addEventListener('input', function() {
+            if (this.id === 'camera-builder-facing') {
+              cameraMirror.checked = (this.value !== 'environment');
+            }
+            if (this.id === 'camera-builder-effect') {
+              rebuildCameraEffectParams();
+            }
+            updateCameraUrl();
+            updateCameraPreview();
+          });
+        });
+        cameraMirror.addEventListener('change', function() {
+          updateCameraUrl();
+          updateCameraPreview();
+        });
+        [cameraBrightness, cameraContrast, cameraSaturate].forEach(function(el) {
+          el.addEventListener('input', function() {
+            var pk = this.id.replace('camera-builder-', '');
+            document.getElementById('camera-builder-' + pk + '-val').textContent = this.value;
+            updateCameraUrl();
+            updateCameraPreview();
+          });
+        });
+
+        document.getElementById('camera-builder-launch').addEventListener('click', function() {
+          var url = cameraUrl.textContent.replace('led.run', '');
+          window.location.href = url;
+        });
+
+        document.getElementById('camera-builder-copy').addEventListener('click', function() {
+          var url = 'https://' + cameraUrl.textContent;
+          navigator.clipboard.writeText(url).then(function() {
+            var originalIcon = this.innerHTML;
+            this.innerHTML = '<svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"></polyline></svg>';
+            setTimeout(function() { this.innerHTML = originalIcon; }.bind(this), 2000);
+          }.bind(this));
+        });
+      }
+
       // ====== LANG SWITCHER ======
       document.querySelectorAll('.footer-lang-link').forEach(function(link) {
         link.addEventListener('click', function(e) {
@@ -1801,6 +2850,19 @@
       updateTimeUrl();
       if (activeMode === 'builder' && activeProduct === 'time') {
         updateTimePreview();
+      }
+
+      syncQRBuilderToThemeDefaults();
+      rebuildQRThemeParams();
+      updateQRUrl();
+      if (activeMode === 'builder' && activeProduct === 'qr') {
+        updateQRPreview();
+      }
+
+      rebuildCameraEffectParams();
+      updateCameraUrl();
+      if (activeMode === 'builder' && activeProduct === 'camera') {
+        updateCameraPreview();
       }
 
       // Focus

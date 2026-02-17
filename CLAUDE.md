@@ -5,7 +5,7 @@
 - **Pure vanilla JS/CSS** — no frameworks, no build step, no npm
 - **IIFE modules** — each file wraps in `;(function(global) { ... })(window)`
 - **Cloudflare Pages** — static hosting, SPA rewrite via `_redirects`
-- **Multi-product platform** — four products (Text, Light, Sound, Time) with independent managers
+- **Multi-product platform** — six products (Text, Light, Sound, Time, QR, Camera) with independent managers
 - **Theme-centric** — themes/effects/visualizers are autonomous rendering systems, the app only orchestrates
 
 ## Products
@@ -16,6 +16,8 @@
 | **Light** | Pure color/pattern light effects (18 effects) | `LightManager` | `lights/` | `led.run/light?t=disco` |
 | **Sound** | Real-time audio visualization (12 visualizers) | `SoundManager` | `sounds/` | `led.run/sound?t=bars` |
 | **Time** | Clock displays (14 themes) | `TimeManager` | `times/` | `led.run/time?t=digital` |
+| **QR** | Full-screen QR code display (4 themes) | `QRManager` | `qrs/` | `led.run/qr/CONTENT` |
+| **Camera** | Real-time camera effects (4 effects) | `CameraManager` | `cameras/` | `led.run/camera?t=ascii` |
 
 ## URL Protocol
 
@@ -25,11 +27,13 @@ led.run/text/HELLO?t=neon              → Text product (canonical form, technic
 led.run/light?t=disco&colors=ff0000    → Light product
 led.run/sound?t=bars&sensitivity=5     → Sound product
 led.run/time?t=digital&format=12h      → Time product
+led.run/qr/https://example.com?t=neon  → QR product (content URL-encoded in path)
+led.run/camera?t=ascii&facing=user     → Camera product
 led.run/                               → Landing page
 ```
 
 **Routing rules**:
-- `text`, `light`, `sound`, `time` are reserved path prefixes (lowercase)
+- `text`, `light`, `sound`, `time`, `qr`, `camera` are reserved path prefixes (lowercase)
 - All non-reserved paths fall back to Text product (backward compatible)
 - `/text/light` displays text "light" (`text/` prefix overrides reserved words)
 - Text share links use `led.run/content` short-link form (no `/text/` prefix)
@@ -46,12 +50,12 @@ All params are "preference hints" — themes decide whether to consume them.
 | `direction` | `dir` | string | Scroll direction |
 | `font` | — | string | Font family |
 | `wakelock` | `w` | boolean | Keep screen on (App-level, default true) |
-| `scale` | — | number | Display scale multiplier (Text: 0.1–1, Time: 0.1–3, default 1) |
-| `fill` | — | hex (6 or 8 digit) | Card face background color (no #), used by card themes when scale < 1 |
+| `scale` | — | number | Display scale multiplier (Text: 0.1–1, Time/QR/Camera: 0.1–3, default 1) |
+| `fill` | — | hex (6 or 8 digit) | Card face background color (no #), used by card themes/QR when scale < 1 |
 | `cursor` | `cur` | number | Cursor auto-hide delay (App-level) |
 | `lang` | `l` | string | UI language (en/zh/ja/ko/es/fr/de), App-level |
-| `position` | — | string | Clock position (center/top/bottom/top-left/top-right/bottom-left/bottom-right), Time product |
-| `padding` | — | number | Container padding in % (0–20, default 0), Time product |
+| `position` | — | string | Position (center/top/bottom/top-left/top-right/bottom-left/bottom-right), Time/QR/Camera product |
+| `padding` | — | number | Container padding in % (0–20, default 0), Time/QR product |
 | `format` | — | string | Time format (12h/24h), Time product |
 | `showSeconds` | — | boolean | Show seconds display, Time product |
 | `showDate` | — | boolean | Show date display, Time product |
@@ -60,6 +64,17 @@ All params are "preference hints" — themes decide whether to consume them.
 | `lcdScale` | — | number | LCD overall scale (0.3–2.0, default 1.0), LCD clock |
 | `lcdPosition` | — | string | LCD position (center/top/bottom/top-left/top-right/bottom-left/bottom-right), LCD clock |
 | `lcdFull` | — | boolean | LCD fullscreen mode (removes bezel, fills container), LCD clock |
+| `ec` | — | string | QR error correction level (L/M/Q/H, default M), QR product |
+| `size` | — | number | QR module size in pixels (2–20, default 10), QR product |
+| `margin` | — | number | QR quiet zone modules (0–10, default 4), QR product |
+| `facing` | — | string | Camera facing mode (user/environment, default user), Camera product |
+| `mirror` | — | boolean | Mirror camera image (default true for front camera), Camera product |
+| `fps` | — | number | Camera frame rate (5–60, default 30), Camera product |
+| `blockSize` | — | number | Pixel effect block size (2–32, default 8), Camera pixel effect |
+| `overlay` | — | boolean | Show HUD overlay, Camera surveillance effect |
+| `brightness` | — | number | CSS filter brightness % (10–200, default 100), Camera product |
+| `contrast` | — | number | CSS filter contrast % (10–200, default 100), Camera product |
+| `saturate` | — | number | CSS filter saturation % (0–200, default 100), Camera product |
 
 ## Manager Interfaces (Symmetric Design)
 
@@ -148,11 +163,59 @@ Pipeline: `getUserMedia({ audio }) → AudioContext → MediaStreamSource → An
 
 **Chrome autoplay policy handling**: When mic permission is pre-saved, `getUserMedia` resolves without a dialog (no user gesture), so AudioContext starts `suspended`. `init()` resolves immediately after pipeline setup (`_running = true`), attempts a non-blocking `context.resume()`, and installs one-time `click`/`touchstart`/`keydown` listeners as fallback. On first user interaction, `context.resume()` is called with a real gesture, transitioning to `'running'`. `isRunning()` gates on `context.state === 'running'`, so visualizers show idle state until context resumes, then auto-transition.
 
+### QRManager (`js/core/qr-manager.js`)
+
+```
+register(theme), switch(themeId, container, content, config), getCurrent(),
+getCurrentId(), getThemeIds(), hasTheme(id), getDefaults(id),
+getCurrentConfig(), getCurrentContent(), resize()
+```
+
+**QR Theme interface:**
+```javascript
+{
+  id: 'default',
+  defaults: { color: '000000', bg: 'ffffff', ec: 'M', size: 10, margin: 4 },
+  init(container, content, config) {},
+  destroy() {}
+}
+```
+
+### CameraManager (`js/core/camera-manager.js`)
+
+```
+register(effect), switch(effectId, container, config, cameraEngine), getCurrent(),
+getCurrentId(), getEffectIds(), hasEffect(id), getDefaults(id),
+getCurrentConfig(), resize()
+```
+
+**Camera Effect interface:**
+```javascript
+{
+  id: 'default',
+  defaults: { facing: 'user', mirror: true, fps: 30, color: 'ffffff', bg: '000000' },
+  init(container, config, cameraEngine) {},
+  destroy() {}
+}
+```
+
+### CameraEngine (`js/core/camera-engine.js`)
+
+```
+isSupported(), init(options) → Promise, getVideo() → HTMLVideoElement,
+getFrame() → ImageData, switchCamera() → Promise, getFacingMode(),
+isRunning(), pause(), resume(), destroy()
+```
+
+Pipeline: `getUserMedia({ video }) → hidden <video> → offscreen <canvas>`
+
+**Camera facing & mirror**: `init({ facing: 'user' })` defaults to front camera with mirror enabled. `switchCamera()` toggles between user/environment facing and re-initializes the stream. Front camera auto-mirrors; back camera does not.
+
 ## File Structure
 
 ```
 robots.txt                SEO crawler directives
-sitemap.xml               SEO sitemap (7 landing pages, 7 docs pages, 4 product pages)
+sitemap.xml               SEO sitemap (7 landing pages, 7 docs pages, 6 product pages)
 _redirects                Cloudflare Pages rewrite rules (robots/sitemap before SPA catch-all)
 css/main.css              Global reset + layout
 css/landing.css           Landing page styles + language switcher + product tabs
@@ -172,6 +235,10 @@ js/core/sound-manager.js  Sound visualizer registry, switching + lifecycle
 js/core/audio-engine.js   Web Audio API pipeline (mic → analyzer)
 js/core/time-manager.js   Clock theme registry, switching + lifecycle
 js/core/time-utils.js     Shared time utilities (timezone, formatting)
+js/vendor/qrcodegen.js    QR Code generator library (Nayuki, MIT license)
+js/core/qr-manager.js     QR theme registry, switching + lifecycle (with content)
+js/core/camera-engine.js  Camera pipeline (getUserMedia → video → canvas)
+js/core/camera-manager.js Camera effect registry, switching + lifecycle
 js/core/i18n.js           I18n module — locale detection + translation lookup
 locales/{lang}.js         Translation strings (en/zh/ja/ko/es/fr/de)
 texts/{id}/renderer.js    Text theme implementation (self-registers via TextManager.register)
@@ -179,6 +246,8 @@ texts/{id}/style.css      Text theme stylesheet
 lights/{id}/renderer.js   Light effect implementation (self-registers via LightManager.register)
 sounds/{id}/renderer.js   Sound visualizer implementation (self-registers via SoundManager.register)
 times/{id}/renderer.js    Clock theme implementation (self-registers via TimeManager.register)
+qrs/{id}/renderer.js      QR theme implementation (self-registers via QRManager.register)
+cameras/{id}/renderer.js  Camera effect implementation (self-registers via CameraManager.register)
 js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
@@ -284,15 +353,35 @@ js/app.js                 App entry + multi-product orchestrator
 | `matrix` | Matrix rain with time overlay (Canvas) | `density`, `speed`, `charset`, `glowIntensity` |
 | `gradient` | Background shifts with time of day (DOM) | `palette`, `angle` |
 
+## Available QR Themes
+
+| ID | Effect | Custom Params |
+|----|--------|---------------|
+| `default` | Standard black-on-white QR code (Canvas) | `rounded` |
+| `neon` | Neon glow QR with shadowBlur bloom (Canvas) | `glow`, `pulse` |
+| `dot` | Dot-shaped modules with shape variants (Canvas) | `gap`, `shape` |
+| `pixel` | Pixel art with optional 3D highlight/shadow (Canvas) | `border`, `shadow` |
+
+## Available Camera Effects
+
+| ID | Effect | Custom Params |
+|----|--------|---------------|
+| `default` | Clean mirror view with cover-fit and vignette (Canvas) | `vignette` |
+| `ascii` | ASCII character art from camera feed (Canvas) | `charset`, `density`, `invert` |
+| `pixel` | Pixelated mosaic via downsample + nearest-neighbor (Canvas) | `blockSize`, `gap` |
+| `surveillance` | Security camera with REC, timestamp, corner brackets, scanlines (Canvas) | `overlay`, `scanlines`, `noise` |
+
 ## Script Load Order
 
 ```
-core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, time-manager, time-utils, i18n)
+core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, time-manager, time-utils, qrcodegen, qr-manager, camera-engine, camera-manager, i18n)
 → locales
 → texts (text themes)
 → lights (light effects)
 → sounds (sound visualizers)
 → times (clock themes)
+→ qrs (QR themes)
+→ cameras (camera effects)
 → ui (fullscreen, wakelock, cursor, controls, cast, toolbar, settings)
 → app
 ```
@@ -314,7 +403,7 @@ The floating toolbar provides fullscreen, rotate, cast, settings, and share butt
 - **DOM structure** (stable API for theme CSS):
   - `.toolbar` — toolbar container
   - `.toolbar-btn` — button elements
-  - `.toolbar-btn[data-action="fullscreen|rotate|cast|settings|share"]` — specific buttons
+  - `.toolbar-btn[data-action="fullscreen|rotate|cast|camera-switch|settings|share"]` — specific buttons
   - `.toolbar-toast` — toast notification
 
 ### Theme Customization
@@ -341,34 +430,35 @@ Themes can also fully override position, shape, and animations via standard CSS 
 
 ### Toolbar Buttons by Product
 
-| Button | Text | Light | Sound | Time |
-|--------|------|-------|-------|------|
-| Fullscreen | Yes | Yes | Yes | Yes |
-| Rotate | Yes | Yes | Yes | Yes |
-| Cast | Yes | Yes | Yes | Yes |
-| Settings | Yes | Yes | Yes | Yes |
-| Share | Yes | Yes | Yes | Yes |
-| Microphone | No | No | Yes | No |
+| Button | Text | Light | Sound | Time | QR | Camera |
+|--------|------|-------|-------|------|-----|--------|
+| Fullscreen | Yes | Yes | Yes | Yes | Yes | Yes |
+| Rotate | Yes | Yes | Yes | Yes | Yes | Yes |
+| Cast | Yes | Yes | Yes | Yes | Yes | Yes |
+| Camera Switch | No | No | No | No | No | Yes |
+| Settings | Yes | Yes | Yes | Yes | Yes | Yes |
+| Share | Yes | Yes | Yes | Yes | Yes | Yes |
+| Microphone | No | No | Yes | No | No | No |
 
 ## Keyboard & Pointer Controls
 
-| Action | Key/Gesture | Text | Light | Sound | Time |
-|--------|-------------|------|-------|-------|------|
-| Toggle pause | Space | Pause/resume animation | — | — | — |
-| Fullscreen | F / DblClick | Yes | Yes | Yes | Yes |
-| Settings | S | Open settings panel | Open settings panel | Open settings panel | Open settings panel |
-| Next | Right arrow | — | Next effect | Next visualizer | Next clock |
-| Previous | Left arrow | — | Previous effect | Previous visualizer | Previous clock |
-| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 | — |
-| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 | — |
-| Exit fullscreen | Escape | Yes | Yes | Yes | Yes |
+| Action | Key/Gesture | Text | Light | Sound | Time | QR | Camera |
+|--------|-------------|------|-------|-------|------|-----|--------|
+| Toggle pause | Space | Pause/resume animation | — | — | — | — | — |
+| Fullscreen | F / DblClick | Yes | Yes | Yes | Yes | Yes | Yes |
+| Settings | S | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel |
+| Next | Right arrow | — | Next effect | Next visualizer | Next clock | Next theme | Next effect |
+| Previous | Left arrow | — | Previous effect | Previous visualizer | Previous clock | Previous theme | Previous effect |
+| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 | — | — | — |
+| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 | — | — | — |
+| Exit fullscreen | Escape | Yes | Yes | Yes | Yes | Yes | Yes |
 
 **Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture.
 
 ## Key Design Decisions
 
 - **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
-- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all four products and "70+ display modes" (30+18+12+14=74). Docs pages list product-specific theme counts (e.g., "30 text themes, 18 light effects, 12 sound visualizers, 14 clock themes")
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all six products and "80+ display modes" (30+18+12+14+4+4=82). Docs pages list product-specific theme counts
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
@@ -382,16 +472,25 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **Scale parameter has two strategies** — Card themes (broadcast, street-sign, wood, do-not-disturb, marquee, dot-matrix) use CSS `transform: scale()` on an inner wrapper div; container `background: transparent` by default when `scale < 1`, overridable via `bg` param; the card face color is controlled by `fill` param (each theme provides its own default). Extended themes (all others) apply `scale` as a font-size multiplier: autoFit result × scale for sign mode, container height ratio × scale for flow mode; background effects remain fullscreen.
 - **Presentation API casting** — `Cast` module uses W3C Presentation API (Chrome/Edge only); receiver detected via `navigator.presentation.receiver` (no URL params needed); receiver skips Controls + Toolbar for clean display; controller persists connection ID in `sessionStorage` for reconnect across page navigations; unsupported browsers never see the cast button
 - **Settings panel** — right-side drawer (desktop 360px) / bottom sheet (mobile ≤640px); opens via toolbar gear button or `S` key; disables cursor auto-hide while open; real-time preview via debounced manager switch on param change; `history.replaceState()` syncs URL without page reload; switching themes resets theme-specific params but preserves common params; `KNOWN_PARAMS` metadata drives control types (color picker, range slider, select, toggle); polymorphic params like `glow` auto-detect type from theme defaults; `PRODUCT_ADAPTERS` map each product to its manager, i18n prefix, common params, URL builder, and resize method; adapters can define `knownParamOverrides` to override global `KNOWN_PARAMS` ranges for product-specific needs (e.g., Light `speed` uses 1-20 instead of Text's 10-300); `_buildField` checks adapter overrides before global metadata; `Settings.syncThemeId(id)` allows external code (e.g., arrow key navigation) to notify Settings of theme changes; text input only shown for text product; `audioEngine` passed via init options for sound product
-- **Landing page** — Tab switcher (Text / Light / Sound / Time); each product has Simple + Studio modes; Text simple mode navigates with `led.run/content` short links; mode preference persisted in `localStorage('led-active-mode')`
+- **Landing page** — Tab switcher (Text / Light / Sound / Time / QR / Camera); each product has Simple + Studio modes; Text simple mode navigates with `led.run/content` short links; mode preference persisted in `localStorage('led-active-mode')`
 - **Font param uses combo control** — `FONT_PRESETS` array defines web-safe presets (monospace, serif, sans-serif, cursive, Arial, Georgia, Courier New, Impact, Comic Sans MS) with i18n labels; `FONT_CUSTOM_VALUE = '__custom__'` sentinel triggers a text input for arbitrary font names; both settings panel and landing builder use the same combo pattern; `Settings.FONT_PRESETS` and `Settings.FONT_CUSTOM_VALUE` are exposed for reuse
 - **Random style button** — Landing page dice button next to GO picks random theme, random text color (HSL high saturation), random bg color (HSL low lightness), random fill color (for card themes only), and random font (from FONT_PRESETS); speed/direction/scale/theme-specific params use theme defaults
-- **Multi-product routing** — URLParser detects product from path prefix; App.init() switches on product type to call `_initText`/`_initLight`/`_initSound`/`_initTime`; each product initializes its own manager, controls, and settings
+- **Multi-product routing** — URLParser detects product from path prefix; App.init() switches on product type to call `_initText`/`_initLight`/`_initSound`/`_initTime`/`_initQR`/`_initCamera`; each product initializes its own manager, controls, and settings
 - **Light/Sound/Time share URLs must include `?t=`** — `/light`, `/sound`, and `/time` without `?t=` route to the landing page; `_syncURL()` always emits `?t=` for light/sound/time products (even for default effect/visualizer/clock), so share links like `/light?t=solid`, `/sound?t=bars`, and `/time?t=digital` work correctly; text product keeps existing behavior (no `?t=` for default theme)
 - **AudioContext needs user-gesture resume** — Chrome autoplay policy starts AudioContext in `suspended` state when `getUserMedia` resolves without a dialog (pre-saved permission = no user gesture). `AudioEngine.init()` never blocks on `context.resume()` — it resolves immediately after pipeline setup, attempts a non-blocking resume, and installs one-time gesture listeners (`click`/`touchstart`/`keydown`) as fallback. `isRunning()` checks `context.state === 'running'` so visualizers gate data reads correctly and auto-transition when the context resumes
 - **Builder-Settings param alignment** — Landing page builders use the same `defaults[key] !== undefined` logic as Settings panel to conditionally show/hide common param controls when effect/visualizer changes; `direction` control added to Text builder; each common param row has a unique ID for dynamic visibility toggling. Builders MUST use `PRODUCT_ADAPTERS[product].knownParamOverrides` when resolving param metadata, matching how `Settings._buildField` resolves overrides: `(adapter.knownParamOverrides && adapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key]`. Without this, product-specific control types/ranges (e.g., VFD `tube` as boolean, Time `gap` range 0-5) render incorrectly in the builder
 - **TimeManager follows LightManager pattern** — TimeManager is architecturally identical to LightManager (no text input, no audio engine); clock themes implement `{ id, defaults, init(container, config), destroy() }` interface; `TimeUtils` provides shared time utilities (`getTime(tz)`, `formatHours()`, `formatDate()`, `padZero()`, `getAmPm()`); timezone offset via `?tz=N` parameter (UTC hours); clock themes use Canvas (digital, analog, nixie, sun, matrix), DOM (minimal, binary, lcd, word, calendar), CSS 3D (flip), or hybrid (retro, neon, gradient)
 - **Builder preview must mirror `#display` layout** — `#builder-live-preview` must have the same layout properties as `#display` (`display: flex; align-items: center; justify-content: center; overflow: hidden; position: relative`); without these, ID selector specificity overrides theme class styles (e.g., `.theme-wood { display: flex }` loses to `#builder-live-preview { display: block }`), causing preview/display inconsistency across all 30 themes
 - **Builder browser window chrome** — `.builder-canvas` is a unified browser window shell (border-radius, border, box-shadow, overflow hidden). Inside: `.browser-bar` (address bar with `.browser-dots` traffic light decoration + `.builder-url-box` + `.builder-actions` GO/Copy buttons) on top, `.preview-card` (rendering viewport) below. The old `.prop-card-highlight` Action Card is removed — URL bar and action buttons live inside the browser chrome. Desktop (>1024px) uses CSS Grid (`400px 1fr`) with `.builder-canvas` as a sticky flex column (`height: calc(100vh - 6rem)`) where `.preview-card` fills remaining space via `flex: 1`. `.landing-content--wide` class removes max-width when builder mode is active. Mobile (≤1024px) uses flex column with order (1: browser window, 2: controls). Mobile ≤800px: `.browser-bar` wraps with `flex-wrap: wrap`
+
+- **QRManager follows TextManager pattern** — QRManager takes `content` parameter in `switch(themeId, container, content, config)`, similar to TextManager's `text` parameter. QR themes implement `{ id, defaults, init(container, content, config), destroy() }`. The `content` is the data to encode (URL, text, WiFi config, etc.). All 4 QR themes render via Canvas using the `QrCode.encodeText()` API from the vendor library
+- **QRManager wrapper mode** — QRManager.switch() supports scale/position/padding/fill wrapper (copied from TimeManager pattern). When `scale !== 1` or `padding > 0`, creates a flex container on the outer element with position-based alignment, inserts a wrapper div sized to `scale*100%` width/height. Scale range 0.1–3. `fill` param controls outer container background when wrapper is active (defaults to `bg` value). Themes init into the wrapper so they see real dimensions
+- **QR content URL encoding** — QR content lives in the URL path: `led.run/qr/https://example.com`. The `?` in content URLs would be parsed as query string, so Landing page builders must `encodeURIComponent()` the content. `_detectProduct()` handles decoding via `decodeURIComponent(rest)`. `qr` and `camera` are reserved path prefixes — to display text "qr", use `led.run/text/qr`
+- **CameraManager follows SoundManager pattern** — CameraManager takes `cameraEngine` parameter in `switch(effectId, container, config, cameraEngine)`, mirroring SoundManager's `audioEngine`. Camera effects implement `{ id, defaults, init(container, config, cameraEngine), destroy() }`. CameraEngine provides `getVideo()` for effects to draw from
+- **CameraManager CSS filter** — CameraManager.switch() applies CSS filter (brightness/contrast/saturate) on the target container after effect init. Values are percentages (default 100). Applied via `target.style.filter = 'brightness(B%) contrast(C%) saturate(S%)'` only when any value differs from 100. Effects are unaware of the filter — it's a Manager-layer concern
+- **CameraManager wrapper mode** — CameraManager.switch() supports scale/position wrapper (simplified version of TimeManager pattern, no padding/fill). Creates PiP (picture-in-picture) effect when `scale < 1`. Scale range 0.1–3
+- **CameraEngine follows AudioEngine pattern** — Async hardware init via `getUserMedia({ video })` → hidden `<video>` element → offscreen `<canvas>`. `isSupported()` checks for `getUserMedia` API. `switchCamera()` toggles between `user`/`environment` facingMode and re-initializes the stream. Front camera (`user`) defaults to `mirror: true`, back camera (`environment`) defaults to `mirror: false`
+- **QR vendor library** — Uses Nayuki QR Code generator (MIT license), ~637 lines, wrapped in project IIFE convention. Exports `QrCode` and `QrSegment` globals. Supports versions 1-40, all 4 ECC levels (L/M/Q/H), numeric/alphanumeric/byte/ECI encoding modes. Auto-selects minimal version and auto-boosts ECC level when capacity allows
 
 ## Internationalization (i18n)
 

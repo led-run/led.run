@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>led.run — Display Toolkit</title>
-  <meta name="description" content="Turn any screen into a text sign, light effect, sound visualizer, or clock display. 60+ display modes. No apps, no accounts — just a URL.">
+  <meta name="description" content="Turn any screen into a text sign, light effect, sound visualizer, clock display, QR code, or camera filter. 80+ display modes. No apps, no accounts — just a URL.">
   <link rel="manifest" href="/manifest.json">
   <meta name="theme-color" content="#000000">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -15,12 +15,12 @@
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/">
   <meta property="og:title" content="led.run — Display Toolkit">
-  <meta property="og:description" content="Turn any screen into a text sign, light effect, sound visualizer, or clock display. 60+ display modes. No apps, no accounts — just a URL.">
+  <meta property="og:description" content="Turn any screen into a text sign, light effect, sound visualizer, clock display, QR code, or camera filter. 80+ display modes. No apps, no accounts — just a URL.">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary">
   <meta name="twitter:title" content="led.run — Display Toolkit">
-  <meta name="twitter:description" content="Turn any screen into a text sign, light effect, sound visualizer, or clock display. 60+ display modes. No apps, no accounts — just a URL.">
+  <meta name="twitter:description" content="Turn any screen into a text sign, light effect, sound visualizer, clock display, QR code, or camera filter. 80+ display modes. No apps, no accounts — just a URL.">
 
   <!-- Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -81,6 +81,10 @@
   <script src="/js/core/audio-engine.js"></script>
   <script src="/js/core/time-manager.js"></script>
   <script src="/js/core/time-utils.js"></script>
+  <script src="/js/vendor/qrcodegen.js"></script>
+  <script src="/js/core/qr-manager.js"></script>
+  <script src="/js/core/camera-engine.js"></script>
+  <script src="/js/core/camera-manager.js"></script>
   <script src="/js/core/i18n.js"></script>
 
   <!-- Locales -->
@@ -157,6 +161,18 @@
   <script src="/sounds/plenoptic/renderer.js"></script>
   <script src="/sounds/waveform-3d/renderer.js"></script>
   <script src="/sounds/spectrum-circle/renderer.js"></script>
+
+  <!-- QR Themes -->
+  <script src="/qrs/default/renderer.js"></script>
+  <script src="/qrs/neon/renderer.js"></script>
+  <script src="/qrs/dot/renderer.js"></script>
+  <script src="/qrs/pixel/renderer.js"></script>
+
+  <!-- Camera Effects -->
+  <script src="/cameras/default/renderer.js"></script>
+  <script src="/cameras/ascii/renderer.js"></script>
+  <script src="/cameras/pixel/renderer.js"></script>
+  <script src="/cameras/surveillance/renderer.js"></script>
 
   <!-- Clock Themes -->
   <script src="/times/digital/renderer.js"></script>

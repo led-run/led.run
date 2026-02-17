@@ -290,6 +290,8 @@ I18n.register('en', {
   'landing.tab.light': 'Light',
   'landing.tab.sound': 'Sound',
   'landing.tab.time': 'Time',
+  'landing.tab.qr': 'QR',
+  'landing.tab.camera': 'Camera',
 
   // Landing - Light presets
   'preset.light.solid.desc': 'Pure white flashlight — maximum brightness for any situation.',
@@ -307,6 +309,8 @@ I18n.register('en', {
   'light.title': 'Light',
   'sound.title': 'Sound',
   'time.title': 'Time',
+  'qr.title': 'QR Code',
+  'camera.title': 'Camera',
 
   // Light effect names
   'settings.effect.solid': 'Solid',
@@ -619,5 +623,91 @@ I18n.register('en', {
   'landing.sound.preset.spikes': '360° radial spikes from center',
   'landing.sound.preset.plenoptic': 'Light field with depth-of-field blur',
   'landing.sound.preset.waveform-3d': '3D perspective waveform with depth layers',
-  'landing.sound.preset.spectrum-circle': 'Circular spectrum radiating outward'
+  'landing.sound.preset.spectrum-circle': 'Circular spectrum radiating outward',
+
+  // QR theme names
+  'settings.qrTheme.default': 'Standard',
+  'settings.qrTheme.neon': 'Neon',
+  'settings.qrTheme.dot': 'Dot',
+  'settings.qrTheme.pixel': 'Pixel',
+
+  // QR section labels
+  'settings.qrThemeLabel': 'Style',
+  'settings.section.qrThemeParams': 'Style Options',
+
+  // QR param labels
+  'settings.param.ec': 'Error Correction',
+  'settings.param.size': 'Module Size',
+  'settings.param.margin': 'Margin',
+
+  // QR EC options
+  'settings.ec.L': 'Low (7%)',
+  'settings.ec.M': 'Medium (15%)',
+  'settings.ec.Q': 'Quartile (25%)',
+  'settings.ec.H': 'High (30%)',
+
+  // QR preset descriptions
+  'landing.qr.preset.default': 'Standard black-on-white QR code.',
+  'landing.qr.preset.neon': 'Glowing neon QR with bloom effect.',
+  'landing.qr.preset.dot': 'Circular dot module QR code.',
+  'landing.qr.preset.pixel': 'Retro pixel art style QR code.',
+
+  // QR builder
+  'landing.builder.card.qrContent': 'Content',
+  'landing.builder.card.qrStyle': 'Style',
+  'landing.qr.placeholder': 'HELLO',
+
+  // Camera effect names
+  'settings.cameraEffect.default': 'Mirror',
+  'settings.cameraEffect.ascii': 'ASCII',
+  'settings.cameraEffect.pixel': 'Pixel',
+  'settings.cameraEffect.surveillance': 'Surveillance',
+
+  // Camera section labels
+  'settings.cameraEffectLabel': 'Effect',
+  'settings.section.cameraEffectParams': 'Effect Options',
+
+  // Camera param labels
+  'settings.param.facing': 'Camera',
+  'settings.param.mirror': 'Mirror',
+  'settings.param.fps': 'Frame Rate',
+  'settings.param.blockSize': 'Block Size',
+  'settings.param.overlay': 'Overlay',
+
+  // Camera facing options
+  'settings.facing.user': 'Front',
+  'settings.facing.environment': 'Rear',
+
+  // Camera preset descriptions
+  'landing.camera.preset.default': 'Clean mirror view of camera feed.',
+  'landing.camera.preset.ascii': 'Real-time ASCII art from camera.',
+  'landing.camera.preset.pixel': 'Pixelated mosaic camera effect.',
+  'landing.camera.preset.surveillance': 'Security camera overlay with HUD.',
+
+  // New param labels (QR/Camera enhancements)
+  'settings.param.contrast': 'Contrast',
+  'settings.param.saturate': 'Saturation',
+  'settings.param.rounded': 'Rounded',
+  'settings.param.shadow': 'Shadow',
+  'settings.param.invert': 'Invert',
+  'settings.param.noise': 'Noise',
+
+  // Shape options (QR dot theme)
+  'settings.shape.diamond': 'Diamond',
+  'settings.shape.star': 'Star',
+
+  // Camera builder
+  'landing.builder.card.cameraEffect': 'Effect',
+  'landing.camera.placeholder': 'Click to enable camera',
+
+  // Camera errors
+  'camera.error.notSupported.title': 'Camera Not Supported',
+  'camera.error.notSupported.desc': 'Your browser does not support camera input. Please try Chrome or Firefox.',
+  'camera.error.denied.title': 'Camera Access Denied',
+  'camera.error.denied.desc': 'Please allow camera access to use camera effects.',
+  'camera.error.generic.title': 'Camera Error',
+  'camera.error.generic.desc': 'Could not access the camera. Please check your device settings.',
+
+  // Toolbar - Camera
+  'toolbar.camera': 'Switch camera'
 });

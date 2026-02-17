@@ -11,6 +11,8 @@
 /lights/*   /lights/:splat   200
 /sounds/*   /sounds/:splat   200
 /times/*    /times/:splat    200
+/qrs/*      /qrs/:splat      200
+/cameras/*  /cameras/:splat  200
 
 # Locales
 /locales/*  /locales/:splat  200

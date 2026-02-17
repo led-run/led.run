@@ -14,9 +14,13 @@
   var SOUND_COMMON_PARAMS = ['color', 'bg', 'sensitivity', 'smoothing'];
   // Time-product common params
   var TIME_COMMON_PARAMS = ['color', 'bg', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'scale', 'position', 'padding', 'fill'];
+  // QR-product common params
+  var QR_COMMON_PARAMS = ['color', 'bg', 'ec', 'size', 'margin', 'scale', 'position', 'padding', 'fill'];
+  // Camera-product common params
+  var CAMERA_COMMON_PARAMS = ['color', 'bg', 'facing', 'mirror', 'fps', 'scale', 'position', 'brightness', 'contrast', 'saturate'];
 
   // Union of all product common params (kept for landing page builder reuse)
-  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'position', 'padding'];
+  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'position', 'padding', 'ec', 'size', 'margin', 'facing', 'mirror', 'fps', 'contrast', 'saturate'];
 
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
@@ -216,6 +220,25 @@
     wetness:       { type: 'range', label: 'settings.param.wetness', min: 0, max: 10, step: 1 },
     foam:          { type: 'range', label: 'settings.param.foam', min: 0, max: 10, step: 1 },
     detail:        { type: 'range', label: 'settings.param.detail', min: 0, max: 10, step: 1 },
+    // QR params
+    ec:            { type: 'select', label: 'settings.param.ec', options: ['L', 'M', 'Q', 'H'] },
+    size:          { type: 'range', label: 'settings.param.size', min: 2, max: 20, step: 1 },
+    margin:        { type: 'range', label: 'settings.param.margin', min: 0, max: 10, step: 1 },
+    border:        { type: 'range', label: 'settings.param.border', min: 0, max: 10, step: 1 },
+    // Camera params
+    facing:        { type: 'select', label: 'settings.param.facing', options: ['user', 'environment'] },
+    mirror:        { type: 'boolean', label: 'settings.param.mirror' },
+    fps:           { type: 'range', label: 'settings.param.fps', min: 5, max: 60, step: 5 },
+    blockSize:     { type: 'range', label: 'settings.param.blockSize', min: 2, max: 32, step: 2 },
+    overlay:       { type: 'boolean', label: 'settings.param.overlay' },
+    contrast:      { type: 'range', label: 'settings.param.contrast', min: 10, max: 200, step: 10 },
+    saturate:      { type: 'range', label: 'settings.param.saturate', min: 0, max: 200, step: 10 },
+    // QR theme-specific params
+    rounded:       { type: 'boolean', label: 'settings.param.rounded' },
+    shadow:        { type: 'boolean', label: 'settings.param.shadow' },
+    // Camera effect-specific params
+    invert:        { type: 'boolean', label: 'settings.param.invert' },
+    noise:         { type: 'range', label: 'settings.param.noise', min: 0, max: 10, step: 1 },
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder
@@ -301,6 +324,49 @@
         weight: { type: 'select', label: 'settings.param.weight', options: ['100', '200', '300', '400'] },
         gap: { type: 'range', label: 'settings.param.gap', min: 0, max: 5, step: 0.5 }
       }
+    },
+    qr: {
+      getIds: function() { return QRManager.getThemeIds(); },
+      getDefaults: function(id) { return QRManager.getDefaults(id); },
+      getCurrentId: function() { return QRManager.getCurrentId(); },
+      getCurrentText: function() { return QRManager.getCurrentContent(); },
+      doSwitch: function(id, container, config, ctx) {
+        QRManager.switch(id, container, ctx.text, config);
+      },
+      i18nPrefix: 'settings.qrTheme.',
+      commonParams: QR_COMMON_PARAMS,
+      defaultId: 'default',
+      hasText: true,
+      sectionLabel: 'settings.qrThemeLabel',
+      sectionParamsLabel: 'settings.section.qrThemeParams',
+      buildPath: function(ctx) { return '/qr/' + encodeURIComponent(ctx.text); },
+      resize: function() { QRManager.resize(); },
+      knownParamOverrides: {
+        scale: { type: 'range', label: 'settings.param.scale', min: 0.1, max: 3, step: 0.1 },
+        shape: { type: 'select', label: 'settings.param.shape', options: ['round', 'diamond', 'star'] },
+        pulse: { type: 'boolean', label: 'settings.param.pulse' }
+      }
+    },
+    camera: {
+      getIds: function() { return CameraManager.getEffectIds(); },
+      getDefaults: function(id) { return CameraManager.getDefaults(id); },
+      getCurrentId: function() { return CameraManager.getCurrentId(); },
+      doSwitch: function(id, container, config, ctx) {
+        CameraManager.switch(id, container, config, ctx.cameraEngine);
+      },
+      i18nPrefix: 'settings.cameraEffect.',
+      commonParams: CAMERA_COMMON_PARAMS,
+      defaultId: 'default',
+      hasText: false,
+      sectionLabel: 'settings.cameraEffectLabel',
+      sectionParamsLabel: 'settings.section.cameraEffectParams',
+      buildPath: function() { return '/camera'; },
+      resize: function() { CameraManager.resize(); },
+      knownParamOverrides: {
+        scale: { type: 'range', label: 'settings.param.scale', min: 0.1, max: 3, step: 0.1 },
+        brightness: { type: 'range', label: 'settings.param.brightness', min: 10, max: 200, step: 10 },
+        gap: { type: 'range', label: 'settings.param.gap', min: 0, max: 4, step: 1 }
+      }
     }
   };
 
@@ -314,6 +380,7 @@
     _themeId: '',
     _themeConfig: null,
     _audioEngine: null,
+    _cameraEngine: null,
     _debounceTimer: null,
     _onBeforeApply: null,
 
@@ -336,6 +403,7 @@
       this._themeId = options.themeId || PRODUCT_ADAPTERS[this._product].defaultId;
       this._themeConfig = options.themeConfig || {};
       this._audioEngine = options.audioEngine || null;
+      this._cameraEngine = options.cameraEngine || null;
       this._onBeforeApply = options.onBeforeApply || null;
       this._render();
       this._bind();
@@ -533,7 +601,7 @@
       // 3. General params (product-specific common params)
       var generalSection = this._createSection('settings.section.general');
       var generalParams = adapter.commonParams;
-      var ALWAYS_SHOW = { mode: '', scale: 1, position: 'center', padding: 0, tz: (typeof TimeUtils !== 'undefined' ? TimeUtils.getLocalOffset() : 0) };
+      var ALWAYS_SHOW = { mode: '', scale: 1, position: 'center', padding: 0, tz: (typeof TimeUtils !== 'undefined' ? TimeUtils.getLocalOffset() : 0), brightness: 100, contrast: 100, saturate: 100 };
       generalParams.forEach(function(key) {
         if (merged[key] === undefined && !ALWAYS_SHOW.hasOwnProperty(key)) return;
         var val = merged[key] !== undefined ? merged[key] : ALWAYS_SHOW[key];
@@ -937,7 +1005,8 @@
       // Switch theme/effect/visualizer with current params
       adapter.doSwitch(this._themeId, this._container, this._themeConfig, {
         text: this._text,
-        audioEngine: this._audioEngine
+        audioEngine: this._audioEngine,
+        cameraEngine: this._cameraEngine
       });
       document.getElementById('app').dataset.theme = this._themeId;
 

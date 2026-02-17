@@ -6,7 +6,7 @@
   'use strict';
 
   // Reserved product path prefixes
-  var PRODUCTS = ['text', 'light', 'sound', 'time'];
+  var PRODUCTS = ['text', 'light', 'sound', 'time', 'qr', 'camera'];
 
   // Parameter alias mapping
   const PARAM_ALIASES = {
@@ -21,7 +21,7 @@
   // Parameters that should always remain strings (never convert to number)
   const STRING_PARAMS = ['color', 'bg', 'fill', 'glow', 'theme', 'mode', 'direction', 'font', 'lang',
     'format', 'dateFormat', 'dotStyle', 'style', 'palette', 'align', 'firstDay', 'segmentStyle', 'weight',
-    'position'];
+    'position', 'ec', 'facing', 'charset'];
 
   // Parameters that accept hex color values (AARRGGBB input → RRGGBBAA for CSS)
   const COLOR_PARAMS = ['color', 'bg', 'fill', 'glow'];
@@ -86,6 +86,16 @@
       if (lowerFirst === 'time') {
         // Time product — no text content
         return { product: 'time', text: '' };
+      }
+
+      if (lowerFirst === 'qr') {
+        // QR product — rest is QR content (URL-encoded)
+        return { product: 'qr', text: rest ? decodeURIComponent(rest) : '' };
+      }
+
+      if (lowerFirst === 'camera') {
+        // Camera product — no text content
+        return { product: 'camera', text: '' };
       }
 
       if (lowerFirst === 'text') {

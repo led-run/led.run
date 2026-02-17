@@ -1,6 +1,8 @@
 /**
- * Time Manager
- * Clock theme registration, switching, and lifecycle management
+ * QR Manager
+ * QR theme registration, switching, and lifecycle management
+ * Follows TextManager pattern — switch(themeId, container, content, config)
+ * Scale/position/padding/fill wrapper follows TimeManager pattern
  */
 ;(function(global) {
   'use strict';
@@ -15,34 +17,36 @@
     'bottom-right': { ai: 'flex-end',   jc: 'flex-end' }
   };
 
-  var TimeManager = {
-    _clocks: new Map(),
+  const QRManager = {
+    _themes: new Map(),
     _current: null,
     _currentId: null,
+    _currentContent: '',
     _currentConfig: null,
 
     /**
-     * Register a clock theme
-     * @param {Object} clock - Clock object with id, defaults, init, destroy
+     * Register a QR theme
+     * @param {Object} theme - Theme object with id, defaults, init, destroy
      */
-    register: function(clock) {
-      if (!clock || !clock.id) {
-        console.error('Clock theme must have an id property');
+    register(theme) {
+      if (!theme || !theme.id) {
+        console.error('QR theme must have an id property');
         return;
       }
-      this._clocks.set(clock.id, clock);
+      this._themes.set(theme.id, theme);
     },
 
     /**
-     * Switch to a clock theme
-     * @param {string} clockId - Clock ID
+     * Switch to a QR theme
+     * @param {string} themeId - Theme ID
      * @param {HTMLElement} container - Container element
-     * @param {Object} config - Merged configuration (URL params override clock defaults)
+     * @param {string} content - QR content to encode
+     * @param {Object} config - Merged configuration (URL params override theme defaults)
      */
-    switch: function(clockId, container, config) {
+    switch(themeId, container, content, config) {
       config = config || {};
 
-      // Destroy current clock
+      // Destroy current theme
       if (this._current && this._current.destroy) {
         this._current.destroy();
       }
@@ -51,26 +55,27 @@
       container.innerHTML = '';
       container.className = '';
 
-      // Get clock (fall back to digital)
-      var clock = this._clocks.get(clockId);
-      if (!clock) {
-        console.warn('Clock theme "' + clockId + '" not found, using digital');
-        clock = this._clocks.get('digital');
+      // Get theme (fall back to default)
+      var theme = this._themes.get(themeId);
+      if (!theme) {
+        console.warn('QR theme "' + themeId + '" not found, using default');
+        theme = this._themes.get('default');
       }
 
-      if (!clock) {
-        console.error('No clock themes registered');
+      if (!theme) {
+        console.error('No QR themes registered');
         return;
       }
 
-      this._current = clock;
-      this._currentId = clock.id;
+      this._current = theme;
+      this._currentId = theme.id;
+      this._currentContent = content;
 
-      // Merge config: URL params > clock defaults
-      var mergedConfig = Object.assign({}, clock.defaults || {}, config);
+      // Merge config: URL params > theme defaults
+      var mergedConfig = Object.assign({}, theme.defaults || {}, config);
       this._currentConfig = mergedConfig;
 
-      // Scale/position/padding wrapper
+      // Scale/position/padding/fill wrapper
       var scale = Math.max(0.1, Math.min(3, parseFloat(mergedConfig.scale) || 1));
       var padding = Math.max(0, Math.min(20, parseFloat(mergedConfig.padding) || 0));
       var position = mergedConfig.position || 'center';
@@ -78,9 +83,9 @@
       var target = container;
 
       if (needsWrapper) {
-        var bg = mergedConfig.bg || (clock.defaults && clock.defaults.bg) || '000000';
+        var fill = mergedConfig.fill || mergedConfig.bg || (theme.defaults && theme.defaults.bg) || 'ffffff';
         var pos = POSITIONS[position] || POSITIONS['center'];
-        container.style.background = '#' + bg;
+        container.style.background = '#' + fill;
         container.style.display = 'flex';
         container.style.flexDirection = 'column';
         container.style.alignItems = pos.ai;
@@ -98,76 +103,84 @@
         target = wrapper;
       }
 
-      // Initialize clock
-      if (clock.init) {
-        clock.init(target, mergedConfig);
+      // Initialize theme
+      if (theme.init) {
+        theme.init(target, content, mergedConfig);
       }
     },
 
     /**
-     * Get current clock
+     * Get current theme
      * @returns {Object|null}
      */
-    getCurrent: function() {
+    getCurrent() {
       return this._current;
     },
 
     /**
-     * Get current clock ID
+     * Get current theme ID
      * @returns {string|null}
      */
-    getCurrentId: function() {
+    getCurrentId() {
       return this._currentId;
     },
 
     /**
-     * Get all registered clock IDs
+     * Get current QR content
+     * @returns {string}
+     */
+    getCurrentContent() {
+      return this._currentContent;
+    },
+
+    /**
+     * Get all registered theme IDs
      * @returns {string[]}
      */
-    getClockIds: function() {
-      return Array.from(this._clocks.keys());
+    getThemeIds() {
+      return Array.from(this._themes.keys());
     },
 
     /**
-     * Check if clock is registered
-     * @param {string} clockId - Clock ID
+     * Check if theme is registered
+     * @param {string} themeId - Theme ID
      * @returns {boolean}
      */
-    hasClock: function(clockId) {
-      return this._clocks.has(clockId);
+    hasTheme(themeId) {
+      return this._themes.has(themeId);
     },
 
     /**
-     * Notify the current clock that the container dimensions changed
+     * Notify the current theme that the container dimensions changed.
      */
-    resize: function() {
+    resize() {
       if (this._current && typeof this._current._resizeHandler === 'function') {
         this._current._resizeHandler();
       }
     },
 
     /**
-     * Get a clock's default configuration
-     * @param {string} clockId - Clock ID
-     * @returns {Object|null} Copy of clock defaults, or null if not found
+     * Get a theme's default configuration
+     * @param {string} themeId - Theme ID
+     * @returns {Object|null} Copy of theme defaults, or null if not found
      */
-    getDefaults: function(clockId) {
-      var clock = this._clocks.get(clockId);
-      if (!clock) return null;
-      return Object.assign({}, clock.defaults || {});
+    getDefaults(themeId) {
+      var theme = this._themes.get(themeId);
+      if (!theme) return null;
+      return Object.assign({}, theme.defaults || {});
     },
 
     /**
      * Get the current merged configuration
      * @returns {Object|null} Copy of current config
      */
-    getCurrentConfig: function() {
+    getCurrentConfig() {
       if (!this._currentConfig) return null;
       return Object.assign({}, this._currentConfig);
     }
   };
 
   // Export
-  global.TimeManager = TimeManager;
+  global.QRManager = QRManager;
 
 })(typeof window !== 'undefined' ? window : this);
