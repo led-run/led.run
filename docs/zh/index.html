@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>文档 — led.run 显示工具集</title>
-  <meta name="description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、URL 协议与参数说明。">
+  <meta name="description" content="led.run 完整指南 — 30 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、4 种二维码主题、4 种摄像头效果、URL 协议与参数说明。">
   <link rel="canonical" href="https://led.run/docs/zh/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/zh/">
   <meta property="og:title" content="文档 — led.run 显示工具集">
-  <meta property="og:description" content="led.run 完整指南 — 20 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、URL 协议与参数说明。">
+  <meta property="og:description" content="led.run 完整指南 — 30 种文字主题、18 种灯光效果、12 种声音可视化、14 种时钟主题、4 种二维码主题、4 种摄像头效果、URL 协议与参数说明。">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="zh_CN">
 
@@ -67,7 +67,7 @@
             <a href="#text-overview">概览</a>
             <a href="#display-modes">显示模式</a>
             <a href="#text-parameters">参数</a>
-            <a href="#themes">主题 (20)</a>
+            <a href="#themes">主题 (30)</a>
           </li>
           <li class="docs-nav-section">
             <div class="docs-nav-heading">灯光</div>
@@ -88,6 +88,18 @@
             <a href="#clocks">时钟 (14)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">QR</div>
+            <a href="#qr-overview">概述</a>
+            <a href="#qr-parameters">参数</a>
+            <a href="#qr-themes">主题 (4)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Camera</div>
+            <a href="#camera-overview">概述</a>
+            <a href="#camera-parameters">参数</a>
+            <a href="#camera-effects">效果 (4)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">参考</div>
             <a href="#color-format">颜色格式</a>
             <a href="#scale">缩放与卡片主题</a>
@@ -102,7 +114,7 @@
       <main class="docs-content">
 
         <h1>led.run 文档</h1>
-        <p>将任何屏幕变成文字标牌、灯光效果、声音可视化或时钟显示。无需应用，无需账号 &mdash; 只需一个 URL。</p>
+        <p>将任何屏幕变成文字标牌、灯光效果、声音可视化、时钟显示、二维码或摄像头滤镜。无需应用，无需账号 &mdash; 只需一个 URL。</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">工作原理</h2>
@@ -180,37 +192,76 @@
           </div>
         </div>
 
+        <h3>二维码</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">qr/HELLO</span><span class="url-part-params">?t=neon&amp;ec=H</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 内容在路径中</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 主题和设置</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>摄像头效果</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">camera</span><span class="url-part-params">?t=ascii&amp;facing=user</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 产品前缀</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 效果和设置</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URL 协议</h2>
-        <p>四种产品，四种 URL 格式：</p>
+        <p>六种产品，六种 URL 格式：</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              路径 = 文字内容
         led.run/text/HELLO?t=neon         显式 /text/ 前缀
 Light:  led.run/light?t=disco             产品前缀 + 参数
 Sound:  led.run/sound?t=bars              产品前缀 + 参数
-Time:   led.run/time?t=digital            产品前缀 + 参数</code></pre>
+Time:   led.run/time?t=digital            产品前缀 + 参数
+QR:     led.run/qr/HELLO?t=neon           内容在路径中 + 参数
+Camera: led.run/camera?t=ascii            产品前缀 + 参数</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; <code>/</code> 之后的 URL 路径即为显示文字。空格可使用 <code>+</code> 或 <code>%20</code>。</li>
-          <li><strong>Light、Sound 与 Time</strong> &mdash; 使用保留的路径前缀。所有配置通过查询参数完成。</li>
+          <li><strong>QR</strong> &mdash; 要编码的内容紧跟在 <code>/qr/</code> 前缀之后。内容中的 URL 应进行 URL 编码。</li>
+          <li><strong>Light、Sound、Time 与 Camera</strong> &mdash; 使用保留的路径前缀。所有配置通过查询参数完成。</li>
           <li>所有参数都是可选的"偏好提示" &mdash; 由主题/效果/可视化/时钟决定是否使用。</li>
         </ul>
 
         <div class="docs-note">
-          <strong>保留前缀：</strong><code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code> 为保留前缀。如需将"light"作为文字显示，请使用 <code>led.run/text/light</code>。
+          <strong>保留前缀：</strong><code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code>、<code>qr</code>、<code>camera</code> 为保留前缀。如需将"light"作为文字显示，请使用 <code>led.run/text/light</code>。
         </div>
 
         <!-- Products -->
         <h2 id="products">产品</h2>
-        <p>led.run 提供四种显示产品，各自拥有独立的显示模式：</p>
+        <p>led.run 提供六种显示产品，各自拥有独立的显示模式：</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Text</span>
-              <span class="theme-card-id">20 种主题</span>
+              <span class="theme-card-id">30 种主题</span>
             </div>
-            <div class="theme-card-desc">LED 风格文字标牌，自适应尺寸，支持静态和滚动模式，20 种视觉主题——从霓虹灯到点阵屏。</div>
+            <div class="theme-card-desc">LED 风格文字标牌，自适应尺寸，支持静态和滚动模式，30 种视觉主题——从霓虹灯到点阵屏。</div>
             <a class="theme-card-link" href="#text-overview">探索 &rarr;</a>
           </div>
           <div class="theme-card">
@@ -237,12 +288,28 @@ Time:   led.run/time?t=digital            产品前缀 + 参数</code></pre>
             <div class="theme-card-desc">全屏时钟显示 &mdash; 数字 LED、模拟、翻页、辉光管、霓虹、日晷、日历等。</div>
             <a class="theme-card-link" href="#time-overview">探索 &rarr;</a>
           </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">QR</span>
+              <span class="theme-card-id">4 种主题</span>
+            </div>
+            <div class="theme-card-desc">全屏二维码显示 &mdash; 将任何文字、URL 或数据编码为 4 种视觉主题，包括霓虹灯光和像素风格。</div>
+            <a class="theme-card-link" href="#qr-overview">探索 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Camera</span>
+              <span class="theme-card-id">4 种效果</span>
+            </div>
+            <div class="theme-card-desc">实时摄像头滤镜 &mdash; 镜像视图、ASCII 字符画、像素化马赛克和监控风格叠加。</div>
+            <a class="theme-card-link" href="#camera-overview">探索 &rarr;</a>
+          </div>
         </div>
 
         <!-- ==================== TEXT ==================== -->
 
         <h2 id="text-overview">文字 &mdash; 概览</h2>
-        <p>文字产品可将任何 URL 路径转为全屏显示。内置 20 种主题，每种都为特定风格和使用场景设计。主题支持两种显示模式：静态标牌和滚动走马灯。</p>
+        <p>文字产品可将任何 URL 路径转为全屏显示。内置 30 种主题，每种都为特定风格和使用场景设计。主题支持两种显示模式：静态标牌和滚动走马灯。</p>
 
         <pre><code>led.run/HELLO                          简单标牌
 led.run/DO+NOT+DISTURB?t=do-not-disturb   选择主题
@@ -369,7 +436,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      滚动走马灯</code></pre>
 
         <!-- Themes -->
         <h2 id="themes">主题</h2>
-        <p>led.run 内置 20 种主题。每种主题都为特定风格和使用场景设计。</p>
+        <p>led.run 内置 30 种主题。每种主题都为特定风格和使用场景设计。</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
           <input type="text" id="theme-search" placeholder="搜索主题（如 'neon'、'matrix'）..."
@@ -618,6 +685,126 @@ led.run/WELCOME?mode=flow&amp;speed=120      滚动走马灯</code></pre>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
             </div>
             <a class="theme-card-link" href="#theme-dot-matrix">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">VFD</span>
+              <span class="theme-card-id">vfd</span>
+            </div>
+            <div class="theme-card-desc">真空荧光 14 段显示器 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffcc" title="color: 00ffcc"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-vfd">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Chalk</span>
+              <span class="theme-card-id">chalk</span>
+            </div>
+            <div class="theme-card-desc">逼真粉笔黑板效果 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-chalk">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Stamp</span>
+              <span class="theme-card-id">stamp</span>
+            </div>
+            <div class="theme-card-desc">复古橡皮印章效果 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc2233" title="color: cc2233"></span>
+              <span class="theme-color-chip" style="background:#f5f0e0" title="bg: f5f0e0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-stamp">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cinema</span>
+              <span class="theme-card-id">cinema</span>
+            </div>
+            <div class="theme-card-desc">电影院字母板 (DOM)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cinema">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gothic</span>
+              <span class="theme-card-id">gothic</span>
+            </div>
+            <div class="theme-card-desc">中世纪手抄本风格 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#2a1a0a" title="color: 2a1a0a"></span>
+              <span class="theme-color-chip" style="background:#f5e6c8" title="bg: f5e6c8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gothic">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Railway</span>
+              <span class="theme-card-id">railway</span>
+            </div>
+            <div class="theme-card-desc">Solari 翻页牌出发信息板 (DOM/CSS 3D)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffcc00" title="color: ffcc00"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-railway">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sticker</span>
+              <span class="theme-card-id">sticker</span>
+            </div>
+            <div class="theme-card-desc">乙烯基贴纸光面/全息效果 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#333333" title="bg: 333333"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sticker">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Embroidery</span>
+              <span class="theme-card-id">embroidery</span>
+            </div>
+            <div class="theme-card-desc">亚麻布十字绣 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc3344" title="color: cc3344"></span>
+              <span class="theme-color-chip" style="background:#e8dcc8" title="bg: e8dcc8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-embroidery">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Smoke</span>
+              <span class="theme-card-id">smoke</span>
+            </div>
+            <div class="theme-card-desc">烟雾粒子文字效果 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#88ccff" title="color: 88ccff"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-smoke">详情 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sand</span>
+              <span class="theme-card-id">sand</span>
+            </div>
+            <div class="theme-card-desc">沙滩写字与海浪动画 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#8b7355" title="color: 8b7355"></span>
+              <span class="theme-color-chip" style="background:#d4b896" title="bg: d4b896"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sand">详情 &rarr;</a>
           </div>
         </div>
 
@@ -1077,6 +1264,227 @@ led.run/WELCOME?mode=flow&amp;speed=120      滚动走马灯</code></pre>
             </table>
           </div>
           <a class="theme-detail-try" href="/HELLO?t=dot-matrix">试一下 &rarr;</a>
+        </div>
+
+        <!-- VFD -->
+        <div class="theme-detail" id="theme-vfd">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">VFD</span>
+            <span class="theme-detail-id">vfd</span>
+          </div>
+          <p class="theme-detail-desc">真空荧光 14 段显示器，Canvas 渲染，具有磷光辉光、网格和玻璃管效果。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#00ffcc"></span> <code>00ffcc</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>磷光辉光强度</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>显示闪烁量</td></tr>
+            <tr><td>mesh</td><td>number</td><td>4</td><td>金属网格可见度</td></tr>
+            <tr><td>tube</td><td>boolean</td><td>true</td><td>显示玻璃管外壳</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=vfd">试一下 &rarr;</a>
+        </div>
+
+        <!-- Chalk -->
+        <div class="theme-detail" id="theme-chalk">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Chalk</span>
+            <span class="theme-detail-id">chalk</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 渲染的逼真粉笔板效果，具有粉笔纹理、粉尘颗粒、涂抹效果和可配置板色。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>roughness</td><td>number</td><td>5</td><td>粉笔纹理粗糙度</td></tr>
+            <tr><td>dust</td><td>number</td><td>6</td><td>粉笔粉尘颗粒量</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>涂抹效果强度</td></tr>
+            <tr><td>board</td><td>string</td><td>green</td><td>板色：<code>green</code> 或 <code>black</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=chalk">试一下 &rarr;</a>
+        </div>
+
+        <!-- Stamp -->
+        <div class="theme-detail" id="theme-stamp">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Stamp</span>
+            <span class="theme-detail-id">stamp</span>
+          </div>
+          <p class="theme-detail-desc">仿旧纸张上的橡皮印章效果，具有油墨渗透、老化效果和涂抹痕迹。DOM/CSS 实现。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#cc2233"></span> <code>cc2233</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#f5f0e0"></span> <code>f5f0e0</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>ink</td><td>number</td><td>7</td><td>油墨密度和渗透</td></tr>
+            <tr><td>aged</td><td>number</td><td>6</td><td>纸张老化强度</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>涂抹痕迹量</td></tr>
+            <tr><td>paper</td><td>string</td><td>cream</td><td>纸张风格：<code>cream</code>、<code>white</code>、<code>aged</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=stamp">试一下 &rarr;</a>
+        </div>
+
+        <!-- Cinema -->
+        <div class="theme-detail" id="theme-cinema">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cinema</span>
+            <span class="theme-detail-id">cinema</span>
+          </div>
+          <p class="theme-detail-desc">电影院字母排列板，单独放置的字母瓷砖。DOM 实现，带背光和可配置毛毡颜色。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>rows</td><td>number</td><td>1</td><td>文字行数</td></tr>
+            <tr><td>backlight</td><td>number</td><td>6</td><td>背光辉光强度</td></tr>
+            <tr><td>felt</td><td>string</td><td>black</td><td>毛毡背景颜色</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=cinema">试一下 &rarr;</a>
+        </div>
+
+        <!-- Gothic -->
+        <div class="theme-detail" id="theme-gothic">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gothic</span>
+            <span class="theme-detail-id">gothic</span>
+          </div>
+          <p class="theme-detail-desc">中世纪手抄本风格，华丽边框、仿旧羊皮纸、彩饰首字母、蜡封和烛光效果。DOM/CSS 实现。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#2a1a0a"></span> <code>2a1a0a</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>ornate</td><td>number</td><td>7</td><td>边框装饰程度</td></tr>
+            <tr><td>aged</td><td>number</td><td>5</td><td>羊皮纸老化强度</td></tr>
+            <tr><td>illuminated</td><td>boolean</td><td>true</td><td>显示彩饰首字母</td></tr>
+            <tr><td>seal</td><td>boolean</td><td>true</td><td>显示蜡封装饰</td></tr>
+            <tr><td>candle</td><td>number</td><td>4</td><td>烛光闪烁效果</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=gothic">试一下 &rarr;</a>
+        </div>
+
+        <!-- Railway -->
+        <div class="theme-detail" id="theme-railway">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Railway</span>
+            <span class="theme-detail-id">railway</span>
+          </div>
+          <p class="theme-detail-desc">Solari 翻页牌出发信息板，3D CSS 翻转动画、金属外壳、机械磨损纹理和振动效果。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffcc00"></span> <code>ffcc00</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.4</td><td>翻转动画速度（秒）</td></tr>
+            <tr><td>housing</td><td>string</td><td>silver</td><td>外壳表面：<code>silver</code>、<code>black</code></td></tr>
+            <tr><td>wear</td><td>number</td><td>4</td><td>机械磨损纹理</td></tr>
+            <tr><td>vibration</td><td>number</td><td>5</td><td>机械振动强度</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=railway">试一下 &rarr;</a>
+        </div>
+
+        <!-- Sticker -->
+        <div class="theme-detail" id="theme-sticker">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sticker</span>
+            <span class="theme-detail-id">sticker</span>
+          </div>
+          <p class="theme-detail-desc">乙烯基贴纸，光面或全息表面处理、翘角效果、轮廓边框和可选闪粉。DOM/CSS 实现。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#333333"></span> <code>333333</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>finish</td><td>string</td><td>holographic</td><td>表面处理：<code>holographic</code>、<code>glossy</code>、<code>matte</code></td></tr>
+            <tr><td>peel</td><td>number</td><td>4</td><td>翘角程度</td></tr>
+            <tr><td>outline</td><td>number</td><td>6</td><td>轮廓边框厚度</td></tr>
+            <tr><td>glitter</td><td>number</td><td>0</td><td>闪粉粒子量（0 = 无）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sticker">试一下 &rarr;</a>
+        </div>
+
+        <!-- Embroidery -->
+        <div class="theme-detail" id="theme-embroidery">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Embroidery</span>
+            <span class="theme-detail-id">embroidery</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 渲染的十字绣效果，可配置针脚大小、织物纹理、绣箍和线张力。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#cc3344"></span> <code>cc3344</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#e8dcc8"></span> <code>e8dcc8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>stitch</td><td>number</td><td>24</td><td>针脚大小（像素）</td></tr>
+            <tr><td>fabric</td><td>hex</td><td>f0ead8</td><td>织物背景颜色</td></tr>
+            <tr><td>hoop</td><td>boolean</td><td>true</td><td>显示绣箍框架</td></tr>
+            <tr><td>tension</td><td>number</td><td>4</td><td>线张力（影响针脚外观）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=embroidery">试一下 &rarr;</a>
+        </div>
+
+        <!-- Smoke -->
+        <div class="theme-detail" id="theme-smoke">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Smoke</span>
+            <span class="theme-detail-id">smoke</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 粒子烟雾效果，文字在烟雾中成型和消散，带光束、湍流和辉光效果。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#88ccff"></span> <code>88ccff</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>烟雾粒子密度</td></tr>
+            <tr><td>turbulence</td><td>number</td><td>5</td><td>湍流强度</td></tr>
+            <tr><td>shafts</td><td>number</td><td>4</td><td>光束可见度</td></tr>
+            <tr><td>glow</td><td>number</td><td>6</td><td>文字辉光强度</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=smoke">试一下 &rarr;</a>
+        </div>
+
+        <!-- Sand -->
+        <div class="theme-detail" id="theme-sand">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sand</span>
+            <span class="theme-detail-id">sand</span>
+          </div>
+          <p class="theme-detail-desc">Canvas 渲染的沙滩写字效果，带动画海浪、可调深度、湿度、泡沫和纹理细节。</p>
+          <div class="theme-detail-colors">
+            <span>默认颜色：</span>
+            <span class="color-swatch" style="background:#8b7355"></span> <code>8b7355</code>
+            <span>底色</span>
+            <span class="color-swatch" style="background:#d4b896"></span> <code>d4b896</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>10</td><td>沙滩刻字深度</td></tr>
+            <tr><td>wetness</td><td>number</td><td>6</td><td>沙滩湿度</td></tr>
+            <tr><td>foam</td><td>number</td><td>5</td><td>海浪泡沫量</td></tr>
+            <tr><td>detail</td><td>number</td><td>5</td><td>沙滩纹理细节</td></tr>
+            <tr><td>showWaves</td><td>boolean</td><td>true</td><td>显示动画海浪效果</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sand">试一下 &rarr;</a>
         </div>
 
         <!-- ==================== LIGHT ==================== -->
@@ -2155,6 +2563,294 @@ led.run/time?t=lcd&amp;format=12h          LCD 手表，12 小时制</code></pre
           <a class="theme-detail-try" href="/time?t=gradient">试用 &rarr;</a>
         </div>
 
+        <!-- ==================== QR ==================== -->
+
+        <h2 id="qr-overview">QR &mdash; 概述</h2>
+        <p>QR 产品可从任何文字、URL 或数据生成全屏二维码。包含 4 种视觉主题。要编码的内容直接放在 URL 路径中 <code>/qr/</code> 之后。</p>
+
+        <pre><code>led.run/qr/HELLO                       简单文字二维码
+led.run/qr/https%3A%2F%2Fexample.com   URL（已编码）
+led.run/qr/HELLO?t=neon&amp;ec=H           霓虹主题，高纠错级别
+led.run/qr/HELLO?t=dot&amp;shape=diamond   圆点主题，菱形模块</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong>QR 内容中的 URL 必须进行 URL 编码（例如，<code>https%3A%2F%2F</code> 代替 <code>https://</code>），因为 <code>?</code> 会被解析为查询字符串分隔符。<code>/qr</code> 不带内容会打开首页。
+        </div>
+
+        <!-- QR Parameters -->
+        <h2 id="qr-parameters">QR 参数</h2>
+        <p>QR 主题识别的参数：</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>参数</th><th>别名</th><th>类型</th><th>默认值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>主题 ID（参见<a href="#qr-themes">主题</a>）</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>随主题</td><td>模块（前景）颜色</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>随主题</td><td>背景颜色</td></tr>
+              <tr><td>ec</td><td>&mdash;</td><td>string</td><td>M</td><td>纠错级别：<code>L</code>、<code>M</code>、<code>Q</code>、<code>H</code></td></tr>
+              <tr><td>size</td><td>&mdash;</td><td>number</td><td>10</td><td>模块大小（像素，2&ndash;20）</td></tr>
+              <tr><td>margin</td><td>&mdash;</td><td>number</td><td>4</td><td>静区模块数（0&ndash;10）</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>显示缩放（0.1&ndash;3）</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>缩放时的位置</td></tr>
+              <tr><td>padding</td><td>&mdash;</td><td>number</td><td>0</td><td>容器内边距百分比（0&ndash;20）</td></tr>
+              <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>随主题</td><td>包装器激活时的外层容器颜色</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Themes -->
+        <h2 id="qr-themes">QR 主题</h2>
+        <p>led.run 包含 4 种二维码主题。</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="qr-search" placeholder="搜索二维码主题（如 'neon'、'pixel'）..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">标准黑白二维码 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-default">详情 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">霓虹辉光二维码 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-neon">详情 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot</span>
+              <span class="theme-card-id">dot</span>
+            </div>
+            <div class="theme-card-desc">圆点形状模块 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-dot">详情 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">像素艺术风格，可选 3D 效果 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#222222" title="color: 222222"></span>
+              <span class="theme-color-chip" style="background:#f0e6d3" title="bg: f0e6d3"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-pixel">详情 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- QR theme details -->
+
+        <div class="theme-detail" id="qr-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Default</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">Canvas 渲染的标准二维码，干净的黑色模块白色背景。支持可选圆角模块。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>底色</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>rounded</td><td>boolean</td><td>false</td><td>圆角模块</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">霓虹辉光二维码，Canvas shadowBlur 光晕效果。可选脉动动画营造呼吸式光晕。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>底色</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>霓虹辉光强度</td></tr>
+            <tr><td>pulse</td><td>boolean</td><td>false</td><td>启用呼吸脉动动画</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=neon">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-dot">
+          <div class="theme-detail-header"><span class="theme-detail-name">Dot</span><span class="theme-detail-id">dot</span></div>
+          <p class="theme-detail-desc">使用圆点形状模块替代方块的二维码。支持多种形状变体，包括圆形、菱形和星形。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>底色</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>gap</td><td>number</td><td>0.15</td><td>点间距（0&ndash;1）</td></tr>
+            <tr><td>shape</td><td>string</td><td>round</td><td>点形状：<code>round</code>、<code>diamond</code>、<code>star</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=dot">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">像素艺术风格二维码，可选 3D 高光和阴影效果，营造复古游戏美学。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#222222"></span> <code>222222</code> <span>底色</span> <span class="color-swatch" style="background:#f0e6d3"></span> <code>f0e6d3</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>border</td><td>number</td><td>3</td><td>像素边框厚度</td></tr>
+            <tr><td>shadow</td><td>boolean</td><td>true</td><td>显示 3D 高光/阴影</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=pixel">试一下 &rarr;</a>
+        </div>
+
+        <!-- ==================== CAMERA ==================== -->
+
+        <h2 id="camera-overview">Camera &mdash; 概述</h2>
+        <p>Camera 产品可为设备摄像头画面添加实时视觉效果。包含 4 种效果。需要摄像头权限。</p>
+
+        <pre><code>led.run/camera?t=default               干净的镜像视图
+led.run/camera?t=ascii&amp;density=8        ASCII 字符画，更密字符
+led.run/camera?t=pixel&amp;blockSize=16     像素化马赛克
+led.run/camera?t=surveillance           安防监控叠加</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong>Camera 需要浏览器权限访问设备摄像头。<code>/camera</code> 不带 <code>?t=</code> 会打开首页。在移动设备上使用 <code>facing=environment</code> 切换后置摄像头。
+        </div>
+
+        <!-- Camera Parameters -->
+        <h2 id="camera-parameters">Camera 参数</h2>
+        <p>摄像头效果识别的参数：</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>参数</th><th>别名</th><th>类型</th><th>默认值</th><th>说明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>效果 ID（参见<a href="#camera-effects">效果</a>）</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>随效果</td><td>主色</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>随效果</td><td>背景颜色</td></tr>
+              <tr><td>facing</td><td>&mdash;</td><td>string</td><td>user</td><td>摄像头：<code>user</code>（前置）或 <code>environment</code>（后置）</td></tr>
+              <tr><td>mirror</td><td>&mdash;</td><td>boolean</td><td>true</td><td>镜像画面（随朝向模式自动设置）</td></tr>
+              <tr><td>fps</td><td>&mdash;</td><td>number</td><td>30</td><td>帧率（5&ndash;60）</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 亮度滤镜 %（10&ndash;200）</td></tr>
+              <tr><td>contrast</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 对比度滤镜 %（10&ndash;200）</td></tr>
+              <tr><td>saturate</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 饱和度滤镜 %（0&ndash;200）</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>显示缩放（0.1&ndash;3）</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>缩放时的位置</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Camera Effects -->
+        <h2 id="camera-effects">Camera 效果</h2>
+        <p>led.run 包含 4 种摄像头效果。</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="camera-search" placeholder="搜索摄像头效果（如 'ascii'、'pixel'）..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Mirror</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">干净的镜像视图 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-default">详情 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">ASCII</span>
+              <span class="theme-card-id">ascii</span>
+            </div>
+            <div class="theme-card-desc">摄像头画面 ASCII 字符画 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-ascii">详情 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">像素化马赛克效果 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-pixel">详情 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Surveillance</span>
+              <span class="theme-card-id">surveillance</span>
+            </div>
+            <div class="theme-card-desc">安防监控风格叠加 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-surveillance">详情 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Camera effect details -->
+
+        <div class="theme-detail" id="camera-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Mirror</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">干净的镜像视图，覆盖适应缩放和可选边缘暗角效果。Canvas 渲染。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>底色</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>vignette</td><td>number</td><td>0</td><td>暗角强度（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=default">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-ascii">
+          <div class="theme-detail-header"><span class="theme-detail-name">ASCII</span><span class="theme-detail-id">ascii</span></div>
+          <p class="theme-detail-desc">将摄像头画面转换为 Canvas 上的 ASCII 字符画。亮度映射到字符密度，营造终端风格外观。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>底色</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>字符密度（1&ndash;10）</td></tr>
+            <tr><td>invert</td><td>boolean</td><td>false</td><td>反转亮度映射</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=ascii">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">Canvas 上的像素化马赛克效果，通过降采样和最近邻放大实现。可配置块大小和间距。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>底色</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>blockSize</td><td>number</td><td>8</td><td>像素块大小（2&ndash;32）</td></tr>
+            <tr><td>gap</td><td>number</td><td>0</td><td>像素块间距</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=pixel">试一下 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-surveillance">
+          <div class="theme-detail-header"><span class="theme-detail-name">Surveillance</span><span class="theme-detail-id">surveillance</span></div>
+          <p class="theme-detail-desc">安防监控风格，带 REC 指示器、时间戳、角标框、扫描线和噪点。Canvas 渲染，带 HUD 叠加层。</p>
+          <div class="theme-detail-colors"><span>默认颜色：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>底色</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>overlay</td><td>boolean</td><td>true</td><td>显示 HUD 叠加层（REC、时间戳、角标框）</td></tr>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>显示扫描线效果</td></tr>
+            <tr><td>noise</td><td>number</td><td>3</td><td>噪点颗粒强度（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=surveillance">试一下 &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -2180,6 +2876,15 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 led.run/time?t=digital&amp;scale=2&amp;position=center            &mdash; 2&times; zoom, centered
 led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&times; zoom, top-left anchor</code></pre>
 
+        <h3>QR Product</h3>
+        <p>QR 主题支持与 Time 相同的包装模式：<code>scale</code>（0.1&ndash;3）、<code>position</code>、<code>padding</code> 和 <code>fill</code>。当 <code>scale &ne; 1</code> 或 <code>padding &gt; 0</code> 时，会创建包装器。<code>fill</code> 控制包装器激活时的外层容器背景。</p>
+        <pre><code>led.run/qr/HELLO?scale=0.5&amp;position=center&amp;fill=1a1a2e
+led.run/qr/HELLO?scale=2&amp;position=top-left</code></pre>
+
+        <h3>Camera Product</h3>
+        <p>Camera 效果支持 <code>scale</code>（0.1&ndash;3）和 <code>position</code>，用于画中画效果（<code>scale &lt; 1</code> 时）。无 <code>padding</code> 或 <code>fill</code> 参数 &mdash; 包装模式的简化版本。</p>
+        <pre><code>led.run/camera?t=ascii&amp;scale=0.5&amp;position=bottom-right</code></pre>
+
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>
         <p>Once a display is running, you can interact with it using keyboard, mouse, or touch. Available controls vary by product.</p>
@@ -2194,6 +2899,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
@@ -2203,9 +2910,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -2217,6 +2928,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
@@ -2224,6 +2937,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Next effect</td>
                 <td>Next visualizer</td>
                 <td>Next clock</td>
+                <td>Next theme</td>
+                <td>Next effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
@@ -2231,12 +2946,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
                 <td>Previous clock</td>
+                <td>Previous theme</td>
+                <td>Previous effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
@@ -2245,9 +2964,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -2278,11 +3001,15 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2294,6 +3021,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
@@ -2301,9 +3030,22 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Camera Switch</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Settings</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2315,12 +3057,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Microphone</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
             </tbody>
@@ -2378,7 +3124,7 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card, .qr-card, .camera-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2396,10 +3142,12 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card):not(.qr-card):not(.camera-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
       setupSearch('clock-search', document.querySelectorAll('.clock-card'));
+      setupSearch('qr-search', document.querySelectorAll('.qr-card'));
+      setupSearch('camera-search', document.querySelectorAll('.camera-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
