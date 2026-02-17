@@ -16,25 +16,27 @@
 
   // Sign mode presets — static full-screen display
   var SIGN_PRESETS = [
+    { text: 'URGENT', icon: '🚨', descKey: 'preset.sign.vfd.desc', params: '?t=vfd&color=00ffcc&glow=9' },
+    { text: 'Class Rules', icon: '📝', descKey: 'preset.sign.chalk.desc', params: '?t=chalk&board=green&roughness=6' },
+    { text: 'CONFIDENTIAL', icon: '㊙️', descKey: 'preset.sign.stamp.desc', params: '?t=stamp&color=cc2233&aged=7' },
+    { text: 'NOW SHOWING', icon: '🎬', descKey: 'preset.sign.cinema.desc', params: '?t=cinema&backlight=8' },
+    { text: 'Magna Carta', icon: '📜', descKey: 'preset.sign.gothic.desc', params: '?t=gothic&illuminated=true&seal=true' },
+    { text: 'Radical!', icon: '🏷️', descKey: 'preset.sign.sticker.desc', params: '?t=sticker&finish=holographic&peel=5' },
+    { text: 'Home Sweet Home', icon: '🧵', descKey: 'preset.sign.embroidery.desc', params: '?t=embroidery&color=cc3344&hoop=true' },
+    { text: 'WASH ME', icon: '🏖️', descKey: 'preset.sign.sand.desc', params: '?t=sand&waves=true&wetness=6' },
     { text: 'DO NOT DISTURB', icon: '🤫', badgeKey: 'preset.sign.do-not-disturb.badge', descKey: 'preset.sign.do-not-disturb.desc', params: '?t=do-not-disturb&glow=ff4400' },
     { text: 'Los Angeles', icon: '🛣️', descKey: 'preset.sign.street-sign.desc', params: '?t=street-sign&sub=I-405+South&exit=42&arrow=up&glare=0.3' },
     { text: 'OPEN', icon: '🏮', badgeKey: 'preset.sign.neon.badge', descKey: 'preset.sign.neon.desc', params: '?t=neon&c=ff2d78&bg=0a0008&flicker=2' },
-    { text: 'ON AIR', icon: '🔴', descKey: 'preset.sign.broadcast.desc', params: '?t=broadcast&dot=ff3333' },
-    { text: 'Broadway', icon: '💡', descKey: 'preset.sign.marquee.desc', params: '?t=marquee&chase=5&bulbColor=ff6600&c=ffd700' },
-    { text: 'SYSTEM OK', icon: '📟', badgeKey: 'preset.sign.cyber.badge', descKey: 'preset.sign.cyber.desc', params: '?t=cyber&c=00ff41&glitch=2' },
-    { text: 'CHEERS!', icon: '🎆', descKey: 'preset.sign.firework.desc', params: '?t=firework&rate=8&c=ffd700' },
-    { text: 'Le Petit Cafe', icon: '🪵', descKey: 'preset.sign.wood.desc', params: '?t=wood&warm=8&c=d4a847&mode=sign' },
-    { text: 'BREATHE', icon: '🌌', descKey: 'preset.sign.aurora.desc', params: '?t=aurora&intensity=8' },
-    { text: 'SHIBUYA', icon: '🌃', badgeKey: 'preset.sign.tokyo.badge', descKey: 'preset.sign.tokyo.desc', params: '?t=tokyo&c=ff0066' }
+    { text: 'ON AIR', icon: '🔴', descKey: 'preset.sign.broadcast.desc', params: '?t=broadcast&dot=ff3333' }
   ];
 
   // Flow mode presets — scrolling marquee display
   var FLOW_PRESETS = [
+    { text: 'PLATFORM 9 3/4 - HOGWARTS EXPRESS', icon: '🚂', descKey: 'preset.flow.railway.desc', params: '?t=railway&housing=silver&flipSpeed=0.3' },
+    { text: 'RESTRICTED AREA - KEEP OUT', icon: '💨', descKey: 'preset.flow.smoke.desc', params: '?t=smoke&color=88ccff&turbulence=7' },
     { text: 'WE LOVE YOU TAYLOR', icon: '🎤', badgeKey: 'preset.flow.gradient.badge', descKey: 'preset.flow.gradient.desc', params: '?t=gradient&mode=flow&speed=150' },
     { text: 'DRINKS HALF PRICE UNTIL 9PM', icon: '🍻', descKey: 'preset.flow.neon.desc', params: '?t=neon&mode=flow&c=ffaa00&flicker=1&speed=120' },
-    { text: 'WELCOME TO THE GRAND OPENING', icon: '🎊', descKey: 'preset.flow.firework.desc', params: '?t=firework&mode=flow&rate=6&c=ffd700&speed=100' },
-    { text: 'NOW PLAYING: BOHEMIAN RHAPSODY', icon: '🎵', badgeKey: 'preset.flow.retro.badge', descKey: 'preset.flow.retro.desc', params: '?t=retro&mode=flow&c=cc66ff&speed=80' },
-    { text: 'AIRPORT SHUTTLE -> GATE 4', icon: '🚌', descKey: 'preset.flow.dot-matrix.desc', params: '?t=dot-matrix' }
+    { text: 'WELCOME TO THE GRAND OPENING', icon: '🎊', descKey: 'preset.flow.firework.desc', params: '?t=firework&mode=flow&rate=6&c=ffd700&speed=100' }
   ];
 
   // Light effect presets — for landing page
@@ -1052,7 +1054,7 @@
           if (type === 'range') {
             var ri = document.createElement('input');
             ri.type = 'range'; ri.className = 'builder-range';
-            ri.min = meta.min || 0; ri.max = meta.max || 100; ri.step = meta.step || 1;
+            ri.min = (meta && meta.min) || 0; ri.max = (meta && meta.max) || 100; ri.step = (meta && meta.step) || 1;
             ri.value = defVal;
             var rv = document.createElement('span');
             rv.className = 'val'; rv.textContent = defVal;

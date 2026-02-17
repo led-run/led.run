@@ -1,13 +1,12 @@
 /**
- * Gothic Theme
- * Medieval illuminated manuscript page with ornate borders,
- * decorative initials, parchment texture, and optional wax seal
- * Supports SIGN (static) and FLOW (scrolling) modes
+ * Gothic Theme - Redesigned
+ * Exquisite medieval manuscript with ink bleed, gold-leaf illumination, 
+ * embossed wax seals, and flickering candlelight ambiance.
  */
 ;(function(global) {
   'use strict';
 
-  var AUTO_FLOW_THRESHOLD = 10;
+  var AUTO_FLOW_THRESHOLD = 12;
 
   var GothicTheme = {
     id: 'gothic',
@@ -23,243 +22,188 @@
       ornate: 7,
       aged: 5,
       illuminated: true,
-      seal: false
+      seal: true,
+      candle: 4
     },
 
     _container: null,
     _config: null,
     _mode: null,
-    _resizeHandler: null,
+    _rafId: null,
     _paused: false,
-    _animationStyle: null,
-    _textEl: null,
+    _text: '',
+    _lastTime: 0,
+    _candleTime: 0,
+    _resizeHandler: null,
 
-    init(container, text, config) {
+    init: function(container, text, config) {
       this._container = container;
-      this._config = config;
+      this._text = text;
+      this._config = Object.assign({}, this.defaults, config);
       this._paused = false;
+      this._candleTime = 0;
+      this._lastTime = performance.now();
 
       container.classList.add('theme-gothic');
+      container.style.backgroundColor = '#' + this._config.bg;
 
-      var inkColor = '#' + (config.color || this.defaults.color);
-      var parchmentColor = '#' + (config.bg || this.defaults.bg);
-      var ornate = Math.max(0, Math.min(10, Number(config.ornate) || 7));
-      var aged = Math.max(0, Math.min(10, Number(config.aged) || 5));
-      var illuminated = config.illuminated !== false && config.illuminated !== 'false';
-      var showSeal = config.seal === true || config.seal === 'true';
+      this._buildLayout();
+      this._mode = this._resolveMode(text, this._config.mode);
+      this._renderContent();
+      this._startAnimation();
 
-      container.style.setProperty('--gothic-ink', inkColor);
-      container.style.setProperty('--gothic-parchment', parchmentColor);
-      container.style.setProperty('--gothic-ornate', ornate / 10);
-      container.style.setProperty('--gothic-aged', aged / 10);
-      container.style.backgroundColor = parchmentColor;
-
-      // Parchment background
-      var parchment = document.createElement('div');
-      parchment.className = 'gothic-parchment';
-      container.appendChild(parchment);
-
-      // Aged edge staining
-      var edges = document.createElement('div');
-      edges.className = 'gothic-edges';
-      edges.style.opacity = aged / 10;
-      container.appendChild(edges);
-
-      // Vellum texture overlay
-      var vellum = document.createElement('div');
-      vellum.className = 'gothic-vellum';
-      container.appendChild(vellum);
-
-      // Gold-leaf ornate border frame
-      if (ornate > 3) {
-        var border = document.createElement('div');
-        border.className = 'gothic-border';
-        container.appendChild(border);
-
-        // Corner flourishes
-        ['tl', 'tr', 'bl', 'br'].forEach(function(pos) {
-          var flourish = document.createElement('div');
-          flourish.className = 'gothic-flourish gothic-flourish-' + pos;
-          container.appendChild(flourish);
-        });
-      }
-
-      // Main content container
-      var content = document.createElement('div');
-      content.className = 'gothic-content';
-      container.appendChild(content);
-
-      // Optional wax seal
-      if (showSeal) {
-        var seal = document.createElement('div');
-        seal.className = 'gothic-seal';
-        var sealInner = document.createElement('div');
-        sealInner.className = 'gothic-seal-inner';
-        seal.appendChild(sealInner);
-        container.appendChild(seal);
-      }
-
-      this._mode = this._resolveMode(text, config.mode);
-
-      if (this._mode === 'flow') {
-        this._initFlow(content, text, config, illuminated);
-      } else {
-        this._initSign(content, text, config, illuminated);
-      }
-
-      // Card-type scale handling
-      var scale = Math.max(0.1, Math.min(1, Number(config.scale) || 1));
-      if (scale < 1) {
-        var scaleWrap = document.createElement('div');
-        scaleWrap.style.position = 'relative';
-        scaleWrap.style.width = '100%';
-        scaleWrap.style.height = '100%';
-        scaleWrap.style.transform = 'scale(' + scale + ')';
-        scaleWrap.style.transformOrigin = 'center center';
-        var cs = window.getComputedStyle(container);
-        ['display', 'flexDirection', 'alignItems', 'justifyContent', 'overflow'].forEach(function(p) {
-          scaleWrap.style[p] = cs[p];
-        });
-        while (container.firstChild) scaleWrap.appendChild(container.firstChild);
-        container.appendChild(scaleWrap);
-        scaleWrap.style.backgroundColor = '#' + (config.fill || this.defaults.fill);
-        container.style.background = 'transparent';
-        if (config.bg && config.bg !== this.defaults.bg) {
-          container.style.backgroundColor = '#' + config.bg;
-        }
-      }
+      this._resizeHandler = this._onResize.bind(this);
+      window.addEventListener('resize', this._resizeHandler);
     },
 
-    _resolveMode(text, modeHint) {
+    _resolveMode: function(text, modeHint) {
       if (modeHint === 'flow' || modeHint === 'scroll') return 'flow';
       if (modeHint === 'sign' || modeHint === 'static') return 'sign';
       return [...text].length > AUTO_FLOW_THRESHOLD ? 'flow' : 'sign';
     },
 
-    _initSign(container, text, config, illuminated) {
-      var el = document.createElement('div');
-      el.className = 'gothic-sign-text';
-      if (config.font) el.style.fontFamily = config.font;
+    _buildLayout: function() {
+      var c = this._container;
+      c.innerHTML = '';
+      
+      // 1. Parchment Base
+      var p = document.createElement('div');
+      p.className = 'gothic-parchment';
+      c.appendChild(p);
 
-      // Decorative initial capital (when illuminated=true and text has >1 char)
-      if (illuminated && text.length > 1) {
-        var initial = document.createElement('span');
-        initial.className = 'gothic-initial';
-        initial.textContent = text.charAt(0);
-
-        var rest = document.createElement('span');
-        rest.className = 'gothic-rest';
-        rest.textContent = text.slice(1);
-
-        el.appendChild(initial);
-        el.appendChild(rest);
-      } else {
-        el.textContent = text;
+      // 2. Ornate Border
+      if (Number(this._config.ornate) > 2) {
+        var b = document.createElement('div');
+        b.className = 'gothic-border';
+        c.appendChild(b);
       }
 
-      container.appendChild(el);
-      this._textEl = el;
+      // 3. Main Text Area
+      var area = document.createElement('div');
+      area.className = 'gothic-area';
+      c.appendChild(area);
+      this._area = area;
 
-      this._fitText(el, text, config);
-
-      this._resizeHandler = function() {
-        this._fitText(el, text, config);
-      }.bind(this);
-      window.addEventListener('resize', this._resizeHandler);
-    },
-
-    _fitText(el, text, config) {
-      var fontSize = TextEngine.autoFit(text, this._container, {
-        fontFamily: config.font || this.defaults.font,
-        fontWeight: '400',
-        padding: Math.max(80, this._container.clientWidth * 0.12)
-      });
-      el.style.fontSize = fontSize + 'px';
-
-      // Scale initial capital relative to body text
-      var initial = el.querySelector('.gothic-initial');
-      if (initial) {
-        initial.style.fontSize = '1.6em';
-        initial.style.lineHeight = '0.85';
-      }
-    },
-
-    _initFlow(container, text, config, illuminated) {
-      var track = document.createElement('div');
-      track.className = 'gothic-flow-track';
-
-      for (var i = 0; i < 2; i++) {
-        var span = document.createElement('span');
-        span.className = 'gothic-flow-text';
-        span.textContent = text;
-        if (config.font) span.style.fontFamily = config.font;
-        track.appendChild(span);
+      // 4. Wax Seal
+      if (this._config.seal !== false && this._config.seal !== 'false') {
+        var seal = document.createElement('div');
+        seal.className = 'gothic-seal';
+        var sealIn = document.createElement('div');
+        sealIn.className = 'gothic-seal-inner';
+        seal.appendChild(sealIn);
+        c.appendChild(seal);
       }
 
-      container.appendChild(track);
-      this._textEl = track;
-
-      var speed = config.speed || this.defaults.speed;
-      var direction = config.direction || this.defaults.direction;
-
-      var flowSize = Math.floor(this._container.clientHeight * 0.4);
-      track.querySelectorAll('.gothic-flow-text').forEach(function(t) {
-        t.style.fontSize = flowSize + 'px';
-      });
-
-      var animName = 'gothic-flow-scroll';
-      var style = document.createElement('style');
-      style.textContent =
-        '@keyframes ' + animName + ' { from { transform: translateX(0); } to { transform: translateX(' +
-        (direction === 'right' ? '50%' : '-50%') + '); } }';
-      document.head.appendChild(style);
-      this._animationStyle = style;
-
-      var duration = Math.max(5, 200 / (speed / 30));
-      track.style.animation = animName + ' ' + duration + 's linear infinite';
-
-      this._resizeHandler = function() {
-        var newSize = Math.floor(this._container.clientHeight * 0.4);
-        track.querySelectorAll('.gothic-flow-text').forEach(function(t) {
-          t.style.fontSize = newSize + 'px';
-        });
-      }.bind(this);
-      window.addEventListener('resize', this._resizeHandler);
+      // 5. Candle Glow Overlay
+      var glow = document.createElement('div');
+      glow.className = 'gothic-candle-glow';
+      c.appendChild(glow);
+      this._glow = glow;
     },
 
-    togglePause() {
-      this._paused = !this._paused;
-      var state = this._paused ? 'paused' : 'running';
+    _renderContent: function() {
+      var area = this._area;
+      area.innerHTML = '';
+      var font = this._config.font || this.defaults.font;
+      var scale = Math.max(0.1, Math.min(1.5, Number(this._config.scale) || 1));
 
-      if (this._textEl) {
-        if (this._mode === 'flow') {
-          this._textEl.style.animationPlayState = state;
+      if (this._mode === 'sign') {
+        var el = document.createElement('div');
+        el.className = 'gothic-sign-text';
+        el.style.fontFamily = font;
+        el.style.color = '#' + this._config.color;
+        
+        if (this._config.illuminated !== false && this._config.illuminated !== 'false' && this._text.length > 0) {
+          var initial = document.createElement('span');
+          initial.className = 'gothic-initial';
+          initial.textContent = this._text[0];
+          el.appendChild(initial);
+          el.appendChild(document.createTextNode(this._text.substring(1)));
         } else {
-          this._textEl.style.opacity = this._paused ? '0.5' : '1';
+          el.textContent = this._text;
+        }
+        area.appendChild(el);
+        this._fitSignText(el);
+      } else {
+        var track = document.createElement('div');
+        track.className = 'gothic-flow-track';
+        var speed = (Number(this._config.speed) || 60) / 10;
+        var dir = this._config.direction === 'right' ? 'reverse' : 'normal';
+        track.style.animation = 'gothic-scroll ' + (20/speed) + 's linear infinite ' + dir;
+        
+        for (var i = 0; i < 2; i++) {
+          var t = document.createElement('span');
+          t.className = 'gothic-flow-text';
+          t.textContent = this._text + ' ';
+          t.style.fontFamily = font;
+          t.style.color = '#' + this._config.color;
+          track.appendChild(t);
+        }
+        area.appendChild(track);
+        var fSize = Math.floor(this._container.clientHeight * 0.4 * scale);
+        track.style.fontSize = fSize + 'px';
+      }
+    },
+
+    _fitSignText: function(el) {
+      var scale = Math.max(0.1, Math.min(1.5, Number(this._config.scale) || 1));
+      var fSize = TextEngine.autoFit(this._text, this._container, {
+        fontFamily: this._config.font || this.defaults.font,
+        fontWeight: '400',
+        padding: this._container.clientWidth * 0.2
+      });
+      el.style.fontSize = Math.floor(fSize * scale) + 'px';
+    },
+
+    _startAnimation: function() {
+      var self = this;
+      function loop(now) {
+        if (!self._container) return;
+        var delta = Math.min((now - self._lastTime) / 1000, 0.1);
+        self._lastTime = now;
+        if (!self._paused) {
+          self._candleTime += delta;
+          var candle = Number(self._config.candle) || 0;
+          if (candle > 0) {
+            var flicker = Math.sin(self._candleTime * 10) * 0.05 + Math.sin(self._candleTime * 3) * 0.1;
+            self._glow.style.opacity = (candle / 10) * (0.6 + flicker);
+          }
+        }
+        self._rafId = requestAnimationFrame(loop);
+      }
+      this._rafId = requestAnimationFrame(loop);
+    },
+
+    _onResize: function() {
+      if (this._mode === 'sign') {
+        var el = this._area.querySelector('.gothic-sign-text');
+        if (el) this._fitSignText(el);
+      } else {
+        var track = this._area.querySelector('.gothic-flow-track');
+        if (track) {
+          var scale = Math.max(0.1, Math.min(1.5, Number(this._config.scale) || 1));
+          track.style.fontSize = Math.floor(this._container.clientHeight * 0.4 * scale) + 'px';
         }
       }
+    },
 
+    togglePause: function() {
+      this._paused = !this._paused;
+      var track = this._area.querySelector('.gothic-flow-track');
+      if (track) track.style.animationPlayState = this._paused ? 'paused' : 'running';
       return this._paused;
     },
 
-    isPaused() {
+    isPaused: function() {
       return this._paused;
     },
 
-    destroy() {
-      if (this._resizeHandler) {
-        window.removeEventListener('resize', this._resizeHandler);
-        this._resizeHandler = null;
-      }
-      if (this._animationStyle) {
-        this._animationStyle.remove();
-        this._animationStyle = null;
-      }
+    destroy: function() {
+      if (this._rafId) cancelAnimationFrame(this._rafId);
+      if (this._resizeHandler) window.removeEventListener('resize', this._resizeHandler);
+      this._container.classList.remove('theme-gothic');
+      this._container.innerHTML = '';
       this._container = null;
-      this._textEl = null;
-      this._config = null;
-      this._mode = null;
-      this._paused = false;
     }
   };
 

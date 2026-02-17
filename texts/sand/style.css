@@ -1,14 +1,13 @@
 /**
- * Sand Theme Styles
- * Beach sand writing with carved text, wave animation, and warm sunlight
+ * Sand Theme Styles - Redesigned
  */
-
 .theme-sand {
-  background-color: #c2956b;
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: default;
 }
 
 .theme-sand .sand-canvas {
@@ -17,53 +16,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-}
-
-/* Text Container */
-.theme-sand .sand-content {
-  z-index: 10;
-  position: relative;
-  text-align: center;
-}
-
-.theme-sand .sand-content--flow {
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  text-align: left;
-}
-
-/* SIGN mode text — invisible, used only as mask source */
-.theme-sand .sand-sign-text {
-  color: transparent;
-  font-weight: 700;
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1;
-  letter-spacing: 0.02em;
-}
-
-/* FLOW mode */
-.theme-sand .sand-flow-track {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  will-change: transform;
-}
-
-.theme-sand .sand-flow-text {
-  color: transparent;
-  font-weight: 700;
-  white-space: nowrap;
-  padding: 0 0.5em;
-  user-select: none;
-  flex-shrink: 0;
-  line-height: 1;
+  z-index: 1;
 }
 
 #app[data-theme="sand"] .toolbar {
-  --toolbar-bg: rgba(140, 110, 70, 0.85);
-  --toolbar-btn-color: rgba(255, 240, 200, 0.8);
+  --toolbar-bg: rgba(120, 90, 60, 0.8);
+  --toolbar-btn-color: rgba(255, 240, 200, 0.9);
 }

@@ -1,173 +1,74 @@
 /**
- * Stamp Theme Styles
- * Rubber stamp on aged paper with ink effects
+ * Stamp Theme Styles - Redesigned
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Special+Elite&display=swap');
-
 .theme-stamp {
-  background-color: var(--stamp-paper, #f5f0e0);
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Special Elite', 'Courier New', monospace;
 }
 
-/* Paper texture */
 .theme-stamp .stamp-paper {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: #f5f0e0;
   z-index: 1;
-  background-image:
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.01) 2px,
-      rgba(0, 0, 0, 0.01) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 2px,
-      rgba(0, 0, 0, 0.01) 2px,
-      rgba(0, 0, 0, 0.01) 4px
-    );
-  pointer-events: none;
 }
 
-/* Aging overlay */
 .theme-stamp .stamp-aging {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  top: 0; left: 0; right: 0; bottom: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(
-    ellipse at center,
-    transparent 40%,
-    rgba(139, 109, 60, 0.15) 100%
-  );
 }
 
-.theme-stamp .stamp-spot {
+.theme-stamp .stamp-stain {
   position: absolute;
-  background: radial-gradient(circle, rgba(139, 109, 60, 0.3), transparent);
+  width: 100px; height: 100px;
+  background: radial-gradient(circle, rgba(139, 109, 60, 0.1) 0%, transparent 70%);
   border-radius: 50%;
 }
 
-/* Stamp impression area */
 .theme-stamp .stamp-area {
   position: relative;
   z-index: 5;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 80%;
-  height: 70%;
-  max-width: 600px;
-  max-height: 600px;
+  display: flex; align-items: center; justify-content: center;
+  padding: 40px;
 }
 
-/* Circle ring */
-.theme-stamp .stamp-ring-circle {
+.theme-stamp .stamp-ring {
   position: absolute;
-  top: 5%;
-  left: 5%;
-  right: 5%;
-  bottom: 5%;
-  border: 4px solid var(--stamp-color, #cc2233);
-  border-radius: 50%;
-  opacity: 0.85;
+  top: 0; left: 0; right: 0; bottom: 0;
+  border: 6px solid;
+  border-radius: 10px;
+  opacity: 0.8;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-.theme-stamp .stamp-inner-ring {
-  position: absolute;
-  top: 8%;
-  left: 8%;
-  right: 8%;
-  bottom: 8%;
-  border: 2px solid var(--stamp-color, #cc2233);
-  border-radius: 50%;
-  opacity: 0.6;
-}
-
-/* Rectangle ring */
-.theme-stamp .stamp-ring-rectangle {
-  position: absolute;
-  top: 10%;
-  left: 5%;
-  right: 5%;
-  bottom: 10%;
-  border: 4px solid var(--stamp-color, #cc2233);
-  border-radius: 4px;
-  opacity: 0.85;
-}
-
-/* Decorative stars */
-.theme-stamp .stamp-star {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  font-size: 14px;
-  opacity: 0.7;
-  transform-origin: center;
-  line-height: 1;
+.theme-stamp .stamp-content {
+  position: relative;
   z-index: 6;
 }
 
-/* Stamp content */
-.theme-stamp .stamp-content {
-  position: relative;
-  z-index: 7;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-}
-
-/* Sign mode text */
-.theme-stamp .stamp-sign-text {
-  color: var(--stamp-color, #cc2233);
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
-  /* Ink bleed effect */
-  filter: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='ink'%3E%3CfeTurbulence baseFrequency='0.04' numOctaves='4' seed='1' /%3E%3CfeDisplacementMap in='SourceGraphic' scale='2' /%3E%3C/filter%3E%3C/svg%3E#ink");
-}
-
-/* Flow mode */
-.theme-stamp .stamp-flow-track {
-  display: flex;
-  align-items: center;
-  white-space: nowrap;
-  will-change: transform;
-}
-
+.theme-stamp .stamp-sign-text,
 .theme-stamp .stamp-flow-text {
-  color: var(--stamp-color, #cc2233);
   text-transform: uppercase;
   letter-spacing: 0.1em;
-  white-space: nowrap;
-  padding: 0 0.5em;
-  user-select: none;
-  flex-shrink: 0;
-  line-height: 1;
+  mask-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7'/%3E%3C/filter%3E%3Crect width='100' height='100' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
-/* Toolbar integration */
+.theme-stamp .stamp-flow-track {
+  white-space: nowrap;
+  display: flex;
+}
+
+@keyframes stamp-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
 #app[data-theme="stamp"] .toolbar {
-  --toolbar-bg: rgba(100, 80, 50, 0.85);
-  --toolbar-btn-color: rgba(200, 180, 140, 0.8);
+  --toolbar-bg: rgba(100, 80, 50, 0.8);
+  --toolbar-btn-color: rgba(204, 34, 51, 0.9);
 }

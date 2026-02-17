@@ -1,29 +1,12 @@
 /**
- * Chalk Theme Styles
- * Green/black chalkboard with wooden frame and chalk tray
+ * Chalk Theme Styles - Redesigned
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Patrick+Hand&display=swap');
-
 .theme-chalk {
-  background-color: #1a1a0f;
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-family: 'Patrick Hand', 'Segoe Print', cursive;
-}
-
-.theme-chalk .chalk-board {
-  position: absolute;
-  top: 6%;
-  left: 6%;
-  right: 6%;
-  bottom: 10%;
-  background-color: #3a6b34;
-  border-radius: 2px;
-  z-index: 1;
-  box-shadow: inset 0 0 60px rgba(0, 0, 0, 0.4);
 }
 
 .theme-chalk .chalk-canvas {
@@ -32,79 +15,10 @@
   left: 0;
   width: 100%;
   height: 100%;
-  z-index: 2;
+  z-index: 1;
 }
 
-/* Chalk tray at bottom */
-.theme-chalk .chalk-tray {
-  position: absolute;
-  bottom: 5%;
-  left: 8%;
-  right: 8%;
-  height: 3%;
-  min-height: 8px;
-  background: linear-gradient(180deg, #8b7355 0%, #6b5740 40%, #5a4835 100%);
-  border-radius: 2px;
-  z-index: 10;
-  box-shadow:
-    0 2px 4px rgba(0, 0, 0, 0.5),
-    inset 0 1px 0 rgba(255, 255, 255, 0.1);
-}
-
-.theme-chalk .chalk-piece {
-  position: absolute;
-  width: 8%;
-  min-width: 20px;
-  height: 60%;
-  top: -80%;
-  border-radius: 2px;
-  opacity: 0.9;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
-}
-
-/* Wooden frame */
-.theme-chalk .chalk-frame {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  pointer-events: none;
-  z-index: 5;
-}
-
-.theme-chalk .chalk-frame-wood {
-  border: 30px solid #5c3d1e;
-  border-image: linear-gradient(
-    135deg,
-    #7a5230 0%,
-    #5c3d1e 25%,
-    #8b6340 50%,
-    #5c3d1e 75%,
-    #7a5230 100%
-  ) 1;
-  box-shadow:
-    inset 0 0 15px rgba(0, 0, 0, 0.5),
-    0 4px 12px rgba(0, 0, 0, 0.6);
-}
-
-.theme-chalk .chalk-frame-metal {
-  border: 20px solid #666;
-  border-image: linear-gradient(
-    135deg,
-    #888 0%,
-    #555 25%,
-    #999 50%,
-    #555 75%,
-    #888 100%
-  ) 1;
-  box-shadow:
-    inset 0 0 10px rgba(0, 0, 0, 0.4),
-    0 3px 8px rgba(0, 0, 0, 0.5);
-}
-
-/* Toolbar integration */
 #app[data-theme="chalk"] .toolbar {
-  --toolbar-bg: rgba(40, 50, 30, 0.85);
-  --toolbar-btn-color: rgba(255, 255, 255, 0.7);
+  --toolbar-bg: rgba(30, 40, 30, 0.8);
+  --toolbar-btn-color: rgba(255, 255, 255, 0.9);
 }

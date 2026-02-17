@@ -1,37 +1,22 @@
 /**
- * Embroidery Theme Styles
- * Cross-stitch on linen fabric
+ * Embroidery Theme Styles - Redesigned
  */
-
 .theme-embroidery {
-    position: relative;
-    overflow: hidden;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background-color: #e8dcc8;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-/* Board wrapper */
-.embroidery-board {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
+.theme-embroidery .embroidery-canvas {
+  position: absolute;
+  top: 0; left: 0;
+  width: 100%; height: 100%;
+  z-index: 1;
 }
 
-/* Main canvas */
-.embroidery-canvas {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 1;
-}
-
-/* Toolbar override */
 #app[data-theme="embroidery"] .toolbar {
-    --toolbar-bg: rgba(200, 180, 150, 0.85);
-    --toolbar-btn-color: rgba(80, 40, 20, 0.8);
+  --toolbar-bg: rgba(100, 80, 60, 0.8);
+  --toolbar-btn-color: rgba(204, 51, 68, 0.9);
 }

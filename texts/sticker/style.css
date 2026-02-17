@@ -1,269 +1,86 @@
 /**
- * Sticker Theme Styles
- * Glossy vinyl die-cut sticker with peeling corner,
- * holographic shimmer, and surface texture
+ * Sticker Theme Styles - Redesigned
  */
-
-@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
-
-/* ── Container ── */
 .theme-sticker {
-  --sticker-surface: #808080;
-  --sticker-color: #ffffff;
-  --sticker-outline: 5px;
-  --sticker-peel: 3;
-  font-family: 'Fredoka', 'Nunito', sans-serif;
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  position: relative;
 }
 
-/* ── Surface texture (subtle noise / grain) ── */
 .theme-sticker .sticker-surface {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 0;
-  pointer-events: none;
-  background-image:
-    radial-gradient(circle at 20% 30%, rgba(255,255,255,0.04) 0%, transparent 50%),
-    radial-gradient(circle at 80% 70%, rgba(0,0,0,0.06) 0%, transparent 50%),
-    repeating-linear-gradient(
-      0deg,
-      transparent 0px,
-      transparent 2px,
-      rgba(0,0,0,0.015) 2px,
-      rgba(0,0,0,0.015) 3px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent 0px,
-      transparent 2px,
-      rgba(0,0,0,0.015) 2px,
-      rgba(0,0,0,0.015) 3px
-    );
-}
-
-/* ── Drop shadow (positioned behind sticker) ── */
-.theme-sticker .sticker-shadow {
-  position: absolute;
-  top: 50%; left: 50%;
-  width: 75%; height: 55%;
-  transform: translate(-50%, -50%);
+  background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.05) 1px, transparent 0);
+  background-size: 20px 20px;
   z-index: 1;
-  border-radius: 16px;
-  background: transparent;
-  box-shadow:
-    4px 6px 12px rgba(0,0,0,0.25),
-    8px 12px 24px rgba(0,0,0,0.15),
-    2px 3px 6px rgba(0,0,0,0.3);
-  pointer-events: none;
 }
 
-/* ── Sticker body ── */
 .theme-sticker .sticker-body {
   position: relative;
-  z-index: 5;
-  width: 80%;
-  height: 60%;
-  max-width: 90%;
-  max-height: 80%;
-  background: var(--sticker-color);
-  border-radius: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
-  /* White die-cut outline border */
-  border: var(--sticker-outline) solid #ffffff;
-  box-shadow:
-    0 1px 3px rgba(0,0,0,0.2),
-    inset 0 1px 0 rgba(255,255,255,0.6);
+  padding: 40px 60px;
+  background: white;
+  border-radius: 20px;
+  z-index: 3;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+  display: flex; align-items: center; justify-content: center;
 }
 
-/* ── Sticker content ── */
-.theme-sticker .sticker-content {
-  position: relative;
-  z-index: 2;
-  width: 100%;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  overflow: hidden;
+.theme-sticker .sticker-finish-holographic {
+  background: linear-gradient(var(--holo-pos, 0deg), #ffefef, #eef5ff, #efffef, #ffefef);
+  background-size: 200% 200%;
 }
 
-/* ── Text styles ── */
+.theme-sticker .sticker-finish-glossy {
+  background: linear-gradient(135deg, #fff 0%, #eee 100%);
+}
+
 .theme-sticker .sticker-sign-text,
 .theme-sticker .sticker-flow-text {
-  position: relative;
+  font-weight: 700;
+  filter: drop-shadow(0 2px 2px rgba(0,0,0,0.1));
+}
+
+.theme-sticker .sticker-peel {
+  position: absolute;
+  top: 0; right: 0;
+  width: 60px; height: 60px;
+  background: linear-gradient(225deg, transparent 50%, rgba(0,0,0,0.1) 50.1%, rgba(0,0,0,0.05) 100%);
+  z-index: 4;
+}
+
+.theme-sticker .sticker-peel-back {
+  position: absolute;
+  top: -5px; right: -5px;
+  width: 70px; height: 70px;
+  background: #eee;
+  clip-path: polygon(100% 0, 0 100%, 100% 100%);
+  z-index: 5;
+  box-shadow: -5px 5px 15px rgba(0,0,0,0.2);
+}
+
+.theme-sticker .sticker-shadow {
+  position: absolute;
+  top: 55%; left: 50%;
+  width: 85%; height: 80%;
+  background: rgba(0,0,0,0.15);
+  filter: blur(20px);
+  transform: translate(-50%, -50%);
   z-index: 2;
-  color: var(--sticker-color);
-  font-weight: 600;
-  text-align: center;
-  line-height: 1;
-  letter-spacing: 0.02em;
-  /* Text uses a paint-stroke style with shadow for depth */
-  text-shadow:
-    1px 1px 0 rgba(0,0,0,0.15),
-    -1px -1px 0 rgba(255,255,255,0.1);
-  /* Invert color: sticker body is white, text uses the configured color */
-  mix-blend-mode: normal;
 }
 
 .theme-sticker .sticker-flow-track {
-  position: relative;
-  z-index: 2;
-  display: flex;
-  align-items: center;
   white-space: nowrap;
+  display: flex;
 }
 
-.theme-sticker .sticker-flow-text {
-  padding: 0 0.3em;
+@keyframes sticker-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
-/* ── Glossy sheen sweep ── */
-.theme-sticker .sticker-sheen {
-  position: absolute;
-  top: 0; left: -120%;
-  width: 60%;
-  height: 100%;
-  z-index: 10;
-  pointer-events: none;
-  background: linear-gradient(
-    105deg,
-    transparent 0%,
-    rgba(255,255,255,0) 40%,
-    rgba(255,255,255,0.35) 50%,
-    rgba(255,255,255,0) 60%,
-    transparent 100%
-  );
-  animation: sticker-sheen-sweep 4s ease-in-out infinite;
-}
-
-@keyframes sticker-sheen-sweep {
-  0%   { left: -120%; }
-  30%  { left: 120%; }
-  100% { left: 120%; }
-}
-
-/* ── Peeling corner (bottom-right) ── */
-.theme-sticker .sticker-peel {
-  position: absolute;
-  bottom: 0; right: 0;
-  z-index: 12;
-  pointer-events: none;
-  /* Triangle fold: size derived from --sticker-peel (multiplied by base) */
-  width: calc(var(--sticker-peel) * 8px);
-  height: calc(var(--sticker-peel) * 8px);
-  background: linear-gradient(
-    135deg,
-    transparent 50%,
-    rgba(0,0,0,0.06) 50%,
-    rgba(240,240,240,1) 52%,
-    rgba(220,220,220,1) 100%
-  );
-  border-radius: 0 0 16px 0;
-  box-shadow:
-    -2px -2px 4px rgba(0,0,0,0.1),
-    -1px -1px 2px rgba(0,0,0,0.05);
-}
-
-/* Shadow underneath the peel fold */
-.theme-sticker .sticker-peel-back {
-  position: absolute;
-  bottom: 0; right: 0;
-  z-index: 11;
-  pointer-events: none;
-  width: calc(var(--sticker-peel) * 10px);
-  height: calc(var(--sticker-peel) * 10px);
-  background: radial-gradient(
-    ellipse at 100% 100%,
-    rgba(0,0,0,0.15) 0%,
-    transparent 70%
-  );
-}
-
-/* ── Holographic finish ── */
-.theme-sticker .sticker-body.sticker-holographic {
-  background:
-    linear-gradient(
-      135deg,
-      rgba(255,100,100,0.15) 0%,
-      rgba(255,255,100,0.15) 16%,
-      rgba(100,255,100,0.15) 33%,
-      rgba(100,255,255,0.15) 50%,
-      rgba(100,100,255,0.15) 66%,
-      rgba(255,100,255,0.15) 83%,
-      rgba(255,100,100,0.15) 100%
-    ),
-    #ffffff;
-  background-size: 300% 300%;
-  animation: sticker-holo-shift 3s ease infinite;
-}
-
-@keyframes sticker-holo-shift {
-  0%   { background-position: 0% 0%; }
-  50%  { background-position: 100% 100%; }
-  100% { background-position: 0% 0%; }
-}
-
-/* Additional rainbow shimmer overlay for holographic */
-.theme-sticker .sticker-body.sticker-holographic::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 8;
-  pointer-events: none;
-  background: linear-gradient(
-    115deg,
-    transparent 20%,
-    rgba(255,0,0,0.08) 25%,
-    rgba(255,165,0,0.08) 30%,
-    rgba(255,255,0,0.08) 35%,
-    rgba(0,255,0,0.08) 40%,
-    rgba(0,0,255,0.08) 45%,
-    rgba(128,0,255,0.08) 50%,
-    transparent 55%
-  );
-  background-size: 200% 200%;
-  animation: sticker-holo-shimmer 2s linear infinite;
-  mix-blend-mode: color-dodge;
-}
-
-@keyframes sticker-holo-shimmer {
-  0%   { background-position: -100% -100%; }
-  100% { background-position: 100% 100%; }
-}
-
-/* ── Matte finish ── */
-.theme-sticker .sticker-body.sticker-matte {
-  background: #ffffff;
-  box-shadow:
-    0 1px 3px rgba(0,0,0,0.2);
-  /* Slight texture to simulate matte surface */
-}
-
-.theme-sticker .sticker-body.sticker-matte::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 8;
-  pointer-events: none;
-  background:
-    repeating-linear-gradient(
-      45deg,
-      rgba(0,0,0,0.01) 0px,
-      rgba(0,0,0,0.01) 1px,
-      transparent 1px,
-      transparent 3px
-    );
-}
-
-/* ── Toolbar override ── */
 #app[data-theme="sticker"] .toolbar {
-  --toolbar-bg: rgba(40, 40, 40, 0.85);
-  --toolbar-btn-color: rgba(255, 255, 255, 0.8);
+  --toolbar-bg: rgba(50, 50, 50, 0.8);
+  --toolbar-btn-color: rgba(255, 255, 255, 0.9);
 }

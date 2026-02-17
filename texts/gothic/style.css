@@ -1,302 +1,95 @@
 /**
- * Gothic Theme Styles - Medieval Illuminated Manuscript
- * Aged parchment, gold-leaf borders, decorative initials, and wax seal
+ * Gothic Theme Styles - Redesigned
  */
-
-@import url('https://fonts.googleapis.com/css2?family=UnifrakturMaguntia&family=MedievalSharp&display=swap');
-
-/* ── Base Container ── */
 .theme-gothic {
-  font-family: 'UnifrakturMaguntia', 'MedievalSharp', serif;
   overflow: hidden;
+  position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* ── Parchment Background ── */
 .theme-gothic .gothic-parchment {
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at center, #f5e6c8 0%, #e8d5b0 100%);
   z-index: 1;
-  background:
-    /* Warm parchment gradient */
-    radial-gradient(ellipse at 40% 30%, rgba(255, 243, 220, 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse at 70% 60%, rgba(245, 222, 180, 0.3) 0%, transparent 50%),
-    /* Subtle fiber texture */
-    repeating-linear-gradient(
-      0deg,
-      transparent,
-      transparent 3px,
-      rgba(160, 120, 60, 0.03) 3px,
-      rgba(160, 120, 60, 0.03) 4px
-    ),
-    repeating-linear-gradient(
-      90deg,
-      transparent,
-      transparent 5px,
-      rgba(140, 100, 50, 0.02) 5px,
-      rgba(140, 100, 50, 0.02) 6px
-    );
-  pointer-events: none;
 }
 
-/* ── Aged Edge Staining ── */
-.theme-gothic .gothic-edges {
+.theme-gothic .gothic-parchment::after {
+  content: '';
   position: absolute;
   top: 0; left: 0; right: 0; bottom: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+  opacity: 0.05;
+  mix-blend-mode: multiply;
+}
+
+.theme-gothic .gothic-border {
+  position: absolute;
+  top: 20px; left: 20px; right: 20px; bottom: 20px;
+  border: 15px solid transparent;
+  border-image: linear-gradient(45deg, #d4af37, #f9f295, #d4af37) 1;
   z-index: 2;
-  background:
-    /* Dark edge staining — all four sides */
-    linear-gradient(to right, rgba(80, 50, 20, 0.6) 0%, transparent 8%),
-    linear-gradient(to left, rgba(80, 50, 20, 0.6) 0%, transparent 8%),
-    linear-gradient(to bottom, rgba(80, 50, 20, 0.5) 0%, transparent 6%),
-    linear-gradient(to top, rgba(80, 50, 20, 0.5) 0%, transparent 6%),
-    /* Corner foxing spots */
-    radial-gradient(circle at 5% 5%, rgba(120, 80, 30, 0.4) 0%, transparent 15%),
-    radial-gradient(circle at 95% 95%, rgba(120, 80, 30, 0.35) 0%, transparent 12%),
-    radial-gradient(circle at 92% 8%, rgba(100, 70, 25, 0.25) 0%, transparent 10%),
-    radial-gradient(circle at 8% 90%, rgba(100, 70, 25, 0.3) 0%, transparent 13%);
-  pointer-events: none;
+  box-shadow: inset 0 0 15px rgba(0,0,0,0.2);
 }
 
-/* ── Vellum Texture Overlay ── */
-.theme-gothic .gothic-vellum {
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  z-index: 3;
-  background-image:
-    /* Subtle noise-like speckle pattern */
-    radial-gradient(circle at 20% 50%, rgba(160, 120, 60, 0.08) 1px, transparent 1px),
-    radial-gradient(circle at 60% 30%, rgba(140, 100, 50, 0.06) 1px, transparent 1px),
-    radial-gradient(circle at 80% 70%, rgba(130, 90, 40, 0.07) 1px, transparent 1px),
-    radial-gradient(circle at 40% 80%, rgba(150, 110, 55, 0.05) 1px, transparent 1px);
-  background-size: 200px 200px, 150px 150px, 180px 180px, 120px 120px;
-  opacity: 0.8;
-  pointer-events: none;
-}
-
-/* ── Gold-Leaf Ornate Border Frame ── */
-.theme-gothic .gothic-border {
-  position: absolute;
-  z-index: 5;
-  pointer-events: none;
-}
-
-.theme-gothic .gothic-border {
-  top: 4%; left: 4%; right: 4%; bottom: 4%;
-  border: 3px solid #8b6914;
-  box-shadow:
-    0 0 0 1px rgba(139, 105, 20, 0.3),
-    inset 0 0 0 1px rgba(139, 105, 20, 0.3),
-    0 0 8px rgba(218, 165, 32, 0.15),
-    inset 0 0 8px rgba(218, 165, 32, 0.1);
-}
-
-/* Decorative inner rule */
-.theme-gothic .gothic-border::before {
-  content: '';
-  position: absolute;
-  top: 8px; left: 8px; right: 8px; bottom: 8px;
-  border: 1px solid rgba(139, 105, 20, 0.4);
-}
-
-/* Filigree midline decoration */
-.theme-gothic .gothic-border::after {
-  content: '';
-  position: absolute;
-  top: 4px; left: 4px; right: 4px; bottom: 4px;
-  border: 1px dashed rgba(218, 165, 32, 0.2);
-}
-
-/* ── Corner Flourishes ── */
-.theme-gothic .gothic-flourish {
-  position: absolute;
-  width: 60px;
-  height: 60px;
-  z-index: 6;
-  pointer-events: none;
-}
-
-/* Flourish uses pseudo-elements for an L-shaped ornamental corner */
-.theme-gothic .gothic-flourish::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  border: 3px solid #b8860b;
-  border-bottom: none;
-  border-right: none;
-  border-radius: 8px 0 0 0;
-}
-
-/* Center jewel / rosette */
-.theme-gothic .gothic-flourish::after {
-  content: '\2767'; /* Rotated floral heart bullet */
-  position: absolute;
-  top: -2px;
-  left: -2px;
-  font-size: 18px;
-  color: #b8860b;
-  text-shadow: 0 0 4px rgba(218, 165, 32, 0.5);
-  line-height: 1;
-}
-
-.theme-gothic .gothic-flourish-tl { top: 4%; left: 4%; }
-.theme-gothic .gothic-flourish-tr { top: 4%; right: 4%; transform: scaleX(-1); }
-.theme-gothic .gothic-flourish-bl { bottom: 4%; left: 4%; transform: scaleY(-1); }
-.theme-gothic .gothic-flourish-br { bottom: 4%; right: 4%; transform: scale(-1, -1); }
-
-/* ── Content Container ── */
-.theme-gothic .gothic-content {
-  z-index: 10;
+.theme-gothic .gothic-area {
   position: relative;
+  z-index: 3;
   width: 100%;
   height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 80px;
-  box-sizing: border-box;
 }
 
-/* ── SIGN Mode Text ── */
-.theme-gothic .gothic-sign-text {
-  color: var(--gothic-ink, #2a1a0a);
-  white-space: nowrap;
-  user-select: none;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  position: relative;
-  z-index: 10;
-  /* Ink bleed / feathering effect */
-  text-shadow:
-    0 0 1px var(--gothic-ink, #2a1a0a),
-    0 0 2px rgba(42, 26, 10, 0.3),
-    1px 1px 2px rgba(42, 26, 10, 0.15),
-    -1px 0 1px rgba(42, 26, 10, 0.1);
-}
-
-/* ── Illuminated Initial Capital ── */
 .theme-gothic .gothic-initial {
-  color: #8b1a1a;
-  position: relative;
+  font-size: 1.8em;
+  color: #d4af37;
   float: left;
-  margin-right: 0.02em;
-  /* Gold and red coloring with glow */
-  background: linear-gradient(150deg, #c41e3a 0%, #8b1a1a 40%, #daa520 60%, #b8860b 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
-  filter: drop-shadow(0 2px 3px rgba(139, 26, 26, 0.4));
-  text-shadow: none;
+  line-height: 0.8;
+  margin-right: 0.1em;
+  text-shadow: 2px 2px 0 rgba(0,0,0,0.1), 0 0 10px rgba(212,175,55,0.3);
 }
 
-/* Gold leaf sheen on initial */
-.theme-gothic .gothic-initial::after {
-  content: '';
-  position: absolute;
-  top: 0; left: 0; right: 0; bottom: 0;
-  background: linear-gradient(135deg, transparent 30%, rgba(255, 215, 0, 0.15) 50%, transparent 70%);
-  pointer-events: none;
-  animation: gothic-initial-sheen 6s ease-in-out infinite;
-}
-
-@keyframes gothic-initial-sheen {
-  0%, 100% { opacity: 0.3; }
-  50% { opacity: 0.8; }
-}
-
-/* ── Rest of text after initial ── */
-.theme-gothic .gothic-rest {
-  color: var(--gothic-ink, #2a1a0a);
-}
-
-/* ── FLOW Mode ── */
 .theme-gothic .gothic-flow-track {
+  white-space: nowrap;
   display: flex;
-  align-items: center;
-  white-space: nowrap;
-  will-change: transform;
-  z-index: 10;
-  position: relative;
 }
 
-.theme-gothic .gothic-flow-text {
-  color: var(--gothic-ink, #2a1a0a);
-  white-space: nowrap;
-  padding: 0 0.5em;
-  user-select: none;
-  flex-shrink: 0;
-  line-height: 1.1;
-  letter-spacing: 0.03em;
-  /* Ink bleed / feathering */
-  text-shadow:
-    0 0 1px var(--gothic-ink, #2a1a0a),
-    0 0 2px rgba(42, 26, 10, 0.3),
-    1px 1px 2px rgba(42, 26, 10, 0.15);
+@keyframes gothic-scroll {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
 }
 
-/* ── Wax Seal ── */
 .theme-gothic .gothic-seal {
   position: absolute;
-  bottom: 10%;
-  right: 10%;
-  width: 70px;
-  height: 70px;
-  z-index: 15;
+  bottom: 40px; right: 40px;
+  width: 80px; height: 80px;
+  background: radial-gradient(circle, #a31d1d 0%, #7a1414 100%);
   border-radius: 50%;
-  background: radial-gradient(circle at 40% 35%,
-    #c41e3a 0%,
-    #8b1a1a 40%,
-    #6b0f0f 70%,
-    #4a0808 100%
-  );
-  box-shadow:
-    2px 3px 8px rgba(0, 0, 0, 0.5),
-    inset 0 -2px 4px rgba(0, 0, 0, 0.3),
-    inset 0 2px 3px rgba(255, 100, 100, 0.2);
-  /* Irregular wax edge */
-  filter: drop-shadow(1px 2px 3px rgba(0, 0, 0, 0.4));
+  z-index: 5;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.4), inset -2px -2px 5px rgba(0,0,0,0.3);
+  display: flex; align-items: center; justify-content: center;
 }
 
-.theme-gothic .gothic-seal::before {
-  content: '';
-  position: absolute;
-  top: -3px; left: -3px; right: -3px; bottom: -3px;
-  border-radius: 50%;
-  background: radial-gradient(circle at 50% 50%, transparent 60%, rgba(107, 15, 15, 0.5) 100%);
-  /* Drip/spread effect */
-  clip-path: polygon(
-    10% 0%, 25% 2%, 40% 0%, 55% 3%, 70% 0%, 85% 2%, 100% 5%,
-    98% 20%, 100% 35%, 97% 50%, 100% 65%, 98% 80%, 100% 95%,
-    85% 98%, 70% 100%, 55% 97%, 40% 100%, 25% 98%, 10% 100%,
-    2% 85%, 0% 70%, 3% 55%, 0% 40%, 2% 25%, 0% 10%
-  );
-}
-
-/* Seal emblem */
 .theme-gothic .gothic-seal-inner {
-  position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  width: 40px;
-  height: 40px;
-  border: 2px solid rgba(255, 200, 200, 0.3);
+  width: 60%; height: 60%;
+  border: 2px solid rgba(0,0,0,0.2);
   border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
 }
 
-.theme-gothic .gothic-seal-inner::after {
-  content: '\2726'; /* Four-pointed star */
+.theme-gothic .gothic-candle-glow {
   position: absolute;
-  top: 50%; left: 50%;
-  transform: translate(-50%, -50%);
-  font-size: 22px;
-  color: rgba(255, 200, 200, 0.4);
+  top: 0; left: 0; right: 0; bottom: 0;
+  background: radial-gradient(circle at 30% 30%, rgba(255,200,100,0.2) 0%, transparent 70%);
+  z-index: 10;
+  pointer-events: none;
 }
 
-/* ── Toolbar Override ── */
 #app[data-theme="gothic"] .toolbar {
-  --toolbar-bg: rgba(60, 40, 20, 0.85);
-  --toolbar-btn-color: rgba(200, 170, 100, 0.8);
+  --toolbar-bg: rgba(60, 40, 20, 0.8);
+  --toolbar-btn-color: rgba(212, 175, 55, 0.9);
 }
