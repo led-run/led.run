@@ -42,7 +42,7 @@
     color:     { type: 'color', label: 'settings.param.color' },
     bg:        { type: 'color', label: 'settings.param.bg' },
     fill:      { type: 'color', label: 'settings.param.fill' },
-    mode:      { type: 'select', label: 'settings.param.mode', options: ['sign', 'flow'] },
+    mode:      { type: 'select', label: 'settings.param.mode', options: ['', 'sign', 'flow'] },
     speed:     { type: 'range', label: 'settings.param.speed', min: 10, max: 300, step: 10 },
     direction: { type: 'select', label: 'settings.param.direction', options: ['left', 'right'] },
     font:      { type: 'font', label: 'settings.param.font' },
@@ -533,7 +533,7 @@
       // 3. General params (product-specific common params)
       var generalSection = this._createSection('settings.section.general');
       var generalParams = adapter.commonParams;
-      var ALWAYS_SHOW = { mode: true, scale: 1, position: 'center', padding: 0, tz: (typeof TimeUtils !== 'undefined' ? TimeUtils.getLocalOffset() : 0) };
+      var ALWAYS_SHOW = { mode: '', scale: 1, position: 'center', padding: 0, tz: (typeof TimeUtils !== 'undefined' ? TimeUtils.getLocalOffset() : 0) };
       generalParams.forEach(function(key) {
         if (merged[key] === undefined && !ALWAYS_SHOW.hasOwnProperty(key)) return;
         var val = merged[key] !== undefined ? merged[key] : ALWAYS_SHOW[key];
@@ -903,7 +903,7 @@
       // Compare with theme defaults to decide whether to store
       var adapter = PRODUCT_ADAPTERS[this._product];
       var defaults = adapter.getDefaults(this._themeId) || {};
-      if (value === defaults[key]) {
+      if (value === defaults[key] || (value === '' && defaults[key] === undefined)) {
         delete this._themeConfig[key];
       } else {
         this._themeConfig[key] = value;

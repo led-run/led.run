@@ -1037,8 +1037,9 @@
         if (typeof Settings === 'undefined') return;
         var keys = Settings.getThemeParamKeys(builderTheme.value);
         customSection.style.display = keys.length ? 'flex' : 'none';
+        var textAdapter = Settings.PRODUCT_ADAPTERS.text;
         keys.forEach(function(key) {
-          var meta = Settings.KNOWN_PARAMS[key];
+          var meta = (textAdapter.knownParamOverrides && textAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
           var defVal = getDefaults()[key];
           var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
           var row = document.createElement('div');
@@ -1358,8 +1359,9 @@
         var keys = Settings.getThemeParamKeys(soundViz.value, 'sound');
         section.style.display = keys.length ? 'flex' : 'none';
         var d = getSoundDefaults();
+        var soundAdapter = Settings.PRODUCT_ADAPTERS.sound;
         keys.forEach(function(key) {
-          var meta = Settings.KNOWN_PARAMS[key];
+          var meta = (soundAdapter.knownParamOverrides && soundAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
           var defVal = d[key];
           var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
           var row = document.createElement('div');
@@ -1558,8 +1560,9 @@
         var keys = Settings.getThemeParamKeys(timeClock.value, 'time');
         section.style.display = keys.length ? 'flex' : 'none';
         var d = getTimeDefaults();
+        var timeAdapter = Settings.PRODUCT_ADAPTERS.time;
         keys.forEach(function(key) {
-          var meta = Settings.KNOWN_PARAMS[key];
+          var meta = (timeAdapter.knownParamOverrides && timeAdapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
           var defVal = d[key];
           var type = (meta && meta.type !== 'auto') ? meta.type : Settings.inferType(defVal);
           var row = document.createElement('div');
