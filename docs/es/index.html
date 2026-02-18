@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Documentación — led.run Kit de Visualización</title>
-  <meta name="description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, protocolo URL y parámetros.">
+  <meta name="description" content="Guía completa de led.run — 30 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, 4 temas QR, 4 efectos de cámara, protocolo URL y parámetros.">
   <link rel="canonical" href="https://led.run/docs/es/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/es/">
   <meta property="og:title" content="Documentación — led.run Kit de Visualización">
-  <meta property="og:description" content="Guía completa de led.run — 20 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, protocolo URL y parámetros.">
+  <meta property="og:description" content="Guía completa de led.run — 30 temas de texto, 18 efectos de luz, 12 visualizadores de sonido, 14 temas de reloj, 4 temas QR, 4 efectos de cámara, protocolo URL y parámetros.">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="es_ES">
 
@@ -67,7 +67,7 @@
             <a href="#text-overview">Descripción general</a>
             <a href="#display-modes">Modos de visualización</a>
             <a href="#text-parameters">Parámetros</a>
-            <a href="#themes">Temas (20)</a>
+            <a href="#themes">Temas (30)</a>
           </li>
           <li class="docs-nav-section">
             <div class="docs-nav-heading">Luz</div>
@@ -88,6 +88,18 @@
             <a href="#clocks">Relojes (14)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">QR</div>
+            <a href="#qr-overview">Descripción</a>
+            <a href="#qr-parameters">Parámetros</a>
+            <a href="#qr-themes">Temas (4)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Camera</div>
+            <a href="#camera-overview">Descripción</a>
+            <a href="#camera-parameters">Parámetros</a>
+            <a href="#camera-effects">Efectos (4)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">Referencia</div>
             <a href="#color-format">Formato de color</a>
             <a href="#scale">Escala y temas de tarjeta</a>
@@ -102,7 +114,7 @@
       <main class="docs-content">
 
         <h1>Documentación de led.run</h1>
-        <p>Convierte cualquier pantalla en un letrero de texto, efecto de luz, visualizador de sonido o pantalla de reloj. Sin aplicaciones, sin cuentas &mdash; solo una URL.</p>
+        <p>Convierte cualquier pantalla en un letrero de texto, efecto de luz, visualizador de sonido, pantalla de reloj, código QR o filtro de cámara. Sin aplicaciones, sin cuentas &mdash; solo una URL.</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">Cómo funciona</h2>
@@ -180,37 +192,76 @@
           </div>
         </div>
 
+        <h3>Códigos QR</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">qr/HELLO</span><span class="url-part-params">?t=neon&amp;ec=H</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Contenido en la ruta</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Tema y configuración</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>Efectos de Cámara</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">camera</span><span class="url-part-params">?t=ascii&amp;facing=user</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> Prefijo de producto</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> Efecto y configuración</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">Protocolo URL</h2>
-        <p>Cuatro productos, cuatro patrones de URL:</p>
+        <p>Seis productos, seis patrones de URL:</p>
 
         <pre><code>Texto:  led.run/HELLO?t=neon              Ruta = contenido de texto
         led.run/text/HELLO?t=neon         Prefijo /text/ explícito
 Luz:    led.run/light?t=disco             Prefijo de producto + parámetros
 Sonido: led.run/sound?t=bars              Prefijo de producto + parámetros
-Reloj:  led.run/time?t=digital            Prefijo de producto + parámetros</code></pre>
+Reloj:  led.run/time?t=digital            Prefijo de producto + parámetros
+QR:     led.run/qr/HELLO?t=neon           Contenido en la ruta + parámetros
+Camera: led.run/camera?t=ascii            Prefijo de producto + parámetros</code></pre>
 
         <ul>
           <li><strong>Texto</strong> &mdash; la ruta URL después de <code>/</code> se convierte en el texto mostrado. Los espacios pueden ser <code>+</code> o <code>%20</code>.</li>
-          <li><strong>Luz, Sonido y Reloj</strong> &mdash; usan prefijos de ruta reservados. Toda la configuración se realiza mediante parámetros de consulta.</li>
-          <li>Todos los parámetros son &ldquo;sugerencias de preferencia&rdquo; opcionales &mdash; los temas/efectos/visualizadores deciden si los utilizan.</li>
+          <li><strong>QR</strong> &mdash; el contenido a codificar sigue el prefijo <code>/qr/</code>. Las URLs en el contenido deben codificarse con URL-encoding.</li>
+          <li><strong>Luz, Sonido, Reloj y Camera</strong> &mdash; usan prefijos de ruta reservados. Toda la configuración se realiza mediante parámetros de consulta.</li>
+          <li>Todos los parámetros son &ldquo;sugerencias de preferencia&rdquo; opcionales &mdash; los temas/efectos/visualizadores/relojes deciden si los utilizan.</li>
         </ul>
 
         <div class="docs-note">
-          <strong>Prefijos reservados:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code> están reservados. Para mostrar la palabra &ldquo;light&rdquo; como texto, usa <code>led.run/text/light</code>.
+          <strong>Prefijos reservados:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code>, <code>qr</code>, <code>camera</code> están reservados. Para mostrar la palabra &ldquo;light&rdquo; como texto, usa <code>led.run/text/light</code>.
         </div>
 
         <!-- Products -->
         <h2 id="products">Productos</h2>
-        <p>led.run ofrece cuatro productos de visualización, cada uno con su propio conjunto de modos de pantalla:</p>
+        <p>led.run ofrece seis productos de visualización, cada uno con su propio conjunto de modos de pantalla:</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Texto</span>
-              <span class="theme-card-id">20 temas</span>
+              <span class="theme-card-id">30 temas</span>
             </div>
-            <div class="theme-card-desc">Letreros de texto estilo LED con ajuste automático de tamaño, modos de letrero y flujo, y 20 temas visuales desde neón hasta matriz de puntos.</div>
+            <div class="theme-card-desc">Letreros de texto estilo LED con ajuste automático de tamaño, modos de letrero y flujo, y 30 temas visuales desde neón hasta matriz de puntos.</div>
             <a class="theme-card-link" href="#text-overview">Explorar &rarr;</a>
           </div>
           <div class="theme-card">
@@ -237,12 +288,28 @@ Reloj:  led.run/time?t=digital            Prefijo de producto + parámetros</cod
             <div class="theme-card-desc">Pantallas de reloj a pantalla completa &mdash; LED digital, analógico, flip, tubos nixie, neón, reloj solar, calendario y más.</div>
             <a class="theme-card-link" href="#time-overview">Explorar &rarr;</a>
           </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">QR</span>
+              <span class="theme-card-id">4 temas</span>
+            </div>
+            <div class="theme-card-desc">Pantalla completa de código QR &mdash; codifica texto, URL o datos con 4 temas visuales, incluyendo neón y pixel art.</div>
+            <a class="theme-card-link" href="#qr-overview">Explorar &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Camera</span>
+              <span class="theme-card-id">4 efectos</span>
+            </div>
+            <div class="theme-card-desc">Filtros de cámara en tiempo real &mdash; vista espejo, arte ASCII, mosaico pixelado y superposición estilo vigilancia.</div>
+            <a class="theme-card-link" href="#camera-overview">Explorar &rarr;</a>
+          </div>
         </div>
 
         <!-- ==================== TEXT ==================== -->
 
         <h2 id="text-overview">Texto &mdash; Descripción general</h2>
-        <p>El producto Texto convierte cualquier ruta URL en una pantalla completa. Incluye 20 temas integrados, cada uno diseñado para un estilo y caso de uso específico. Los temas admiten dos modos de visualización: letrero estático y flujo con desplazamiento.</p>
+        <p>El producto Texto convierte cualquier ruta URL en una pantalla completa. Incluye 30 temas integrados, cada uno diseñado para un estilo y caso de uso específico. Los temas admiten dos modos de visualización: letrero estático y flujo con desplazamiento.</p>
 
         <pre><code>led.run/HELLO                          Letrero simple
 led.run/DO+NOT+DISTURB?t=do-not-disturb   Selección de tema
@@ -369,7 +436,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      Marquesina con desplazamiento</code
 
         <!-- Themes -->
         <h2 id="themes">Temas</h2>
-        <p>led.run incluye 20 temas integrados. Cada tema está diseñado para un estilo y caso de uso específico.</p>
+        <p>led.run incluye 30 temas integrados. Cada tema está diseñado para un estilo y caso de uso específico.</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
           <input type="text" id="theme-search" placeholder="Buscar temas (ej. 'neon', 'matrix')..." 
@@ -618,6 +685,126 @@ led.run/WELCOME?mode=flow&amp;speed=120      Marquesina con desplazamiento</code
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
             </div>
             <a class="theme-card-link" href="#theme-dot-matrix">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">VFD</span>
+              <span class="theme-card-id">vfd</span>
+            </div>
+            <div class="theme-card-desc">Pantalla fluorescente al vacío de 14 segmentos (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffcc" title="color: 00ffcc"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-vfd">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Chalk</span>
+              <span class="theme-card-id">chalk</span>
+            </div>
+            <div class="theme-card-desc">Pizarra realista con textura de tiza (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-chalk">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Stamp</span>
+              <span class="theme-card-id">stamp</span>
+            </div>
+            <div class="theme-card-desc">Sello de goma sobre papel envejecido (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc2233" title="color: cc2233"></span>
+              <span class="theme-color-chip" style="background:#f5f0e0" title="bg: f5f0e0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-stamp">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cinema</span>
+              <span class="theme-card-id">cinema</span>
+            </div>
+            <div class="theme-card-desc">Tablero de letras de marquesina de cine (DOM)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cinema">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gothic</span>
+              <span class="theme-card-id">gothic</span>
+            </div>
+            <div class="theme-card-desc">Manuscrito iluminado medieval (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#2a1a0a" title="color: 2a1a0a"></span>
+              <span class="theme-color-chip" style="background:#f5e6c8" title="bg: f5e6c8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gothic">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Railway</span>
+              <span class="theme-card-id">railway</span>
+            </div>
+            <div class="theme-card-desc">Tablero de solapa dividida Solari (DOM/CSS 3D)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffcc00" title="color: ffcc00"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-railway">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sticker</span>
+              <span class="theme-card-id">sticker</span>
+            </div>
+            <div class="theme-card-desc">Pegatina de vinilo con acabado brillante/holográfico (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#333333" title="bg: 333333"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sticker">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Embroidery</span>
+              <span class="theme-card-id">embroidery</span>
+            </div>
+            <div class="theme-card-desc">Punto de cruz sobre lino (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc3344" title="color: cc3344"></span>
+              <span class="theme-color-chip" style="background:#e8dcc8" title="bg: e8dcc8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-embroidery">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Smoke</span>
+              <span class="theme-card-id">smoke</span>
+            </div>
+            <div class="theme-card-desc">Efecto de humo de partículas formando texto (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#88ccff" title="color: 88ccff"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-smoke">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sand</span>
+              <span class="theme-card-id">sand</span>
+            </div>
+            <div class="theme-card-desc">Escritura en arena de playa con animación de olas (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#8b7355" title="color: 8b7355"></span>
+              <span class="theme-color-chip" style="background:#d4b896" title="bg: d4b896"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sand">Detalles &rarr;</a>
           </div>
         </div>
 
@@ -1077,6 +1264,227 @@ led.run/WELCOME?mode=flow&amp;speed=120      Marquesina con desplazamiento</code
             </table>
           </div>
           <a class="theme-detail-try" href="/HELLO?t=dot-matrix">Probar &rarr;</a>
+        </div>
+
+        <!-- VFD -->
+        <div class="theme-detail" id="theme-vfd">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">VFD</span>
+            <span class="theme-detail-id">vfd</span>
+          </div>
+          <p class="theme-detail-desc">Pantalla fluorescente al vacío de 14 segmentos renderizada en Canvas con brillo de fósforo auténtico, rejilla de malla y efecto de tubo de cristal.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#00ffcc"></span> <code>00ffcc</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>Intensidad de brillo de fósforo</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>Cantidad de parpadeo de la pantalla</td></tr>
+            <tr><td>mesh</td><td>number</td><td>4</td><td>Visibilidad de la rejilla de malla</td></tr>
+            <tr><td>tube</td><td>boolean</td><td>true</td><td>Mostrar carcasa de tubo de cristal</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=vfd">Probar &rarr;</a>
+        </div>
+
+        <!-- Chalk -->
+        <div class="theme-detail" id="theme-chalk">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Chalk</span>
+            <span class="theme-detail-id">chalk</span>
+          </div>
+          <p class="theme-detail-desc">Pizarra realista con renderizado de textura de tiza en Canvas. Incluye partículas de polvo, efectos de difuminado y color de pizarra configurable.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>roughness</td><td>number</td><td>5</td><td>Rugosidad de la textura de tiza</td></tr>
+            <tr><td>dust</td><td>number</td><td>6</td><td>Cantidad de partículas de polvo de tiza</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>Intensidad del efecto de difuminado</td></tr>
+            <tr><td>board</td><td>string</td><td>green</td><td>Color de la pizarra: <code>green</code> o <code>black</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=chalk">Probar &rarr;</a>
+        </div>
+
+        <!-- Stamp -->
+        <div class="theme-detail" id="theme-stamp">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Stamp</span>
+            <span class="theme-detail-id">stamp</span>
+          </div>
+          <p class="theme-detail-desc">Impresión de sello de goma sobre papel envejecido con sangrado de tinta, efectos de envejecimiento y marcas de difuminado. Basado en DOM/CSS.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#cc2233"></span> <code>cc2233</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#f5f0e0"></span> <code>f5f0e0</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>ink</td><td>number</td><td>7</td><td>Densidad de tinta y sangrado</td></tr>
+            <tr><td>aged</td><td>number</td><td>6</td><td>Intensidad de envejecimiento del papel</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>Cantidad de marcas de difuminado</td></tr>
+            <tr><td>paper</td><td>string</td><td>cream</td><td>Estilo de papel: <code>cream</code>, <code>white</code>, <code>aged</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=stamp">Probar &rarr;</a>
+        </div>
+
+        <!-- Cinema -->
+        <div class="theme-detail" id="theme-cinema">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cinema</span>
+            <span class="theme-detail-id">cinema</span>
+          </div>
+          <p class="theme-detail-desc">Tablero de letras de marquesina de cine con fichas de letras individuales. Basado en DOM con retroiluminación y color de fieltro configurable.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>rows</td><td>number</td><td>1</td><td>Número de filas de texto</td></tr>
+            <tr><td>backlight</td><td>number</td><td>6</td><td>Intensidad de retroiluminación</td></tr>
+            <tr><td>felt</td><td>string</td><td>black</td><td>Color de fondo de fieltro</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=cinema">Probar &rarr;</a>
+        </div>
+
+        <!-- Gothic -->
+        <div class="theme-detail" id="theme-gothic">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gothic</span>
+            <span class="theme-detail-id">gothic</span>
+          </div>
+          <p class="theme-detail-desc">Estilo de manuscrito iluminado medieval con bordes ornamentados, pergamino envejecido, capitulares iluminadas, sello de cera e iluminación de vela. Basado en DOM/CSS.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#2a1a0a"></span> <code>2a1a0a</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>ornate</td><td>number</td><td>7</td><td>Nivel de ornamentación del borde</td></tr>
+            <tr><td>aged</td><td>number</td><td>5</td><td>Intensidad de envejecimiento del pergamino</td></tr>
+            <tr><td>illuminated</td><td>boolean</td><td>true</td><td>Mostrar capitulares iluminadas</td></tr>
+            <tr><td>seal</td><td>boolean</td><td>true</td><td>Mostrar decoración de sello de cera</td></tr>
+            <tr><td>candle</td><td>number</td><td>4</td><td>Parpadeo de iluminación de vela</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=gothic">Probar &rarr;</a>
+        </div>
+
+        <!-- Railway -->
+        <div class="theme-detail" id="theme-railway">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Railway</span>
+            <span class="theme-detail-id">railway</span>
+          </div>
+          <p class="theme-detail-desc">Tablero de solapa dividida Solari con animación de volteo 3D CSS, carcasa metálica, textura de desgaste mecánico y efecto de vibración.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#ffcc00"></span> <code>ffcc00</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.4</td><td>Velocidad de animación de volteo (segundos)</td></tr>
+            <tr><td>housing</td><td>string</td><td>silver</td><td>Acabado de la carcasa: <code>silver</code>, <code>black</code></td></tr>
+            <tr><td>wear</td><td>number</td><td>4</td><td>Textura de desgaste mecánico</td></tr>
+            <tr><td>vibration</td><td>number</td><td>5</td><td>Intensidad de vibración mecánica</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=railway">Probar &rarr;</a>
+        </div>
+
+        <!-- Sticker -->
+        <div class="theme-detail" id="theme-sticker">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sticker</span>
+            <span class="theme-detail-id">sticker</span>
+          </div>
+          <p class="theme-detail-desc">Pegatina de vinilo con acabado brillante u holográfico, efecto de despegado de esquina, borde de contorno y purpurina opcional. Basado en DOM/CSS.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#333333"></span> <code>333333</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>finish</td><td>string</td><td>holographic</td><td>Acabado de superficie: <code>holographic</code>, <code>glossy</code>, <code>matte</code></td></tr>
+            <tr><td>peel</td><td>number</td><td>4</td><td>Cantidad de despegado de esquina</td></tr>
+            <tr><td>outline</td><td>number</td><td>6</td><td>Grosor del borde de contorno</td></tr>
+            <tr><td>glitter</td><td>number</td><td>0</td><td>Cantidad de partículas de purpurina (0 = ninguna)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sticker">Probar &rarr;</a>
+        </div>
+
+        <!-- Embroidery -->
+        <div class="theme-detail" id="theme-embroidery">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Embroidery</span>
+            <span class="theme-detail-id">embroidery</span>
+          </div>
+          <p class="theme-detail-desc">Bordado de punto de cruz sobre tela de lino renderizado en Canvas con tamaño de puntada configurable, textura de tela, bastidor de bordado y tensión del hilo.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#cc3344"></span> <code>cc3344</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#e8dcc8"></span> <code>e8dcc8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>stitch</td><td>number</td><td>24</td><td>Tamaño de puntada en píxeles</td></tr>
+            <tr><td>fabric</td><td>hex</td><td>f0ead8</td><td>Color de fondo de la tela</td></tr>
+            <tr><td>hoop</td><td>boolean</td><td>true</td><td>Mostrar bastidor de bordado</td></tr>
+            <tr><td>tension</td><td>number</td><td>4</td><td>Tensión del hilo (afecta la apariencia de la puntada)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=embroidery">Probar &rarr;</a>
+        </div>
+
+        <!-- Smoke -->
+        <div class="theme-detail" id="theme-smoke">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Smoke</span>
+            <span class="theme-detail-id">smoke</span>
+          </div>
+          <p class="theme-detail-desc">Efecto de humo basado en partículas que forma y disuelve texto en Canvas con haces de luz, turbulencia y efectos de brillo.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#88ccff"></span> <code>88ccff</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>Densidad de partículas de humo</td></tr>
+            <tr><td>turbulence</td><td>number</td><td>5</td><td>Intensidad de turbulencia</td></tr>
+            <tr><td>shafts</td><td>number</td><td>4</td><td>Visibilidad de haces de luz</td></tr>
+            <tr><td>glow</td><td>number</td><td>6</td><td>Intensidad de brillo del texto</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=smoke">Probar &rarr;</a>
+        </div>
+
+        <!-- Sand -->
+        <div class="theme-detail" id="theme-sand">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sand</span>
+            <span class="theme-detail-id">sand</span>
+          </div>
+          <p class="theme-detail-desc">Escritura en arena de playa con efectos de olas animadas renderizados en Canvas. Incluye profundidad ajustable, humedad, espuma y animación de olas opcional.</p>
+          <div class="theme-detail-colors">
+            <span>Colores por defecto:</span>
+            <span class="color-swatch" style="background:#8b7355"></span> <code>8b7355</code>
+            <span>sobre</span>
+            <span class="color-swatch" style="background:#d4b896"></span> <code>d4b896</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>10</td><td>Profundidad del tallado en arena</td></tr>
+            <tr><td>wetness</td><td>number</td><td>6</td><td>Nivel de humedad de la arena</td></tr>
+            <tr><td>foam</td><td>number</td><td>5</td><td>Cantidad de espuma de olas</td></tr>
+            <tr><td>detail</td><td>number</td><td>5</td><td>Nivel de detalle de la textura de arena</td></tr>
+            <tr><td>showWaves</td><td>boolean</td><td>true</td><td>Mostrar efecto de olas animadas</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sand">Probar &rarr;</a>
         </div>
 
         <!-- ==================== LIGHT ==================== -->
@@ -2159,6 +2567,294 @@ led.run/time?t=lcd&amp;format=12h          Reloj LCD, formato 12 horas</code></p
           <a class="theme-detail-try" href="/time?t=gradient">Probar &rarr;</a>
         </div>
 
+        <!-- ==================== QR ==================== -->
+
+        <h2 id="qr-overview">QR &mdash; Descripción General</h2>
+        <p>El producto QR genera códigos QR en pantalla completa a partir de cualquier texto, URL o dato. Incluye 4 temas visuales.</p>
+
+        <pre><code>led.run/qr/HELLO                       Código QR simple
+led.run/qr/HELLO?t=neon&amp;ec=H          Tema neón, corrección alta
+led.run/qr/https%3A%2F%2Fexample.com   URL codificada como contenido
+led.run/qr/HELLO?t=pixel&amp;shadow=true  Estilo pixel art</code></pre>
+
+        <div class="docs-note">
+          <strong>Nota:</strong> El contenido QR se coloca en la ruta URL: <code>led.run/qr/CONTENIDO</code>. Las URLs en el contenido deben codificarse con URL-encoding. <code>/qr</code> sin contenido abre la página de inicio.
+        </div>
+
+        <!-- QR Parameters -->
+        <h2 id="qr-parameters">Parámetros QR</h2>
+        <p>Parámetros reconocidos por los temas QR:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>Parámetro</th><th>Alias</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>ID del tema (ver <a href="#qr-themes">Temas QR</a>)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>según tema</td><td>Color de los módulos</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>según tema</td><td>Color de fondo</td></tr>
+              <tr><td>ec</td><td>&mdash;</td><td>string</td><td>M</td><td>Nivel de corrección de errores: <code>L</code>, <code>M</code>, <code>Q</code>, <code>H</code></td></tr>
+              <tr><td>size</td><td>&mdash;</td><td>number</td><td>10</td><td>Tamaño de módulo en píxeles (2&ndash;20)</td></tr>
+              <tr><td>margin</td><td>&mdash;</td><td>number</td><td>4</td><td>Módulos de zona silenciosa (0&ndash;10)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>Escala de visualización (0.1&ndash;3)</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>Posición cuando está escalado</td></tr>
+              <tr><td>padding</td><td>&mdash;</td><td>number</td><td>0</td><td>Relleno del contenedor en % (0&ndash;20)</td></tr>
+              <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>según tema</td><td>Color del contenedor exterior cuando el wrapper está activo</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Themes -->
+        <h2 id="qr-themes">Temas QR</h2>
+        <p>led.run incluye 4 temas de códigos QR.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="qr-search" placeholder="Buscar temas QR (ej. 'neon', 'pixel')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">Código QR estándar negro sobre blanco (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-default">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">QR con brillo neón y efecto bloom shadowBlur (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-neon">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot</span>
+              <span class="theme-card-id">dot</span>
+            </div>
+            <div class="theme-card-desc">Módulos en forma de punto con variantes de forma (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-dot">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">Pixel art con resaltado/sombra 3D opcional (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#222222" title="color: 222222"></span>
+              <span class="theme-color-chip" style="background:#f0e6d3" title="bg: f0e6d3"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-pixel">Detalles &rarr;</a>
+          </div>
+        </div>
+
+        <!-- QR theme details -->
+
+        <div class="theme-detail" id="qr-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Default</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">Código QR estándar renderizado en Canvas con módulos negros limpios sobre fondo blanco. Admite esquinas de módulo redondeadas opcional.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>sobre</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>rounded</td><td>boolean</td><td>false</td><td>Redondear esquinas de módulos</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">Código QR con brillo neón y efecto bloom shadowBlur en Canvas. La animación de pulso opcional crea un brillo pulsante.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>sobre</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>Intensidad de brillo neón</td></tr>
+            <tr><td>pulse</td><td>boolean</td><td>false</td><td>Activar animación de pulso respirante</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=neon">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-dot">
+          <div class="theme-detail-header"><span class="theme-detail-name">Dot</span><span class="theme-detail-id">dot</span></div>
+          <p class="theme-detail-desc">Código QR con módulos en forma de punto en lugar de cuadrados. Admite múltiples variantes de forma incluyendo redondo, diamante y estrella.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>sobre</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>gap</td><td>number</td><td>0.15</td><td>Espacio entre puntos (0&ndash;1)</td></tr>
+            <tr><td>shape</td><td>string</td><td>round</td><td>Forma del punto: <code>round</code>, <code>diamond</code>, <code>star</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=dot">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">Código QR estilo pixel art con efectos opcionales de resaltado y sombra 3D para una estética retro de videojuego.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#222222"></span> <code>222222</code> <span>sobre</span> <span class="color-swatch" style="background:#f0e6d3"></span> <code>f0e6d3</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>border</td><td>number</td><td>3</td><td>Grosor del borde del píxel</td></tr>
+            <tr><td>shadow</td><td>boolean</td><td>true</td><td>Mostrar resaltado/sombra 3D</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=pixel">Probar &rarr;</a>
+        </div>
+
+        <!-- ==================== CAMERA ==================== -->
+
+        <h2 id="camera-overview">Camera &mdash; Descripción General</h2>
+        <p>El producto Camera aplica efectos visuales en tiempo real al feed de la cámara de tu dispositivo. Incluye 4 efectos desde una vista espejo limpia hasta conversión de arte ASCII. Requiere permiso de cámara.</p>
+
+        <pre><code>led.run/camera?t=default               Vista espejo limpia
+led.run/camera?t=ascii&amp;density=8        Arte ASCII, caracteres más densos
+led.run/camera?t=pixel&amp;blockSize=16     Mosaico pixelado
+led.run/camera?t=surveillance           Superposición de cámara de seguridad</code></pre>
+
+        <div class="docs-note">
+          <strong>Nota:</strong> Camera requiere permiso del navegador para acceder a la cámara de tu dispositivo. <code>/camera</code> sin <code>?t=</code> abre la página de inicio. Usa <code>facing=environment</code> para la cámara trasera en dispositivos móviles.
+        </div>
+
+        <!-- Camera Parameters -->
+        <h2 id="camera-parameters">Parámetros de Cámara</h2>
+        <p>Parámetros reconocidos por los efectos de cámara:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>Parámetro</th><th>Alias</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>ID del efecto (ver <a href="#camera-effects">Efectos</a>)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>según efecto</td><td>Color primario</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>según efecto</td><td>Color de fondo</td></tr>
+              <tr><td>facing</td><td>&mdash;</td><td>string</td><td>user</td><td>Cámara: <code>user</code> (frontal) o <code>environment</code> (trasera)</td></tr>
+              <tr><td>mirror</td><td>&mdash;</td><td>boolean</td><td>true</td><td>Imagen espejo (configurado automáticamente por modo de cámara)</td></tr>
+              <tr><td>fps</td><td>&mdash;</td><td>number</td><td>30</td><td>Velocidad de fotogramas (5&ndash;60)</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>Filtro CSS de brillo en % (10&ndash;200)</td></tr>
+              <tr><td>contrast</td><td>&mdash;</td><td>number</td><td>100</td><td>Filtro CSS de contraste en % (10&ndash;200)</td></tr>
+              <tr><td>saturate</td><td>&mdash;</td><td>number</td><td>100</td><td>Filtro CSS de saturación en % (0&ndash;200)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>Escala de visualización (0.1&ndash;3)</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>Posición cuando está escalado</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Camera Effects -->
+        <h2 id="camera-effects">Efectos de Cámara</h2>
+        <p>led.run incluye 4 efectos de cámara.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="camera-search" placeholder="Buscar efectos de cámara (ej. 'ascii', 'pixel')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Mirror</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">Vista espejo limpia con ajuste de cobertura y viñeta (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-default">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">ASCII</span>
+              <span class="theme-card-id">ascii</span>
+            </div>
+            <div class="theme-card-desc">Arte de caracteres ASCII desde el feed de cámara (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-ascii">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">Mosaico pixelado vía submuestreo (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-pixel">Detalles &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Surveillance</span>
+              <span class="theme-card-id">surveillance</span>
+            </div>
+            <div class="theme-card-desc">Cámara de seguridad con REC, marca de tiempo, líneas de escaneo (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-surveillance">Detalles &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Camera effect details -->
+
+        <div class="theme-detail" id="camera-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Mirror</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">Vista espejo limpia con escalado de ajuste de cobertura y oscurecimiento de viñeta opcional en los bordes. Renderizado basado en Canvas.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>vignette</td><td>number</td><td>0</td><td>Intensidad de oscurecimiento de viñeta (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=default">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-ascii">
+          <div class="theme-detail-header"><span class="theme-detail-name">ASCII</span><span class="theme-detail-id">ascii</span></div>
+          <p class="theme-detail-desc">Convierte el feed de cámara en arte de caracteres ASCII en Canvas. El brillo se mapea a la densidad de caracteres para un aspecto estilo terminal.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>sobre</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>Densidad de caracteres (1&ndash;10)</td></tr>
+            <tr><td>invert</td><td>boolean</td><td>false</td><td>Invertir mapeo de brillo</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=ascii">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">Efecto de mosaico pixelado vía submuestreo y escalado de vecino más cercano en Canvas. Tamaño de bloque y espacio configurables.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>blockSize</td><td>number</td><td>8</td><td>Tamaño de bloque de píxel (2&ndash;32)</td></tr>
+            <tr><td>gap</td><td>number</td><td>0</td><td>Espacio entre bloques de píxeles</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=pixel">Probar &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-surveillance">
+          <div class="theme-detail-header"><span class="theme-detail-name">Surveillance</span><span class="theme-detail-id">surveillance</span></div>
+          <p class="theme-detail-desc">Estilo de cámara de seguridad con indicador REC, marca de tiempo, corchetes en esquinas, líneas de escaneo y ruido. Basado en Canvas con superposición HUD.</p>
+          <div class="theme-detail-colors"><span>Colores por defecto:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>sobre</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Parámetro</th><th>Tipo</th><th>Por defecto</th><th>Descripción</th></tr></thead><tbody>
+            <tr><td>overlay</td><td>boolean</td><td>true</td><td>Mostrar superposición HUD (REC, marca de tiempo, corchetes)</td></tr>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>Mostrar efecto de líneas de escaneo</td></tr>
+            <tr><td>noise</td><td>number</td><td>3</td><td>Intensidad de grano de ruido (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=surveillance">Probar &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -2184,6 +2880,15 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 led.run/time?t=digital&amp;scale=2&amp;position=center            &mdash; 2&times; zoom, centered
 led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&times; zoom, top-left anchor</code></pre>
 
+        <h3>QR Product</h3>
+        <p>QR themes support the same wrapper mode as Time: <code>scale</code> (0.1&ndash;3), <code>position</code>, <code>padding</code>, and <code>fill</code>. When <code>scale &ne; 1</code> or <code>padding &gt; 0</code>, a wrapper is created. <code>fill</code> controls the outer container background when the wrapper is active.</p>
+        <pre><code>led.run/qr/HELLO?scale=0.5&amp;position=center&amp;fill=1a1a2e
+led.run/qr/HELLO?scale=2&amp;position=top-left</code></pre>
+
+        <h3>Camera Product</h3>
+        <p>Camera effects support <code>scale</code> (0.1&ndash;3) and <code>position</code> for a picture-in-picture effect when <code>scale &lt; 1</code>. No <code>padding</code> or <code>fill</code> params &mdash; simplified version of the wrapper mode.</p>
+        <pre><code>led.run/camera?t=ascii&amp;scale=0.5&amp;position=bottom-right</code></pre>
+
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>
         <p>Once a display is running, you can interact with it using keyboard, mouse, or touch. Available controls vary by product.</p>
@@ -2198,6 +2903,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
@@ -2207,9 +2914,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -2221,6 +2932,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
@@ -2228,6 +2941,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Next effect</td>
                 <td>Next visualizer</td>
                 <td>Next clock</td>
+                <td>Next theme</td>
+                <td>Next effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
@@ -2235,12 +2950,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
                 <td>Previous clock</td>
+                <td>Previous theme</td>
+                <td>Previous effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
@@ -2249,9 +2968,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -2282,11 +3005,15 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2298,6 +3025,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
@@ -2305,9 +3034,22 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Camera Switch</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Settings</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2319,12 +3061,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Microphone</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
             </tbody>
@@ -2382,7 +3128,7 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card, .qr-card, .camera-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2400,10 +3146,12 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card):not(.qr-card):not(.camera-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
       setupSearch('clock-search', document.querySelectorAll('.clock-card'));
+      setupSearch('qr-search', document.querySelectorAll('.qr-card'));
+      setupSearch('camera-search', document.querySelectorAll('.camera-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
