@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ドキュメント — led.run ディスプレイツールキット</title>
-  <meta name="description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、URLプロトコル、パラメータ。">
+  <meta name="description" content="led.run 完全ガイド — 30種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、4種のQRテーマ、4種のカメラエフェクト、URLプロトコル、パラメータ。">
   <link rel="canonical" href="https://led.run/docs/ja/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/ja/">
   <meta property="og:title" content="ドキュメント — led.run ディスプレイツールキット">
-  <meta property="og:description" content="led.run 完全ガイド — 20種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、URLプロトコル、パラメータ。">
+  <meta property="og:description" content="led.run 完全ガイド — 30種のテキストテーマ、18種のライトエフェクト、12種のサウンドビジュアライザー、14種の時計テーマ、4種のQRテーマ、4種のカメラエフェクト、URLプロトコル、パラメータ。">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="ja_JP">
 
@@ -67,7 +67,7 @@
             <a href="#text-overview">概要</a>
             <a href="#display-modes">表示モード</a>
             <a href="#text-parameters">パラメータ</a>
-            <a href="#themes">テーマ (20)</a>
+            <a href="#themes">テーマ (30)</a>
           </li>
           <li class="docs-nav-section">
             <div class="docs-nav-heading">ライト</div>
@@ -88,6 +88,18 @@
             <a href="#clocks">時計 (14)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">QR</div>
+            <a href="#qr-overview">概要</a>
+            <a href="#qr-parameters">パラメータ</a>
+            <a href="#qr-themes">テーマ (4)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Camera</div>
+            <a href="#camera-overview">概要</a>
+            <a href="#camera-parameters">パラメータ</a>
+            <a href="#camera-effects">エフェクト (4)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">リファレンス</div>
             <a href="#color-format">カラー形式</a>
             <a href="#scale">スケール &amp; カードテーマ</a>
@@ -102,7 +114,7 @@
       <main class="docs-content">
 
         <h1>led.run ドキュメント</h1>
-        <p>あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザー、またはクロックディスプレイに変換。アプリ不要、アカウント不要 &mdash; URLだけで完結。</p>
+        <p>あらゆる画面をテキストサイン、ライトエフェクト、サウンドビジュアライザー、クロックディスプレイ、QRコード、またはカメラフィルターに変換。アプリ不要、アカウント不要 &mdash; URLだけで完結。</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">仕組み</h2>
@@ -180,37 +192,76 @@
           </div>
         </div>
 
+        <h3>QRコード</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">qr/HELLO</span><span class="url-part-params">?t=neon&amp;ec=H</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> コンテンツをパスに</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> テーマと設定</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>カメラエフェクト</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">camera</span><span class="url-part-params">?t=ascii&amp;facing=user</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> プロダクトプレフィックス</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> エフェクトと設定</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URLプロトコル</h2>
-        <p>4つのプロダクト、4つのURLパターン：</p>
+        <p>6つのプロダクト、6つのURLパターン：</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              パス = テキスト内容
         led.run/text/HELLO?t=neon         明示的な /text/ プレフィックス
 Light:  led.run/light?t=disco             プロダクトプレフィックス + パラメータ
 Sound:  led.run/sound?t=bars              プロダクトプレフィックス + パラメータ
-Time:   led.run/time?t=digital            プロダクトプレフィックス + パラメータ</code></pre>
+Time:   led.run/time?t=digital            プロダクトプレフィックス + パラメータ
+QR:     led.run/qr/HELLO?t=neon           コンテンツをパスに + パラメータ
+Camera: led.run/camera?t=ascii            プロダクトプレフィックス + パラメータ</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; <code>/</code> 以降のURLパスが表示テキストになります。スペースは <code>+</code> または <code>%20</code> で指定できます。</li>
-          <li><strong>Light、Sound &amp; Time</strong> &mdash; 予約済みパスプレフィックスを使用します。すべての設定はクエリパラメータで行います。</li>
+          <li><strong>QR</strong> &mdash; エンコードするコンテンツは <code>/qr/</code> プレフィックスの後に続きます。コンテンツ内のURLはURLエンコードが必要です。</li>
+          <li><strong>Light、Sound、Time &amp; Camera</strong> &mdash; 予約済みパスプレフィックスを使用します。すべての設定はクエリパラメータで行います。</li>
           <li>すべてのパラメータは任意の「プリファレンスヒント」です &mdash; テーマ／エフェクト／ビジュアライザー／時計が使用するかどうかを決定します。</li>
         </ul>
 
         <div class="docs-note">
-          <strong>予約済みプレフィックス：</strong> <code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code> は予約されています。「light」という文字をテキストとして表示するには、<code>led.run/text/light</code> を使用してください。
+          <strong>予約済みプレフィックス：</strong> <code>text</code>、<code>light</code>、<code>sound</code>、<code>time</code>、<code>qr</code>、<code>camera</code> は予約されています。「light」という文字をテキストとして表示するには、<code>led.run/text/light</code> を使用してください。
         </div>
 
         <!-- Products -->
         <h2 id="products">プロダクト</h2>
-        <p>led.run は4つのディスプレイプロダクトを提供し、それぞれ独自の表示モードを備えています：</p>
+        <p>led.run は6つのディスプレイプロダクトを提供し、それぞれ独自の表示モードを備えています：</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Text</span>
-              <span class="theme-card-id">20テーマ</span>
+              <span class="theme-card-id">30テーマ</span>
             </div>
-            <div class="theme-card-desc">自動フィットサイジング、サインモードとフローモード、ネオンからドットマトリックスまで20種のビジュアルテーマを備えたLEDスタイルのテキストサイン。</div>
+            <div class="theme-card-desc">自動フィットサイジング、サインモードとフローモード、ネオンからドットマトリックスまで30種のビジュアルテーマを備えたLEDスタイルのテキストサイン。</div>
             <a class="theme-card-link" href="#text-overview">詳細 &rarr;</a>
           </div>
           <div class="theme-card">
@@ -237,12 +288,28 @@ Time:   led.run/time?t=digital            プロダクトプレフィックス +
             <div class="theme-card-desc">フルスクリーン時計ディスプレイ &mdash; デジタルLED、アナログ、フリップ、ニキシー管、ネオン、日時計、カレンダーなど。</div>
             <a class="theme-card-link" href="#time-overview">探索 &rarr;</a>
           </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">QR</span>
+              <span class="theme-card-id">4テーマ</span>
+            </div>
+            <div class="theme-card-desc">フルスクリーンQRコード表示 &mdash; テキスト、URL、データを4種のビジュアルテーマでエンコード。</div>
+            <a class="theme-card-link" href="#qr-overview">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Camera</span>
+              <span class="theme-card-id">4エフェクト</span>
+            </div>
+            <div class="theme-card-desc">リアルタイムカメラフィルター &mdash; ミラービュー、ASCIIアート、ピクセル化モザイク、監視カメラスタイル。</div>
+            <a class="theme-card-link" href="#camera-overview">詳細 &rarr;</a>
+          </div>
         </div>
 
         <!-- ==================== TEXT ==================== -->
 
         <h2 id="text-overview">テキスト &mdash; 概要</h2>
-        <p>テキストプロダクトは任意のURLパスをフルスクリーンディスプレイに変換します。20種の内蔵テーマを搭載し、それぞれ特定の雰囲気と用途に合わせて設計されています。テーマは2つの表示モードに対応：静止サインとスクロールフロー。</p>
+        <p>テキストプロダクトは任意のURLパスをフルスクリーンディスプレイに変換します。30種の内蔵テーマを搭載し、それぞれ特定の雰囲気と用途に合わせて設計されています。テーマは2つの表示モードに対応：静止サインとスクロールフロー。</p>
 
         <pre><code>led.run/HELLO                          シンプルなサイン
 led.run/DO+NOT+DISTURB?t=do-not-disturb   テーマ選択
@@ -369,7 +436,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
 
         <!-- Themes -->
         <h2 id="themes">テーマ</h2>
-        <p>led.run には20種の内蔵テーマがあります。各テーマは特定の雰囲気と用途に合わせて設計されています。</p>
+        <p>led.run には30種の内蔵テーマがあります。各テーマは特定の雰囲気と用途に合わせて設計されています。</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
           <input type="text" id="theme-search" placeholder="テーマを検索（例：'neon'、'matrix'）..." 
@@ -618,6 +685,126 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
             </div>
             <a class="theme-card-link" href="#theme-dot-matrix">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">VFD</span>
+              <span class="theme-card-id">vfd</span>
+            </div>
+            <div class="theme-card-desc">真空蛍光14セグメントディスプレイ (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffcc" title="color: 00ffcc"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-vfd">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Chalk</span>
+              <span class="theme-card-id">chalk</span>
+            </div>
+            <div class="theme-card-desc">リアルな黒板とチョーク質感 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-chalk">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Stamp</span>
+              <span class="theme-card-id">stamp</span>
+            </div>
+            <div class="theme-card-desc">エイジド紙にラバースタンプ (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc2233" title="color: cc2233"></span>
+              <span class="theme-color-chip" style="background:#f5f0e0" title="bg: f5f0e0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-stamp">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cinema</span>
+              <span class="theme-card-id">cinema</span>
+            </div>
+            <div class="theme-card-desc">映画館マーキーレターボード (DOM)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cinema">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gothic</span>
+              <span class="theme-card-id">gothic</span>
+            </div>
+            <div class="theme-card-desc">中世写本装飾スタイル (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#2a1a0a" title="color: 2a1a0a"></span>
+              <span class="theme-color-chip" style="background:#f5e6c8" title="bg: f5e6c8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gothic">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Railway</span>
+              <span class="theme-card-id">railway</span>
+            </div>
+            <div class="theme-card-desc">Solari分割フラップ出発ボード (DOM/CSS 3D)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffcc00" title="color: ffcc00"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-railway">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sticker</span>
+              <span class="theme-card-id">sticker</span>
+            </div>
+            <div class="theme-card-desc">ビニールステッカー光沢/ホログラフィック (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#333333" title="bg: 333333"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sticker">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Embroidery</span>
+              <span class="theme-card-id">embroidery</span>
+            </div>
+            <div class="theme-card-desc">リネン布にクロスステッチ (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc3344" title="color: cc3344"></span>
+              <span class="theme-color-chip" style="background:#e8dcc8" title="bg: e8dcc8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-embroidery">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Smoke</span>
+              <span class="theme-card-id">smoke</span>
+            </div>
+            <div class="theme-card-desc">パーティクル煙テキストエフェクト (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#88ccff" title="color: 88ccff"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-smoke">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sand</span>
+              <span class="theme-card-id">sand</span>
+            </div>
+            <div class="theme-card-desc">ビーチの砂文字と波アニメーション (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#8b7355" title="color: 8b7355"></span>
+              <span class="theme-color-chip" style="background:#d4b896" title="bg: d4b896"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sand">詳細 &rarr;</a>
           </div>
         </div>
 
@@ -1028,9 +1215,9 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
             <span class="theme-detail-name">Do Not Disturb</span>
             <span class="theme-detail-id">do-not-disturb</span>
           </div>
-          <p class="theme-detail-desc">Skeuomorphic "ON AIR" style light box with glass panel, warm amber glow, and indicator lights. Card theme.</p>
+          <p class="theme-detail-desc">ガラスパネル、暖かいアンバーグロー、インジケーターライト付きスキューモーフィック「ON AIR」スタイルライトボックス。カードテーマ。</p>
           <div class="theme-detail-colors">
-            <span>Default colors:</span>
+            <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
             <span>on</span>
             <span class="color-swatch" style="background:#990000"></span> <code>990000</code> (fill)
@@ -1039,8 +1226,8 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
             <table class="docs-table">
               <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>fill</td><td>hex</td><td>990000</td><td>Glass panel background color</td></tr>
-                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>Text glow / outline color</td></tr>
+                <tr><td>fill</td><td>hex</td><td>990000</td><td>ガラスパネル背景色</td></tr>
+                <tr><td>glow</td><td>hex</td><td>ff0000</td><td>テキストグロー / アウトライン色</td></tr>
               </tbody>
             </table>
           </div>
@@ -1053,9 +1240,9 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
             <span class="theme-detail-name">Dot Matrix</span>
             <span class="theme-detail-id">dot-matrix</span>
           </div>
-          <p class="theme-detail-desc">Realistic LED dot-matrix display board with multi-layer Canvas rendering, configurable dot shape, bezel frame, and flicker. Card theme.</p>
+          <p class="theme-detail-desc">マルチレイヤーCanvasレンダリング、設定可能なドット形状、ベゼルフレーム、フリッカー付きリアルなLEDドットマトリックスディスプレイボード。カードテーマ。</p>
           <div class="theme-detail-colors">
-            <span>Default colors:</span>
+            <span>デフォルトカラー：</span>
             <span class="color-swatch" style="background:#ffff00"></span> <code>ffff00</code>
             <span>on</span>
             <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
@@ -1064,19 +1251,240 @@ led.run/WELCOME?mode=flow&amp;speed=120      スクロールマーキー</code><
             <table class="docs-table">
               <thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead>
               <tbody>
-                <tr><td>res</td><td>number</td><td>20</td><td>Vertical resolution (number of dot rows)</td></tr>
-                <tr><td>gap</td><td>number</td><td>0.2</td><td>Gap between dots (0&ndash;1)</td></tr>
-                <tr><td>glow</td><td>number</td><td>0.5</td><td>LED glow intensity</td></tr>
-                <tr><td>shape</td><td>string</td><td>square</td><td>Dot shape: <code>square</code> or <code>round</code></td></tr>
-                <tr><td>bezel</td><td>boolean</td><td>true</td><td>Show frame bezel</td></tr>
-                <tr><td>weight</td><td>string</td><td>bold</td><td>Font weight for dot rendering</td></tr>
-                <tr><td>flicker</td><td>number</td><td>0.05</td><td>Random dot flicker amount</td></tr>
-                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>Board surface color</td></tr>
-                <tr><td>wrap</td><td>boolean</td><td>false</td><td>Wrap height to content</td></tr>
+                <tr><td>res</td><td>number</td><td>20</td><td>垂直解像度（ドット行数）</td></tr>
+                <tr><td>gap</td><td>number</td><td>0.2</td><td>ドット間のギャップ（0&ndash;1）</td></tr>
+                <tr><td>glow</td><td>number</td><td>0.5</td><td>LEDグロー強度</td></tr>
+                <tr><td>shape</td><td>string</td><td>square</td><td>ドット形状：<code>square</code> または <code>round</code></td></tr>
+                <tr><td>bezel</td><td>boolean</td><td>true</td><td>フレームベゼルを表示</td></tr>
+                <tr><td>weight</td><td>string</td><td>bold</td><td>ドットレンダリング用フォントウェイト</td></tr>
+                <tr><td>flicker</td><td>number</td><td>0.05</td><td>ランダムドットフリッカー量</td></tr>
+                <tr><td>fill</td><td>hex</td><td>0a0a0a</td><td>ボード表面色</td></tr>
+                <tr><td>wrap</td><td>boolean</td><td>false</td><td>コンテンツに高さを合わせる</td></tr>
               </tbody>
             </table>
           </div>
           <a class="theme-detail-try" href="/HELLO?t=dot-matrix">試す &rarr;</a>
+        </div>
+
+        <!-- VFD -->
+        <div class="theme-detail" id="theme-vfd">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">VFD</span>
+            <span class="theme-detail-id">vfd</span>
+          </div>
+          <p class="theme-detail-desc">本物の蛍光体グロー、メッシュグリッド、チューブガラスエフェクト付き真空蛍光14セグメントディスプレイ、Canvasでレンダリング。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#00ffcc"></span> <code>00ffcc</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>蛍光体グロー強度</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>ディスプレイフリッカー量</td></tr>
+            <tr><td>mesh</td><td>number</td><td>4</td><td>ワイヤーメッシュグリッド可視性</td></tr>
+            <tr><td>tube</td><td>boolean</td><td>true</td><td>ガラスチューブ筐体を表示</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=vfd">試す &rarr;</a>
+        </div>
+
+        <!-- Chalk -->
+        <div class="theme-detail" id="theme-chalk">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Chalk</span>
+            <span class="theme-detail-id">chalk</span>
+          </div>
+          <p class="theme-detail-desc">Canvas上でチョーク質感をレンダリングするリアルな黒板。ダスト粒子、汚れエフェクト、設定可能なボード色を搭載。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>roughness</td><td>number</td><td>5</td><td>チョーク質感の粗さ</td></tr>
+            <tr><td>dust</td><td>number</td><td>6</td><td>チョークダスト粒子量</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>汚れエフェクト強度</td></tr>
+            <tr><td>board</td><td>string</td><td>green</td><td>ボード色：<code>green</code> または <code>black</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=chalk">試す &rarr;</a>
+        </div>
+
+        <!-- Stamp -->
+        <div class="theme-detail" id="theme-stamp">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Stamp</span>
+            <span class="theme-detail-id">stamp</span>
+          </div>
+          <p class="theme-detail-desc">インクにじみ、エイジングエフェクト、汚れ跡付きのエイジド紙上のラバースタンプ。DOM/CSSベース。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#cc2233"></span> <code>cc2233</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#f5f0e0"></span> <code>f5f0e0</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>ink</td><td>number</td><td>7</td><td>インク濃度とにじみ</td></tr>
+            <tr><td>aged</td><td>number</td><td>6</td><td>紙のエイジング強度</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>汚れ跡の量</td></tr>
+            <tr><td>paper</td><td>string</td><td>cream</td><td>紙のスタイル：<code>cream</code>、<code>white</code>、<code>aged</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=stamp">試す &rarr;</a>
+        </div>
+
+        <!-- Cinema -->
+        <div class="theme-detail" id="theme-cinema">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cinema</span>
+            <span class="theme-detail-id">cinema</span>
+          </div>
+          <p class="theme-detail-desc">個別に配置されたレタータイル付き映画館マーキーレターボード。DOMベース、バックライトグローと設定可能なフェルト色を搭載。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>rows</td><td>number</td><td>1</td><td>テキスト行数</td></tr>
+            <tr><td>backlight</td><td>number</td><td>6</td><td>バックライトグロー強度</td></tr>
+            <tr><td>felt</td><td>string</td><td>black</td><td>フェルト背景色</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=cinema">試す &rarr;</a>
+        </div>
+
+        <!-- Gothic -->
+        <div class="theme-detail" id="theme-gothic">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gothic</span>
+            <span class="theme-detail-id">gothic</span>
+          </div>
+          <p class="theme-detail-desc">華やかな縁取り、エイジド羊皮紙、装飾頭文字、蝋印、キャンドルライティング付き中世写本装飾スタイル。DOM/CSSベース。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#2a1a0a"></span> <code>2a1a0a</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>ornate</td><td>number</td><td>7</td><td>縁取り装飾レベル</td></tr>
+            <tr><td>aged</td><td>number</td><td>5</td><td>羊皮紙エイジング強度</td></tr>
+            <tr><td>illuminated</td><td>boolean</td><td>true</td><td>装飾頭文字を表示</td></tr>
+            <tr><td>seal</td><td>boolean</td><td>true</td><td>蝋印装飾を表示</td></tr>
+            <tr><td>candle</td><td>number</td><td>4</td><td>キャンドルライティングフリッカー</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=gothic">試す &rarr;</a>
+        </div>
+
+        <!-- Railway -->
+        <div class="theme-detail" id="theme-railway">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Railway</span>
+            <span class="theme-detail-id">railway</span>
+          </div>
+          <p class="theme-detail-desc">3D CSSフリップアニメーション、メタリック筐体、機械的摩耗テクスチャ、振動エフェクト付きSolari分割フラップ出発ボード。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#ffcc00"></span> <code>ffcc00</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.4</td><td>フリップアニメーション速度（秒）</td></tr>
+            <tr><td>housing</td><td>string</td><td>silver</td><td>筐体仕上げ：<code>silver</code>、<code>black</code></td></tr>
+            <tr><td>wear</td><td>number</td><td>4</td><td>機械的摩耗テクスチャ</td></tr>
+            <tr><td>vibration</td><td>number</td><td>5</td><td>機械的振動強度</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=railway">試す &rarr;</a>
+        </div>
+
+        <!-- Sticker -->
+        <div class="theme-detail" id="theme-sticker">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sticker</span>
+            <span class="theme-detail-id">sticker</span>
+          </div>
+          <p class="theme-detail-desc">光沢またはホログラフィック仕上げ、コーナー剥がれエフェクト、アウトライン縁取り、オプションのグリッター付きビニールステッカー。DOM/CSSベース。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#333333"></span> <code>333333</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>finish</td><td>string</td><td>holographic</td><td>表面仕上げ：<code>holographic</code>、<code>glossy</code>、<code>matte</code></td></tr>
+            <tr><td>peel</td><td>number</td><td>4</td><td>コーナー剥がれ量</td></tr>
+            <tr><td>outline</td><td>number</td><td>6</td><td>アウトライン縁取り太さ</td></tr>
+            <tr><td>glitter</td><td>number</td><td>0</td><td>グリッター粒子量（0 = なし）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sticker">試す &rarr;</a>
+        </div>
+
+        <!-- Embroidery -->
+        <div class="theme-detail" id="theme-embroidery">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Embroidery</span>
+            <span class="theme-detail-id">embroidery</span>
+          </div>
+          <p class="theme-detail-desc">Canvas上でレンダリングされるリネン布のクロスステッチ刺繍。設定可能なステッチサイズ、布テクスチャ、刺繍フープ、糸のテンションを搭載。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#cc3344"></span> <code>cc3344</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#e8dcc8"></span> <code>e8dcc8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>stitch</td><td>number</td><td>24</td><td>ステッチサイズ（ピクセル）</td></tr>
+            <tr><td>fabric</td><td>hex</td><td>f0ead8</td><td>布の背景色</td></tr>
+            <tr><td>hoop</td><td>boolean</td><td>true</td><td>刺繍フープフレームを表示</td></tr>
+            <tr><td>tension</td><td>number</td><td>4</td><td>糸のテンション（ステッチの外観に影響）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=embroidery">試す &rarr;</a>
+        </div>
+
+        <!-- Smoke -->
+        <div class="theme-detail" id="theme-smoke">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Smoke</span>
+            <span class="theme-detail-id">smoke</span>
+          </div>
+          <p class="theme-detail-desc">Canvas上でテキストを形成・溶解するパーティクルベースの煙エフェクト。ライトシャフト、乱流、グローエフェクトを搭載。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#88ccff"></span> <code>88ccff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>煙パーティクル密度</td></tr>
+            <tr><td>turbulence</td><td>number</td><td>5</td><td>乱流強度</td></tr>
+            <tr><td>shafts</td><td>number</td><td>4</td><td>ライトシャフト可視性</td></tr>
+            <tr><td>glow</td><td>number</td><td>6</td><td>テキストグロー強度</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=smoke">試す &rarr;</a>
+        </div>
+
+        <!-- Sand -->
+        <div class="theme-detail" id="theme-sand">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sand</span>
+            <span class="theme-detail-id">sand</span>
+          </div>
+          <p class="theme-detail-desc">Canvas上でレンダリングされるアニメーション波エフェクト付きビーチの砂文字。調整可能な深さ、湿度、泡、オプションの波アニメーションを搭載。</p>
+          <div class="theme-detail-colors">
+            <span>デフォルトカラー：</span>
+            <span class="color-swatch" style="background:#8b7355"></span> <code>8b7355</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#d4b896"></span> <code>d4b896</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>10</td><td>砂の彫刻深さ</td></tr>
+            <tr><td>wetness</td><td>number</td><td>6</td><td>砂の湿度レベル</td></tr>
+            <tr><td>foam</td><td>number</td><td>5</td><td>波の泡量</td></tr>
+            <tr><td>detail</td><td>number</td><td>5</td><td>砂テクスチャの詳細レベル</td></tr>
+            <tr><td>showWaves</td><td>boolean</td><td>true</td><td>アニメーション波エフェクトを表示</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sand">試す &rarr;</a>
         </div>
 
         <!-- ==================== LIGHT ==================== -->
@@ -2159,6 +2567,294 @@ led.run/time?t=lcd&amp;format=12h          LCD腕時計、12時間制</code></pr
           <a class="theme-detail-try" href="/time?t=gradient">試す &rarr;</a>
         </div>
 
+        <!-- ==================== QR ==================== -->
+
+        <h2 id="qr-overview">QR &mdash; 概要</h2>
+        <p>QRプロダクトは、テキスト、URL、データからフルスクリーンQRコードを生成します。4種のビジュアルテーマを含みます。エンコードするコンテンツはURLパスの <code>/qr/</code> の後に配置します。</p>
+
+        <pre><code>led.run/qr/HELLO                       シンプルなテキストQR
+led.run/qr/https%3A%2F%2Fexample.com   URL（エンコード済み）
+led.run/qr/HELLO?t=neon&amp;ec=H           ネオンテーマ、高エラー訂正
+led.run/qr/HELLO?t=dot&amp;shape=diamond   ドットテーマ、ダイヤモンドモジュール</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong> QRコンテンツ内のURLはURLエンコードが必要です（例：<code>https://</code> を <code>https%3A%2F%2F</code> に）。<code>?</code> はクエリ文字列の区切りとして解析されるためです。コンテンツなしの <code>/qr</code> はランディングページを開きます。
+        </div>
+
+        <!-- QR Parameters -->
+        <h2 id="qr-parameters">QRパラメータ</h2>
+        <p>QRテーマが認識するパラメータ：</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>パラメータ</th><th>エイリアス</th><th>型</th><th>デフォルト</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>テーマID（<a href="#qr-themes">テーマ</a>を参照）</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>テーマ毎</td><td>モジュール（前景）色</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>テーマ毎</td><td>背景色</td></tr>
+              <tr><td>ec</td><td>&mdash;</td><td>string</td><td>M</td><td>エラー訂正：<code>L</code>、<code>M</code>、<code>Q</code>、<code>H</code></td></tr>
+              <tr><td>size</td><td>&mdash;</td><td>number</td><td>10</td><td>モジュールサイズ（ピクセル）（2&ndash;20）</td></tr>
+              <tr><td>margin</td><td>&mdash;</td><td>number</td><td>4</td><td>クワイエットゾーンモジュール数（0&ndash;10）</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>表示スケール（0.1&ndash;3）</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>スケール時の位置</td></tr>
+              <tr><td>padding</td><td>&mdash;</td><td>number</td><td>0</td><td>コンテナパディング %（0&ndash;20）</td></tr>
+              <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>テーマ毎</td><td>ラッパーアクティブ時の外側コンテナ色</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Themes -->
+        <h2 id="qr-themes">QRテーマ</h2>
+        <p>led.runには4種のQRコードテーマがあります。</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="qr-search" placeholder="QRテーマを検索（例：'neon'、'pixel'）..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">標準的な白黒QRコード（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-default">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">shadowBlurブルーム付きネオングローQR（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-neon">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot</span>
+              <span class="theme-card-id">dot</span>
+            </div>
+            <div class="theme-card-desc">形状バリエーション付きドット型モジュール（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-dot">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">オプションの3Dハイライト/シャドウ付きピクセルアート（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#222222" title="color: 222222"></span>
+              <span class="theme-color-chip" style="background:#f0e6d3" title="bg: f0e6d3"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-pixel">詳細 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- QR theme details -->
+
+        <div class="theme-detail" id="qr-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Default</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">Canvas上でレンダリングされる標準QRコード。白い背景にクリーンな黒モジュール。オプションの丸角モジュールに対応。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>on</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>rounded</td><td>boolean</td><td>false</td><td>モジュールの角を丸くする</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">Canvas shadowBlurブルームエフェクト付きネオングローQRコード。オプションのパルスアニメーションでブリージンググローを作成。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>ネオングロー強度</td></tr>
+            <tr><td>pulse</td><td>boolean</td><td>false</td><td>ブリージングパルスアニメーションを有効化</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=neon">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-dot">
+          <div class="theme-detail-header"><span class="theme-detail-name">Dot</span><span class="theme-detail-id">dot</span></div>
+          <p class="theme-detail-desc">四角の代わりにドット型モジュールのQRコード。ラウンド、ダイヤモンド、スターなど複数の形状バリエーションに対応。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>on</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>gap</td><td>number</td><td>0.15</td><td>ドット間の隙間（0&ndash;1）</td></tr>
+            <tr><td>shape</td><td>string</td><td>round</td><td>ドット形状：<code>round</code>、<code>diamond</code>、<code>star</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=dot">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">レトロゲーム風のオプション3Dハイライトとシャドウエフェクト付きピクセルアートスタイルQRコード。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#222222"></span> <code>222222</code> <span>on</span> <span class="color-swatch" style="background:#f0e6d3"></span> <code>f0e6d3</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>border</td><td>number</td><td>3</td><td>ピクセルボーダーの太さ</td></tr>
+            <tr><td>shadow</td><td>boolean</td><td>true</td><td>3Dハイライト/シャドウを表示</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=pixel">試す &rarr;</a>
+        </div>
+
+        <!-- ==================== CAMERA ==================== -->
+
+        <h2 id="camera-overview">Camera &mdash; 概要</h2>
+        <p>Cameraプロダクトは、デバイスカメラのフィードにリアルタイムビジュアルエフェクトを適用します。4種のエフェクトを含みます。カメラの許可が必要です。</p>
+
+        <pre><code>led.run/camera?t=default               クリーンミラービュー
+led.run/camera?t=ascii&amp;density=8        ASCIIアート、高密度文字
+led.run/camera?t=pixel&amp;blockSize=16     ピクセル化モザイク
+led.run/camera?t=surveillance           セキュリティカメラオーバーレイ</code></pre>
+
+        <div class="docs-note">
+          <strong>注意：</strong> カメラはブラウザの許可が必要です。<code>?t=</code> なしの <code>/camera</code> はランディングページを開きます。モバイルデバイスでバックカメラを使用するには <code>facing=environment</code> を指定してください。
+        </div>
+
+        <!-- Camera Parameters -->
+        <h2 id="camera-parameters">カメラパラメータ</h2>
+        <p>カメラエフェクトが認識するパラメータ：</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>パラメータ</th><th>エイリアス</th><th>型</th><th>デフォルト</th><th>説明</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>エフェクトID（<a href="#camera-effects">エフェクト</a>を参照）</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>エフェクト毎</td><td>プライマリカラー</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>エフェクト毎</td><td>背景色</td></tr>
+              <tr><td>facing</td><td>&mdash;</td><td>string</td><td>user</td><td>カメラ：<code>user</code>（フロント）または <code>environment</code>（バック）</td></tr>
+              <tr><td>mirror</td><td>&mdash;</td><td>boolean</td><td>true</td><td>ミラー画像（facing modeで自動設定）</td></tr>
+              <tr><td>fps</td><td>&mdash;</td><td>number</td><td>30</td><td>フレームレート（5&ndash;60）</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS明度フィルター %（10&ndash;200）</td></tr>
+              <tr><td>contrast</td><td>&mdash;</td><td>number</td><td>100</td><td>CSSコントラストフィルター %（10&ndash;200）</td></tr>
+              <tr><td>saturate</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS彩度フィルター %（0&ndash;200）</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>表示スケール（0.1&ndash;3）</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>スケール時の位置</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Camera Effects -->
+        <h2 id="camera-effects">カメラエフェクト</h2>
+        <p>led.runには4種のカメラエフェクトがあります。</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="camera-search" placeholder="カメラエフェクトを検索（例：'ascii'、'pixel'）..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Mirror</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">ビネット付きクリーンミラービュー（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-default">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">ASCII</span>
+              <span class="theme-card-id">ascii</span>
+            </div>
+            <div class="theme-card-desc">カメラフィードからASCII文字アート（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-ascii">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">ダウンサンプリングによるピクセル化モザイク（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-pixel">詳細 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Surveillance</span>
+              <span class="theme-card-id">surveillance</span>
+            </div>
+            <div class="theme-card-desc">REC、タイムスタンプ、走査線付きセキュリティカメラ（Canvas）</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-surveillance">詳細 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Camera effect details -->
+
+        <div class="theme-detail" id="camera-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Mirror</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">カバーフィットスケーリングとオプションのビネット暗化付きクリーンミラービュー。Canvasベースレンダリング。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>vignette</td><td>number</td><td>0</td><td>ビネット暗化強度（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=default">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-ascii">
+          <div class="theme-detail-header"><span class="theme-detail-name">ASCII</span><span class="theme-detail-id">ascii</span></div>
+          <p class="theme-detail-desc">Canvas上でカメラフィードをASCII文字アートに変換。明度が文字密度にマッピングされ、ターミナル風の外観を実現。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>文字密度（1&ndash;10）</td></tr>
+            <tr><td>invert</td><td>boolean</td><td>false</td><td>明度マッピングを反転</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=ascii">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">Canvas上でダウンサンプリングとニアレストネイバーアップスケールによるピクセル化モザイクエフェクト。設定可能なブロックサイズとギャップ。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>blockSize</td><td>number</td><td>8</td><td>ピクセルブロックサイズ（2&ndash;32）</td></tr>
+            <tr><td>gap</td><td>number</td><td>0</td><td>ピクセルブロック間のギャップ</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=pixel">試す &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-surveillance">
+          <div class="theme-detail-header"><span class="theme-detail-name">Surveillance</span><span class="theme-detail-id">surveillance</span></div>
+          <p class="theme-detail-desc">RECインジケーター、タイムスタンプ、コーナーブラケット、走査線、ノイズ付きセキュリティカメラスタイル。CanvasベースのHUDオーバーレイ。</p>
+          <div class="theme-detail-colors"><span>デフォルトカラー：</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>Param</th><th>Type</th><th>Default</th><th>Description</th></tr></thead><tbody>
+            <tr><td>overlay</td><td>boolean</td><td>true</td><td>HUDオーバーレイを表示（REC、タイムスタンプ、ブラケット）</td></tr>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>走査線エフェクトを表示</td></tr>
+            <tr><td>noise</td><td>number</td><td>3</td><td>ノイズグレイン強度（0&ndash;10）</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=surveillance">試す &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -2184,6 +2880,15 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 led.run/time?t=digital&amp;scale=2&amp;position=center            &mdash; 2&times; zoom, centered
 led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&times; zoom, top-left anchor</code></pre>
 
+        <h3>QR Product</h3>
+        <p>QR themes support the same wrapper mode as Time: <code>scale</code> (0.1&ndash;3), <code>position</code>, <code>padding</code>, and <code>fill</code>. When <code>scale &ne; 1</code> or <code>padding &gt; 0</code>, a wrapper is created. <code>fill</code> controls the outer container background when the wrapper is active.</p>
+        <pre><code>led.run/qr/HELLO?scale=0.5&amp;position=center&amp;fill=1a1a2e
+led.run/qr/HELLO?scale=2&amp;position=top-left</code></pre>
+
+        <h3>Camera Product</h3>
+        <p>Camera effects support <code>scale</code> (0.1&ndash;3) and <code>position</code> for a picture-in-picture effect when <code>scale &lt; 1</code>. No <code>padding</code> or <code>fill</code> params &mdash; simplified version of the wrapper mode.</p>
+        <pre><code>led.run/camera?t=ascii&amp;scale=0.5&amp;position=bottom-right</code></pre>
+
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>
         <p>Once a display is running, you can interact with it using keyboard, mouse, or touch. Available controls vary by product.</p>
@@ -2198,6 +2903,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
@@ -2207,9 +2914,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -2221,6 +2932,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
@@ -2228,6 +2941,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Next effect</td>
                 <td>Next visualizer</td>
                 <td>Next clock</td>
+                <td>Next theme</td>
+                <td>Next effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
@@ -2235,12 +2950,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
                 <td>Previous clock</td>
+                <td>Previous theme</td>
+                <td>Previous effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
@@ -2249,9 +2968,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -2282,11 +3005,15 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2298,6 +3025,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
@@ -2305,9 +3034,22 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Camera Switch</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Settings</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2319,12 +3061,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Microphone</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
             </tbody>
@@ -2382,7 +3128,7 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card, .qr-card, .camera-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2400,10 +3146,12 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card):not(.qr-card):not(.camera-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
       setupSearch('clock-search', document.querySelectorAll('.clock-card'));
+      setupSearch('qr-search', document.querySelectorAll('.qr-card'));
+      setupSearch('camera-search', document.querySelectorAll('.camera-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
