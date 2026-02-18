@@ -4,12 +4,12 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>문서 — led.run 디스플레이 툴킷</title>
-  <meta name="description" content="led.run 완전 가이드 — 20개 텍스트 테마, 18개 조명 효과, 12개 사운드 비주얼라이저, 14가지 시계 테마, URL 프로토콜 및 파라미터.">
+  <meta name="description" content="led.run 완전 가이드 — 30개 텍스트 테마, 18개 조명 효과, 12개 사운드 비주얼라이저, 14가지 시계 테마, 4가지 QR 테마, 4가지 카메라 효과, URL 프로토콜 및 파라미터.">
   <link rel="canonical" href="https://led.run/docs/ko/">
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://led.run/docs/ko/">
   <meta property="og:title" content="문서 — led.run 디스플레이 툴킷">
-  <meta property="og:description" content="led.run 완전 가이드 — 20개 텍스트 테마, 18개 조명 효과, 12개 사운드 비주얼라이저, 14가지 시계 테마, URL 프로토콜 및 파라미터.">
+  <meta property="og:description" content="led.run 완전 가이드 — 30개 텍스트 테마, 18개 조명 효과, 12개 사운드 비주얼라이저, 14가지 시계 테마, 4가지 QR 테마, 4가지 카메라 효과, URL 프로토콜 및 파라미터.">
   <meta property="og:site_name" content="led.run">
   <meta property="og:locale" content="ko_KR">
 
@@ -67,7 +67,7 @@
             <a href="#text-overview">개요</a>
             <a href="#display-modes">디스플레이 모드</a>
             <a href="#text-parameters">파라미터</a>
-            <a href="#themes">테마 (20)</a>
+            <a href="#themes">테마 (30)</a>
           </li>
           <li class="docs-nav-section">
             <div class="docs-nav-heading">조명</div>
@@ -88,6 +88,18 @@
             <a href="#clocks">시계 (14)</a>
           </li>
           <li class="docs-nav-section">
+            <div class="docs-nav-heading">QR</div>
+            <a href="#qr-overview">개요</a>
+            <a href="#qr-parameters">파라미터</a>
+            <a href="#qr-themes">테마 (4)</a>
+          </li>
+          <li class="docs-nav-section">
+            <div class="docs-nav-heading">Camera</div>
+            <a href="#camera-overview">개요</a>
+            <a href="#camera-parameters">파라미터</a>
+            <a href="#camera-effects">효과 (4)</a>
+          </li>
+          <li class="docs-nav-section">
             <div class="docs-nav-heading">레퍼런스</div>
             <a href="#color-format">색상 형식</a>
             <a href="#scale">스케일 &amp; 카드 테마</a>
@@ -102,7 +114,7 @@
       <main class="docs-content">
 
         <h1>led.run 문서</h1>
-        <p>어떤 화면이든 텍스트 사인, 조명 효과, 사운드 비주얼라이저, 시계 디스플레이로 바꿔보세요. 앱도, 계정도 필요 없습니다 &mdash; URL 하나면 충분합니다.</p>
+        <p>어떤 화면이든 텍스트 사인, 조명 효과, 사운드 비주얼라이저, 시계 디스플레이, QR 코드, 카메라 필터로 바꿔보세요. 앱도, 계정도 필요 없습니다 &mdash; URL 하나면 충분합니다.</p>
 
         <!-- How It Works -->
         <h2 id="how-it-works">작동 원리</h2>
@@ -180,37 +192,76 @@
           </div>
         </div>
 
+        <h3>QR 코드</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">qr/HELLO</span><span class="url-part-params">?t=neon&amp;ec=H</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 경로에 콘텐츠</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 테마 및 설정</span>
+            </div>
+          </div>
+        </div>
+
+        <h3>카메라 효과</h3>
+        <div class="url-diagram">
+          <div class="url-diagram-header">
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+            <span class="url-dot"></span>
+          </div>
+          <div class="url-diagram-body">
+            <div class="url-diagram-url">
+              <span class="url-part-base">led.run/</span><span class="url-part-text">camera</span><span class="url-part-params">?t=ascii&amp;facing=user</span>
+            </div>
+            <div class="url-diagram-labels">
+              <span class="url-label"><span class="url-label-dot" style="background:var(--primary)"></span> 제품 접두어</span>
+              <span class="url-label"><span class="url-label-dot" style="background:#ff9800"></span> 효과 및 설정</span>
+            </div>
+          </div>
+        </div>
+
         <!-- URL Protocol -->
         <h2 id="url-protocol">URL 프로토콜</h2>
-        <p>네 가지 제품, 네 가지 URL 패턴:</p>
+        <p>6개 제품, 6가지 URL 패턴:</p>
 
         <pre><code>Text:   led.run/HELLO?t=neon              경로 = 텍스트 내용
         led.run/text/HELLO?t=neon         명시적 /text/ 접두어
 Light:  led.run/light?t=disco             제품 접두어 + 파라미터
 Sound:  led.run/sound?t=bars              제품 접두어 + 파라미터
-Time:   led.run/time?t=digital            제품 접두어 + 파라미터</code></pre>
+Time:   led.run/time?t=digital            제품 접두어 + 파라미터
+QR:     led.run/qr/HELLO?t=neon           경로에 콘텐츠 + 파라미터
+Camera: led.run/camera?t=ascii            제품 접두어 + 파라미터</code></pre>
 
         <ul>
           <li><strong>Text</strong> &mdash; <code>/</code> 뒤의 URL 경로가 표시 텍스트가 됩니다. 공백은 <code>+</code> 또는 <code>%20</code>으로 입력합니다.</li>
-          <li><strong>Light, Sound &amp; Time</strong> &mdash; 예약된 경로 접두어를 사용합니다. 모든 설정은 쿼리 파라미터로 합니다.</li>
-          <li>모든 파라미터는 선택적인 &ldquo;기본 설정 힌트&rdquo;입니다 &mdash; 테마/효과/비주얼라이저가 사용 여부를 결정합니다.</li>
+          <li><strong>QR</strong> &mdash; 인코딩할 콘텐츠는 <code>/qr/</code> 접두어 뒤에 옵니다. 콘텐츠 내 URL은 URL 인코딩해야 합니다.</li>
+          <li><strong>Light, Sound, Time &amp; Camera</strong> &mdash; 예약된 경로 접두어를 사용합니다. 모든 설정은 쿼리 파라미터로 합니다.</li>
+          <li>모든 파라미터는 선택적인 &ldquo;기본 설정 힌트&rdquo;입니다 &mdash; 테마/효과/비주얼라이저/시계가 사용 여부를 결정합니다.</li>
         </ul>
 
         <div class="docs-note">
-          <strong>예약된 접두어:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code>은 예약어입니다. &ldquo;light&rdquo;라는 단어를 텍스트로 표시하려면 <code>led.run/text/light</code>를 사용하세요.
+          <strong>예약된 접두어:</strong> <code>text</code>, <code>light</code>, <code>sound</code>, <code>time</code>, <code>qr</code>, <code>camera</code>는 예약어입니다. &ldquo;light&rdquo;라는 단어를 텍스트로 표시하려면 <code>led.run/text/light</code>를 사용하세요.
         </div>
 
         <!-- Products -->
         <h2 id="products">제품</h2>
-        <p>led.run은 네 가지 디스플레이 제품을 제공하며, 각각 고유한 디스플레이 모드가 있습니다:</p>
+        <p>led.run은 여섯 가지 디스플레이 제품을 제공하며, 각각 고유한 디스플레이 모드가 있습니다:</p>
 
         <div class="theme-grid" style="margin-bottom:2rem">
           <div class="theme-card">
             <div class="theme-card-header">
               <span class="theme-card-name">Text</span>
-              <span class="theme-card-id">20개 테마</span>
+              <span class="theme-card-id">30개 테마</span>
             </div>
-            <div class="theme-card-desc">자동 맞춤 크기 조정, 사인 및 플로우 모드, 네온부터 도트 매트릭스까지 20개 비주얼 테마를 갖춘 LED 스타일 텍스트 사인.</div>
+            <div class="theme-card-desc">자동 맞춤 크기 조정, 사인 및 플로우 모드, 네온부터 도트 매트릭스까지 30개 비주얼 테마를 갖춘 LED 스타일 텍스트 사인.</div>
             <a class="theme-card-link" href="#text-overview">살펴보기 &rarr;</a>
           </div>
           <div class="theme-card">
@@ -237,12 +288,28 @@ Time:   led.run/time?t=digital            제품 접두어 + 파라미터</code>
             <div class="theme-card-desc">풀스크린 시계 디스플레이 &mdash; 디지털 LED, 아날로그, 플립, 닉시 튜브, 네온, 해시계, 캘린더 등.</div>
             <a class="theme-card-link" href="#time-overview">살펴보기 &rarr;</a>
           </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">QR</span>
+              <span class="theme-card-id">4가지 테마</span>
+            </div>
+            <div class="theme-card-desc">풀스크린 QR 코드 표시 &mdash; 텍스트, URL, 데이터를 네온 글로우, 픽셀 아트 등 4가지 비주얼 테마로 인코딩.</div>
+            <a class="theme-card-link" href="#qr-overview">살펴보기 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Camera</span>
+              <span class="theme-card-id">4가지 효과</span>
+            </div>
+            <div class="theme-card-desc">실시간 카메라 필터 &mdash; 미러 뷰, ASCII 아트, 픽셀 모자이크, 감시 카메라 스타일.</div>
+            <a class="theme-card-link" href="#camera-overview">살펴보기 &rarr;</a>
+          </div>
         </div>
 
         <!-- ==================== TEXT ==================== -->
 
         <h2 id="text-overview">Text &mdash; 개요</h2>
-        <p>Text 제품은 모든 URL 경로를 전체 화면 디스플레이로 변환합니다. 각각 특정 분위기와 사용 사례에 맞게 설계된 20개의 기본 테마가 포함되어 있습니다. 테마는 정적 사인과 스크롤 플로우의 두 가지 디스플레이 모드를 지원합니다.</p>
+        <p>Text 제품은 모든 URL 경로를 전체 화면 디스플레이로 변환합니다. 각각 특정 분위기와 사용 사례에 맞게 설계된 30개의 기본 테마가 포함되어 있습니다. 테마는 정적 사인과 스크롤 플로우의 두 가지 디스플레이 모드를 지원합니다.</p>
 
         <pre><code>led.run/HELLO                          간단한 사인
 led.run/DO+NOT+DISTURB?t=do-not-disturb   테마 선택
@@ -369,7 +436,7 @@ led.run/WELCOME?mode=flow&amp;speed=120      스크롤 자막</code></pre>
 
         <!-- Themes -->
         <h2 id="themes">테마</h2>
-        <p>led.run에는 20개의 기본 테마가 포함되어 있습니다. 각 테마는 특정 분위기와 사용 사례에 맞게 설계되었습니다.</p>
+        <p>led.run에는 30개의 기본 테마가 포함되어 있습니다. 각 테마는 특정 분위기와 사용 사례에 맞게 설계되었습니다.</p>
 
         <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
           <input type="text" id="theme-search" placeholder="테마 검색 (예: 'neon', 'matrix')..." 
@@ -618,6 +685,126 @@ led.run/WELCOME?mode=flow&amp;speed=120      스크롤 자막</code></pre>
               <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
             </div>
             <a class="theme-card-link" href="#theme-dot-matrix">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">VFD</span>
+              <span class="theme-card-id">vfd</span>
+            </div>
+            <div class="theme-card-desc">진공 형광 14세그먼트 디스플레이 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ffcc" title="color: 00ffcc"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-vfd">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Chalk</span>
+              <span class="theme-card-id">chalk</span>
+            </div>
+            <div class="theme-card-desc">사실적인 칠판과 분필 텍스처 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-chalk">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Stamp</span>
+              <span class="theme-card-id">stamp</span>
+            </div>
+            <div class="theme-card-desc">오래된 종이에 고무 도장 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc2233" title="color: cc2233"></span>
+              <span class="theme-color-chip" style="background:#f5f0e0" title="bg: f5f0e0"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-stamp">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Cinema</span>
+              <span class="theme-card-id">cinema</span>
+            </div>
+            <div class="theme-card-desc">영화관 마퀴 레터보드 (DOM)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-cinema">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Gothic</span>
+              <span class="theme-card-id">gothic</span>
+            </div>
+            <div class="theme-card-desc">중세 필사본 장식 스타일 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#2a1a0a" title="color: 2a1a0a"></span>
+              <span class="theme-color-chip" style="background:#f5e6c8" title="bg: f5e6c8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-gothic">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Railway</span>
+              <span class="theme-card-id">railway</span>
+            </div>
+            <div class="theme-card-desc">Solari 분할 플랩 출발 보드 (DOM/CSS 3D)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffcc00" title="color: ffcc00"></span>
+              <span class="theme-color-chip" style="background:#1a1a1a" title="bg: 1a1a1a"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-railway">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sticker</span>
+              <span class="theme-card-id">sticker</span>
+            </div>
+            <div class="theme-card-desc">비닐 스티커 광택/홀로그래픽 (DOM/CSS)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#333333" title="bg: 333333"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sticker">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Embroidery</span>
+              <span class="theme-card-id">embroidery</span>
+            </div>
+            <div class="theme-card-desc">리넨에 십자수 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#cc3344" title="color: cc3344"></span>
+              <span class="theme-color-chip" style="background:#e8dcc8" title="bg: e8dcc8"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-embroidery">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Smoke</span>
+              <span class="theme-card-id">smoke</span>
+            </div>
+            <div class="theme-card-desc">파티클 연기 텍스트 효과 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#88ccff" title="color: 88ccff"></span>
+              <span class="theme-color-chip" style="background:#050508" title="bg: 050508"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-smoke">상세 &rarr;</a>
+          </div>
+          <div class="theme-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Sand</span>
+              <span class="theme-card-id">sand</span>
+            </div>
+            <div class="theme-card-desc">해변 모래 글씨와 파도 애니메이션 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#8b7355" title="color: 8b7355"></span>
+              <span class="theme-color-chip" style="background:#d4b896" title="bg: d4b896"></span>
+            </div>
+            <a class="theme-card-link" href="#theme-sand">상세 &rarr;</a>
           </div>
         </div>
 
@@ -1077,6 +1264,227 @@ led.run/WELCOME?mode=flow&amp;speed=120      스크롤 자막</code></pre>
             </table>
           </div>
           <a class="theme-detail-try" href="/HELLO?t=dot-matrix">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- VFD -->
+        <div class="theme-detail" id="theme-vfd">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">VFD</span>
+            <span class="theme-detail-id">vfd</span>
+          </div>
+          <p class="theme-detail-desc">진정한 형광체 글로우, 메시 그리드, 튜브 유리 효과가 있는 진공 형광 14세그먼트 디스플레이, Canvas로 렌더링.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#00ffcc"></span> <code>00ffcc</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>형광체 글로우 강도</td></tr>
+            <tr><td>flicker</td><td>number</td><td>3</td><td>디스플레이 깜빡임 양</td></tr>
+            <tr><td>mesh</td><td>number</td><td>4</td><td>와이어 메시 그리드 가시성</td></tr>
+            <tr><td>tube</td><td>boolean</td><td>true</td><td>유리 튜브 인클로저 표시</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=vfd">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Chalk -->
+        <div class="theme-detail" id="theme-chalk">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Chalk</span>
+            <span class="theme-detail-id">chalk</span>
+          </div>
+          <p class="theme-detail-desc">Canvas에서 분필 텍스처 렌더링이 있는 사실적인 칠판. 분필 가루 파티클, 번짐 효과, 설정 가능한 보드 색상이 특징입니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>roughness</td><td>number</td><td>5</td><td>분필 텍스처 거칠기</td></tr>
+            <tr><td>dust</td><td>number</td><td>6</td><td>분필 가루 파티클 양</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>번짐 효과 강도</td></tr>
+            <tr><td>board</td><td>string</td><td>green</td><td>보드 색상: <code>green</code> 또는 <code>black</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=chalk">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Stamp -->
+        <div class="theme-detail" id="theme-stamp">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Stamp</span>
+            <span class="theme-detail-id">stamp</span>
+          </div>
+          <p class="theme-detail-desc">잉크 번짐, 노화 효과, 얼룩이 있는 오래된 종이 위의 고무 도장 자국. DOM/CSS 기반.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#cc2233"></span> <code>cc2233</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#f5f0e0"></span> <code>f5f0e0</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>ink</td><td>number</td><td>7</td><td>잉크 농도 및 번짐</td></tr>
+            <tr><td>aged</td><td>number</td><td>6</td><td>종이 노화 강도</td></tr>
+            <tr><td>smudge</td><td>number</td><td>4</td><td>얼룩 양</td></tr>
+            <tr><td>paper</td><td>string</td><td>cream</td><td>종이 스타일: <code>cream</code>, <code>white</code>, <code>aged</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=stamp">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Cinema -->
+        <div class="theme-detail" id="theme-cinema">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Cinema</span>
+            <span class="theme-detail-id">cinema</span>
+          </div>
+          <p class="theme-detail-desc">개별 배치된 문자 타일이 있는 영화관 마퀴 레터보드. DOM 기반으로 백라이트 글로우와 설정 가능한 펠트 색상이 있습니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>rows</td><td>number</td><td>1</td><td>텍스트 행 수</td></tr>
+            <tr><td>backlight</td><td>number</td><td>6</td><td>백라이트 글로우 강도</td></tr>
+            <tr><td>felt</td><td>string</td><td>black</td><td>펠트 배경 색상</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=cinema">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Gothic -->
+        <div class="theme-detail" id="theme-gothic">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Gothic</span>
+            <span class="theme-detail-id">gothic</span>
+          </div>
+          <p class="theme-detail-desc">화려한 테두리, 오래된 양피지, 장식 대문자, 밀랍 인장, 촛불 조명이 있는 중세 필사본 스타일. DOM/CSS 기반.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#2a1a0a"></span> <code>2a1a0a</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#f5e6c8"></span> <code>f5e6c8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>ornate</td><td>number</td><td>7</td><td>테두리 장식 수준</td></tr>
+            <tr><td>aged</td><td>number</td><td>5</td><td>양피지 노화 강도</td></tr>
+            <tr><td>illuminated</td><td>boolean</td><td>true</td><td>장식 대문자 표시</td></tr>
+            <tr><td>seal</td><td>boolean</td><td>true</td><td>밀랍 인장 장식 표시</td></tr>
+            <tr><td>candle</td><td>number</td><td>4</td><td>촛불 조명 깜빡임</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=gothic">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Railway -->
+        <div class="theme-detail" id="theme-railway">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Railway</span>
+            <span class="theme-detail-id">railway</span>
+          </div>
+          <p class="theme-detail-desc">3D CSS 플립 애니메이션, 금속 하우징, 기계적 마모 텍스처, 진동 효과가 있는 Solari 분할 플랩 출발 보드.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffcc00"></span> <code>ffcc00</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#1a1a1a"></span> <code>1a1a1a</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>flipSpeed</td><td>number</td><td>0.4</td><td>플립 애니메이션 속도 (초)</td></tr>
+            <tr><td>housing</td><td>string</td><td>silver</td><td>하우징 마감: <code>silver</code>, <code>black</code></td></tr>
+            <tr><td>wear</td><td>number</td><td>4</td><td>기계적 마모 텍스처</td></tr>
+            <tr><td>vibration</td><td>number</td><td>5</td><td>기계적 진동 강도</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=railway">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Sticker -->
+        <div class="theme-detail" id="theme-sticker">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sticker</span>
+            <span class="theme-detail-id">sticker</span>
+          </div>
+          <p class="theme-detail-desc">광택 또는 홀로그래픽 마감, 모서리 벗김 효과, 아웃라인 테두리, 선택적 글리터가 있는 비닐 스티커. DOM/CSS 기반.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#333333"></span> <code>333333</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>finish</td><td>string</td><td>holographic</td><td>표면 마감: <code>holographic</code>, <code>glossy</code>, <code>matte</code></td></tr>
+            <tr><td>peel</td><td>number</td><td>4</td><td>모서리 벗김 양</td></tr>
+            <tr><td>outline</td><td>number</td><td>6</td><td>아웃라인 테두리 두께</td></tr>
+            <tr><td>glitter</td><td>number</td><td>0</td><td>글리터 파티클 양 (0 = 없음)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sticker">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Embroidery -->
+        <div class="theme-detail" id="theme-embroidery">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Embroidery</span>
+            <span class="theme-detail-id">embroidery</span>
+          </div>
+          <p class="theme-detail-desc">설정 가능한 바늘땀 크기, 직물 텍스처, 자수 틀, 실 장력이 있는 리넨 직물 위의 십자수, Canvas로 렌더링.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#cc3344"></span> <code>cc3344</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#e8dcc8"></span> <code>e8dcc8</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>stitch</td><td>number</td><td>24</td><td>바늘땀 크기 (픽셀)</td></tr>
+            <tr><td>fabric</td><td>hex</td><td>f0ead8</td><td>직물 배경 색상</td></tr>
+            <tr><td>hoop</td><td>boolean</td><td>true</td><td>자수 틀 프레임 표시</td></tr>
+            <tr><td>tension</td><td>number</td><td>4</td><td>실 장력 (바늘땀 외관에 영향)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=embroidery">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Smoke -->
+        <div class="theme-detail" id="theme-smoke">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Smoke</span>
+            <span class="theme-detail-id">smoke</span>
+          </div>
+          <p class="theme-detail-desc">빛 줄기, 난류, 글로우 효과가 있는 Canvas 위에서 텍스트를 형성하고 흩어지는 파티클 기반 연기 효과.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#88ccff"></span> <code>88ccff</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#050508"></span> <code>050508</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>연기 파티클 밀도</td></tr>
+            <tr><td>turbulence</td><td>number</td><td>5</td><td>난류 강도</td></tr>
+            <tr><td>shafts</td><td>number</td><td>4</td><td>빛 줄기 가시성</td></tr>
+            <tr><td>glow</td><td>number</td><td>6</td><td>텍스트 글로우 강도</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=smoke">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- Sand -->
+        <div class="theme-detail" id="theme-sand">
+          <div class="theme-detail-header">
+            <span class="theme-detail-name">Sand</span>
+            <span class="theme-detail-id">sand</span>
+          </div>
+          <p class="theme-detail-desc">Canvas로 렌더링된 애니메이션 파도 효과가 있는 해변 모래 글씨. 조절 가능한 깊이, 젖음, 거품, 선택적 파도 애니메이션이 특징입니다.</p>
+          <div class="theme-detail-colors">
+            <span>기본 색상:</span>
+            <span class="color-swatch" style="background:#8b7355"></span> <code>8b7355</code>
+            <span>on</span>
+            <span class="color-swatch" style="background:#d4b896"></span> <code>d4b896</code>
+          </div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>depth</td><td>number</td><td>10</td><td>모래 조각 깊이</td></tr>
+            <tr><td>wetness</td><td>number</td><td>6</td><td>모래 젖음 수준</td></tr>
+            <tr><td>foam</td><td>number</td><td>5</td><td>파도 거품 양</td></tr>
+            <tr><td>detail</td><td>number</td><td>5</td><td>모래 텍스처 디테일 수준</td></tr>
+            <tr><td>showWaves</td><td>boolean</td><td>true</td><td>파도 애니메이션 표시</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/HELLO?t=sand">사용해보기 &rarr;</a>
         </div>
 
         <!-- ==================== LIGHT ==================== -->
@@ -2160,6 +2568,294 @@ led.run/time?t=lcd&amp;format=12h          LCD 시계, 12시간</code></pre>
           <a class="theme-detail-try" href="/time?t=gradient">시도하기 &rarr;</a>
         </div>
 
+        <!-- ==================== QR ==================== -->
+
+        <h2 id="qr-overview">QR &mdash; 개요</h2>
+        <p>QR 제품은 텍스트, URL, 데이터로 풀스크린 QR 코드를 생성합니다. 4가지 비주얼 테마를 포함합니다. 인코딩할 콘텐츠는 <code>/qr/</code> 뒤의 URL 경로에 직접 배치됩니다.</p>
+
+        <pre><code>led.run/qr/HELLO                       간단한 텍스트 QR
+led.run/qr/https%3A%2F%2Fexample.com   URL (인코딩)
+led.run/qr/HELLO?t=neon&amp;ec=H           네온 테마, 높은 오류 정정
+led.run/qr/HELLO?t=dot&amp;shape=diamond   도트 테마, 다이아몬드 모듈</code></pre>
+
+        <div class="docs-note">
+          <strong>참고:</strong> QR 콘텐츠 내 URL은 URL 인코딩해야 합니다 (예: <code>https://</code>는 <code>https%3A%2F%2F</code>로). <code>?</code>가 쿼리 문자열 구분자로 파싱되기 때문입니다. 콘텐츠 없이 <code>/qr</code>만 입력하면 랜딩 페이지가 열립니다.
+        </div>
+
+        <!-- QR Parameters -->
+        <h2 id="qr-parameters">QR 파라미터</h2>
+        <p>QR 테마가 인식하는 파라미터:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>파라미터</th><th>별칭</th><th>타입</th><th>기본값</th><th>설명</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>테마 ID (<a href="#qr-themes">테마</a> 참조)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>테마별</td><td>모듈 (전경) 색상</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>테마별</td><td>배경 색상</td></tr>
+              <tr><td>ec</td><td>&mdash;</td><td>string</td><td>M</td><td>오류 정정: <code>L</code>, <code>M</code>, <code>Q</code>, <code>H</code></td></tr>
+              <tr><td>size</td><td>&mdash;</td><td>number</td><td>10</td><td>모듈 크기 (픽셀, 2&ndash;20)</td></tr>
+              <tr><td>margin</td><td>&mdash;</td><td>number</td><td>4</td><td>여백 모듈 수 (0&ndash;10)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>디스플레이 스케일 (0.1&ndash;3)</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>스케일 적용 시 위치</td></tr>
+              <tr><td>padding</td><td>&mdash;</td><td>number</td><td>0</td><td>컨테이너 패딩 % (0&ndash;20)</td></tr>
+              <tr><td>fill</td><td>&mdash;</td><td>hex</td><td>테마별</td><td>래퍼 활성 시 외부 컨테이너 색상</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- QR Themes -->
+        <h2 id="qr-themes">QR 테마</h2>
+        <p>led.run에는 4가지 QR 코드 테마가 있습니다.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="qr-search" placeholder="QR 테마 검색 (예: 'neon', 'pixel')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Default</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">표준 흑백 QR 코드 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-default">상세 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Neon</span>
+              <span class="theme-card-id">neon</span>
+            </div>
+            <div class="theme-card-desc">shadowBlur 블룸이 있는 네온 글로우 QR (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-neon">상세 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Dot</span>
+              <span class="theme-card-id">dot</span>
+            </div>
+            <div class="theme-card-desc">모양 변형이 있는 도트 형태 모듈 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#000000" title="color: 000000"></span>
+              <span class="theme-color-chip" style="background:#ffffff" title="bg: ffffff"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-dot">상세 &rarr;</a>
+          </div>
+          <div class="theme-card qr-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">선택적 3D 하이라이트/쉐도우가 있는 픽셀 아트 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#222222" title="color: 222222"></span>
+              <span class="theme-color-chip" style="background:#f0e6d3" title="bg: f0e6d3"></span>
+            </div>
+            <a class="theme-card-link" href="#qr-pixel">상세 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- QR theme details -->
+
+        <div class="theme-detail" id="qr-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Default</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">Canvas에서 렌더링된 표준 QR 코드. 깔끔한 검은색 모듈과 흰색 배경. 선택적 둥근 모듈 모서리를 지원합니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>on</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>rounded</td><td>boolean</td><td>false</td><td>모듈 모서리 둥글게</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-neon">
+          <div class="theme-detail-header"><span class="theme-detail-name">Neon</span><span class="theme-detail-id">neon</span></div>
+          <p class="theme-detail-desc">Canvas shadowBlur 블룸 효과가 있는 네온 글로우 QR 코드. 선택적 펄스 애니메이션으로 호흡하는 글로우를 만듭니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>glow</td><td>number</td><td>8</td><td>네온 글로우 강도</td></tr>
+            <tr><td>pulse</td><td>boolean</td><td>false</td><td>호흡 펄스 애니메이션 활성화</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=neon">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-dot">
+          <div class="theme-detail-header"><span class="theme-detail-name">Dot</span><span class="theme-detail-id">dot</span></div>
+          <p class="theme-detail-desc">사각형 대신 도트 형태 모듈이 있는 QR 코드. 원형, 다이아몬드, 별 등 다양한 모양 변형을 지원합니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code> <span>on</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>gap</td><td>number</td><td>0.15</td><td>도트 간 간격 (0&ndash;1)</td></tr>
+            <tr><td>shape</td><td>string</td><td>round</td><td>도트 모양: <code>round</code>, <code>diamond</code>, <code>star</code></td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=dot">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="qr-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">레트로 게임 미학을 위한 선택적 3D 하이라이트 및 쉐도우 효과가 있는 픽셀 아트 스타일 QR 코드.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#222222"></span> <code>222222</code> <span>on</span> <span class="color-swatch" style="background:#f0e6d3"></span> <code>f0e6d3</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>border</td><td>number</td><td>3</td><td>픽셀 테두리 두께</td></tr>
+            <tr><td>shadow</td><td>boolean</td><td>true</td><td>3D 하이라이트/쉐도우 표시</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/qr/HELLO?t=pixel">사용해보기 &rarr;</a>
+        </div>
+
+        <!-- ==================== CAMERA ==================== -->
+
+        <h2 id="camera-overview">Camera &mdash; 개요</h2>
+        <p>Camera 제품은 장치 카메라 피드에 실시간 비주얼 효과를 적용합니다. 4가지 효과를 포함합니다. 카메라 권한이 필요합니다.</p>
+
+        <pre><code>led.run/camera?t=default               깔끔한 미러 뷰
+led.run/camera?t=ascii&amp;density=8        ASCII 아트, 더 높은 문자 밀도
+led.run/camera?t=pixel&amp;blockSize=16     픽셀 모자이크
+led.run/camera?t=surveillance           감시 카메라 오버레이</code></pre>
+
+        <div class="docs-note">
+          <strong>참고:</strong> 카메라는 브라우저에서 장치 카메라 접근 권한이 필요합니다. <code>?t=</code> 없이 <code>/camera</code>만 입력하면 랜딩 페이지가 열립니다. 모바일 기기의 후면 카메라를 사용하려면 <code>facing=environment</code>를 사용하세요.
+        </div>
+
+        <!-- Camera Parameters -->
+        <h2 id="camera-parameters">Camera 파라미터</h2>
+        <p>카메라 효과가 인식하는 파라미터:</p>
+
+        <div class="docs-table-wrap">
+          <table class="docs-table">
+            <thead>
+              <tr><th>파라미터</th><th>별칭</th><th>타입</th><th>기본값</th><th>설명</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>theme</td><td>t</td><td>string</td><td>default</td><td>효과 ID (<a href="#camera-effects">효과</a> 참조)</td></tr>
+              <tr><td>color</td><td>c</td><td>hex</td><td>효과별</td><td>기본 색상</td></tr>
+              <tr><td>bg</td><td>&mdash;</td><td>hex</td><td>효과별</td><td>배경 색상</td></tr>
+              <tr><td>facing</td><td>&mdash;</td><td>string</td><td>user</td><td>카메라: <code>user</code> (전면) 또는 <code>environment</code> (후면)</td></tr>
+              <tr><td>mirror</td><td>&mdash;</td><td>boolean</td><td>true</td><td>이미지 반전 (facing 모드에 따라 자동 설정)</td></tr>
+              <tr><td>fps</td><td>&mdash;</td><td>number</td><td>30</td><td>프레임 레이트 (5&ndash;60)</td></tr>
+              <tr><td>brightness</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 밝기 필터 % (10&ndash;200)</td></tr>
+              <tr><td>contrast</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 대비 필터 % (10&ndash;200)</td></tr>
+              <tr><td>saturate</td><td>&mdash;</td><td>number</td><td>100</td><td>CSS 채도 필터 % (0&ndash;200)</td></tr>
+              <tr><td>scale</td><td>&mdash;</td><td>number</td><td>1</td><td>디스플레이 스케일 (0.1&ndash;3)</td></tr>
+              <tr><td>position</td><td>&mdash;</td><td>string</td><td>center</td><td>스케일 적용 시 위치</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Camera Effects -->
+        <h2 id="camera-effects">Camera 효과</h2>
+        <p>led.run에는 4가지 카메라 효과가 있습니다.</p>
+
+        <div class="theme-filter-wrap" style="margin-bottom: 2rem;">
+          <input type="text" id="camera-search" placeholder="카메라 효과 검색 (예: 'ascii', 'pixel')..."
+                 style="width: 100%; max-width: 400px; padding: 0.8rem 1.2rem; background: var(--bg-surface); border: 1px solid var(--border-light); border-radius: 10px; color: #fff; outline: none; transition: border-color 0.2s;">
+        </div>
+
+        <div class="theme-grid">
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Mirror</span>
+              <span class="theme-card-id">default</span>
+            </div>
+            <div class="theme-card-desc">커버 핏과 비네트가 있는 깔끔한 미러 뷰 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-default">상세 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">ASCII</span>
+              <span class="theme-card-id">ascii</span>
+            </div>
+            <div class="theme-card-desc">카메라 피드에서 ASCII 문자 아트 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#00ff41" title="color: 00ff41"></span>
+              <span class="theme-color-chip" style="background:#0a0a0a" title="bg: 0a0a0a"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-ascii">상세 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Pixel</span>
+              <span class="theme-card-id">pixel</span>
+            </div>
+            <div class="theme-card-desc">다운샘플을 통한 픽셀 모자이크 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-pixel">상세 &rarr;</a>
+          </div>
+          <div class="theme-card camera-card">
+            <div class="theme-card-header">
+              <span class="theme-card-name">Surveillance</span>
+              <span class="theme-card-id">surveillance</span>
+            </div>
+            <div class="theme-card-desc">REC, 타임스탬프, 스캔라인이 있는 감시 카메라 (Canvas)</div>
+            <div class="theme-card-colors">
+              <span class="theme-color-chip" style="background:#ffffff" title="color: ffffff"></span>
+              <span class="theme-color-chip" style="background:#000000" title="bg: 000000"></span>
+            </div>
+            <a class="theme-card-link" href="#camera-surveillance">상세 &rarr;</a>
+          </div>
+        </div>
+
+        <!-- Camera effect details -->
+
+        <div class="theme-detail" id="camera-default">
+          <div class="theme-detail-header"><span class="theme-detail-name">Mirror</span><span class="theme-detail-id">default</span></div>
+          <p class="theme-detail-desc">커버 핏 스케일링과 선택적 비네트 어둡기가 있는 깔끔한 미러 뷰. Canvas 기반 렌더링.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>vignette</td><td>number</td><td>0</td><td>비네트 어둡기 강도 (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=default">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-ascii">
+          <div class="theme-detail-header"><span class="theme-detail-name">ASCII</span><span class="theme-detail-id">ascii</span></div>
+          <p class="theme-detail-desc">Canvas에서 카메라 피드를 ASCII 문자 아트로 변환. 밝기가 문자 밀도에 매핑되어 터미널 스타일 룩을 만듭니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#00ff41"></span> <code>00ff41</code> <span>on</span> <span class="color-swatch" style="background:#0a0a0a"></span> <code>0a0a0a</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>density</td><td>number</td><td>6</td><td>문자 밀도 (1&ndash;10)</td></tr>
+            <tr><td>invert</td><td>boolean</td><td>false</td><td>밝기 매핑 반전</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=ascii">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-pixel">
+          <div class="theme-detail-header"><span class="theme-detail-name">Pixel</span><span class="theme-detail-id">pixel</span></div>
+          <p class="theme-detail-desc">Canvas에서 다운샘플과 최근접 이웃 업스케일을 통한 픽셀 모자이크 효과. 블록 크기와 간격을 설정할 수 있습니다.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>blockSize</td><td>number</td><td>8</td><td>픽셀 블록 크기 (2&ndash;32)</td></tr>
+            <tr><td>gap</td><td>number</td><td>0</td><td>픽셀 블록 간 간격</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=pixel">사용해보기 &rarr;</a>
+        </div>
+
+        <div class="theme-detail" id="camera-surveillance">
+          <div class="theme-detail-header"><span class="theme-detail-name">Surveillance</span><span class="theme-detail-id">surveillance</span></div>
+          <p class="theme-detail-desc">REC 표시, 타임스탬프, 코너 브라켓, 스캔라인, 노이즈가 있는 감시 카메라 스타일. HUD 오버레이가 있는 Canvas 기반.</p>
+          <div class="theme-detail-colors"><span>기본 색상:</span> <span class="color-swatch" style="background:#ffffff"></span> <code>ffffff</code> <span>on</span> <span class="color-swatch" style="background:#000000"></span> <code>000000</code></div>
+          <div class="docs-table-wrap"><table class="docs-table"><thead><tr><th>파라미터</th><th>타입</th><th>기본값</th><th>설명</th></tr></thead><tbody>
+            <tr><td>overlay</td><td>boolean</td><td>true</td><td>HUD 오버레이 표시 (REC, 타임스탬프, 브라켓)</td></tr>
+            <tr><td>scanlines</td><td>boolean</td><td>true</td><td>스캔라인 효과 표시</td></tr>
+            <tr><td>noise</td><td>number</td><td>3</td><td>노이즈 그레인 강도 (0&ndash;10)</td></tr>
+          </tbody></table></div>
+          <a class="theme-detail-try" href="/camera?t=surveillance">사용해보기 &rarr;</a>
+        </div>
+
         <!-- ==================== REFERENCE ==================== -->
 
         <!-- Color Format -->
@@ -2185,6 +2881,15 @@ led.run/HELLO?bg=1a0033&amp;c=ff00ff   Purple bg, magenta text</code></pre>
 led.run/time?t=digital&amp;scale=2&amp;position=center            &mdash; 2&times; zoom, centered
 led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&times; zoom, top-left anchor</code></pre>
 
+        <h3>QR 제품</h3>
+        <p>QR 테마는 Time과 동일한 래퍼 모드를 지원합니다: <code>scale</code> (0.1&ndash;3), <code>position</code>, <code>padding</code>, <code>fill</code>. <code>scale &ne; 1</code> 또는 <code>padding &gt; 0</code>일 때 래퍼가 생성됩니다. <code>fill</code>은 래퍼 활성 시 외부 컨테이너 배경을 제어합니다.</p>
+        <pre><code>led.run/qr/HELLO?scale=0.5&amp;position=center&amp;fill=1a1a2e
+led.run/qr/HELLO?scale=2&amp;position=top-left</code></pre>
+
+        <h3>Camera 제품</h3>
+        <p>카메라 효과는 <code>scale</code> (0.1&ndash;3)과 <code>position</code>을 지원하여 <code>scale &lt; 1</code>일 때 PIP(화면 속 화면) 효과를 만듭니다. <code>padding</code>이나 <code>fill</code> 파라미터는 없습니다 &mdash; 래퍼 모드의 간소화 버전입니다.</p>
+        <pre><code>led.run/camera?t=ascii&amp;scale=0.5&amp;position=bottom-right</code></pre>
+
         <!-- Interactions -->
         <h2 id="interactions">Interactions</h2>
         <p>Once a display is running, you can interact with it using keyboard, mouse, or touch. Available controls vary by product.</p>
@@ -2199,6 +2904,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
@@ -2208,9 +2915,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">F</span></td>
+                <td>Toggle fullscreen</td>
+                <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
                 <td>Toggle fullscreen</td>
@@ -2222,6 +2933,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Open settings</td>
                 <td>Open settings</td>
                 <td>Open settings</td>
+                <td>Open settings</td>
+                <td>Open settings</td>
               </tr>
               <tr>
                 <td><span class="kbd">&rarr;</span></td>
@@ -2229,6 +2942,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Next effect</td>
                 <td>Next visualizer</td>
                 <td>Next clock</td>
+                <td>Next theme</td>
+                <td>Next effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&larr;</span></td>
@@ -2236,12 +2951,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Previous effect</td>
                 <td>Previous visualizer</td>
                 <td>Previous clock</td>
+                <td>Previous theme</td>
+                <td>Previous effect</td>
               </tr>
               <tr>
                 <td><span class="kbd">&uarr;</span></td>
                 <td>&mdash;</td>
                 <td>Brightness +5</td>
                 <td>Sensitivity +1</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
               <tr>
@@ -2250,9 +2969,13 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>Brightness &minus;5</td>
                 <td>Sensitivity &minus;1</td>
                 <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
               </tr>
               <tr>
                 <td><span class="kbd">Esc</span></td>
+                <td>Exit fullscreen</td>
+                <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
                 <td>Exit fullscreen</td>
@@ -2283,11 +3006,15 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <th>Light</th>
                 <th>Sound</th>
                 <th>Time</th>
+                <th>QR</th>
+                <th>Camera</th>
               </tr>
             </thead>
             <tbody>
               <tr>
                 <td>Fullscreen</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2299,6 +3026,8 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Cast</td>
@@ -2306,9 +3035,22 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
+              </tr>
+              <tr>
+                <td>Camera Switch</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Settings</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
@@ -2320,12 +3062,16 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
                 <td>&#10003;</td>
                 <td>&#10003;</td>
                 <td>&#10003;</td>
+                <td>&#10003;</td>
+                <td>&#10003;</td>
               </tr>
               <tr>
                 <td>Microphone</td>
                 <td>&mdash;</td>
                 <td>&mdash;</td>
                 <td>&#10003;</td>
+                <td>&mdash;</td>
+                <td>&mdash;</td>
                 <td>&mdash;</td>
               </tr>
             </tbody>
@@ -2383,7 +3129,7 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       });
 
       // Universal search/filter for themes, effects, and visualizers
-      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card');
+      var allCards = document.querySelectorAll('.theme-card, .effect-card, .visualizer-card, .clock-card, .qr-card, .camera-card');
 
       function setupSearch(inputId, cards) {
         var input = document.getElementById(inputId);
@@ -2401,10 +3147,12 @@ led.run/time?t=digital&amp;scale=2&amp;position=top-left           &mdash; 2&tim
       }
 
       // Set up search for each product section
-      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card)'));
+      setupSearch('theme-search', document.querySelectorAll('.theme-card:not(.effect-card):not(.visualizer-card):not(.clock-card):not(.qr-card):not(.camera-card)'));
       setupSearch('effect-search', document.querySelectorAll('.effect-card'));
       setupSearch('viz-search', document.querySelectorAll('.visualizer-card'));
       setupSearch('clock-search', document.querySelectorAll('.clock-card'));
+      setupSearch('qr-search', document.querySelectorAll('.qr-card'));
+      setupSearch('camera-search', document.querySelectorAll('.camera-card'));
 
       // Smooth scroll for anchor links
       document.querySelectorAll('.docs-nav a').forEach(function(link) {
