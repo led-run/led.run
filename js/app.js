@@ -1206,6 +1206,7 @@
       var docsHref = I18n.locale() === 'en' ? '/docs' : '/docs/' + I18n.locale() + '/';
       html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
+      html += '<a href="https://nologin.tools/badge/led-run" target="_blank" class="footer-nologin"><img src="https://nologin.tools/badges/flat.svg" alt="NoLogin Verified" title="Verified by nologin.tools" height="20"></a>';
       html += '</div></div>';
 
       // Language Switcher

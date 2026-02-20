@@ -708,6 +708,7 @@
 
 .footer-links {
   display: flex;
+  align-items: center;
   gap: 2rem;
 }
 
@@ -720,6 +721,16 @@
 
 .footer-links a:hover {
   color: var(--text-main);
+}
+
+.footer-nologin {
+  display: inline-flex;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+}
+
+.footer-nologin:hover {
+  opacity: 1;
 }
 
 .footer-lang {
