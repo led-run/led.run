@@ -56,11 +56,20 @@
   animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
-.hero-brand {
-  display: inline-flex;
+.hero-badges {
+  display: flex;
+  justify-content: center;
   align-items: center;
   gap: 0.75rem;
   margin-bottom: 2rem;
+  flex-wrap: wrap;
+}
+
+.hero-brand,
+.hero-nologin {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
   padding: 0.6rem 1.25rem;
   background: var(--bg-surface);
   backdrop-filter: blur(10px);
@@ -70,6 +79,7 @@
   font-weight: 600;
   color: var(--text-muted);
   letter-spacing: 0.02em;
+  transition: border-color 0.2s, color 0.2s;
 }
 
 .hero-brand-icon {
@@ -78,6 +88,20 @@
   background: var(--primary);
   border-radius: 50%;
   box-shadow: 0 0 12px var(--primary-glow);
+}
+
+.hero-nologin {
+  text-decoration: none;
+  color: var(--primary);
+}
+
+.hero-nologin svg {
+  flex-shrink: 0;
+}
+
+.hero-nologin:hover {
+  border-color: var(--primary-glow);
+  color: #fff;
 }
 
 .hero-title {
@@ -721,16 +745,6 @@
 
 .footer-links a:hover {
   color: var(--text-main);
-}
-
-.footer-nologin {
-  display: inline-flex;
-  opacity: 0.7;
-  transition: opacity 0.2s;
-}
-
-.footer-nologin:hover {
-  opacity: 1;
 }
 
 .footer-lang {

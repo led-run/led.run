@@ -677,7 +677,10 @@
 
       // Hero
       html += '<div class="landing-hero">';
+      html += '<div class="hero-badges">';
       html += '<div class="hero-brand"><span class="hero-brand-icon"></span>' + I18n.t('landing.hero.brand') + '</div>';
+      html += '<a href="https://nologin.tools/badge/led-run" target="_blank" class="hero-nologin" title="Verified by nologin.tools"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="M9 12l2 2 4-4"/></svg>NoLogin Verified</a>';
+      html += '</div>';
       html += '<h1 class="hero-title">' + I18n.t('landing.hero.title') + '</h1>';
       html += '<p class="hero-subtitle">' + I18n.t('landing.hero.subtitle') + '</p>';
       html += '</div>'; // landing-hero
@@ -1206,7 +1209,6 @@
       var docsHref = I18n.locale() === 'en' ? '/docs' : '/docs/' + I18n.locale() + '/';
       html += '<a href="' + docsHref + '">' + I18n.t('landing.footer.docs') + '</a>';
       html += '<a href="https://github.com/led-run/led.run" target="_blank">GitHub</a>';
-      html += '<a href="https://nologin.tools/badge/led-run" target="_blank" class="footer-nologin"><img src="https://nologin.tools/badges/flat.svg" alt="NoLogin Verified" title="Verified by nologin.tools" height="20"></a>';
       html += '</div></div>';
 
       // Language Switcher
