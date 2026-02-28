@@ -18,9 +18,11 @@
   var QR_COMMON_PARAMS = ['color', 'bg', 'ec', 'size', 'margin', 'scale', 'position', 'padding', 'fill'];
   // Camera-product common params
   var CAMERA_COMMON_PARAMS = ['color', 'bg', 'facing', 'mirror', 'fps', 'scale', 'position', 'brightness', 'contrast', 'saturate'];
+  // Draw-product common params
+  var DRAW_COMMON_PARAMS = ['color', 'bg', 'size', 'opacity', 'smooth', 'eraser'];
 
   // Union of all product common params (kept for landing page builder reuse)
-  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'position', 'padding', 'ec', 'size', 'margin', 'facing', 'mirror', 'fps', 'contrast', 'saturate'];
+  var COMMON_PARAMS = ['color', 'bg', 'mode', 'speed', 'direction', 'font', 'scale', 'fill', 'brightness', 'sensitivity', 'smoothing', 'format', 'showSeconds', 'showDate', 'dateFormat', 'tz', 'position', 'padding', 'ec', 'size', 'margin', 'facing', 'mirror', 'fps', 'contrast', 'saturate', 'opacity', 'smooth', 'eraser'];
 
   // App-level params never shown in settings
   var APP_PARAMS = ['wakelock', 'cursor', 'lang', 'theme'];
@@ -239,6 +241,17 @@
     // Camera effect-specific params
     invert:        { type: 'boolean', label: 'settings.param.invert' },
     noise:         { type: 'range', label: 'settings.param.noise', min: 0, max: 10, step: 1 },
+    // Draw common params
+    opacity:       { type: 'range', label: 'settings.param.opacity', min: 0.1, max: 1, step: 0.1 },
+    smooth:        { type: 'range', label: 'settings.param.smooth', min: 0, max: 10, step: 1 },
+    eraser:        { type: 'boolean', label: 'settings.param.eraser' },
+    // Draw theme-specific params
+    trail:         { type: 'range', label: 'settings.param.trail', min: 1, max: 10, step: 1 },
+    fade:          { type: 'range', label: 'settings.param.fade', min: 1, max: 10, step: 1 },
+    spread:        { type: 'range', label: 'settings.param.spread', min: 1, max: 10, step: 1 },
+    scatter:       { type: 'range', label: 'settings.param.scatter', min: 1, max: 10, step: 1 },
+    pressure:      { type: 'range', label: 'settings.param.pressure', min: 1, max: 10, step: 1 },
+    twinkle:       { type: 'range', label: 'settings.param.twinkle', min: 1, max: 10, step: 1 },
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder
@@ -367,6 +380,40 @@
         brightness: { type: 'range', label: 'settings.param.brightness', min: 10, max: 200, step: 10 },
         gap: { type: 'range', label: 'settings.param.gap', min: 0, max: 4, step: 1 }
       }
+    },
+    draw: {
+      getIds: function() { return DrawManager.getThemeIds(); },
+      getDefaults: function(id) { return DrawManager.getDefaults(id); },
+      getCurrentId: function() { return DrawManager.getCurrentId(); },
+      doSwitch: function(id, container, config, ctx) {
+        var engine = ctx.drawEngine;
+        if (engine) engine.destroy();
+        DrawManager.switch(id, container, config, engine);
+        if (engine) {
+          engine.init(container, {});
+          if (engine.onStroke) engine.onStroke();
+        }
+      },
+      i18nPrefix: 'settings.drawTheme.',
+      commonParams: DRAW_COMMON_PARAMS,
+      defaultId: 'default',
+      hasText: false,
+      sectionLabel: 'settings.drawThemeLabel',
+      sectionParamsLabel: 'settings.section.drawThemeParams',
+      buildPath: function(ctx) {
+        if (ctx.drawEngine) {
+          var serialized = ctx.drawEngine.serialize();
+          return '/draw' + (serialized ? '/' + serialized : '');
+        }
+        return '/draw';
+      },
+      resize: function() { DrawManager.resize(); },
+      knownParamOverrides: {
+        size: { type: 'range', label: 'settings.param.size', min: 1, max: 30, step: 1 },
+        gridSize: { type: 'range', label: 'settings.param.gridSize', min: 4, max: 32, step: 4 },
+        glow: { type: 'range', label: 'settings.param.glow', min: 1, max: 20, step: 1 },
+        pulse: { type: 'boolean', label: 'settings.param.pulse' }
+      }
     }
   };
 
@@ -381,6 +428,7 @@
     _themeConfig: null,
     _audioEngine: null,
     _cameraEngine: null,
+    _drawEngine: null,
     _debounceTimer: null,
     _onBeforeApply: null,
 
@@ -404,6 +452,7 @@
       this._themeConfig = options.themeConfig || {};
       this._audioEngine = options.audioEngine || null;
       this._cameraEngine = options.cameraEngine || null;
+      this._drawEngine = options.drawEngine || null;
       this._onBeforeApply = options.onBeforeApply || null;
       this._render();
       this._bind();
@@ -1006,7 +1055,8 @@
       adapter.doSwitch(this._themeId, this._container, this._themeConfig, {
         text: this._text,
         audioEngine: this._audioEngine,
-        cameraEngine: this._cameraEngine
+        cameraEngine: this._cameraEngine,
+        drawEngine: this._drawEngine
       });
       document.getElementById('app').dataset.theme = this._themeId;
 
@@ -1025,7 +1075,7 @@
      */
     _syncURL: function() {
       var adapter = PRODUCT_ADAPTERS[this._product];
-      var path = adapter.buildPath({ text: this._text });
+      var path = adapter.buildPath({ text: this._text, drawEngine: this._drawEngine });
       var params = new URLSearchParams();
 
       // Always include theme if not default (text) or always (light/sound)

@@ -14,6 +14,10 @@
   var ICON_CAST = '<svg viewBox="0 0 20 20"><path d="M3 13a4 4 0 0 1 4 4"/><path d="M3 9a8 8 0 0 1 8 8"/><circle cx="3.5" cy="16.5" r="1"/><path d="M15 3H5a2 2 0 0 0-2 2v2M17 7v8a2 2 0 0 1-2 2h-2"/></svg>';
   var ICON_SETTINGS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>';
   var ICON_CAMERA_SWITCH = '<svg viewBox="0 0 20 20"><path d="M14 3H6a3 3 0 0 0-3 3v8a3 3 0 0 0 3 3h8a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3z"/><circle cx="10" cy="10" r="3" fill="none"/><path d="M7 7l2-2M13 7l-2-2"/></svg>';
+  var ICON_UNDO = '<svg viewBox="0 0 20 20"><path d="M3 7h10a4 4 0 0 1 0 8H9"/><path d="M6 4L3 7l3 3"/></svg>';
+  var ICON_CLEAR = '<svg viewBox="0 0 20 20"><path d="M5 5l10 10M15 5L5 15"/></svg>';
+  var ICON_LOCK = '<svg viewBox="0 0 20 20"><rect x="5" y="9" width="10" height="8" rx="1"/><path d="M7 9V6a3 3 0 0 1 6 0v3"/></svg>';
+  var ICON_UNLOCK = '<svg viewBox="0 0 20 20"><rect x="5" y="9" width="10" height="8" rx="1"/><path d="M7 9V6a3 3 0 0 1 6 0v1"/></svg>';
 
   var ROTATION_CLASSES = ['', 'rotated-90', 'rotated-180', 'rotated-270'];
 
@@ -26,6 +30,7 @@
     _unsubFullscreen: null,
     _unsubCast: null,
     _toastTimer: null,
+    _drawEngine: null,
 
     /**
      * Initialize toolbar
@@ -37,6 +42,7 @@
       options = options || {};
       this._container = options.container || document.getElementById('display');
       this._product = options.product || 'text';
+      this._drawEngine = options.drawEngine || null;
 
       this._render();
       this._bind();
@@ -61,11 +67,19 @@
         ? '<button class="toolbar-btn" data-action="camera-switch" aria-label="' + I18n.t('toolbar.camera') + '">' + ICON_CAMERA_SWITCH + '</button>'
         : '';
 
+      var drawBtns = '';
+      if (this._product === 'draw') {
+        drawBtns = '<button class="toolbar-btn" data-action="draw-lock" aria-label="' + I18n.t('toolbar.lock') + '">' + ICON_UNLOCK + '</button>' +
+                   '<button class="toolbar-btn" data-action="draw-undo" aria-label="' + I18n.t('toolbar.undo') + '">' + ICON_UNDO + '</button>' +
+                   '<button class="toolbar-btn" data-action="draw-clear" aria-label="' + I18n.t('toolbar.clear') + '">' + ICON_CLEAR + '</button>';
+      }
+
       toolbar.innerHTML =
         '<button class="toolbar-btn" data-action="fullscreen" aria-label="' + I18n.t('toolbar.fullscreen') + '">' + ICON_FULLSCREEN_ENTER + '</button>' +
         '<button class="toolbar-btn" data-action="rotate" aria-label="' + I18n.t('toolbar.rotate') + '">' + ICON_ROTATE + '</button>' +
         castBtn +
         cameraSwitchBtn +
+        drawBtns +
         '<button class="toolbar-btn" data-action="settings" aria-label="' + I18n.t('toolbar.settings') + '">' + ICON_SETTINGS + '</button>' +
         '<button class="toolbar-btn" data-action="share" aria-label="' + I18n.t('toolbar.share') + '">' + ICON_SHARE + '</button>';
 
@@ -97,6 +111,9 @@
         else if (action === 'rotate') self._onRotate();
         else if (action === 'cast') self._onCast();
         else if (action === 'camera-switch') self._onCameraSwitch();
+        else if (action === 'draw-lock') self._onDrawLock();
+        else if (action === 'draw-undo') self._onDrawUndo();
+        else if (action === 'draw-clear') self._onDrawClear();
         else if (action === 'settings') self._onSettings();
         else if (action === 'share') self._onShare();
       });
@@ -210,6 +227,42 @@
     },
 
     /**
+     * Toggle draw lock
+     * @private
+     */
+    _onDrawLock: function() {
+      if (!this._drawEngine) return;
+      var locked = !this._drawEngine.isLocked();
+      this._drawEngine.setLocked(locked);
+      var btn = this._el.querySelector('[data-action="draw-lock"]');
+      if (btn) {
+        btn.innerHTML = locked ? ICON_LOCK : ICON_UNLOCK;
+      }
+      this._showToast(I18n.t(locked ? 'toolbar.locked' : 'toolbar.unlocked'));
+    },
+
+    /**
+     * Undo last draw stroke
+     * @private
+     */
+    _onDrawUndo: function() {
+      if (!this._drawEngine) return;
+      this._drawEngine.undo();
+    },
+
+    /**
+     * Clear all draw strokes
+     * @private
+     */
+    _onDrawClear: function() {
+      if (!this._drawEngine) return;
+      if (this._drawEngine.getStrokes().length === 0) return;
+      if (!confirm(I18n.t('toolbar.confirmClear'))) return;
+      this._drawEngine.clear();
+      this._showToast(I18n.t('toolbar.cleared'));
+    },
+
+    /**
      * Toggle settings panel
      * @private
      */
@@ -226,6 +279,17 @@
     _onShare: function() {
       var self = this;
       var url = window.location.href;
+
+      // For draw product, sync drawing data into URL before sharing
+      if (this._product === 'draw' && this._drawEngine) {
+        var serialized = this._drawEngine.serialize();
+        var base = window.location.origin + '/draw';
+        if (serialized) base += '/' + serialized;
+        var search = window.location.search;
+        url = base + search;
+        history.replaceState(null, '', url.replace(window.location.origin, ''));
+      }
+
       var title = document.title;
 
       // Try Web Share API (mobile)
@@ -323,6 +387,7 @@
       this._container = null;
       this._product = 'text';
       this._rotationIndex = 0;
+      this._drawEngine = null;
     }
   };
 

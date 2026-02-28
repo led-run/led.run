@@ -19,6 +19,8 @@
      * @param {Function} callbacks.onNext - Called on Right arrow
      * @param {Function} callbacks.onPrev - Called on Left arrow
      * @param {Function} callbacks.onAdjust - Called on Up/Down arrow, receives +1 or -1
+     * @param {Function} callbacks.onUndo - Called on Ctrl/Cmd+Z
+     * @param {Function} callbacks.onRedo - Called on Ctrl/Cmd+Shift+Z
      */
     init(callbacks) {
       this._callbacks = callbacks || {};
@@ -32,6 +34,22 @@
      */
     _bindKeyboard() {
       this._boundKeydown = function(e) {
+        // Ctrl/Cmd+Z undo, Ctrl/Cmd+Shift+Z redo (always active)
+        if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
+          e.preventDefault();
+          if (e.shiftKey) {
+            if (this._callbacks.onRedo) this._callbacks.onRedo();
+          } else {
+            if (this._callbacks.onUndo) this._callbacks.onUndo();
+          }
+          return;
+        }
+        if ((e.ctrlKey || e.metaKey) && (e.key === 'Z')) {
+          e.preventDefault();
+          if (this._callbacks.onRedo) this._callbacks.onRedo();
+          return;
+        }
+
         // S key toggles settings panel (always active)
         if (e.key === 's' || e.key === 'S') {
           if (typeof Settings !== 'undefined') {
@@ -102,14 +120,16 @@
      * @private
      */
     _bindPointer() {
+      // Skip double-click binding when noDblClick is set (e.g. draw product)
+      if (this._callbacks.noDblClick) return;
+
       // Double-click for fullscreen
       this._boundDblClick = function(e) {
         if (typeof Settings !== 'undefined' && Settings.isOpen()) return;
         if (e.target.closest('button')) return;
+        if (!this._callbacks.onFullscreen) return;
         e.preventDefault();
-        if (this._callbacks.onFullscreen) {
-          this._callbacks.onFullscreen();
-        }
+        this._callbacks.onFullscreen();
       }.bind(this);
 
       document.addEventListener('dblclick', this._boundDblClick);

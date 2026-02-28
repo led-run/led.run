@@ -5,7 +5,7 @@
 - **Pure vanilla JS/CSS** — no frameworks, no build step, no npm
 - **IIFE modules** — each file wraps in `;(function(global) { ... })(window)`
 - **Cloudflare Pages** — static hosting, SPA rewrite via `_redirects`
-- **Multi-product platform** — six products (Text, Light, Sound, Time, QR, Camera) with independent managers
+- **Multi-product platform** — seven products (Text, Light, Sound, Time, QR, Camera, Draw) with independent managers
 - **Theme-centric** — themes/effects/visualizers are autonomous rendering systems, the app only orchestrates
 
 ## Products
@@ -18,6 +18,7 @@
 | **Time** | Clock displays (14 themes) | `TimeManager` | `times/` | `led.run/time?t=digital` |
 | **QR** | Full-screen QR code display (4 themes) | `QRManager` | `qrs/` | `led.run/qr/CONTENT` |
 | **Camera** | Real-time camera effects (4 effects) | `CameraManager` | `cameras/` | `led.run/camera?t=ascii` |
+| **Draw** | Full-screen drawing canvas (10 themes) | `DrawManager` | `draws/` | `led.run/draw?t=neon` |
 
 ## URL Protocol
 
@@ -29,11 +30,13 @@ led.run/sound?t=bars&sensitivity=5     → Sound product
 led.run/time?t=digital&format=12h      → Time product
 led.run/qr/https://example.com?t=neon  → QR product (content URL-encoded in path)
 led.run/camera?t=ascii&facing=user     → Camera product
+led.run/draw?t=neon&c=00ff41           → Draw product (empty canvas)
+led.run/draw/COMPRESSED_DATA?t=neon    → Draw product (with saved drawing)
 led.run/                               → Landing page
 ```
 
 **Routing rules**:
-- `text`, `light`, `sound`, `time`, `qr`, `camera` are reserved path prefixes (lowercase)
+- `text`, `light`, `sound`, `time`, `qr`, `camera`, `draw` are reserved path prefixes (lowercase)
 - All non-reserved paths fall back to Text product (backward compatible)
 - `/text/light` displays text "light" (`text/` prefix overrides reserved words)
 - Text share links use `led.run/content` short-link form (no `/text/` prefix)
@@ -211,6 +214,41 @@ Pipeline: `getUserMedia({ video }) → hidden <video> → offscreen <canvas>`
 
 **Camera facing & mirror**: `init({ facing: 'user' })` defaults to front camera with mirror enabled. `switchCamera()` toggles between user/environment facing and re-initializes the stream. Front camera auto-mirrors; back camera does not.
 
+### DrawManager (`js/core/draw-manager.js`)
+
+```
+register(theme), switch(themeId, container, config, drawEngine), getCurrent(),
+getCurrentId(), getThemeIds(), hasTheme(id), getDefaults(id),
+getCurrentConfig(), resize()
+```
+
+**Draw Theme interface:**
+```javascript
+{
+  id: 'neon',
+  defaults: { color: '00ff41', bg: '0a0a0a', size: 5, glow: 8 },
+  init(container, config, drawEngine) {},
+  destroy() {}
+}
+```
+
+### DrawEngine (`js/core/draw-engine.js`)
+
+```
+init(canvas, options) → void, destroy() → void,
+getStrokes() → Array, loadStrokes(strokes) → void, clear() → void,
+undo() → void, redo() → void, canUndo() → boolean, canRedo() → boolean,
+setColor(hex), setSize(n), setOpacity(n), setSmooth(n), setEraser(bool),
+getColor(), getSize(), getOpacity(), getSmooth(), isEraser(),
+setLocked(bool), isLocked(),
+serialize() → string, deserialize(str) → Array,
+getSerializedSize() → number, getCapacityPercent() → number
+```
+
+Pipeline: `mouse/touch events → normalized coordinates → stroke data → LZ-String compression`
+
+**Serialization**: Strokes are serialized as `color,size,opacity,x1:y1,x2:y2,...|...`, then compressed via `LZString.compressToEncodedURIComponent()` for URL-safe storage. Max URL data length: 6000 chars.
+
 ## File Structure
 
 ```
@@ -248,6 +286,10 @@ sounds/{id}/renderer.js   Sound visualizer implementation (self-registers via So
 times/{id}/renderer.js    Clock theme implementation (self-registers via TimeManager.register)
 qrs/{id}/renderer.js      QR theme implementation (self-registers via QRManager.register)
 cameras/{id}/renderer.js  Camera effect implementation (self-registers via CameraManager.register)
+js/vendor/lz-string.js    LZ-String compression library (MIT, for draw serialization)
+js/core/draw-engine.js    Drawing input pipeline (mouse/touch → strokes → LZ-String)
+js/core/draw-manager.js   Draw theme registry, switching + lifecycle
+draws/{id}/renderer.js    Draw theme implementation (self-registers via DrawManager.register)
 js/ui/fullscreen.js       Fullscreen API (from til.re)
 js/ui/wakelock.js         Wake Lock API (from til.re)
 js/ui/cursor.js           Cursor auto-hide (from til.re)
@@ -371,10 +413,25 @@ js/app.js                 App entry + multi-product orchestrator
 | `pixel` | Pixelated mosaic via downsample + nearest-neighbor (Canvas) | `blockSize`, `gap` |
 | `surveillance` | Security camera with REC, timestamp, corner brackets, scanlines (Canvas) | `overlay`, `scanlines`, `noise` |
 
+## Available Draw Themes
+
+| ID | Effect | Custom Params |
+|----|--------|---------------|
+| `default` | Clean white canvas with smooth black strokes (Canvas) | — |
+| `neon` | Dark background with neon glow strokes + shadowBlur (Canvas) | `glow`, `pulse` |
+| `chalk` | Dark green chalkboard with rough chalk texture (Canvas) | `roughness`, `dust` |
+| `glow-stick` | Black background with glowing light-painting trails (Canvas) | `trail`, `fade` |
+| `watercolor` | Paper texture with diffused semi-transparent strokes (Canvas) | `spread`, `wetness` |
+| `spray` | Concrete texture with random dot spray effect (Canvas) | `density`, `scatter` |
+| `pixel` | Grid canvas with strokes snapping to pixel grid (Canvas) | `gridSize`, `gap` |
+| `calligraphy` | Rice paper with speed-based brush width variation (Canvas) | `pressure`, `ink` |
+| `crayon` | Paper background with waxy crayon texture (Canvas) | `texture`, `wax` |
+| `sparkle` | Dark background with glittering particle trail animation (Canvas) | `stars`, `twinkle` |
+
 ## Script Load Order
 
 ```
-core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, time-manager, time-utils, qrcodegen, qr-manager, camera-engine, camera-manager, i18n)
+core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio-engine, time-manager, time-utils, qrcodegen, lz-string, qr-manager, camera-engine, camera-manager, draw-engine, draw-manager, i18n)
 → locales
 → texts (text themes)
 → lights (light effects)
@@ -382,6 +439,7 @@ core (url-parser, text-engine, text-manager, light-manager, sound-manager, audio
 → times (clock themes)
 → qrs (QR themes)
 → cameras (camera effects)
+→ draws (draw themes)
 → ui (fullscreen, wakelock, cursor, controls, cast, toolbar, settings)
 → app
 ```
@@ -430,35 +488,40 @@ Themes can also fully override position, shape, and animations via standard CSS 
 
 ### Toolbar Buttons by Product
 
-| Button | Text | Light | Sound | Time | QR | Camera |
-|--------|------|-------|-------|------|-----|--------|
-| Fullscreen | Yes | Yes | Yes | Yes | Yes | Yes |
-| Rotate | Yes | Yes | Yes | Yes | Yes | Yes |
-| Cast | Yes | Yes | Yes | Yes | Yes | Yes |
-| Camera Switch | No | No | No | No | No | Yes |
-| Settings | Yes | Yes | Yes | Yes | Yes | Yes |
-| Share | Yes | Yes | Yes | Yes | Yes | Yes |
-| Microphone | No | No | Yes | No | No | No |
+| Button | Text | Light | Sound | Time | QR | Camera | Draw |
+|--------|------|-------|-------|------|-----|--------|------|
+| Fullscreen | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Rotate | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Cast | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Camera Switch | No | No | No | No | No | Yes | No |
+| Lock | No | No | No | No | No | No | Yes |
+| Undo | No | No | No | No | No | No | Yes |
+| Clear | No | No | No | No | No | No | Yes |
+| Settings | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Share | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
+| Microphone | No | No | Yes | No | No | No | No |
 
 ## Keyboard & Pointer Controls
 
-| Action | Key/Gesture | Text | Light | Sound | Time | QR | Camera |
-|--------|-------------|------|-------|-------|------|-----|--------|
-| Toggle pause | Space | Pause/resume animation | — | — | — | — | — |
-| Fullscreen | F / DblClick | Yes | Yes | Yes | Yes | Yes | Yes |
-| Settings | S | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel |
-| Next | Right arrow | — | Next effect | Next visualizer | Next clock | Next theme | Next effect |
-| Previous | Left arrow | — | Previous effect | Previous visualizer | Previous clock | Previous theme | Previous effect |
-| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 | — | — | — |
-| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 | — | — | — |
-| Exit fullscreen | Escape | Yes | Yes | Yes | Yes | Yes | Yes |
+| Action | Key/Gesture | Text | Light | Sound | Time | QR | Camera | Draw |
+|--------|-------------|------|-------|-------|------|-----|--------|------|
+| Toggle pause | Space | Pause/resume animation | — | — | — | — | — | — |
+| Fullscreen | F / DblClick | Yes | Yes | Yes | Yes | Yes | Yes | F only |
+| Settings | S | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel | Open settings panel |
+| Next | Right arrow | — | Next effect | Next visualizer | Next clock | Next theme | Next effect | Next theme |
+| Previous | Left arrow | — | Previous effect | Previous visualizer | Previous clock | Previous theme | Previous effect | Previous theme |
+| Adjust up | Up arrow | — | Brightness +5 | Sensitivity +1 | — | — | — | — |
+| Adjust down | Down arrow | — | Brightness -5 | Sensitivity -1 | — | — | — | — |
+| Undo | Ctrl/Cmd+Z | — | — | — | — | — | — | Undo last stroke |
+| Redo | Ctrl/Cmd+Shift+Z | — | — | — | — | — | — | Redo stroke |
+| Exit fullscreen | Escape | Yes | Yes | Yes | Yes | Yes | Yes | Yes |
 
-**Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture.
+**Click-to-pause is removed** — avoids accidental toggles on touch devices. Double-click/F for fullscreen is the only pointer gesture (draw product disables double-click to avoid drawing conflicts).
 
 ## Key Design Decisions
 
-- **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time + QR + Camera). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
-- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all six products and "80+ display modes" (30+18+12+14+4+4=82). Docs pages list product-specific theme counts
+- **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time + QR + Camera + Draw). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all seven products and "90+ display modes" (30+18+12+14+4+4+10=92). Docs pages list product-specific theme counts
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()
@@ -491,6 +554,11 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **CameraManager wrapper mode** — CameraManager.switch() supports scale/position wrapper (simplified version of TimeManager pattern, no padding/fill). Creates PiP (picture-in-picture) effect when `scale < 1`. Scale range 0.1–3
 - **CameraEngine follows AudioEngine pattern** — Async hardware init via `getUserMedia({ video })` → hidden `<video>` element → offscreen `<canvas>`. `isSupported()` checks for `getUserMedia` API. `switchCamera()` toggles between `user`/`environment` facingMode and re-initializes the stream. Front camera (`user`) defaults to `mirror: true`, back camera (`environment`) defaults to `mirror: false`
 - **QR vendor library** — Uses Nayuki QR Code generator (MIT license), ~637 lines, wrapped in project IIFE convention. Exports `QrCode` and `QrSegment` globals. Supports versions 1-40, all 4 ECC levels (L/M/Q/H), numeric/alphanumeric/byte/ECI encoding modes. Auto-selects minimal version and auto-boosts ECC level when capacity allows
+- **DrawManager follows CameraManager pattern** — `switch(themeId, container, config, drawEngine)` with DrawEngine passed to themes. Draw themes implement `{ id, defaults, init(container, config, drawEngine), destroy() }`. DrawEngine handles mouse/touch input, stroke data, undo/redo, and serialization
+- **DrawEngine serialization via LZ-String** — Strokes encoded as `color,size,opacity,x1:y1,x2:y2,...|...` with coordinates normalized to 0-1 range (×10000 quantized). Compressed via `LZString.compressToEncodedURIComponent()`. URL path stores compressed data: `led.run/draw/COMPRESSED_DATA?t=neon`. Max URL data length 6000 chars; capacity indicator shows usage percentage
+- **Draw product disables double-click fullscreen** — Drawing conflicts with double-click gesture. Fullscreen only via F key or toolbar button. DrawEngine captures pointer events on canvas, preventing propagation to Controls
+- **LZ-String vendor library** — LZ-based compression (MIT license, ~4KB minified), wrapped in project IIFE convention. Exports `LZString` global. Key methods: `compressToEncodedURIComponent()` / `decompressFromEncodedURIComponent()` for URL-safe compression
+- **Draw toolbar has lock/undo/clear buttons** — Lock prevents accidental drawing on touch devices (toggles `DrawEngine.setLocked()`). Undo removes last stroke. Clear removes all strokes. Share button syncs drawing data into URL before sharing
 
 ## Internationalization (i18n)
 

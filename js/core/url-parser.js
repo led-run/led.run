@@ -6,7 +6,7 @@
   'use strict';
 
   // Reserved product path prefixes
-  var PRODUCTS = ['text', 'light', 'sound', 'time', 'qr', 'camera'];
+  var PRODUCTS = ['text', 'light', 'sound', 'time', 'qr', 'camera', 'draw'];
 
   // Parameter alias mapping
   const PARAM_ALIASES = {
@@ -96,6 +96,11 @@
       if (lowerFirst === 'camera') {
         // Camera product — no text content
         return { product: 'camera', text: '' };
+      }
+
+      if (lowerFirst === 'draw') {
+        // Draw product — rest is compressed drawing data
+        return { product: 'draw', text: rest || '' };
       }
 
       if (lowerFirst === 'text') {

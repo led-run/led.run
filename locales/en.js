@@ -709,5 +709,65 @@ I18n.register('en', {
   'camera.error.generic.desc': 'Could not access the camera. Please check your device settings.',
 
   // Toolbar - Camera
-  'toolbar.camera': 'Switch camera'
+  'toolbar.camera': 'Switch camera',
+
+  // Draw product
+  'landing.tab.draw': 'Draw',
+  'draw.title': 'Draw',
+
+  // Draw theme names
+  'settings.drawTheme.default': 'Clean Canvas',
+  'settings.drawTheme.neon': 'Neon Glow',
+  'settings.drawTheme.chalk': 'Chalkboard',
+  'settings.drawTheme.glow-stick': 'Light Painting',
+  'settings.drawTheme.watercolor': 'Watercolor',
+  'settings.drawTheme.spray': 'Spray Paint',
+  'settings.drawTheme.pixel': 'Pixel Art',
+  'settings.drawTheme.calligraphy': 'Calligraphy',
+  'settings.drawTheme.crayon': 'Crayon',
+  'settings.drawTheme.sparkle': 'Sparkle Trail',
+
+  // Draw settings labels
+  'settings.drawThemeLabel': 'Theme',
+  'settings.section.drawThemeParams': 'Theme Options',
+
+  // Draw landing presets
+  'landing.draw.preset.default': 'Clean white canvas with smooth strokes.',
+  'landing.draw.preset.neon': 'Bright neon glow on dark background.',
+  'landing.draw.preset.chalk': 'Rough chalk texture on a chalkboard.',
+  'landing.draw.preset.glow-stick': 'Light painting with glowing trails.',
+  'landing.draw.preset.watercolor': 'Diffused watercolor paint strokes.',
+  'landing.draw.preset.spray': 'Spray paint on concrete texture.',
+  'landing.draw.preset.pixel': 'Retro pixel art on a grid canvas.',
+  'landing.draw.preset.calligraphy': 'Brush strokes with speed-based width.',
+  'landing.draw.preset.crayon': 'Waxy crayon texture on paper.',
+  'landing.draw.preset.sparkle': 'Glittering sparkle particle trails.',
+
+  // Draw builder
+  'landing.builder.card.drawTheme': 'Theme',
+
+  // Draw param labels
+  'settings.param.size': 'Size',
+  'settings.param.opacity': 'Opacity',
+  'settings.param.smooth': 'Smoothing',
+  'settings.param.eraser': 'Eraser',
+  'settings.param.trail': 'Trail',
+  'settings.param.fade': 'Fade',
+  'settings.param.spread': 'Spread',
+  'settings.param.scatter': 'Scatter',
+  'settings.param.pressure': 'Pressure',
+  'settings.param.twinkle': 'Twinkle',
+
+  // Toolbar - Draw
+  'toolbar.undo': 'Undo',
+  'toolbar.clear': 'Clear',
+  'toolbar.lock': 'Lock canvas',
+  'toolbar.unlock': 'Unlock canvas',
+  'toolbar.locked': 'Canvas locked',
+  'toolbar.unlocked': 'Canvas unlocked',
+  'toolbar.cleared': 'Canvas cleared',
+
+  // Draw capacity
+  'draw.capacityWarning': 'Share capacity: ',
+  'draw.capacityFull': 'Drawing too complex to share via URL.'
 });

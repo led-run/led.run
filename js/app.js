@@ -111,6 +111,20 @@
     { id: 'surveillance', icon: '\uD83D\uDCF9', descKey: 'landing.camera.preset.surveillance', params: '?t=surveillance' }
   ];
 
+  // Draw theme presets — for landing page
+  var DRAW_PRESETS = [
+    { id: 'default', icon: '\u270F\uFE0F', descKey: 'landing.draw.preset.default', params: '?t=default' },
+    { id: 'neon', icon: '\uD83D\uDCA1', descKey: 'landing.draw.preset.neon', params: '?t=neon' },
+    { id: 'chalk', icon: '\uD83D\uDCDD', descKey: 'landing.draw.preset.chalk', params: '?t=chalk' },
+    { id: 'glow-stick', icon: '\u2728', descKey: 'landing.draw.preset.glow-stick', params: '?t=glow-stick' },
+    { id: 'watercolor', icon: '\uD83C\uDFA8', descKey: 'landing.draw.preset.watercolor', params: '?t=watercolor' },
+    { id: 'spray', icon: '\uD83E\uDEF7', descKey: 'landing.draw.preset.spray', params: '?t=spray' },
+    { id: 'pixel', icon: '\uD83D\uDD32', descKey: 'landing.draw.preset.pixel', params: '?t=pixel' },
+    { id: 'calligraphy', icon: '\uD83D\uDD8B\uFE0F', descKey: 'landing.draw.preset.calligraphy', params: '?t=calligraphy' },
+    { id: 'crayon', icon: '\uD83D\uDD8D\uFE0F', descKey: 'landing.draw.preset.crayon', params: '?t=crayon' },
+    { id: 'sparkle', icon: '\uD83C\uDF1F', descKey: 'landing.draw.preset.sparkle', params: '?t=sparkle' }
+  ];
+
   var App = {
     _container: null,
     _product: 'text',
@@ -148,7 +162,8 @@
                       (this._product === 'sound' && !productConfig.theme) ||
                       (this._product === 'time' && !productConfig.theme) ||
                       (this._product === 'qr' && !text) ||
-                      (this._product === 'camera' && !productConfig.theme);
+                      (this._product === 'camera' && !productConfig.theme) ||
+                      (this._product === 'draw' && !text && !productConfig.theme);
       if (isLanding) {
         this._showLanding(this._product);
         return;
@@ -170,6 +185,9 @@
           break;
         case 'camera':
           this._initCamera(productConfig, appConfig);
+          break;
+        case 'draw':
+          this._initDraw(text, productConfig, appConfig);
           break;
         default:
           this._initText(text, productConfig, appConfig);
@@ -578,6 +596,106 @@
     },
 
     /**
+     * Initialize Draw product
+     * @private
+     */
+    _initDraw: function(data, productConfig, appConfig) {
+      var themeId = productConfig.theme || 'default';
+      delete productConfig.theme;
+      var self = this;
+
+      document.title = I18n.t('draw.title') + ' \u2014 led.run';
+
+      this._initCommonUI(appConfig);
+
+      // 1. Switch theme — creates DOM, theme sets onStroke/onStrokeUpdate callbacks
+      DrawManager.switch(themeId, this._container, productConfig, DrawEngine);
+      document.getElementById('app').dataset.theme = themeId;
+
+      // 2. Init DrawEngine events on the container (after theme built DOM)
+      DrawEngine.init(this._container, {
+        color: productConfig.color || DrawManager.getDefaults(themeId).color || 'ffffff',
+        size: parseFloat(productConfig.size) || 5,
+        opacity: productConfig.opacity !== undefined ? parseFloat(productConfig.opacity) : 1,
+        smooth: productConfig.smooth !== undefined ? parseFloat(productConfig.smooth) : 5
+      });
+
+      // 3. Load strokes from URL data if present
+      if (data) {
+        var strokes = DrawEngine.deserialize(data);
+        if (strokes.length > 0) {
+          DrawEngine.loadStrokes(strokes);
+          if (DrawEngine.onStroke) DrawEngine.onStroke();
+        }
+      }
+
+      // Capacity bar
+      var capacityBar = document.createElement('div');
+      capacityBar.className = 'draw-capacity-bar';
+      capacityBar.style.cssText = 'position:fixed;bottom:0;left:0;right:0;height:4px;z-index:100;pointer-events:none;opacity:0;transition:opacity 0.3s;';
+      var capacityFill = document.createElement('div');
+      capacityFill.style.cssText = 'height:100%;width:0;transition:width 0.3s,background 0.3s;background:#4caf50;';
+      capacityBar.appendChild(capacityFill);
+      document.getElementById('app').appendChild(capacityBar);
+
+      DrawEngine.onCapacityChange = function(pct) {
+        capacityBar.style.opacity = pct > 0 ? '1' : '0';
+        capacityFill.style.width = Math.min(pct, 100) + '%';
+        if (pct < 60) capacityFill.style.background = '#4caf50';
+        else if (pct < 80) capacityFill.style.background = '#ff9800';
+        else capacityFill.style.background = '#f44336';
+      };
+
+      // Helper: switch theme while preserving strokes
+      function switchDrawTheme(newId) {
+        DrawEngine.destroy();
+        DrawManager.switch(newId, self._container, productConfig, DrawEngine);
+        document.getElementById('app').dataset.theme = newId;
+        DrawEngine.init(self._container, {
+          color: productConfig.color || DrawManager.getDefaults(newId).color || 'ffffff',
+          size: parseFloat(productConfig.size) || 5
+        });
+        if (DrawEngine.onStroke) DrawEngine.onStroke();
+        if (typeof Settings !== 'undefined') Settings.syncThemeId(newId);
+      }
+
+      // Controls — F key fullscreen, no double-click (conflicts with drawing)
+      Controls.init({
+        onFullscreen: function() { Fullscreen.toggle(); },
+        noDblClick: true,
+        onNext: function() {
+          var ids = DrawManager.getThemeIds();
+          var idx = ids.indexOf(DrawManager.getCurrentId());
+          switchDrawTheme(ids[(idx + 1) % ids.length]);
+        },
+        onPrev: function() {
+          var ids = DrawManager.getThemeIds();
+          var idx = ids.indexOf(DrawManager.getCurrentId());
+          switchDrawTheme(ids[(idx - 1 + ids.length) % ids.length]);
+        },
+        onUndo: function() {
+          DrawEngine.undo();
+        },
+        onRedo: function() {
+          DrawEngine.redo();
+        }
+      });
+      Toolbar.init({ container: this._container, product: 'draw', drawEngine: DrawEngine });
+
+      if (typeof Settings !== 'undefined') {
+        Settings.init({
+          container: this._container,
+          product: 'draw',
+          themeId: themeId,
+          themeConfig: productConfig,
+          drawEngine: DrawEngine
+        });
+      }
+
+      this._initCast();
+    },
+
+    /**
      * Initialize common UI modules (WakeLock, Cursor, Cast receiver)
      * @private
      */
@@ -688,7 +806,7 @@
       // Unified Navigation
       html += '<nav class="landing-nav">';
       html += '<div class="product-switcher">';
-      ['text', 'light', 'sound', 'time', 'qr', 'camera'].forEach(function(p) {
+      ['text', 'light', 'sound', 'time', 'qr', 'camera', 'draw'].forEach(function(p) {
         html += '<button class="product-tab' + (p === activeProduct ? ' active' : '') + '" data-product="' + p + '">' + I18n.t('landing.tab.' + p) + '</button>';
       });
       html += '</div>';
@@ -1175,6 +1293,65 @@
       html += '</div>'; // camera builder mode-panel
       html += '</div>'; // product-camera
 
+      // ====== DRAW PRODUCT PANELS ======
+      html += '<div class="product-panel' + (activeProduct === 'draw' ? ' active' : '') + '" id="product-draw">';
+
+      // Draw Simple — preset card grid
+      html += '<div class="mode-panel' + (activeMode === 'simple' ? ' active' : '') + '" data-mode="simple">';
+      html += '<div class="presets-grid">';
+      DRAW_PRESETS.forEach(function(p) {
+        var href = '/draw' + (p.params ? p.params : '');
+        html += '<a class="preset-card" href="' + href + '">';
+        html += '<div class="preset-header"><span class="preset-icon">' + p.icon + '</span></div>';
+        html += '<div class="preset-title">' + I18n.t('settings.drawTheme.' + p.id) + '</div>';
+        html += '<div class="preset-desc">' + I18n.t(p.descKey) + '</div>';
+        html += '</a>';
+      });
+      html += '</div></div>';
+
+      // Draw Builder
+      html += '<div class="mode-panel' + (activeMode === 'builder' ? ' active' : '') + '" data-mode="builder">';
+      html += '<div class="builder-layout">';
+      html += '<div class="builder-canvas">';
+      html += '<div class="browser-bar"><div class="browser-dots"><span></span><span></span><span></span></div>';
+      html += '<div class="builder-url-box"><div class="builder-url-preview" id="draw-builder-url">led.run/draw?t=default</div></div>';
+      html += '<div class="builder-actions"><button class="btn-primary" id="draw-builder-launch">' + I18n.t('landing.input.go') + '</button>';
+      html += '<button class="btn-secondary" id="draw-builder-copy" title="Copy URL">';
+      html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
+      html += '</button></div></div>';
+      html += '<div class="preview-card"><div id="draw-builder-preview" style="display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;"></div></div></div>';
+      html += '<div class="builder-grid">';
+
+      // Draw Theme selection
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.drawTheme') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.drawThemeLabel') + '</span>';
+      html += '<select class="builder-select" id="draw-builder-theme">';
+      if (typeof DrawManager !== 'undefined') {
+        DrawManager.getThemeIds().forEach(function(id) {
+          html += '<option value="' + id + '">' + I18n.t('settings.drawTheme.' + id) + '</option>';
+        });
+      }
+      html += '</select></div></div></div>';
+
+      // Draw settings
+      html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
+      html += '<input type="color" class="builder-color" id="draw-builder-color" value="#ffffff"></div>';
+      html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
+      html += '<input type="color" class="builder-color" id="draw-builder-bg" value="#000000"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.size') + '</span><span class="val" id="draw-builder-size-val">5</span></div>';
+      html += '<input type="range" class="builder-range" id="draw-builder-size" min="1" max="30" step="1" value="5"></div>';
+      html += '</div></div>';
+
+      // Draw Advanced (Dynamic)
+      html += '<div class="prop-card" id="draw-builder-custom-section" style="display:none"><div class="prop-card-title">' + I18n.t('landing.builder.card.advanced') + '</div>';
+      html += '<div class="prop-group" id="draw-builder-theme-params"></div></div>';
+
+      html += '</div>'; // builder-grid
+      html += '</div>'; // builder-layout
+      html += '</div>'; // draw builder mode-panel
+      html += '</div>'; // product-draw
+
       html += '</div>'; // landing-content
 
       // Text preset sections (only for text product)
@@ -1254,6 +1431,7 @@
               else if (product === 'time') updateTimePreview();
               else if (product === 'qr') updateQRPreview();
               else if (product === 'camera') updateCameraPreview();
+              else if (product === 'draw') updateDrawPreview();
             }, 50);
           }
         });
@@ -1281,6 +1459,7 @@
               else if (activeP === 'time') updateTimePreview();
               else if (activeP === 'qr') updateQRPreview();
               else if (activeP === 'camera') updateCameraPreview();
+              else if (activeP === 'draw') updateDrawPreview();
             }, 50);
           }
         });
@@ -2866,6 +3045,133 @@
       updateCameraUrl();
       if (activeMode === 'builder' && activeProduct === 'camera') {
         updateCameraPreview();
+      }
+
+      // ====== DRAW BUILDER ======
+      function updateDrawUrl() {
+        var themeId = document.getElementById('draw-builder-theme');
+        var t = themeId ? themeId.value : 'default';
+        var url = 'led.run/draw?t=' + t;
+        var color = document.getElementById('draw-builder-color');
+        if (color) {
+          var c = color.value.replace('#', '');
+          var defaults = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(t) : {};
+          if (c && c !== (defaults.color || 'ffffff')) url += '&c=' + c;
+        }
+        var bg = document.getElementById('draw-builder-bg');
+        if (bg) {
+          var b = bg.value.replace('#', '');
+          var defs = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(t) : {};
+          if (b && b !== (defs.bg || '000000')) url += '&bg=' + b;
+        }
+        var size = document.getElementById('draw-builder-size');
+        if (size && size.value !== '5') url += '&size=' + size.value;
+        var urlEl = document.getElementById('draw-builder-url');
+        if (urlEl) urlEl.textContent = url;
+        return url;
+      }
+
+      function updateDrawPreview() {
+        var previewEl = document.getElementById('draw-builder-preview');
+        if (!previewEl) return;
+
+        var themeId = document.getElementById('draw-builder-theme');
+        var t = themeId ? themeId.value : 'default';
+        var config = {};
+        var color = document.getElementById('draw-builder-color');
+        if (color) config.color = color.value.replace('#', '');
+        var bg = document.getElementById('draw-builder-bg');
+        if (bg) config.bg = bg.value.replace('#', '');
+        var size = document.getElementById('draw-builder-size');
+        if (size) config.size = parseInt(size.value);
+
+        if (typeof DrawManager !== 'undefined') {
+          DrawManager.switch(t, previewEl, config, null);
+        }
+      }
+
+      function rebuildDrawThemeParams() {
+        var section = document.getElementById('draw-builder-custom-section');
+        var paramsEl = document.getElementById('draw-builder-theme-params');
+        if (!section || !paramsEl || typeof DrawManager === 'undefined') return;
+        var themeId = document.getElementById('draw-builder-theme');
+        var t = themeId ? themeId.value : 'default';
+        var defaults = DrawManager.getDefaults(t) || {};
+        var commonParams = ['color', 'bg', 'size', 'opacity', 'smooth', 'eraser'];
+        var customKeys = Object.keys(defaults).filter(function(k) { return commonParams.indexOf(k) === -1; });
+        if (customKeys.length === 0) { section.style.display = 'none'; return; }
+        section.style.display = '';
+        var html = '';
+        customKeys.forEach(function(key) {
+          var val = defaults[key];
+          var adapter = Settings.PRODUCT_ADAPTERS.draw;
+          var meta = (adapter && adapter.knownParamOverrides && adapter.knownParamOverrides[key]) || Settings.KNOWN_PARAMS[key];
+          if (!meta) return;
+          if (meta.type === 'range') {
+            html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t(meta.label) + '</span><span class="val" id="draw-builder-' + key + '-val">' + val + '</span></div>';
+            html += '<input type="range" class="builder-range draw-builder-custom" data-key="' + key + '" min="' + meta.min + '" max="' + meta.max + '" step="' + meta.step + '" value="' + val + '"></div>';
+          } else if (meta.type === 'boolean') {
+            html += '<div class="prop-row"><span class="prop-label">' + I18n.t(meta.label) + '</span>';
+            html += '<label class="builder-toggle"><input type="checkbox" class="draw-builder-custom" data-key="' + key + '"' + (val ? ' checked' : '') + '><span class="builder-toggle-track"></span></label></div>';
+          }
+        });
+        paramsEl.innerHTML = html;
+        paramsEl.querySelectorAll('.draw-builder-custom').forEach(function(el) {
+          el.addEventListener('input', function() {
+            var valEl = document.getElementById('draw-builder-' + el.dataset.key + '-val');
+            if (valEl) valEl.textContent = el.type === 'checkbox' ? (el.checked ? 'ON' : 'OFF') : el.value;
+            updateDrawUrl();
+            updateDrawPreview();
+          });
+        });
+      }
+
+      // Draw builder event handlers
+      var drawThemeSelect = document.getElementById('draw-builder-theme');
+      if (drawThemeSelect) {
+        drawThemeSelect.addEventListener('change', function() {
+          var defaults = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(this.value) : {};
+          var color = document.getElementById('draw-builder-color');
+          if (color && defaults.color) color.value = '#' + defaults.color;
+          var bg = document.getElementById('draw-builder-bg');
+          if (bg && defaults.bg) bg.value = '#' + defaults.bg;
+          var size = document.getElementById('draw-builder-size');
+          if (size && defaults.size) { size.value = defaults.size; var sv = document.getElementById('draw-builder-size-val'); if (sv) sv.textContent = defaults.size; }
+          rebuildDrawThemeParams();
+          updateDrawUrl();
+          updateDrawPreview();
+        });
+      }
+      ['draw-builder-color', 'draw-builder-bg'].forEach(function(id) {
+        var el = document.getElementById(id);
+        if (el) el.addEventListener('input', function() { updateDrawUrl(); updateDrawPreview(); });
+      });
+      var drawSize = document.getElementById('draw-builder-size');
+      if (drawSize) {
+        drawSize.addEventListener('input', function() {
+          var v = document.getElementById('draw-builder-size-val');
+          if (v) v.textContent = this.value;
+          updateDrawUrl();
+          updateDrawPreview();
+        });
+      }
+      var drawLaunch = document.getElementById('draw-builder-launch');
+      if (drawLaunch) drawLaunch.addEventListener('click', function() { window.location.href = '/' + updateDrawUrl().replace('led.run/', ''); });
+      var drawCopy = document.getElementById('draw-builder-copy');
+      if (drawCopy) {
+        drawCopy.addEventListener('click', function() {
+          var url = 'https://' + updateDrawUrl();
+          navigator.clipboard.writeText(url).then(function() {
+            drawCopy.classList.add('copied');
+            setTimeout(function() { drawCopy.classList.remove('copied'); }, 1500);
+          });
+        });
+      }
+
+      rebuildDrawThemeParams();
+      updateDrawUrl();
+      if (activeMode === 'builder' && activeProduct === 'draw') {
+        updateDrawPreview();
       }
 
       // Focus
