@@ -12,9 +12,6 @@
     _strokes: [],
     _undoStack: [],
     _currentStroke: null,
-    _color: 'ffffff',
-    _size: 5,
-    _opacity: 1,
     _smooth: 5,
     _isEraser: false,
     _isDrawing: false,
@@ -26,6 +23,8 @@
     onStroke: null,
     onStrokeUpdate: null,
     onCapacityChange: null,
+    onDataChange: null,
+    onLockChange: null,
 
     // Bound handlers (for removal)
     _boundMouseDown: null,
@@ -44,9 +43,6 @@
       this._canvas = canvas;
       options = options || {};
 
-      if (options.color) this._color = options.color;
-      if (options.size) this._size = options.size;
-      if (options.opacity !== undefined) this._opacity = options.opacity;
       if (options.smooth !== undefined) this._smooth = options.smooth;
 
       this._bindEvents();
@@ -71,9 +67,6 @@
       this.destroy();
       this._strokes = [];
       this._undoStack = [];
-      this._color = 'ffffff';
-      this._size = 5;
-      this._opacity = 1;
       this._smooth = 5;
       this._isEraser = false;
       this._isLocked = false;
@@ -81,6 +74,8 @@
       this.onStroke = null;
       this.onStrokeUpdate = null;
       this.onCapacityChange = null;
+      this.onDataChange = null;
+      this.onLockChange = null;
     },
 
     // ── Data Management ──
@@ -120,6 +115,7 @@
       this._cachedSerializedSize = 0;
       if (this.onStroke) this.onStroke();
       if (this.onCapacityChange) this.onCapacityChange(0);
+      if (this.onDataChange) this.onDataChange();
     },
 
     // ── Undo / Redo ──
@@ -129,6 +125,7 @@
       this._undoStack.push(this._strokes.pop());
       this._updateCapacity();
       if (this.onStroke) this.onStroke();
+      if (this.onDataChange) this.onDataChange();
     },
 
     redo: function() {
@@ -136,6 +133,7 @@
       this._strokes.push(this._undoStack.pop());
       this._updateCapacity();
       if (this.onStroke) this.onStroke();
+      if (this.onDataChange) this.onDataChange();
     },
 
     canUndo: function() {
@@ -148,27 +146,24 @@
 
     // ── Tool State ──
 
-    setColor: function(hex) { this._color = hex; },
-    setSize: function(n) { this._size = n; },
-    setOpacity: function(n) { this._opacity = n; },
     setSmooth: function(n) { this._smooth = n; },
     setEraser: function(bool) { this._isEraser = bool; },
-    getColor: function() { return this._color; },
-    getSize: function() { return this._size; },
-    getOpacity: function() { return this._opacity; },
     getSmooth: function() { return this._smooth; },
     isEraser: function() { return this._isEraser; },
 
     // ── Lock ──
 
-    setLocked: function(bool) { this._isLocked = bool; },
+    setLocked: function(bool) {
+      this._isLocked = bool;
+      if (this.onLockChange) this.onLockChange(bool);
+    },
     isLocked: function() { return this._isLocked; },
 
     // ── Serialization ──
 
     /**
      * Serialize strokes to LZ-String compressed URL-safe string
-     * Format: color,size,opacity,x1:y1,x2:y2,...|color,size,opacity,...
+     * Format: x1:y1,x2:y2,...|E,x1:y1,...  (eraser strokes prefixed with E)
      * @returns {string}
      */
     serialize: function() {
@@ -176,13 +171,13 @@
       var parts = [];
       for (var i = 0; i < this._strokes.length; i++) {
         var s = this._strokes[i];
-        var header = (s.eraser ? 'E' : s.color) + ',' + s.size + ',' + (s.opacity !== undefined ? s.opacity : 1);
+        var header = s.eraser ? 'E' : '';
         var pts = [];
         for (var j = 0; j < s.points.length; j++) {
           var p = s.points[j];
           pts.push(Math.round(p.x * 10000) + ':' + Math.round(p.y * 10000));
         }
-        parts.push(header + ',' + pts.join(','));
+        parts.push(header ? header + ',' + pts.join(',') : pts.join(','));
       }
       var raw = parts.join('|');
       return LZString.compressToEncodedURIComponent(raw);
@@ -201,15 +196,11 @@
       var strokeStrs = raw.split('|');
       for (var i = 0; i < strokeStrs.length; i++) {
         var tokens = strokeStrs[i].split(',');
-        if (tokens.length < 4) continue;
-        var colorOrEraser = tokens[0];
-        var eraser = colorOrEraser === 'E';
-        var color = eraser ? 'ffffff' : colorOrEraser;
-        var size = parseFloat(tokens[1]) || 5;
-        var opacity = parseFloat(tokens[2]);
-        if (isNaN(opacity)) opacity = 1;
+        if (tokens.length < 1) continue;
+        var eraser = tokens[0] === 'E';
+        var startIdx = eraser ? 1 : 0;
         var points = [];
-        for (var j = 3; j < tokens.length; j++) {
+        for (var j = startIdx; j < tokens.length; j++) {
           var xy = tokens[j].split(':');
           if (xy.length === 2) {
             var px = parseInt(xy[0], 10);
@@ -220,7 +211,7 @@
           }
         }
         if (points.length > 0) {
-          strokes.push({ color: color, size: size, opacity: opacity, eraser: eraser, points: points });
+          strokes.push({ eraser: eraser, points: points });
         }
       }
       return strokes;
@@ -328,9 +319,6 @@
       this._isDrawing = true;
       this._undoStack = [];
       this._currentStroke = {
-        color: this._color,
-        size: this._size,
-        opacity: this._opacity,
         eraser: this._isEraser,
         points: [pos]
       };
@@ -369,6 +357,7 @@
         this._currentStroke = null;
         this._updateCapacity();
         if (this.onStroke) this.onStroke();
+        if (this.onDataChange) this.onDataChange();
       }
     }
   };
