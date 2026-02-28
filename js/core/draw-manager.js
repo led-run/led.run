@@ -64,9 +64,6 @@
 
       // Update DrawEngine tool state from config
       if (drawEngine) {
-        if (mergedConfig.color) drawEngine.setColor(mergedConfig.color);
-        if (mergedConfig.size) drawEngine.setSize(parseFloat(mergedConfig.size) || 5);
-        if (mergedConfig.opacity !== undefined) drawEngine.setOpacity(parseFloat(mergedConfig.opacity) || 1);
         if (mergedConfig.smooth !== undefined) drawEngine.setSmooth(parseFloat(mergedConfig.smooth) || 5);
         if (mergedConfig.eraser !== undefined) drawEngine.setEraser(!!mergedConfig.eraser);
       }
