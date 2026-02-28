@@ -614,9 +614,6 @@
 
       // 2. Init DrawEngine events on the container (after theme built DOM)
       DrawEngine.init(this._container, {
-        color: productConfig.color || DrawManager.getDefaults(themeId).color || 'ffffff',
-        size: parseFloat(productConfig.size) || 5,
-        opacity: productConfig.opacity !== undefined ? parseFloat(productConfig.opacity) : 1,
         smooth: productConfig.smooth !== undefined ? parseFloat(productConfig.smooth) : 5
       });
 
@@ -639,11 +636,23 @@
       document.getElementById('app').appendChild(capacityBar);
 
       DrawEngine.onCapacityChange = function(pct) {
-        capacityBar.style.opacity = pct > 0 ? '1' : '0';
+        capacityBar.style.opacity = (pct > 0 && !DrawEngine.isLocked()) ? '1' : '0';
         capacityFill.style.width = Math.min(pct, 100) + '%';
         if (pct < 60) capacityFill.style.background = '#4caf50';
         else if (pct < 80) capacityFill.style.background = '#ff9800';
         else capacityFill.style.background = '#f44336';
+      };
+
+      DrawEngine.onLockChange = function(locked) {
+        capacityBar.style.opacity = (!locked && DrawEngine.getCapacityPercent() > 0) ? '1' : '0';
+      };
+
+      var _urlSyncTimer = null;
+      DrawEngine.onDataChange = function() {
+        clearTimeout(_urlSyncTimer);
+        _urlSyncTimer = setTimeout(function() {
+          if (typeof Settings !== 'undefined') Settings.syncURL();
+        }, 500);
       };
 
       // Helper: switch theme while preserving strokes
@@ -651,10 +660,7 @@
         DrawEngine.destroy();
         DrawManager.switch(newId, self._container, productConfig, DrawEngine);
         document.getElementById('app').dataset.theme = newId;
-        DrawEngine.init(self._container, {
-          color: productConfig.color || DrawManager.getDefaults(newId).color || 'ffffff',
-          size: parseFloat(productConfig.size) || 5
-        });
+        DrawEngine.init(self._container);
         if (DrawEngine.onStroke) DrawEngine.onStroke();
         if (typeof Settings !== 'undefined') Settings.syncThemeId(newId);
       }

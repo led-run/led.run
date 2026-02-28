@@ -1097,6 +1097,13 @@
       var search = params.toString();
       var url = path + (search ? '?' + search : '');
       history.replaceState(null, '', url);
+    },
+
+    /**
+     * Public wrapper to sync URL (used by external code like draw data change)
+     */
+    syncURL: function() {
+      if (this._product) this._syncURL();
     }
   };
 
