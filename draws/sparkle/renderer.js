@@ -1,6 +1,8 @@
 /**
- * Draw Theme: Sparkle Trail
- * Dark background with glittering particle trails and twinkling stars
+ * Draw Theme: Sparkle Trail (Starlight Display)
+ * Dark background with ambient background stars (always on),
+ * glittering particle trails with vertical drift,
+ * enhanced stroke glow, and end-of-stroke burst particles
  */
 ;(function() {
   'use strict';
@@ -16,6 +18,7 @@
     _raf: null,
     _resizeHandler: null,
     _particles: [],
+    _bgStars: [],
     _time: 0,
 
     init: function(container, config, drawEngine) {
@@ -23,6 +26,7 @@
       this._config = config;
       this._engine = drawEngine;
       this._particles = [];
+      this._bgStars = [];
       this._time = 0;
 
       container.style.background = '#' + (config.bg || '0a0014');
@@ -38,6 +42,7 @@
       this._ctx = canvas.getContext('2d');
 
       this._resize();
+      this._generateBgStars();
       this._generateParticles();
       this._startAnimation();
 
@@ -53,6 +58,7 @@
 
     _onResize: function() {
       this._resize();
+      this._generateBgStars();
       this._generateParticles();
     },
 
@@ -60,6 +66,20 @@
       if (!this._canvas || !this._container) return;
       this._canvas.width = this._container.clientWidth;
       this._canvas.height = this._container.clientHeight;
+    },
+
+    _generateBgStars: function() {
+      // 30 ambient background stars — visible even with empty canvas
+      this._bgStars = [];
+      for (var i = 0; i < 30; i++) {
+        this._bgStars.push({
+          x: Math.random(),
+          y: Math.random(),
+          size: Math.random() * 1.5 + 0.5,
+          phase: Math.random() * Math.PI * 2,
+          speed: Math.random() * 0.3 + 0.3
+        });
+      }
     },
 
     _generateParticles: function() {
@@ -71,9 +91,15 @@
       var allStrokes = currentStroke ? strokes.concat([currentStroke]) : strokes;
       var starsPerPoint = Math.max(1, Math.floor((parseFloat(this._config.stars) || 8) / 3));
 
+      var color = this._config.color || 'ffd700';
+      var opacity = parseFloat(this._config.opacity);
+      if (isNaN(opacity)) opacity = 1;
+
       for (var i = 0; i < allStrokes.length; i++) {
         var s = allStrokes[i];
         if (s.eraser) continue;
+        var isLast = (i === allStrokes.length - 1);
+
         for (var j = 0; j < s.points.length; j += 2) {
           var p = s.points[j];
           for (var k = 0; k < starsPerPoint; k++) {
@@ -83,9 +109,26 @@
               size: Math.random() * 3 + 1,
               speed: Math.random() * 0.5 + 0.5,
               phase: Math.random() * Math.PI * 2,
-              color: s.color,
-              opacity: s.opacity || 1
+              drift: Math.random() * Math.PI * 2,
+              color: color,
+              opacity: opacity
             });
+          }
+
+          // End-of-stroke burst — larger particles at the last point
+          if (isLast && j >= s.points.length - 2) {
+            for (var b = 0; b < 3; b++) {
+              this._particles.push({
+                x: p.x + (Math.random() - 0.5) * 0.03,
+                y: p.y + (Math.random() - 0.5) * 0.03,
+                size: Math.random() * 3 + 3,
+                speed: Math.random() * 0.8 + 1.0,
+                phase: Math.random() * Math.PI * 2,
+                drift: Math.random() * Math.PI * 2,
+                color: color,
+                opacity: opacity
+              });
+            }
           }
         }
       }
@@ -105,9 +148,30 @@
       var ctx = this._ctx;
       var cw = this._canvas.width;
       var ch = this._canvas.height;
+      var time = this._time;
       ctx.clearRect(0, 0, cw, ch);
 
-      // Draw base strokes
+      // Background stars — always visible, gives "powered on" display feel
+      for (var b = 0; b < this._bgStars.length; b++) {
+        var bg = this._bgStars[b];
+        var bgFlicker = 0.2 + 0.8 * Math.abs(Math.sin(time * bg.speed + bg.phase));
+        // Gentle vertical drift
+        var bgY = bg.y + Math.sin(time * 0.5 + bg.phase) * 0.005;
+        ctx.save();
+        ctx.globalAlpha = 0.4 * bgFlicker;
+        ctx.fillStyle = 'rgba(200, 200, 255, 1)';
+        ctx.shadowBlur = bg.size * 4;
+        ctx.shadowColor = 'rgba(200, 200, 255, 0.6)';
+        var bx = bg.x * cw;
+        var by = bgY * ch;
+        var bs = bg.size * bgFlicker;
+        ctx.beginPath();
+        ctx.arc(bx, by, bs, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+      }
+
+      // Draw base strokes with enhanced glow
       if (this._engine) {
         var strokes = this._engine.getStrokes();
         var currentStroke = this._engine.getCurrentStroke();
@@ -117,11 +181,14 @@
         }
       }
 
-      // Draw sparkle particles
+      // Draw sparkle particles with drift
       var twinkle = (parseFloat(this._config.twinkle) || 5) / 5;
       for (var j = 0; j < this._particles.length; j++) {
         var p = this._particles[j];
-        var flicker = 0.3 + 0.7 * Math.abs(Math.sin(this._time * p.speed * twinkle + p.phase));
+        var flicker = 0.3 + 0.7 * Math.abs(Math.sin(time * p.speed * twinkle + p.phase));
+        // Gentle vertical sine drift — firefly-like
+        var driftY = Math.sin(time * 0.5 + p.drift) * 0.005;
+
         ctx.save();
         ctx.globalAlpha = p.opacity * flicker;
         ctx.fillStyle = '#' + p.color;
@@ -130,7 +197,7 @@
 
         // Star shape
         var x = p.x * cw;
-        var y = p.y * ch;
+        var y = (p.y + driftY) * ch;
         var s = p.size * flicker;
         ctx.beginPath();
         ctx.moveTo(x, y - s);
@@ -150,14 +217,20 @@
     _drawStroke: function(ctx, stroke, cw, ch) {
       if (stroke.points.length < 1 || stroke.eraser) return;
 
+      var color = this._config.color || 'ffd700';
+      var size = parseFloat(this._config.size) || 4;
+      var opacity = parseFloat(this._config.opacity);
+      if (isNaN(opacity)) opacity = 1;
+
+      // Second layer: wide soft glow
       ctx.save();
-      ctx.globalAlpha = (stroke.opacity || 1) * 0.6;
-      ctx.strokeStyle = '#' + stroke.color;
-      ctx.lineWidth = stroke.size;
+      ctx.globalAlpha = opacity * 0.25;
+      ctx.strokeStyle = '#' + color;
+      ctx.lineWidth = size * 2;
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-      ctx.shadowBlur = 6;
-      ctx.shadowColor = '#' + stroke.color;
+      ctx.shadowBlur = 15;
+      ctx.shadowColor = '#' + color;
 
       ctx.beginPath();
       var p0 = stroke.points[0];
@@ -165,6 +238,25 @@
       for (var i = 1; i < stroke.points.length; i++) {
         var p = stroke.points[i];
         ctx.lineTo(p.x * cw, p.y * ch);
+      }
+      ctx.stroke();
+      ctx.restore();
+
+      // Main stroke
+      ctx.save();
+      ctx.globalAlpha = opacity * 0.6;
+      ctx.strokeStyle = '#' + color;
+      ctx.lineWidth = size;
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.shadowBlur = 6;
+      ctx.shadowColor = '#' + color;
+
+      ctx.beginPath();
+      ctx.moveTo(p0.x * cw, p0.y * ch);
+      for (var j = 1; j < stroke.points.length; j++) {
+        var pt = stroke.points[j];
+        ctx.lineTo(pt.x * cw, pt.y * ch);
       }
       ctx.stroke();
       ctx.restore();
@@ -188,6 +280,7 @@
       this._container = null;
       this._engine = null;
       this._particles = [];
+      this._bgStars = [];
     }
   };
 
