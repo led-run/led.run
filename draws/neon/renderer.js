@@ -1,13 +1,14 @@
 /**
  * Draw Theme: Neon Glow
- * Dark background with bright neon strokes + shadowBlur glow
+ * Dark background with bright neon strokes + always-on ambient flicker
+ * Three-pass glow rendering with Bézier smooth curves
  */
 ;(function() {
   'use strict';
 
   var theme = {
     id: 'neon',
-    defaults: { color: '00ff41', bg: '0a0a0a', size: 4, opacity: 1, smooth: 5, glow: 8, pulse: false },
+    defaults: { color: '00ff41', bg: '0a0a0a', size: 4, opacity: 1, smooth: 5, glow: 8, pulse: true },
     _canvas: null,
     _ctx: null,
     _container: null,
@@ -15,12 +16,13 @@
     _engine: null,
     _raf: null,
     _resizeHandler: null,
-    _pulsePhase: 0,
+    _phase: 0,
 
     init: function(container, config, drawEngine) {
       this._container = container;
       this._config = config;
       this._engine = drawEngine;
+      this._phase = 0;
 
       container.style.background = '#' + (config.bg || '0a0a0a');
       container.style.overflow = 'hidden';
@@ -46,16 +48,15 @@
         drawEngine.onStrokeUpdate = function(stroke) { self._renderLive(stroke); };
       }
 
-      if (config.pulse) {
-        this._startPulse();
-      }
+      // Always start ambient animation — neon tubes are always on
+      this._startAmbient();
     },
 
-    _startPulse: function() {
+    _startAmbient: function() {
       var self = this;
       function loop() {
         self._raf = requestAnimationFrame(loop);
-        self._pulsePhase += 0.03;
+        self._phase += 0.03;
         self._renderAll();
       }
       this._raf = requestAnimationFrame(loop);
@@ -92,50 +93,87 @@
       }
     },
 
+    _buildPath: function(ctx, points, cw, ch) {
+      ctx.beginPath();
+      ctx.moveTo(points[0].x * cw, points[0].y * ch);
+
+      if (points.length === 1) {
+        ctx.lineTo(points[0].x * cw + 0.1, points[0].y * ch + 0.1);
+      } else if (points.length === 2) {
+        ctx.lineTo(points[1].x * cw, points[1].y * ch);
+      } else {
+        // Bézier smooth
+        for (var i = 1; i < points.length - 1; i++) {
+          var mx = (points[i].x + points[i + 1].x) / 2 * cw;
+          var my = (points[i].y + points[i + 1].y) / 2 * ch;
+          ctx.quadraticCurveTo(points[i].x * cw, points[i].y * ch, mx, my);
+        }
+        var last = points[points.length - 1];
+        ctx.lineTo(last.x * cw, last.y * ch);
+      }
+    },
+
     _drawStroke: function(ctx, stroke, cw, ch) {
       if (stroke.points.length < 1) return;
+
+      var color = this._config.color || '00ff41';
+      var size = parseFloat(this._config.size) || 4;
+      var opacity = parseFloat(this._config.opacity);
+      if (isNaN(opacity)) opacity = 1;
+      var glowSize = parseFloat(this._config.glow) || 8;
+      var phase = this._phase;
+
+      // Always-on micro flicker — simulates current fluctuation
+      var flicker = 0.95 + 0.05 * Math.sin(phase * 2.3);
+
+      // Pulse breathing overlay (when pulse=true)
+      var usePulse = this._config.pulse === true || this._config.pulse === 'true';
+      if (usePulse) {
+        flicker *= 0.7 + 0.3 * Math.sin(phase);
+      }
+
       ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
 
       if (stroke.eraser) {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.globalAlpha = 1;
         ctx.shadowBlur = 0;
-      } else {
-        ctx.globalCompositeOperation = 'source-over';
-        ctx.globalAlpha = stroke.opacity !== undefined ? stroke.opacity : 1;
-        var glowSize = parseFloat(this._config.glow) || 8;
-        if (this._config.pulse) {
-          glowSize *= 0.7 + 0.3 * Math.sin(this._pulsePhase);
-        }
-        ctx.shadowBlur = glowSize * 3;
-        ctx.shadowColor = '#' + stroke.color;
+        ctx.strokeStyle = '#000';
+        ctx.lineWidth = size;
+        this._buildPath(ctx, stroke.points, cw, ch);
+        ctx.stroke();
+        ctx.restore();
+        return;
       }
 
-      ctx.strokeStyle = '#' + (stroke.eraser ? '000' : stroke.color);
-      ctx.lineWidth = stroke.size;
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
+      ctx.globalCompositeOperation = 'source-over';
 
-      ctx.beginPath();
-      var p0 = stroke.points[0];
-      ctx.moveTo(p0.x * cw, p0.y * ch);
-
-      if (stroke.points.length === 1) {
-        ctx.lineTo(p0.x * cw + 0.1, p0.y * ch + 0.1);
-      } else {
-        for (var i = 1; i < stroke.points.length; i++) {
-          var p = stroke.points[i];
-          ctx.lineTo(p.x * cw, p.y * ch);
-        }
-      }
+      // Pass 1: Wide outer glow (very faint, large spread)
+      ctx.globalAlpha = opacity * 0.12 * flicker;
+      ctx.shadowBlur = glowSize * 6;
+      ctx.shadowColor = '#' + color;
+      ctx.strokeStyle = '#' + color;
+      ctx.lineWidth = size * 2.5;
+      this._buildPath(ctx, stroke.points, cw, ch);
       ctx.stroke();
 
-      // Second pass for extra glow
-      if (!stroke.eraser) {
-        ctx.globalAlpha *= 0.5;
-        ctx.lineWidth = stroke.size * 0.5;
-        ctx.stroke();
-      }
+      // Pass 2: Main glow
+      ctx.globalAlpha = opacity * flicker;
+      ctx.shadowBlur = glowSize * 3;
+      ctx.shadowColor = '#' + color;
+      ctx.strokeStyle = '#' + color;
+      ctx.lineWidth = size;
+      this._buildPath(ctx, stroke.points, cw, ch);
+      ctx.stroke();
+
+      // Pass 3: Bright inner core
+      ctx.globalAlpha = opacity * 0.5 * flicker;
+      ctx.shadowBlur = glowSize;
+      ctx.lineWidth = size * 0.5;
+      this._buildPath(ctx, stroke.points, cw, ch);
+      ctx.stroke();
 
       ctx.restore();
     },
