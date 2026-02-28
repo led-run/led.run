@@ -238,16 +238,18 @@ getCurrentConfig(), resize()
 init(canvas, options) → void, destroy() → void,
 getStrokes() → Array, loadStrokes(strokes) → void, clear() → void,
 undo() → void, redo() → void, canUndo() → boolean, canRedo() → boolean,
-setColor(hex), setSize(n), setOpacity(n), setSmooth(n), setEraser(bool),
-getColor(), getSize(), getOpacity(), getSmooth(), isEraser(),
+setSmooth(n), setEraser(bool),
+getSmooth(), isEraser(),
 setLocked(bool), isLocked(),
 serialize() → string, deserialize(str) → Array,
 getSerializedSize() → number, getCapacityPercent() → number
 ```
 
+**Callbacks:** `onStroke` (theme-owned, set by theme init), `onStrokeUpdate` (theme-owned), `onCapacityChange(pct)` (app-owned), `onDataChange` (app-owned, fires after stroke complete/undo/redo/clear for URL sync), `onLockChange(bool)` (app-owned, fires when lock state changes). `reset()` clears all callbacks; `destroy()` only clears theme-owned ones.
+
 Pipeline: `mouse/touch events → normalized coordinates → stroke data → LZ-String compression`
 
-**Serialization**: Strokes are serialized as `color,size,opacity,x1:y1,x2:y2,...|...`, then compressed via `LZString.compressToEncodedURIComponent()` for URL-safe storage. Max URL data length: 6000 chars.
+**Serialization**: Strokes are serialized as `x1:y1,x2:y2,...` (normal) or `E,x1:y1,x2:y2,...` (eraser), separated by `|`. Color/size/opacity are global URL params (`?c=`, `?size=`, `?opacity=`), not per-stroke. Compressed via `LZString.compressToEncodedURIComponent()` for URL-safe storage. Max URL data length: 6000 chars.
 
 ## File Structure
 
@@ -417,16 +419,16 @@ js/app.js                 App entry + multi-product orchestrator
 
 | ID | Effect | Custom Params |
 |----|--------|---------------|
-| `default` | Clean white canvas with smooth black strokes (Canvas) | — |
-| `neon` | Dark background with neon glow strokes + shadowBlur (Canvas) | `glow`, `pulse` |
-| `chalk` | Dark green chalkboard with rough chalk texture (Canvas) | `roughness`, `dust` |
-| `glow-stick` | Black background with glowing light-painting trails (Canvas) | `trail`, `fade` |
-| `watercolor` | Paper texture with diffused semi-transparent strokes (Canvas) | `spread`, `wetness` |
-| `spray` | Concrete texture with random dot spray effect (Canvas) | `density`, `scatter` |
-| `pixel` | Grid canvas with strokes snapping to pixel grid (Canvas) | `gridSize`, `gap` |
-| `calligraphy` | Rice paper with speed-based brush width variation (Canvas) | `pressure`, `ink` |
-| `crayon` | Paper background with waxy crayon texture (Canvas) | `texture`, `wax` |
-| `sparkle` | Dark background with glittering particle trail animation (Canvas) | `stars`, `twinkle` |
+| `default` | Whiteboard display with dot-grid background, Bézier smooth, pen shadow (dual Canvas) | — |
+| `neon` | Always-on neon tube with micro-flicker, 3-pass glow, Bézier smooth (Canvas+rAF) | `glow`, `pulse` |
+| `chalk` | Classroom chalkboard with chalk tray, intermittent strokes, elliptical dust (dual Canvas) | `roughness`, `dust` |
+| `glow-stick` | Light-painting with ambient glow breathing, afterglow decay, Bézier smooth (dual Canvas+rAF) | `trail`, `fade` |
+| `watercolor` | Watercolor paper (cached bgCanvas), edge pigment accumulation, deterministic wobble (dual Canvas) | `spread`, `wetness` |
+| `spray` | Concrete wall (cached bgCanvas), spray mist, paint drip effect, deterministic dots (dual Canvas) | `density`, `scatter` |
+| `pixel` | LCD pixel display with sub-pixel RGB stripes, pixel glow, checkerboard background (Canvas) | `gridSize`, `gap` |
+| `calligraphy` | Rice paper texture (bgCanvas), trapezoid-strip brush, ink blob/tail (dual Canvas) | `pressure`, `ink` |
+| `crayon` | Kraft paper texture (bgCanvas), deterministic offsets, paper grain gaps (dual Canvas) | `texture`, `wax` |
+| `sparkle` | Starlight display with 30 ambient background stars, particle drift, stroke burst (Canvas+rAF) | `stars`, `twinkle` |
 
 ## Script Load Order
 
@@ -555,10 +557,13 @@ Themes can also fully override position, shape, and animations via standard CSS 
 - **CameraEngine follows AudioEngine pattern** — Async hardware init via `getUserMedia({ video })` → hidden `<video>` element → offscreen `<canvas>`. `isSupported()` checks for `getUserMedia` API. `switchCamera()` toggles between `user`/`environment` facingMode and re-initializes the stream. Front camera (`user`) defaults to `mirror: true`, back camera (`environment`) defaults to `mirror: false`
 - **QR vendor library** — Uses Nayuki QR Code generator (MIT license), ~637 lines, wrapped in project IIFE convention. Exports `QrCode` and `QrSegment` globals. Supports versions 1-40, all 4 ECC levels (L/M/Q/H), numeric/alphanumeric/byte/ECI encoding modes. Auto-selects minimal version and auto-boosts ECC level when capacity allows
 - **DrawManager follows CameraManager pattern** — `switch(themeId, container, config, drawEngine)` with DrawEngine passed to themes. Draw themes implement `{ id, defaults, init(container, config, drawEngine), destroy() }`. DrawEngine handles mouse/touch input, stroke data, undo/redo, and serialization
-- **DrawEngine serialization via LZ-String** — Strokes encoded as `color,size,opacity,x1:y1,x2:y2,...|...` with coordinates normalized to 0-1 range (×10000 quantized). Compressed via `LZString.compressToEncodedURIComponent()`. URL path stores compressed data: `led.run/draw/COMPRESSED_DATA?t=neon`. Max URL data length 6000 chars; capacity indicator shows usage percentage
+- **DrawEngine serialization via LZ-String** — Strokes encoded as `x1:y1,x2:y2,...` (normal) or `E,x1:y1,x2:y2,...` (eraser), separated by `|`. Color/size/opacity are global URL params, not per-stroke — all strokes render with the same config values. Coordinates normalized to 0-1 range (×10000 quantized). Compressed via `LZString.compressToEncodedURIComponent()`. URL path stores compressed data: `led.run/draw/COMPRESSED_DATA?t=neon`. Max URL data length 6000 chars; capacity indicator shows usage percentage
 - **Draw product disables double-click fullscreen** — Drawing conflicts with double-click gesture. Fullscreen only via F key or toolbar button. DrawEngine captures pointer events on canvas, preventing propagation to Controls
 - **LZ-String vendor library** — LZ-based compression (MIT license, ~4KB minified), wrapped in project IIFE convention. Exports `LZString` global. Key methods: `compressToEncodedURIComponent()` / `decompressFromEncodedURIComponent()` for URL-safe compression
-- **Draw toolbar has lock/undo/clear buttons** — Lock prevents accidental drawing on touch devices (toggles `DrawEngine.setLocked()`). Undo removes last stroke. Clear removes all strokes. Share button syncs drawing data into URL before sharing
+- **Draw toolbar has lock/undo/clear buttons** — Lock prevents accidental drawing on touch devices (toggles `DrawEngine.setLocked()`); lock button highlights orange (`draw-locked` class) when active. Undo removes last stroke. Clear removes all strokes. Share button syncs drawing data into URL before sharing
+- **Draw URL auto-sync** — `DrawEngine.onDataChange` fires after stroke complete, undo, redo, clear. App debounces (500ms) and calls `Settings.syncURL()` to keep URL in sync with drawing data. Independent of `onStroke` (which is theme-owned)
+- **Draw capacity bar hides when locked** — `DrawEngine.onLockChange` toggles capacity bar visibility. Locked state hides bar; unlocked restores if capacity > 0
+- **Draw themes use "display surface" design** — All 10 themes enhanced with background textures (dot-grid, paper, chalkboard, etc.), ambient animations (neon flicker, sparkle stars, glow breathing), and material details (LCD sub-pixels, chalk tray, ink blobs). Empty canvas always shows "powered on" state, not blank white. Performance-critical themes (watercolor, spray) cache background texture on separate bgCanvas, only redraw on resize. Deterministic `hash()` function replaces `Math.random()` in chalk/watercolor/spray/crayon to prevent flicker on redraw
 
 ## Internationalization (i18n)
 
