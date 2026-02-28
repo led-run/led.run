@@ -1,14 +1,21 @@
 /**
  * Draw Theme: Crayon
- * Paper background with waxy, textured crayon strokes
+ * Kraft paper texture on bgCanvas, deterministic offset/jitter crayon strokes,
+ * paper grain gaps, and slow-speed wax buildup
  */
 ;(function() {
   'use strict';
+
+  // Deterministic hash — replaces Math.random() for stable rendering
+  function hash(a, b) {
+    return (((a * 2654435761 + b * 2246822519) >>> 0) & 0xffff) / 0xffff;
+  }
 
   var theme = {
     id: 'crayon',
     defaults: { color: 'e74c3c', bg: 'fefce8', size: 10, opacity: 0.85, smooth: 3, texture: 5, wax: 5 },
     _canvas: null,
+    _bgCanvas: null,
     _ctx: null,
     _container: null,
     _config: null,
@@ -23,16 +30,23 @@
       container.style.background = '#' + (config.bg || 'fefce8');
       container.style.overflow = 'hidden';
       container.style.cursor = 'crosshair';
+      container.style.position = 'relative';
 
+      // Background canvas for kraft paper texture
+      var bgCanvas = document.createElement('canvas');
+      bgCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+      container.appendChild(bgCanvas);
+      this._bgCanvas = bgCanvas;
+
+      // Drawing canvas
       var canvas = document.createElement('canvas');
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvas.style.display = 'block';
+      canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
       container.appendChild(canvas);
       this._canvas = canvas;
       this._ctx = canvas.getContext('2d');
 
       this._resize();
+      this._renderPaper();
       this._renderAll();
 
       var self = this;
@@ -47,13 +61,43 @@
 
     _onResize: function() {
       this._resize();
+      this._renderPaper();
       this._renderAll();
     },
 
     _resize: function() {
       if (!this._canvas || !this._container) return;
-      this._canvas.width = this._container.clientWidth;
-      this._canvas.height = this._container.clientHeight;
+      var w = this._container.clientWidth;
+      var h = this._container.clientHeight;
+      this._canvas.width = w;
+      this._canvas.height = h;
+      this._bgCanvas.width = w;
+      this._bgCanvas.height = h;
+    },
+
+    _renderPaper: function() {
+      var ctx = this._bgCanvas.getContext('2d');
+      var w = this._bgCanvas.width;
+      var h = this._bgCanvas.height;
+
+      // Warm kraft paper base
+      ctx.fillStyle = '#' + (this._config.bg || 'fefce8');
+      ctx.fillRect(0, 0, w, h);
+
+      // Deterministic noise grain
+      var imageData = ctx.getImageData(0, 0, w, h);
+      var data = imageData.data;
+      for (var y = 0; y < h; y++) {
+        for (var x = 0; x < w; x++) {
+          var idx = (y * w + x) * 4;
+          var noise = (hash(x, y) - 0.5) * 10;
+          data[idx] += noise;
+          data[idx + 1] += noise * 0.9;
+          data[idx + 2] += noise * 0.7;
+          data[idx + 3] = 20;
+        }
+      }
+      ctx.putImageData(imageData, 0, 0);
     },
 
     _renderAll: function() {
@@ -65,22 +109,26 @@
       if (!this._engine) return;
       var strokes = this._engine.getStrokes();
       for (var i = 0; i < strokes.length; i++) {
-        this._drawStroke(ctx, strokes[i], cw, ch);
+        this._drawStroke(ctx, strokes[i], cw, ch, i);
       }
     },
 
     _renderLive: function(stroke) {
       this._renderAll();
       if (stroke) {
-        this._drawStroke(this._ctx, stroke, this._canvas.width, this._canvas.height);
+        this._drawStroke(this._ctx, stroke, this._canvas.width, this._canvas.height, 9999);
       }
     },
 
-    _drawStroke: function(ctx, stroke, cw, ch) {
+    _drawStroke: function(ctx, stroke, cw, ch, strokeIdx) {
       if (stroke.points.length < 1) return;
 
       var texture = (parseFloat(this._config.texture) || 5) / 5;
       var wax = (parseFloat(this._config.wax) || 5) / 5;
+      var color = this._config.color || 'e74c3c';
+      var size = parseFloat(this._config.size) || 10;
+      var opacity = parseFloat(this._config.opacity);
+      if (isNaN(opacity)) opacity = 0.85;
 
       ctx.save();
 
@@ -91,15 +139,15 @@
         ctx.globalCompositeOperation = 'source-over';
       }
 
-      // Draw multiple offset lines for crayon texture
+      // Draw multiple offset lines for crayon texture — deterministic offsets
       var passes = 3;
       for (var pass = 0; pass < passes; pass++) {
-        var offsetX = (Math.random() - 0.5) * stroke.size * texture * 0.3;
-        var offsetY = (Math.random() - 0.5) * stroke.size * texture * 0.3;
+        var offsetX = (hash(strokeIdx * 100 + pass * 7, pass * 13) - 0.5) * size * texture * 0.3;
+        var offsetY = (hash(pass * 17 + strokeIdx * 100, pass * 23 + 1) - 0.5) * size * texture * 0.3;
 
-        ctx.globalAlpha = (stroke.opacity || 0.85) * (0.4 + pass * 0.2);
-        ctx.strokeStyle = '#' + (stroke.eraser ? '000' : stroke.color);
-        ctx.lineWidth = stroke.size * (0.6 + pass * 0.15);
+        ctx.globalAlpha = opacity * (0.4 + pass * 0.2);
+        ctx.strokeStyle = '#' + (stroke.eraser ? '000' : color);
+        ctx.lineWidth = size * (0.6 + pass * 0.15);
         ctx.lineCap = 'round';
         ctx.lineJoin = 'round';
 
@@ -109,10 +157,29 @@
 
         for (var i = 1; i < stroke.points.length; i++) {
           var p = stroke.points[i];
-          // Slight jitter for wax texture
-          var jx = (Math.random() - 0.5) * wax * 1.5;
-          var jy = (Math.random() - 0.5) * wax * 1.5;
-          ctx.lineTo(p.x * cw + offsetX + jx, p.y * ch + offsetY + jy);
+
+          // Deterministic jitter per point
+          var jx = (hash(strokeIdx * 1000 + i * 10 + pass, pass * 31 + i) - 0.5) * wax * 1.5;
+          var jy = (hash(pass * 37 + i, strokeIdx * 1000 + i * 10 + pass * 3) - 0.5) * wax * 1.5;
+
+          // Slow-speed wax buildup: reduce jitter when consecutive points are close
+          if (i > 0) {
+            var prev = stroke.points[i - 1];
+            var dx = (p.x - prev.x) * cw;
+            var dy = (p.y - prev.y) * ch;
+            var dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < size * 0.5) {
+              jx *= 0.3;
+              jy *= 0.3;
+            }
+          }
+
+          // Paper grain gap: outer passes skip ~12% of points
+          if (pass > 0 && hash(i * 41 + pass, strokeIdx * 53) < 0.12) {
+            ctx.moveTo(p.x * cw + offsetX + jx, p.y * ch + offsetY + jy);
+          } else {
+            ctx.lineTo(p.x * cw + offsetX + jx, p.y * ch + offsetY + jy);
+          }
         }
         ctx.stroke();
       }
@@ -130,6 +197,7 @@
         this._engine.onStrokeUpdate = null;
       }
       this._canvas = null;
+      this._bgCanvas = null;
       this._ctx = null;
       this._container = null;
       this._engine = null;

@@ -1,14 +1,21 @@
 /**
- * Draw Theme: Calligraphy
- * Rice paper background, brush strokes with width varying by speed
+ * Draw Theme: Calligraphy (Ink on Rice Paper)
+ * Rice paper texture on bgCanvas, trapezoid-strip brush strokes (no circle artifacts),
+ * ink blob at stroke start and tail at stroke end
  */
 ;(function() {
   'use strict';
+
+  // Deterministic hash for stable fiber pattern
+  function hash(a, b) {
+    return (((a * 2654435761 + b * 2246822519) >>> 0) & 0xffff) / 0xffff;
+  }
 
   var theme = {
     id: 'calligraphy',
     defaults: { color: '1a1a1a', bg: 'f5f0e0', size: 8, opacity: 0.9, smooth: 4, pressure: 5, ink: 5 },
     _canvas: null,
+    _bgCanvas: null,
     _ctx: null,
     _container: null,
     _config: null,
@@ -23,16 +30,23 @@
       container.style.background = '#' + (config.bg || 'f5f0e0');
       container.style.overflow = 'hidden';
       container.style.cursor = 'crosshair';
+      container.style.position = 'relative';
 
+      // Background canvas for rice paper texture
+      var bgCanvas = document.createElement('canvas');
+      bgCanvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
+      container.appendChild(bgCanvas);
+      this._bgCanvas = bgCanvas;
+
+      // Drawing canvas
       var canvas = document.createElement('canvas');
-      canvas.style.width = '100%';
-      canvas.style.height = '100%';
-      canvas.style.display = 'block';
+      canvas.style.cssText = 'position:absolute;top:0;left:0;width:100%;height:100%;';
       container.appendChild(canvas);
       this._canvas = canvas;
       this._ctx = canvas.getContext('2d');
 
       this._resize();
+      this._renderPaper();
       this._renderAll();
 
       var self = this;
@@ -47,13 +61,43 @@
 
     _onResize: function() {
       this._resize();
+      this._renderPaper();
       this._renderAll();
     },
 
     _resize: function() {
       if (!this._canvas || !this._container) return;
-      this._canvas.width = this._container.clientWidth;
-      this._canvas.height = this._container.clientHeight;
+      var w = this._container.clientWidth;
+      var h = this._container.clientHeight;
+      this._canvas.width = w;
+      this._canvas.height = h;
+      this._bgCanvas.width = w;
+      this._bgCanvas.height = h;
+    },
+
+    _renderPaper: function() {
+      var ctx = this._bgCanvas.getContext('2d');
+      var w = this._bgCanvas.width;
+      var h = this._bgCanvas.height;
+
+      // Base rice paper color
+      ctx.fillStyle = '#' + (this._config.bg || 'f5f0e0');
+      ctx.fillRect(0, 0, w, h);
+
+      // Horizontal fiber lines — irregular spacing simulates real xuan paper
+      ctx.strokeStyle = 'rgba(0, 0, 0, 0.03)';
+      ctx.lineWidth = 0.5;
+      var y = 0;
+      var lineIdx = 0;
+      while (y < h) {
+        ctx.beginPath();
+        ctx.moveTo(0, y);
+        ctx.lineTo(w, y);
+        ctx.stroke();
+        // Irregular spacing 3-6px using hash
+        y += 3 + hash(lineIdx, 42) * 3;
+        lineIdx++;
+      }
     },
 
     _renderAll: function() {
@@ -77,23 +121,14 @@
     },
 
     _drawStroke: function(ctx, stroke, cw, ch) {
-      if (stroke.points.length < 2) {
-        if (stroke.points.length === 1) {
-          var p = stroke.points[0];
-          ctx.save();
-          ctx.fillStyle = '#' + (stroke.eraser ? '000' : stroke.color);
-          ctx.globalAlpha = stroke.eraser ? 1 : (stroke.opacity || 0.9);
-          if (stroke.eraser) ctx.globalCompositeOperation = 'destination-out';
-          ctx.beginPath();
-          ctx.arc(p.x * cw, p.y * ch, stroke.size / 2, 0, Math.PI * 2);
-          ctx.fill();
-          ctx.restore();
-        }
-        return;
-      }
-
+      var color = this._config.color || '1a1a1a';
+      var size = parseFloat(this._config.size) || 8;
+      var opacity = parseFloat(this._config.opacity);
+      if (isNaN(opacity)) opacity = 0.9;
       var pressure = (parseFloat(this._config.pressure) || 5) / 5;
       var ink = (parseFloat(this._config.ink) || 5) / 5;
+
+      if (stroke.points.length < 1) return;
 
       ctx.save();
       if (stroke.eraser) {
@@ -103,46 +138,77 @@
         ctx.globalCompositeOperation = 'source-over';
       }
 
-      ctx.fillStyle = '#' + (stroke.eraser ? '000' : stroke.color);
-      ctx.lineCap = 'round';
+      ctx.fillStyle = '#' + (stroke.eraser ? '000' : color);
 
-      // Draw varying-width stroke using circles at each point
+      if (stroke.points.length === 1) {
+        var p = stroke.points[0];
+        ctx.globalAlpha = stroke.eraser ? 1 : opacity;
+        ctx.beginPath();
+        ctx.arc(p.x * cw, p.y * ch, size * 0.7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+        return;
+      }
+
+      // Compute widths based on speed
+      var widths = [];
       for (var i = 0; i < stroke.points.length; i++) {
-        var pt = stroke.points[i];
-        var x = pt.x * cw;
-        var y = pt.y * ch;
-
-        // Calculate speed-based width
         var speed = 0;
         if (i > 0) {
           var prev = stroke.points[i - 1];
-          var dx = (pt.x - prev.x) * cw;
-          var dy = (pt.y - prev.y) * ch;
+          var dx = (stroke.points[i].x - prev.x) * cw;
+          var dy = (stroke.points[i].y - prev.y) * ch;
           speed = Math.sqrt(dx * dx + dy * dy);
         }
-
-        // Slower = thicker (like pressing harder)
         var widthFactor = Math.max(0.3, 1 - speed * pressure * 0.05);
-        var width = stroke.size * widthFactor;
+        widths.push(size * widthFactor / 2);
+      }
 
-        // Ink opacity variation
-        var alphaFactor = Math.max(0.5, 1 - speed * 0.01 * ink);
-        ctx.globalAlpha = (stroke.eraser ? 1 : (stroke.opacity || 0.9)) * alphaFactor;
+      // Trapezoid strip rendering — connect adjacent points with quads
+      for (var j = 0; j < stroke.points.length - 1; j++) {
+        var p0 = stroke.points[j];
+        var p1 = stroke.points[j + 1];
+        var x0 = p0.x * cw, y0 = p0.y * ch;
+        var x1 = p1.x * cw, y1 = p1.y * ch;
+        var w0 = widths[j];
+        var w1 = widths[j + 1];
+
+        // Normal vector perpendicular to segment
+        var sdx = x1 - x0;
+        var sdy = y1 - y0;
+        var len = Math.sqrt(sdx * sdx + sdy * sdy);
+        if (len < 0.001) continue;
+        var nx = -sdy / len;
+        var ny = sdx / len;
+
+        // Ink opacity varies with speed
+        var speed2 = len;
+        var alphaFactor = Math.max(0.5, 1 - speed2 * 0.01 * ink);
+        ctx.globalAlpha = (stroke.eraser ? 1 : opacity) * alphaFactor;
 
         ctx.beginPath();
-        ctx.arc(x, y, width / 2, 0, Math.PI * 2);
+        ctx.moveTo(x0 + nx * w0, y0 + ny * w0);
+        ctx.lineTo(x1 + nx * w1, y1 + ny * w1);
+        ctx.lineTo(x1 - nx * w1, y1 - ny * w1);
+        ctx.lineTo(x0 - nx * w0, y0 - ny * w0);
+        ctx.closePath();
+        ctx.fill();
+      }
+
+      // Ink blob at stroke start (brush press)
+      if (!stroke.eraser) {
+        var start = stroke.points[0];
+        ctx.globalAlpha = opacity * 0.8;
+        ctx.beginPath();
+        ctx.arc(start.x * cw, start.y * ch, size * 0.7, 0, Math.PI * 2);
         ctx.fill();
 
-        // Connect to previous point
-        if (i > 0) {
-          var prevPt = stroke.points[i - 1];
-          ctx.beginPath();
-          ctx.moveTo(prevPt.x * cw, prevPt.y * ch);
-          ctx.lineTo(x, y);
-          ctx.lineWidth = width;
-          ctx.strokeStyle = '#' + (stroke.eraser ? '000' : stroke.color);
-          ctx.stroke();
-        }
+        // Tail dot at stroke end (brush lift)
+        var end = stroke.points[stroke.points.length - 1];
+        ctx.globalAlpha = opacity * 0.6;
+        ctx.beginPath();
+        ctx.arc(end.x * cw, end.y * ch, size * 0.3, 0, Math.PI * 2);
+        ctx.fill();
       }
 
       ctx.restore();
@@ -158,6 +224,7 @@
         this._engine.onStrokeUpdate = null;
       }
       this._canvas = null;
+      this._bgCanvas = null;
       this._ctx = null;
       this._container = null;
       this._engine = null;
