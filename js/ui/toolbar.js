@@ -237,6 +237,7 @@
       var btn = this._el.querySelector('[data-action="draw-lock"]');
       if (btn) {
         btn.innerHTML = locked ? ICON_LOCK : ICON_UNLOCK;
+        btn.classList.toggle('draw-locked', locked);
       }
       this._showToast(I18n.t(locked ? 'toolbar.locked' : 'toolbar.unlocked'));
     },

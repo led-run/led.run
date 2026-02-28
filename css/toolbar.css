@@ -120,6 +120,17 @@ body.cursor-hidden .toolbar {
   transform: translateX(-50%) translateY(0);
 }
 
+/* Draw lock button active state */
+.toolbar-btn.draw-locked {
+  background: rgba(255, 152, 0, 0.25);
+  color: #ff9800;
+}
+
+.toolbar-btn.draw-locked:hover {
+  background: rgba(255, 152, 0, 0.35);
+  color: #ffb74d;
+}
+
 /* Cast button active state — breathing pulse */
 .toolbar-btn.casting-active {
   color: #2979ff;
