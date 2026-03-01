@@ -18,7 +18,7 @@
 | **Time** | Clock displays (14 themes) | `TimeManager` | `times/` | `led.run/time?t=digital` |
 | **QR** | Full-screen QR code display (4 themes) | `QRManager` | `qrs/` | `led.run/qr/CONTENT` |
 | **Camera** | Real-time camera effects (4 effects) | `CameraManager` | `cameras/` | `led.run/camera?t=ascii` |
-| **Draw** | Full-screen drawing canvas (10 themes) | `DrawManager` | `draws/` | `led.run/draw?t=neon` |
+| **Draw** | Full-screen drawing canvas (12 themes) | `DrawManager` | `draws/` | `led.run/draw?t=neon` |
 
 ## URL Protocol
 
@@ -429,6 +429,8 @@ js/app.js                 App entry + multi-product orchestrator
 | `calligraphy` | Rice paper texture (bgCanvas), trapezoid-strip brush, ink blob/tail (dual Canvas) | `pressure`, `ink` |
 | `crayon` | Kraft paper texture (bgCanvas), deterministic offsets, paper grain gaps (dual Canvas) | `texture`, `wax` |
 | `sparkle` | Starlight display with 30 ambient background stars, particle drift, stroke burst (Canvas+rAF) | `stars`, `twinkle` |
+| `led` | LED dot matrix display with glowing dots, unlit grid background (dual Canvas) | `ledSize`, `brightness` |
+| `laser` | Laser engraving on brushed metal, multi-layer heat glow, burn marks, Bézier smooth (dual Canvas) | `power`, `engrave` |
 
 ## Script Load Order
 
@@ -523,7 +525,7 @@ Themes can also fully override position, shape, and animations via standard CSS 
 ## Key Design Decisions
 
 - **Brand positioning: "Display Toolkit"** — v2.0 rebrand from "Digital Signage" to "Display Toolkit" to reflect the multi-product platform (Text + Light + Sound + Time + QR + Camera + Draw). Used across HTML titles, meta descriptions, OG tags, manifest, and locale strings
-- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all seven products and "90+ display modes" (30+18+12+14+4+4+10=92). Docs pages list product-specific theme counts
+- **SEO: OG + Twitter + canonical, no og:image** — index.html and all 7 docs pages include Open Graph, Twitter Card, and canonical link tags. No `og:image` because the project has no image assets (can be added later). SPA limitation: all routes share `index.html` OG tags. Meta descriptions reference all seven products and "90+ display modes" (30+18+12+14+4+4+12=94). Docs pages list product-specific theme counts
 - **No independent mode-resolver** — mode logic lives inside each theme
 - **TextEngine is a public utility** — shared auto-fit, not a module boundary
 - **Controls bridge via App** — Controls → App callbacks → manager.getCurrent()

@@ -726,6 +726,8 @@ I18n.register('en', {
   'settings.drawTheme.calligraphy': 'Calligraphy',
   'settings.drawTheme.crayon': 'Crayon',
   'settings.drawTheme.sparkle': 'Sparkle Trail',
+  'settings.drawTheme.led': 'LED Matrix',
+  'settings.drawTheme.laser': 'Laser',
 
   // Draw settings labels
   'settings.drawThemeLabel': 'Theme',
@@ -742,6 +744,8 @@ I18n.register('en', {
   'landing.draw.preset.calligraphy': 'Brush strokes with speed-based width.',
   'landing.draw.preset.crayon': 'Waxy crayon texture on paper.',
   'landing.draw.preset.sparkle': 'Glittering sparkle particle trails.',
+  'landing.draw.preset.led': 'LED dot matrix display with glowing dots.',
+  'landing.draw.preset.laser': 'Laser engraving on brushed metal surface.',
 
   // Draw builder
   'landing.builder.card.drawTheme': 'Theme',
@@ -757,6 +761,11 @@ I18n.register('en', {
   'settings.param.scatter': 'Scatter',
   'settings.param.pressure': 'Pressure',
   'settings.param.twinkle': 'Twinkle',
+  'settings.param.texture': 'Texture',
+  'settings.param.wax': 'Wax',
+  'settings.param.ledSize': 'LED Size',
+  'settings.param.power': 'Power',
+  'settings.param.engrave': 'Engrave',
 
   // Toolbar - Draw
   'toolbar.undo': 'Undo',

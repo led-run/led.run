@@ -252,6 +252,11 @@
     scatter:       { type: 'range', label: 'settings.param.scatter', min: 1, max: 10, step: 1 },
     pressure:      { type: 'range', label: 'settings.param.pressure', min: 1, max: 10, step: 1 },
     twinkle:       { type: 'range', label: 'settings.param.twinkle', min: 1, max: 10, step: 1 },
+    texture:       { type: 'range', label: 'settings.param.texture', min: 1, max: 10, step: 1 },
+    wax:           { type: 'range', label: 'settings.param.wax', min: 1, max: 10, step: 1 },
+    ledSize:       { type: 'range', label: 'settings.param.ledSize', min: 4, max: 16, step: 2 },
+    power:         { type: 'range', label: 'settings.param.power', min: 1, max: 10, step: 1 },
+    engrave:       { type: 'range', label: 'settings.param.engrave', min: 1, max: 10, step: 1 },
   };
 
   // Product adapters — map each product to its manager, params, i18n prefix, URL builder

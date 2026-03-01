@@ -122,7 +122,9 @@
     { id: 'pixel', icon: '\uD83D\uDD32', descKey: 'landing.draw.preset.pixel', params: '?t=pixel' },
     { id: 'calligraphy', icon: '\uD83D\uDD8B\uFE0F', descKey: 'landing.draw.preset.calligraphy', params: '?t=calligraphy' },
     { id: 'crayon', icon: '\uD83D\uDD8D\uFE0F', descKey: 'landing.draw.preset.crayon', params: '?t=crayon' },
-    { id: 'sparkle', icon: '\uD83C\uDF1F', descKey: 'landing.draw.preset.sparkle', params: '?t=sparkle' }
+    { id: 'sparkle', icon: '\uD83C\uDF1F', descKey: 'landing.draw.preset.sparkle', params: '?t=sparkle' },
+    { id: 'led', icon: '\uD83D\uDFE5', descKey: 'landing.draw.preset.led', params: '?t=led' },
+    { id: 'laser', icon: '\u26A1', descKey: 'landing.draw.preset.laser', params: '?t=laser' }
   ];
 
   var App = {
@@ -1355,14 +1357,24 @@
       }
       html += '</select></div></div></div>';
 
-      // Draw settings
+      // Draw settings — defaults from current theme
+      var drawDefs = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults('default') : {};
+      var drawDefColor = drawDefs.color || 'ffffff';
+      var drawDefBg = drawDefs.bg || '000000';
+      var drawDefSize = drawDefs.size || 5;
+      var drawDefOpacity = drawDefs.opacity !== undefined ? drawDefs.opacity : 1;
+      var drawDefSmooth = drawDefs.smooth !== undefined ? drawDefs.smooth : 0;
       html += '<div class="prop-card"><div class="prop-card-title">' + I18n.t('landing.builder.card.visualStyle') + '</div><div class="prop-group">';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.color') + '</span>';
-      html += '<input type="color" class="builder-color" id="draw-builder-color" value="#ffffff"></div>';
+      html += '<input type="color" class="builder-color" id="draw-builder-color" value="#' + drawDefColor + '"></div>';
       html += '<div class="prop-row"><span class="prop-label">' + I18n.t('settings.param.bg') + '</span>';
-      html += '<input type="color" class="builder-color" id="draw-builder-bg" value="#000000"></div>';
-      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.size') + '</span><span class="val" id="draw-builder-size-val">5</span></div>';
-      html += '<input type="range" class="builder-range" id="draw-builder-size" min="1" max="30" step="1" value="5"></div>';
+      html += '<input type="color" class="builder-color" id="draw-builder-bg" value="#' + drawDefBg + '"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.size') + '</span><span class="val" id="draw-builder-size-val">' + drawDefSize + '</span></div>';
+      html += '<input type="range" class="builder-range" id="draw-builder-size" min="1" max="30" step="1" value="' + drawDefSize + '"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.opacity') + '</span><span class="val" id="draw-builder-opacity-val">' + drawDefOpacity + '</span></div>';
+      html += '<input type="range" class="builder-range" id="draw-builder-opacity" min="0.1" max="1" step="0.1" value="' + drawDefOpacity + '"></div>';
+      html += '<div class="prop-row-stack"><div class="prop-label-row"><span>' + I18n.t('settings.param.smooth') + '</span><span class="val" id="draw-builder-smooth-val">' + drawDefSmooth + '</span></div>';
+      html += '<input type="range" class="builder-range" id="draw-builder-smooth" min="0" max="10" step="1" value="' + drawDefSmooth + '"></div>';
       html += '</div></div>';
 
       // Draw Advanced (Dynamic)
@@ -3074,20 +3086,32 @@
         var themeId = document.getElementById('draw-builder-theme');
         var t = themeId ? themeId.value : 'default';
         var url = 'led.run/draw?t=' + t;
+        var defaults = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(t) : {};
         var color = document.getElementById('draw-builder-color');
         if (color) {
           var c = color.value.replace('#', '');
-          var defaults = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(t) : {};
           if (c && c !== (defaults.color || 'ffffff')) url += '&c=' + c;
         }
         var bg = document.getElementById('draw-builder-bg');
         if (bg) {
           var b = bg.value.replace('#', '');
-          var defs = (typeof DrawManager !== 'undefined') ? DrawManager.getDefaults(t) : {};
-          if (b && b !== (defs.bg || '000000')) url += '&bg=' + b;
+          if (b && b !== (defaults.bg || '000000')) url += '&bg=' + b;
         }
         var size = document.getElementById('draw-builder-size');
-        if (size && size.value !== '5') url += '&size=' + size.value;
+        if (size && size.value !== String(defaults.size || 5)) url += '&size=' + size.value;
+        var opacity = document.getElementById('draw-builder-opacity');
+        if (opacity && opacity.value !== String(defaults.opacity !== undefined ? defaults.opacity : 1)) url += '&opacity=' + opacity.value;
+        var smooth = document.getElementById('draw-builder-smooth');
+        if (smooth && smooth.value !== String(defaults.smooth !== undefined ? defaults.smooth : 0)) url += '&smooth=' + smooth.value;
+        // Append custom theme params
+        var customEls = document.querySelectorAll('.draw-builder-custom');
+        for (var ci = 0; ci < customEls.length; ci++) {
+          var cel = customEls[ci];
+          var key = cel.dataset.key;
+          if (!key) continue;
+          var val = cel.type === 'checkbox' ? cel.checked : parseFloat(cel.value);
+          if (val !== defaults[key]) url += '&' + key + '=' + val;
+        }
         var urlEl = document.getElementById('draw-builder-url');
         if (urlEl) urlEl.textContent = url;
         return url;
@@ -3135,6 +3159,10 @@
         if (bg) config.bg = bg.value.replace('#', '');
         var size = document.getElementById('draw-builder-size');
         if (size) config.size = parseInt(size.value);
+        var opacity = document.getElementById('draw-builder-opacity');
+        if (opacity) config.opacity = parseFloat(opacity.value);
+        var smooth = document.getElementById('draw-builder-smooth');
+        if (smooth) config.smooth = parseInt(smooth.value);
 
         // Collect custom theme params from advanced section
         var customEls = document.querySelectorAll('.draw-builder-custom');
@@ -3198,6 +3226,12 @@
           if (bg && defaults.bg) bg.value = '#' + defaults.bg;
           var size = document.getElementById('draw-builder-size');
           if (size && defaults.size) { size.value = defaults.size; var sv = document.getElementById('draw-builder-size-val'); if (sv) sv.textContent = defaults.size; }
+          var opacity = document.getElementById('draw-builder-opacity');
+          var opVal = defaults.opacity !== undefined ? defaults.opacity : 1;
+          if (opacity) { opacity.value = opVal; var ov = document.getElementById('draw-builder-opacity-val'); if (ov) ov.textContent = opVal; }
+          var smooth = document.getElementById('draw-builder-smooth');
+          var smVal = defaults.smooth !== undefined ? defaults.smooth : 0;
+          if (smooth) { smooth.value = smVal; var smv = document.getElementById('draw-builder-smooth-val'); if (smv) smv.textContent = smVal; }
           rebuildDrawThemeParams();
           updateDrawUrl();
           updateDrawPreview();
@@ -3211,6 +3245,24 @@
       if (drawSize) {
         drawSize.addEventListener('input', function() {
           var v = document.getElementById('draw-builder-size-val');
+          if (v) v.textContent = this.value;
+          updateDrawUrl();
+          updateDrawPreview();
+        });
+      }
+      var drawOpacity = document.getElementById('draw-builder-opacity');
+      if (drawOpacity) {
+        drawOpacity.addEventListener('input', function() {
+          var v = document.getElementById('draw-builder-opacity-val');
+          if (v) v.textContent = this.value;
+          updateDrawUrl();
+          updateDrawPreview();
+        });
+      }
+      var drawSmooth = document.getElementById('draw-builder-smooth');
+      if (drawSmooth) {
+        drawSmooth.addEventListener('input', function() {
+          var v = document.getElementById('draw-builder-smooth-val');
           if (v) v.textContent = this.value;
           updateDrawUrl();
           updateDrawPreview();
