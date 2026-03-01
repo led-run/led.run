@@ -618,12 +618,19 @@
       });
 
       // 3. Load strokes from URL data if present
+      var hasData = false;
       if (data) {
         var strokes = DrawEngine.deserialize(data);
         if (strokes.length > 0) {
           DrawEngine.loadStrokes(strokes);
           if (DrawEngine.onStroke) DrawEngine.onStroke();
+          hasData = true;
         }
+      }
+
+      // Auto-lock when opening a shared drawing (has URL data)
+      if (hasData) {
+        DrawEngine.setLocked(true);
       }
 
       // Capacity bar
@@ -687,6 +694,15 @@
         }
       });
       Toolbar.init({ container: this._container, product: 'draw', drawEngine: DrawEngine });
+
+      // Sync toolbar lock button visual to initial lock state
+      if (hasData) {
+        var lockBtn = document.querySelector('[data-action="draw-lock"]');
+        if (lockBtn) {
+          lockBtn.innerHTML = '<svg viewBox="0 0 20 20"><rect x="5" y="9" width="10" height="8" rx="1"/><path d="M7 9V6a3 3 0 0 1 6 0v3"/></svg>';
+          lockBtn.classList.add('draw-locked');
+        }
+      }
 
       if (typeof Settings !== 'undefined') {
         Settings.init({
@@ -1325,7 +1341,7 @@
       html += '<button class="btn-secondary" id="draw-builder-copy" title="Copy URL">';
       html += '<svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path></svg>';
       html += '</button></div></div>';
-      html += '<div class="preview-card"><div id="draw-builder-preview" style="display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;"></div></div></div>';
+      html += '<div class="preview-card"><div id="draw-builder-preview" style="display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;width:100%;height:100%;"></div></div></div>';
       html += '<div class="builder-grid">';
 
       // Draw Theme selection
@@ -3077,6 +3093,35 @@
         return url;
       }
 
+      // Sample strokes for draw builder preview (a star shape + curved line)
+      var PREVIEW_STROKES = [
+        { eraser: false, points: [
+          {x:0.30,y:0.25},{x:0.32,y:0.35},{x:0.35,y:0.45},{x:0.40,y:0.50},
+          {x:0.45,y:0.48},{x:0.50,y:0.40},{x:0.55,y:0.35},{x:0.58,y:0.38},
+          {x:0.60,y:0.45},{x:0.62,y:0.55},{x:0.65,y:0.60}
+        ]},
+        { eraser: false, points: [
+          {x:0.15,y:0.70},{x:0.20,y:0.65},{x:0.28,y:0.62},{x:0.35,y:0.65},
+          {x:0.42,y:0.70},{x:0.50,y:0.72},{x:0.58,y:0.70},{x:0.65,y:0.65},
+          {x:0.72,y:0.62},{x:0.78,y:0.65},{x:0.85,y:0.70}
+        ]},
+        { eraser: false, points: [
+          {x:0.70,y:0.15},{x:0.72,y:0.20},{x:0.75,y:0.25},{x:0.78,y:0.22},
+          {x:0.80,y:0.18},{x:0.82,y:0.25},{x:0.85,y:0.30}
+        ]}
+      ];
+
+      // Mock DrawEngine for preview — read-only, just provides sample strokes
+      var previewEngine = {
+        _strokes: PREVIEW_STROKES,
+        onStroke: null,
+        onStrokeUpdate: null,
+        getStrokes: function() { return this._strokes; },
+        getCurrentStroke: function() { return null; },
+        setSmooth: function() {},
+        setEraser: function() {}
+      };
+
       function updateDrawPreview() {
         var previewEl = document.getElementById('draw-builder-preview');
         if (!previewEl) return;
@@ -3091,8 +3136,18 @@
         var size = document.getElementById('draw-builder-size');
         if (size) config.size = parseInt(size.value);
 
+        // Collect custom theme params from advanced section
+        var customEls = document.querySelectorAll('.draw-builder-custom');
+        for (var ci = 0; ci < customEls.length; ci++) {
+          var cel = customEls[ci];
+          var key = cel.dataset.key;
+          if (key) config[key] = cel.type === 'checkbox' ? cel.checked : parseFloat(cel.value);
+        }
+
         if (typeof DrawManager !== 'undefined') {
-          DrawManager.switch(t, previewEl, config, null);
+          previewEngine.onStroke = null;
+          previewEngine.onStrokeUpdate = null;
+          DrawManager.switch(t, previewEl, config, previewEngine);
         }
       }
 
