@@ -691,6 +691,7 @@ I18n.register('zh', {
   'toolbar.locked': '画布已锁定',
   'toolbar.unlocked': '画布已解锁',
   'toolbar.cleared': '画布已清空',
+  'toolbar.confirmClear': '清除所有笔画？',
   'draw.capacityWarning': '分享容量：',
   'draw.capacityFull': '画作过于复杂，无法通过链接完整分享。'
 });

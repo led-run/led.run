@@ -639,6 +639,7 @@ I18n.register('es', {
   'toolbar.locked': 'Lienzo bloqueado',
   'toolbar.unlocked': 'Lienzo desbloqueado',
   'toolbar.cleared': 'Lienzo limpiado',
+  'toolbar.confirmClear': '¿Borrar todos los trazos?',
   'draw.capacityWarning': 'Capacidad de compartir: ',
   'draw.capacityFull': 'Dibujo demasiado complejo para compartir por URL.'
 });

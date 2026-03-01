@@ -766,6 +766,7 @@ I18n.register('en', {
   'toolbar.locked': 'Canvas locked',
   'toolbar.unlocked': 'Canvas unlocked',
   'toolbar.cleared': 'Canvas cleared',
+  'toolbar.confirmClear': 'Clear all strokes?',
 
   // Draw capacity
   'draw.capacityWarning': 'Share capacity: ',

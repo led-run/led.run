@@ -639,6 +639,7 @@ I18n.register('de', {
   'toolbar.locked': 'Leinwand gesperrt',
   'toolbar.unlocked': 'Leinwand entsperrt',
   'toolbar.cleared': 'Leinwand gelöscht',
+  'toolbar.confirmClear': 'Alle Striche löschen?',
   'draw.capacityWarning': 'Teilkapazität: ',
   'draw.capacityFull': 'Zeichnung zu komplex zum Teilen per URL.'
 });

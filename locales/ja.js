@@ -637,6 +637,7 @@ I18n.register('ja', {
   'toolbar.locked': 'キャンバスがロックされました',
   'toolbar.unlocked': 'キャンバスのロックが解除されました',
   'toolbar.cleared': 'キャンバスがクリアされました',
+  'toolbar.confirmClear': 'すべての線を消去しますか？',
   'draw.capacityWarning': '共有容量：',
   'draw.capacityFull': '描画が複雑すぎてURLで共有できません。'
 });

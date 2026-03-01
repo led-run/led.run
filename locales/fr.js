@@ -639,6 +639,7 @@ I18n.register('fr', {
   'toolbar.locked': 'Toile verrouillée',
   'toolbar.unlocked': 'Toile déverrouillée',
   'toolbar.cleared': 'Toile effacée',
+  'toolbar.confirmClear': 'Effacer tous les traits ?',
   'draw.capacityWarning': 'Capacité de partage : ',
   'draw.capacityFull': 'Dessin trop complexe pour être partagé par URL.'
 });

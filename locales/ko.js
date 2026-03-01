@@ -642,6 +642,7 @@ I18n.register('ko', {
   'toolbar.locked': '캔버스가 잠겼습니다',
   'toolbar.unlocked': '캔버스 잠금이 해제되었습니다',
   'toolbar.cleared': '캔버스가 지워졌습니다',
+  'toolbar.confirmClear': '모든 선을 지우시겠습니까?',
   'draw.capacityWarning': '공유 용량: ',
   'draw.capacityFull': '그림이 너무 복잡하여 URL로 공유할 수 없습니다.'
 });
