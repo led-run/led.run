@@ -1,0 +1,19 @@
+/* Let the launcher follow document scroll on the landing page. */
+html:has(.landing),
+body:has(.landing) {
+  height: auto;
+}
+
+html:has(.landing) {
+  overflow-y: auto;
+}
+
+/* Match tell.st's glass surface to the site's dark translucent controls. */
+#__tell_st_host__ {
+  --ts-bg: rgba(18, 18, 20, 0.85);
+}
+
+/* Paths such as /en are display text here, not localized homepages. */
+body:not(:has(.landing)) #__tell_st_host__ {
+  --ts-launcher-display: none;
+}
